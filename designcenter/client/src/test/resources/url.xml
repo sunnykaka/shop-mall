@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlConfig>
+
+    <url name="templateResource">
+        <severUrl>http://kariqu.com:8080/krq</severUrl>
+        <path>template/resources/{resourceId}</path>
+        <tokens>
+            <token name="resourceId"/>
+        </tokens>
+    </url>
+
+    <url name="subDomainToAccessShop">
+        <severUrl>http://{domainName}.kariqu.com:8080/krq</severUrl>
+        <path></path>
+        <tokens>
+            <token name="domainName"/>
+        </tokens>
+    </url>
+
+    <url name="subDomainToProduct">
+        <severUrl>http://{domainName}.kariqu.com:8080/krq</severUrl>
+        <path>product/{productId}</path>
+        <tokens>
+            <token name="domainName"/>
+            <token name="productId"/>
+        </tokens>
+    </url>
+
+    <url name="headFootModuleEdit">
+        <severUrl>http://design.kariqu.com:8080/krq</severUrl>
+        <path>shop/head/foot/{shopId}/{moduleInstanceId}/{prototypeId}</path>
+        <tokens>
+            <token name="shopId"/>
+            <token name="moduleInstanceId"/>
+            <token name="prototypeId"/>
+        </tokens>
+    </url>
+
+    <url name="pageModuleEdit">
+        <severUrl>http://design.kariqu.com:8080/krq</severUrl>
+        <path>page/{pageId}/{moduleInstanceId}/{prototypeId}</path>
+        <tokens>
+            <token name="pageId"/>
+            <token name="moduleInstanceId"/>
+            <token name="prototypeId"/>
+        </tokens>
+    </url>
+
+</urlConfig>

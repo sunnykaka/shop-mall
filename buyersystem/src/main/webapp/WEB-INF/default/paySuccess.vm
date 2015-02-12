@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>订单信息</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/cart/index.css?$!urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+#parse("user/newLoginTop.vm")
+
+<div class="e-header-min e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+</div>
+
+<!-- 网站位置 -->
+<div class="common-position">
+    <div class="e-wrapper">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        <span>-</span>
+        付款信息
+    </div>
+</div>
+<!-- /网站位置 -->
+
+
+<div class="order-info-page">
+
+    <div class="e-wrapper">
+
+        <div class="order-success">
+            <h3 class="success"><i></i><span>订单支付成功！</span></h3>
+        </div>
+
+        <div class="info">
+            订单数量： <strong>$!orders.size()</strong>个， 共计：<strong>¥$!total_fee</strong>元
+        </div>
+
+        <div class="list">
+            <table>
+                <tr>
+                    <th class="s1">订单号</th>
+                    <th class="s2">订单商品名称</th>
+                    <th class="s3">支付金额</th>
+                    <th class="s4">订单状态</th>
+                    <th class="s5">操作</th>
+                </tr>
+                #foreach($order in $!orders)
+                    <tr class="first">
+                        <td class="s1">
+                            <a href="$!urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $!order.orderNo).toString()" class="number">
+                                $!order.orderNo</a>
+                        </td>
+                        <td class="s2">
+                            #foreach($orderItem in $!order.orderItemList)
+                                <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $orderItem.productId).addQueryData('skuId', $orderItem.skuId).toString()">
+                                    $!orderItem.skuName <span>x $!orderItem.number</span>
+                                </a>
+                            #end
+                        </td>
+                        <td class="s3">¥$!order.totalPrice元</td>
+                        <td class="s4">$!order.orderState.toDesc()</td>
+                        <td class="s5">
+                            <a href="$!urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $!order.orderNo).toString()">
+                                查看订单详情 &gt;
+                            </a>
+                        </td>
+                    </tr>
+                #end
+            </table>
+        </div>
+
+        <div class="btns">
+            <a href="$!urlBroker.getUrl('BuyHome').toString()" class="e-btn btn-default">继续购物&gt;</a>
+        </div>
+    </div>
+</div>
+#parse("oderFoot.vm")
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <insert id="insertRoleSupplier">
+        insert into Role_Supplier(roleId,supplierId)
+        values
+        (#roleId#,#supplierId#)
+    </insert>
+
+    <select id="queryRoleSupplierBySupplierId" resultClass="Integer">
+        select roleId from Role_Supplier where supplierId = #supplierId#
+    </select>
+
+    <delete id="deleteRoleSupplier">
+        delete from Role_Supplier where roleId = #roleId# and supplierId = #supplierId#
+    </delete>
+</sqlMap>

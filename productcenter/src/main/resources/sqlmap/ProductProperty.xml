@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="ProductProperty.selector">
+        select productId,json,propertyType from
+    </sql>
+
+    <select id="selectAllProductProperty" resultClass="com.kariqu.productcenter.domain.ProductProperty">
+        <include refid="ProductProperty.selector"/>
+    </select>
+
+    <select id="queryProductPropertyByProductId"
+            resultClass="com.kariqu.productcenter.domain.ProductProperty">
+        <include refid="ProductProperty.selector"/>
+        where productId= #productId#
+    </select>
+
+    <select id="queryProductPropertyByPropertyType"
+            resultClass="com.kariqu.productcenter.domain.ProductProperty">
+        <include refid="ProductProperty.selector"/>
+        where productId= #productId# and propertyType = #propertyType#
+    </select>
+
+    <insert id="insertProductProperty">
+        insert into ProductProperty
+        (productId,json,propertyType)
+        values
+        (#productId#,#json#,#propertyType#)
+    </insert>
+
+    <delete id="deleteProductProperty">
+        delete from ProductProperty
+        where productId = #productId#
+    </delete>
+
+    <delete id="deleteProductPropertyByPropertyType">
+        delete from ProductProperty
+        where productId = #productId# and propertyType = #propertyType#
+    </delete>
+
+    <update id="updateProductPropertyBrandJsonByPropertyType">
+        update ProductProperty set json=#json# where productId = #productId# and propertyType = #propertyType#
+    </update>
+
+</sqlMap>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlConfig>
+
+    <url name="BossDomain">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+    </url>
+
+    <url name="StaticFileDomain">
+        <severUrl>${yijushang.static.file.domain}</severUrl>
+    </url>
+
+    <url name="StaticProductImgDomain">
+        <severUrl>${yijushang.static.img.product.domain}</severUrl>
+    </url>
+
+    <url name="StaticImgDomain">
+        <severUrl>${yijushang.static.img.domain}</severUrl>
+    </url>
+
+    <url name="StaticDesignImgDomain">
+        <severUrl>${yijushang.static.img.design.domain}</severUrl>
+    </url>
+
+    <url name="templateResource">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+        <path>template/resources/{resourceId}</path>
+        <tokens>
+            <token name="resourceId"/>
+        </tokens>
+    </url>
+
+    <url name="ProductDetail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>product/{productId}</path>
+        <tokens>
+            <token name="productId"/>
+        </tokens>
+    </url>
+
+    <url name="Search">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>products</path>
+    </url>
+
+    <url name="HotSell">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/hotsell</path>
+    </url>
+
+    <!-- 装修-->
+    <url name="DesignHome">
+        <severUrl>${yijushang.design.domain}</severUrl>
+    </url>
+
+    <url name="DesignShop">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/{shopId}</path>
+        <tokens>
+            <token name="shopId"/>
+        </tokens>
+    </url>
+
+    <url name="ShopPublish">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/publish</path>
+    </url>
+
+    <url name="PagePublish">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/shop/publish</path>
+    </url>
+
+    <url name="DesignPage">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/{pageId}</path>
+        <tokens>
+            <token name="pageId"/>
+        </tokens>
+    </url>
+
+    <url name="DesignPageUrl">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/</path>
+    </url>
+
+    <url name="ViewPageUrl">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>page/</path>
+    </url>
+
+    <url name="DesignDetailPage">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/{pageId}/{productId}</path>
+        <tokens>
+            <token name="pageId"/>
+            <token name="productId"/>
+        </tokens>
+    </url>
+
+    <url name="PreviewShop">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/preview/{shopId}</path>
+        <tokens>
+            <token name="shopId"/>
+        </tokens>
+    </url>
+
+    <url name="PreviewPage">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/preview/{pageId}</path>
+        <tokens>
+            <token name="pageId"/>
+        </tokens>
+    </url>
+
+    <url name="ShopUploadFile">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/uploadFile</path>
+    </url>
+
+    <url name="UploadFileJump">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/uploadFileJump</path>
+    </url>
+
+
+    <url name="CommitModule">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/commitParam</path>
+    </url>
+
+    <url name="getModules">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/moduleList/{area}/{regionName}</path>
+        <tokens>
+            <token name="area"/>
+            <token name="regionName"/>
+        </tokens>
+    </url>
+
+    <url name="addModule">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/module/{area}/add</path>
+        <tokens>
+            <token name="area"/>
+        </tokens>
+    </url>
+
+
+    <url name="moduleOperate">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/module/{area}/</path>
+        <tokens>
+            <token name="area"/>
+        </tokens>
+    </url>
+
+    <url name="modulePreview">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/module/preview/{moduleInstanceId}/{prototypeId}/{area}</path>
+        <tokens>
+            <token name="moduleInstanceId"/>
+            <token name="prototypeId"/>
+            <token name="area"/>
+        </tokens>
+    </url>
+
+    <url name="moduleEdit">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/{area}/{moduleInstanceId}/{prototypeId}</path>
+        <tokens>
+            <token name="moduleInstanceId"/>
+            <token name="prototypeId"/>
+            <token name="area"/>
+        </tokens>
+    </url>
+
+    <url name="SimpleUpgradeShop">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/{shopId}/upgrade/shopTemplate</path>
+        <tokens>
+            <token name="shopId"/>
+        </tokens>
+    </url>
+
+    <url name="ComplexUpgradeShop">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/shop/{shopId}/upgrade/shopTemplate/modifyConfig</path>
+        <tokens>
+            <token name="shopId"/>
+        </tokens>
+    </url>
+
+    <url name="SimpleUpgradePage">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/{pageId}/upgrade</path>
+        <tokens>
+            <token name="pageId"/>
+        </tokens>
+    </url>
+
+    <url name="ComplexUpgradePage">
+        <severUrl>${yijushang.design.domain}</severUrl>
+        <path>design/page/{pageId}/upgrade/modifyConfig</path>
+        <tokens>
+            <token name="pageId"/>
+        </tokens>
+    </url>
+
+    <!-- 装修-->
+
+    <url name="BuyHome">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+    </url>
+
+    <url name="AdminHome">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+    </url>
+
+    <url name="ToLogin">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+        <path>account/toLogin</path>
+    </url>
+
+    <url name="SelectRole">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+        <path>account/selectRole</path>
+    </url>
+
+    <url name="LoginOut">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+        <path>account/loginOut</path>
+    </url>
+
+    <url name="ImageUpload">
+        <severUrl>${yijushang.static.img.productPicture.domain}</severUrl>
+        <path>/{fileName}</path>
+        <tokens>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+
+    <url name="CmsContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/{directory}/{fileName}.html</path>
+        <tokens>
+            <token name="directory"/>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+
+    <url name="CategoryImageUpload">
+        <severUrl>${yijushang.boss.domain}</severUrl>
+        <path>/categoryPictures/{fileName}</path>
+        <tokens>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+    <url name="SpaceImageUpload">
+        <severUrl>${yijushang.static.img.spacePicture.domain}</severUrl>
+        <path>/{fileName}</path>
+        <tokens>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+
+    <url name="AddProductToCart">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/add</path>
+    </url>
+
+    <url name="DetailToOrder">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>order?source=detail</path>
+    </url>
+
+    <url name="ChannelPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>channel/{categoryId}</path>
+        <tokens>
+            <token name="categoryId"/>
+        </tokens>
+    </url>
+
+    <!--用户签到送积分-->
+    <url name="userSign">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/sign</path>
+    </url>
+
+
+</urlConfig>

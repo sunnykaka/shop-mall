@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>功能需要</title>
+    <meta charset="utf-8"/>
+</head>
+
+<body>
+#foreach($const in $!constList)
+<p>
+$!const.constComment<br/>
+<input id="txt_$!velocityCount" name="$!const.constKey" value="$!const.constValue" style="width:480px;height:30px;" />
+<input id="btn_$!velocityCount" type="button" value="更新" style="width:80px;height:30px;" />
+</p>
+#end
+
+<br><br>
+============================== 分割线 ==============================
+<br><br>
+
+订单号(一行一个):<br>
+<textarea style="width:260px;height:309px" id="orderNoes" name="orderNoes"></textarea><br>
+<input id="orderBtn" type="button" value="查询用户积分" style="width:100px;height:30px;" />
+<br><br>
+<span id="result"></span>
+
+<br><br>
+============================== 分割线 ==============================
+<br><br>
+
+一行一个: 用户名(制表符)积分数(制表符)现金券金额,最小使用金额,过期时间(单位天). <br>
+示例: 13543270517	50	50,250,30 <span style="color:#008000;">请使用英文状态下的逗号 ,</span><br>
+<textarea style="width:500px;height:309px" id="userInfo" name="userInfo"></textarea><br>
+<input id="userBtn" type="button" value="为用户添加积分及现金券" style="width:180px;height:30px;" />
+<span id="userInfoResult" style="color:#ff0000;"></span>
+<br><br>
+
+============================== 分割线 ==============================
+<br><br>
+
+<input id="updateProductName" type="button" value="删除产品名中的品牌名" style="width:180px;height:30px;" />
+<span id="updateProductNameInfoResult" style="color:#ff0000;"></span>
+<br><br>
+============================== 分割线 ==============================
+<br><br>
+
+一行一个: 用户名,skuId:购买数量|skuId:购买数量,收货人,电话,省,市,区,详细地址 <br>
+示例: a0500,123:2|234,tony,13012345678,广东省,深圳市,宝安区,大宝道...<br>
+<span style="color:#008000;">是 skuid 不是 商品id, 购买数量若为 1 可以省略. 请使用英文状态下的逗号(,), 请不要一次刷太多!</span><br>
+<textarea style="width:800px;height:309px" id="orderSubmitInfo"></textarea><br>
+<input id="orderSubmitBtn" type="button" value="刷单" style="width:100px;height:30px;" />
+<span id="orderInfoResult" style="color:#ff0000;"></span><br><br>
+确认 <input type="text" id="orderSubmitDay" style="width:35px;height:30px;" value="3">
+<input id="orderConfirmBtn" type="button" value="天前的刷单订单" style="width:120px;height:30px;" />
+<span id="orderConfirmResult" style="color:#ff0000;"></span>
+<br><br>
+
+<script type="text/javascript" src="/static/js/lib/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $("p :button").click(function() {
+        var thisValue = $(this).attr("id").substring(4);
+        var txtValue = $("#txt_" + thisValue);
+        //$(this).parent().find('input').eq(0);
+
+        $.ajax({
+            type: "post",
+            url: "/const/update",
+            data: {
+                constKey : txtValue.attr("name"),
+                constValue : txtValue.val()
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (data["success"]) {
+                    alert("提交成功");
+                    location.reload();
+                } else {
+                    alert(data["msg"]);
+                }
+            },
+            error: function () {
+                alert("更新错误! 请稍候再试.");
+            }
+        });
+    });
+
+    $("#orderBtn").click(function() {
+        if ($("#orderNoes").val() == "") return;
+        $("#result").html("");
+
+        $.ajax({
+            type: "post",
+            url: "/order/search/integral",
+            data: { orderNoes : $("#orderNoes").val() },
+            dataType: 'json',
+            success: function(data) {
+                if (data["success"]) {
+                    var html = "<span style='color: #ff0000'>若条数不一样表示某些订单是同一个用户下的</span>";
+                    var array = data["data"]["orderList"];
+                    html += "<table border='1'><tr><th>序号</th><th>用户Id</th><th>用户名</th><th>电话</th>" +
+                    "<th>邮箱</th><th>积分数</th><th>现金券</th><th>收货地址</th></tr>";
+                    var i = 1;
+                    for (var nic in array) {
+                        html += "<tr>";
+                        html += "<td>" + (nic + 1) + "</td>";
+                        i++;
+                        html += "<td>" + array[nic].userId + "</td>";
+                        html += "<td>" + array[nic].userName + "</td>";
+                        html += "<td>" + array[nic].phone + "</td>";
+                        html += "<td>" + array[nic].email + "</td>";
+                        html += "<td>" + array[nic].integral + "</td>";
+                        html += "<td>" + array[nic].coupon + "</td>";
+                        html += "<td>" + array[nic].address.replace("\n", "<br>") + "</td>";
+                        html += "</tr>";
+                    }
+                    html += "</table>";
+                    $("#result").append(html);
+                } else {
+                    $("#result").append(data["msg"]);
+                }
+            },
+            error: function () {
+                $("#result").append("查询错误! 请稍候再试.");
+            }
+        });
+    });
+
+    $("#userBtn").click(function() {
+        if ($("#userInfo").val() == "") return;
+
+        $("#userInfoResult").html("");
+        $.ajax({
+            type: "post",
+            url: "/user/assignIntegralAndCoupon",
+            data: { userInfo : $("#userInfo").val() },
+            dataType: 'json',
+            success: function(data) {
+                $("#userInfoResult").append(data["msg"]);
+            },
+            error: function () {
+                $("#userInfoResult").append("查询错误! 请稍候再试.");
+            }
+        });
+    });
+
+    $("#updateProductName").click(function(){
+        $("#updateProductNameInfoResult").html("");
+        $.ajax({
+            type : "POST",
+            url : "/product/deleteBrandNameForAllProduct",
+            dataType : "json",
+            success: function(data) {
+                $("#updateProductNameInfoResult").append(data.msg);
+            },
+            error: function () {
+                $("#updateProductNameInfoResult").append("查询错误! 请稍候再试.");
+            }
+        });
+    });
+
+    $("#orderSubmitBtn").click(function() {
+        if ($("#orderSubmitInfo").val() == "") return;
+
+        $("#orderInfoResult").html("");
+        $.ajax({
+            type: "post",
+            url: "/const/auto/order",
+            data: { orderInfo : $("#orderSubmitInfo").val() },
+            dataType: 'json',
+            success: function(data) {
+                $("#orderInfoResult").append(data["msg"]);
+            },
+            error: function (data) {
+                $("#orderInfoResult").append("生成错误! 请稍候再试.");
+            }
+        });
+    });
+
+    $("#orderConfirmBtn").click(function() {
+        $("#orderConfirmBtn").attr("disabled", true);
+        $("#orderConfirmResult").html("");
+        $.ajax({
+            type: "post",
+            url: "/const/auto/confirm",
+            data: {
+                day : $("#orderSubmitDay").val(),
+                userNameRegex : '^[a-l]0[0-9]{3}$',
+                limit : 100
+            },
+            dataType: 'json',
+            success: function(data) {
+                $("#orderConfirmResult").append(data["msg"]);
+                $("#orderConfirmBtn").attr("disabled", false);
+            },
+            error: function (data) {
+                $("#orderConfirmResult").append("确认错误! 请稍候再试.");
+                $("#orderConfirmBtn").attr("disabled", false);
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

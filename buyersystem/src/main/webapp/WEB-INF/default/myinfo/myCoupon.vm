@@ -1,0 +1,161 @@
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper my_title clearfix" id="ucOrder">
+            <h3 class="tit"><span>我的现金券</span></h3>
+            <ul>
+                #if($currentStatus == "Unused")
+                    <li class="curr"><a href="#0">可用券</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyCoupon').toString()">可用券</a></li>
+                #end
+
+                #if($currentStatus == "Used")
+                    <li class="curr"><a href="#0">已使用</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyCoupon').addQueryData('status','Used').toString()">已使用</a></li>
+                #end
+
+                #if($currentStatus == "Overdue")
+                    <li class="curr"><a href="#0">已过期</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyCoupon').addQueryData('status','Overdue').toString()">已过期</a></li>
+                #end
+            </ul>
+        </div>
+
+        <div class="my_integral">
+            #if($couponPage.totalCount>0)
+                <!-- 可用券 -->
+                <table width="990" border="0" class="my_integral_table">
+                    <thead>
+                    <tr>
+                        <th width="20%">券号</th>
+                        <th width="20%">面值</th>
+                        <th width="20%">使用限制</th>
+                        <th width="20%">有效期</th>
+                        <th width="20%">状态</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    #foreach($item in $couponPage.result)
+                    <tr >
+                        <td class="f_14">$item.code</td>
+                        <td class="f_14 orange">
+                            ￥$item.money
+                        </td>
+                        <td>订单满 <span class="f_14 orange">
+                            ￥$item.miniApplyMoney
+                        </span> 可使用</td>
+                        <td>
+                            $dateTool.format("yyyy-MM-dd", $item.startDate)至
+                            $dateTool.format("yyyy-MM-dd", $item.expireDate)
+                        </td>
+                        #if($item.used)
+                            <td class="use">已使用</td>
+                        #elseif($item.expire)
+                            <td class="expired">已过期</td>
+                        #else
+                            <td class="unused">未使用</td>
+                        #end
+                    </tr>
+                    #end
+                    </tbody>
+
+                    <tfoot>
+                    #if($couponPage.getTotalPages() > 1)
+
+                    <tr>
+                        <td colspan="5">
+                            <div class="pagebars">
+                                <div class="pagebar_inner">
+                                    <form method="get" action="$!urlBroker.getUrl('MyCoupon').addQueryData('status',$!currentStatus).toString()" id="pagebarForm">
+                                        <input type=hidden name="status" id="status" value="$!currentStatus"/>
+                                        <input type=hidden id="maxPageNumber" value="$couponPage.totalPages"/>
+                                        <input type=hidden id="pageBaseUrl" value="/product_list.htm?1=1"/>
+                                        #if($couponPage.hasPre)
+                                            <a href="$!urlBroker.getUrl('MyCoupon').addQueryData('pageNo',$!couponPage.prePage).addQueryData('status',$!currentStatus).toString()" class="page_start">上一页</a>
+                                        #else
+                                            <span class="page_start">上一页</span>
+                                        #end
+
+                                        #foreach($couponIndex in $!couponPageBar.linkNums)
+                                            #if($couponIndex == -1)
+                                                <a href="javascript:void(0)" class="number"><span>...</span></a>
+                                            #elseif($couponIndex == $couponPage.pageNo)
+                                                <a href="javascript:void(0);" class="number current"><span>$couponIndex</span></a>
+                                            #else
+                                                <a href="$!urlBroker.getUrl('MyCoupon').addQueryData('status',$!currentStatus).addQueryData('pageNo',$!couponIndex).toString()" class="number"><span>$couponIndex</span></a>
+                                            #end
+                                        #end
+
+                                        #if($couponPage.hasNext)
+                                            <a href="$!urlBroker.getUrl('MyCoupon').addQueryData('status',$!currentStatus).addQueryData('pageNo',$!couponPage.nextPage).toString()" class="page_next">下一页</a>
+                                        #else
+                                            <span class="page_next">下一页</span>
+                                        #end
+
+                                        #*<span class="letter">跳转至</span>
+                                        <input type="text" name="pageNo" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="$couponPage.pageNo" class="text_in">
+                                        <span class="letter">/$couponPage.totalPages页</span>
+                                        <input type="submit" value="确定" class="button_ok">*#
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    #end
+                    </tfoot>
+                </table>
+            #else
+                <table width="990" border="0" class="my_integral_table">
+                    <thead>
+                    <tr>
+                        <th width="20%">券号</th>
+                        <th width="20%">面值</th>
+                        <th width="20%">使用限制</th>
+                        <th width="20%">有效期</th>
+                        <th width="20%">状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="last">
+                        <td colspan="5">
+                #if($currentStatus == "Unused")
+                    当前账户没有可用的现金券
+                #elseif($currentStatus == "Used")
+                    当前账户没有已使用的现金券
+                #elseif($currentStatus == "Overdue")
+                    当前账户没有已过期的现金券
+                #end
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            #end
+
+
+
+            <p class="my_cash_letter">
+                <strong>特别提示：</strong>
+
+                1.当您从购物车中去结算时，在订单确认页面可以选择（或输入）您的现金劵劵号，获得相应的优惠.<br>
+
+                2.每个订单限使用一张现金劵.<br>
+
+                3.请注意：现金劵是有过期时间的哦！请在过期时间之前使用.<br>
+
+                4.现金劵在激活状态下才能使用，已激活且过期的现金劵在您的现金劵列表中状态显示为“未使用”.<br>
+
+                5.若您获得满额返劵的订单发生退货，因该订单所返的所有现金劵都被取消.<br>
+
+                6.当您使用现金劵购买的商品发生退货时，将不会退还该现金劵分摊优惠至每个商品中的金额.<br>
+
+            </p>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>
+<!-- 内容 END -->

@@ -1,0 +1,105 @@
+<table border="0" class="my_order_list " width="100%">
+    <thead>
+    <tr>
+        #if($!state == 1)
+            <th width="8%" class="lef selectAll"><input type="checkbox" name="orderId" value="0" id="selectAll"> 全选 </th>
+        #end
+        <th width="50%" >订单商品</th>
+        <th width="#if($!state == 1) 12% #else 10% #end" >状态</th>
+        <th width="#if($!state == 1) 12% #else 11% #end" >收货人</th>
+        <th width="#if($!state == 1) 13% #else 11% #end" >金额</th>
+        <th width="#if($!state == 1) 13% #else 11% #end" >操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        #foreach($!orderView in $!orderPage.result)
+            <tr>
+                #if($!state == 1)
+                    <td class="lef"><input type="checkbox" name="orderId" value="$!orderView.order.orderNo" data-price="$!orderView.order.totalPrice"> </td>
+                #end
+                <td>
+                    <dl class="order_piclist">
+                        <dt>
+                        <div>
+                        #foreach($!orderItem in $!orderView.order.orderItemList)
+                            <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $orderItem.productId).addQueryData('skuId', $!orderItem.skuId).toString()">
+                                <img src="$!imgResolver.getMinSizeImgUrl($orderItem.skuMainPicture)">
+                            </a>
+                        #end
+                        </div>
+
+                        </dt>
+                        <dd>
+                            <p>订单编号：<a href="$urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $!orderView.order.orderNo).toString()">$!orderView.order.orderNo</a></p>
+                            <span>下单时间：$!dateTool.format("yyyy-MM-dd",$!{orderView.order.createDate})</span>
+##                            <span>由 $!orderView.customer $!{orderView.storeName}发货</span>
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <div class="show_t">
+                        #if($!orderView.order.orderState.checkNotPay())
+                            <span class="paid_s view_order" date-order="$!orderView.order.id">待支付</span>
+                        #elseif($!orderView.order.orderState.checkPay())
+                            <span class="goods_s view_order" date-order="$!orderView.order.id">
+                                #if($!orderView.order.orderState.checkCanNotConfirmSuccess())
+                                    待发货
+                                #else
+                                    待收货
+                                #end
+                            </span>
+                        #elseif($!orderView.order.orderState.checkTradeComplete())
+                            <span class="done_s view_order" date-order="$!orderView.order.id">交易完成</span>
+                        #elseif($!orderView.order.orderState.checkInvalidTrade())
+                            <span class="off_s view_order" date-order="$!orderView.order.id">交易取消</span>
+                        #end
+                    </div>
+                </td>
+                <td>
+                    $!orderView.order.logistics.name
+                </td>
+                <td>
+                    <span class="money_red">¥$!orderView.order.totalPrice</span>
+                    <span class="gray">$!orderView.order.payType.toDesc()</span>
+                </td>
+                <td>
+                    <a href="$!urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $!orderView.order.orderNo).toString()" class="orin"
+                       date-order="$!orderView.order.id">
+                        订单详情
+                    </a>
+                    #if(!$!orderView.order.orderState.checkCanNotConfirmSuccess())
+                        <a class="confirmReceipt" data-id="$orderView.order.id">
+                            确认收货
+                        </a>
+                    #end
+                    #if($!orderView.order.orderState.waitPay($!orderView.order.payType))
+                        <a href="$!urlBroker.getUrl('OrderPay').addQueryData('orderNo', $!orderView.order.orderNo).toString()" class="orin_a">
+                            立即付款
+                        </a>
+                        <a href="#" class="gray cancelOrder" data-id="$!orderView.order.id">取消订单</a>
+                    #end
+
+                    #if($!orderView.order.checkCanNBack() && $!orderView.order.orderState.checkTradeComplete())
+                        <form action="$!urlBroker.getUrl('ApplyBackGoods').addQueryData('orderNo', $!orderView.order.orderNo).toString()" method="post">
+                            <input type="submit"  class="gray apply" value="申请售后">
+                        </form>
+                    #end
+                </td>
+            </tr>
+        #end
+    </tbody>
+    #if($!state == 1)
+        <tfoot>
+        <tr>
+            <td colspan="6" height="15"></td>
+        </tr>
+        <tr>
+            <td class="lef selectAll" colspan="2"><input type="checkbox" name="orderId" value="0"> 全选</td>
+            <td></td>
+
+            <td colspan="2">合计：<span class="price">¥ 0.00</span></td>
+            <td><a href="$!urlBroker.getUrl('OrderPayBase').toString()" class="toolbtn" id="combinedPayment">合并付款</a> </td>
+        </tr>
+        </tfoot>
+    #end
+</table>

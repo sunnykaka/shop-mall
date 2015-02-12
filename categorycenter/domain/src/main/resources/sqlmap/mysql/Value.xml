@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="value" class="com.kariqu.categorycenter.domain.model.Value">
+        <result property="id" column="id"/>
+        <result property="valueName" column="valueName"/>
+    </resultMap>
+
+    <sql id="Value.selector">
+        select id,valueName from value
+    </sql>
+
+    <select id="selectAllValues" resultMap="value">
+        <include refid="Value.selector"/>
+        where isDelete = 0
+    </select>
+
+    <select id="selectValue"
+            resultMap="value">
+        <include refid="Value.selector"/>
+        where id = #id# and isDelete = 0
+    </select>
+
+
+    <select id="getValueByName"
+            resultMap="value">
+        <include refid="Value.selector"/>
+        where valueName = #valueName# and isDelete = 0
+    </select>
+
+    <insert id="insertValue">
+        insert into value
+        (valueName,createTime,updateTime)
+        values
+        (#valueName#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateValue">
+        update value
+        set valueName=#valueName#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteValue">
+        update value
+        set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllValue">
+        update value
+        set isDelete = 1,updateTime=now()
+    </delete>
+
+    <select id="queryAddedValueFromGivingTime"
+            resultMap="value">
+        <include refid="Value.selector"/>
+        where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedValueFromGivingTime"
+            resultMap="value">
+        <include refid="Value.selector"/>
+        where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedValueFromGivingTime"
+            resultMap="value">
+        <include refid="Value.selector"/>
+        where isDelete = 1 and updateTime > #time#
+    </select>
+
+</sqlMap>

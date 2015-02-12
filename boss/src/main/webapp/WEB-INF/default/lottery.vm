@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>生成中奖信息</title>
+    <meta charset="utf-8"/>
+</head>
+
+<body>
+#if($!noRotary)
+无此抽奖活动!
+#else
+<form action="/rotary/lottery/addMen" method="post">
+    <input type="hidden" name="rotaryId" value="$!rotaryId" />
+    <textarea style="width: 500px; height: 309px" name="lotteryInfo"></textarea><br>
+    用户名|奖项Id, 示例: asion|1 <br><br>
+    <input style="width: 80px; height: 30px;" type="submit" value="提交"><br><br>
+    奖项Id 如下 >><br><br>#foreach($meed in $!meedList)
+    <span style="color:#ff0000;">id: $!{meed.id}</span>, (<span style="color:#008000;">$!{meed.meedType.toStr()}: $!{meed.value}</span>),
+    序号: $!{meed.meedIndex}, 中奖概率: $!{meed.meedProbability}<br>
+    #end
+</form>
+#end
+
+<script type="text/javascript" src="/static/js/lib/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $("form").submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: $(this).attr("action"),
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(data) {
+                if (data["success"]) {
+                    alert("提交成功");
+                    location.reload();
+                } else {
+                    alert(data["msg"]);
+                }
+            },
+            error: function () {
+                alert("更新错误! 请稍候再试.");
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

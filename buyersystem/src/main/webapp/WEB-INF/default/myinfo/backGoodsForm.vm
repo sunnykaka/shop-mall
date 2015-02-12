@@ -1,0 +1,39 @@
+<div class="n_acc_right">
+    <div class="acc_box_right">
+        <div class="r_top"></div>
+        <div class="r_content">
+            <div class="content_wrapper returns_step">
+
+                <h3 class="tit">退货申请</h3>
+                <div class="tip1">
+                    您的退货申请被批准后，您的手机将会收到一条短信，请根据短信中的地址将退货商品寄回。
+                    <p>很遗憾我们的努力未能让您满意，希望您继续支持和信赖易居尚！</p>
+                </div>
+                <!-- 第1步 -->
+                <div class="returns_step1">
+                    <h4 class="step1_tit">
+                        <span class="step">第1步</span>
+                        <span class="step_txt">选择所退订单</span>
+                    </h4>
+                    <div class="step1_box">
+                        <form method="post" action="$urlBroker.getUrl('ApplyBackGoods').toString()" id="returnsStep1Form">
+                            <dl class="clearfix">
+                                <dt>退单订单号：</dt>
+                                <dd>
+                                    <input type="text" name="orderNo" value="$!orderNo" class="text">
+                                    <a href="$urlBroker.getUrl('MyOrders').toString()">查看我的订单<span>&gt;</span></a>
+                                </dd>
+                            </dl>
+                            <div class="btn_w">
+                                <button type="submit" class="btn_3">下一步</button>
+                                <span>$!msg</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 第1步 END -->
+            </div>
+        </div>
+        <div class="r_bot"></div>
+    </div>
+</div>

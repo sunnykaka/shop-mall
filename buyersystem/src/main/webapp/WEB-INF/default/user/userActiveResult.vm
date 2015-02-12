@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>$!title 易居尚</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/css/account.css?$!urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+    #if($activeResult==0 || $activeResult==1)<meta http-equiv="refresh" content=3;URL="$!urlBroker.getUrl('BuyHome').toString()">#end
+</head>
+<body>
+<input name="isRedirect" type="hidden" id="isRedirect" value="false">
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+            #parse("user/loginTop.vm")
+
+            <!-- 账号激活 -->
+            <div class="common_wrapper">
+                <div class="account_activation">
+                    <div class="account_activation_box">
+                        <h3 class="title">$!title</h3>
+                        <div class="account_activation_content">
+                            #if($!activeResult==2)
+                                <p class="tip3">
+                                    <span class="icon_error"></span>
+                                    <span class="text">$!msg</span>
+                                </p>
+                            #elseif($!activeResult==1)
+                                <p class="tip1">
+                                    <span class="icon_succeed"></span>
+                                    <span class="text">$!msg，3秒钟之后自动跳转到首页，如果页面没有自动跳转，请手动 <a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚">点击这里</a></span>
+                                </p>
+                            #elseif($!activeResult==0)
+                                <p class="tip2">
+                                    <span class="icon_warning"></span>
+                                    <span class="text">$!msg，3秒钟之后自动跳转到首页，如果页面没有自动跳转，请手动 <a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚">点击这里</a></span>
+                                </p>
+                            #elseif($!activeResult==3)
+                                <p class="tip3">
+                                    <span class="icon_error"></span>
+                                    <span class="text">$!msg</span>
+                                </p>
+                            #else
+                                <p class="tip3">
+                                    <span class="icon_error"></span>
+                                    <span class="text">地址验证失败，请确认是否为邮箱收到的地址</span>
+                                </p>
+                            #end
+                        </div>
+                    </div>
+                    <div class="shadow_1000 ie6"></div>
+                </div>
+            </div>
+            <!-- 账号激活 END -->
+            ${shopFoot}
+        </div>
+    </div>
+</div>
+<!--End页面最小宽度包裹层-->
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/shop/js/var?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/user.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/LAB.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/common.js?$!urlBroker.getVersion()"></script>
+#if(!$activeResult && $activeResult < 2)<script type="text/javascript">
+    jQuery(function(){
+        countdownJump(3,function(){
+            window.location = EJS.HomeUrl;
+        });
+    });
+</script>#end
+
+#if($online)
+<div style="display: none">
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/statistics.js?$!urlBroker.getVersion()"></script>
+</div>
+#end
+
+</body>
+</html>

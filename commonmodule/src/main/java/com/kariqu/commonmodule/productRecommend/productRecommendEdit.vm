@@ -1,0 +1,16 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        同价位所在的区间(单位: 元. 请不要使用小数点):
+        <input style="width: 160px" name="priceInterval" value="$!priceInterval"><br>
+        同价位推荐商品显示的数量(若值为 0 则不会显示推荐):
+        <input style="width: 160px" name="samePriceNum" value="$!samePriceNum"><br>
+        按照用户浏览历史推荐的商品数量(若值为 0 则不会显示):
+        <input style="width: 160px" name="historyRecommendNum" value="$!historyRecommendNum"><br>
+
+        <input type="submit"/>
+    </form>
+</div>

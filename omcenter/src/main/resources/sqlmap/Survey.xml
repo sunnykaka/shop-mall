@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="Survey.selector">
+		select id, surveyName, surveyExplain, createTime, updateTime
+		from Questionnaire_Survey
+    </sql>
+
+    <select id="selectSurvey" resultClass="com.kariqu.om.domain.Survey">
+        <include refid="Survey.selector"/>
+        where isDelete = 0
+        <isNotEmpty prepend="and" property="surveyId">
+            id = #surveyId#
+        </isNotEmpty>
+    </select>
+
+    <!--<delete id="deleteSurvey">
+		delete from Questionnaire_Survey where id = #id#
+	</delete>-->
+
+    <update id="deleteSurvey">
+        update Questionnaire_Survey set isDelete = 1, updateTime = now() where id = #id#
+    </update>
+
+    <insert id="insertSurvey">
+        insert into Questionnaire_Survey(surveyName, surveyExplain, createTime, updateTime)
+        values (#surveyName#, #surveyExplain#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateSurveySelective">
+        update Questionnaire_Survey
+        <dynamic prepend="set">
+            <isNotEmpty prepend="," property="surveyName">
+                surveyName = #surveyName#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="surveyExplain">
+                surveyExplain = #surveyExplain#
+            </isNotEmpty>
+            <isNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNull>
+            <isNotNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+</sqlMap>

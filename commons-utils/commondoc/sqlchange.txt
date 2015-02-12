@@ -1,0 +1,760 @@
+已发布时间2013,5,22 上午=============================================
+
+Wendy 2013,06,24 编辑cmsCenter中的content表，动态添加一列
+alter table content add templateId int NOT NULL DEFAULT 0;
+
+
+/* Athens 2013,07,22 在订单表中添加价格信息及详情字段 */
+ALTER TABLE `orderTable`
+    ADD COLUMN `priceMessage` varchar(64) NULL COMMENT '使用现金券或积分时记录其订单价格相关说明',
+    ADD COLUMN `priceMessageDetail` varchar(256) NULL COMMENT '使用现金券或积分时记录其订单价格相关详细说明';
+
+
+
+
+2013,7,30 Asion修改weibo表，加入配图和配置字段
+
+2013,8,1 Alec添加表browsinghistory用户浏览历史记录表
+                DROP TABLE IF EXISTS `browsinghistory`;
+                CREATE TABLE  `browsinghistory` (
+                  `userId` int(11) NOT NULL DEFAULT '0',
+                  `productId` int(11) NOT NULL,
+                  `trackId` varchar(100),
+                  `createDate` datetime DEFAULT NULL COMMENT '创建时间'
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+/* 2013,8,5 >> Athens 在 套餐表 中添加 "推荐理由" 字段 */
+ALTER TABLE `MealSet` ADD COLUMN `recommendReason` text NULL COMMENT '推荐理由';
+
+
+/* 2013,8,8 >> Athens 添加 人造的微博订单号 表 */
+DROP TABLE IF EXISTS `HumenOrder`;
+CREATE TABLE `HumenOrder` (
+  `id`  int NOT NULL AUTO_INCREMENT ,
+  `weiboId`  int NOT NULL COMMENT '微博Id' ,
+  `userName`  varchar(255) NOT NULL COMMENT '用户名' ,
+  `tradeOrderNo`  varchar(255) NOT NULL COMMENT '交易号' ,
+  `tradeDate`  datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '交易时间' ,
+  PRIMARY KEY (`id`),
+  unique(`weiboId`, `userName`) /* 微博Id 与 用户名 联合索引 */
+) COMMENT='人造的微博订单号' ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+2013,8,9 Alec修改product表description字段：
+alter table product modify description VARCHAR(100) null;
+
+
+/* 2013,08,12 向微博表添加活动配置字段 */
+ALTER TABLE `weibo`
+    ADD COLUMN `configContent` varchar(200) NOT NULL COMMENT '活动配置';
+
+2013,8,12 wendy新增了短信发送模板，短信字符两个表
+DROP TABLE IF EXISTS `SmsMould`;
+CREATE TABLE `SmsMould` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(1024) NOT NULL COMMENT '短信模板',
+  `description` varchar(200) NOT NULL COMMENT '短信模板描述',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='短信模板列表';
+
+DROP TABLE IF EXISTS `SmsCharacter`;
+CREATE TABLE `SmsCharacter` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value` varchar(50) NOT NULL COMMENT '短信字符值',
+  `name` varchar(100) NOT NULL COMMENT '短信字符内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='短信字符列表';
+
+INSERT INTO `smscharacter` (`id`,`value`,`name`) VALUES
+ (1,'mobile','电话'),
+ (2,'sendTime','发送时间');
+
+/* 2013,8,13 Athens 添加微博图片二进字段 */
+ALTER TABLE `weibo`
+    ADD COLUMN `weiboImage` MediumBlob NULL COMMENT '微博图片(二进制数据)',
+    ADD COLUMN `weiboImageType` varchar(32) NULL COMMENT '微博图片类型(二进制数据)';
+
+
+2013,8,16 Alec修改stockkeepingunit表添加skuCode字段：
+    alter table stockkeepingunit add column `skuCode` varchar(120);
+
+    同步单个sku商品编码：
+    update stockkeepingunit sk,(select sku.id,productCode from stockkeepingunit sku,product p where p.id=productId
+    group by productId having count(productId)=1) as a set sk.skuCode=a.productCode where sk.id=a.id
+
+2013,8,21 Alec修改productpicture表添加两个字段：
+    alter table productpicture add column `skuId` bigint DEFAULT 0;
+    alter table productpicture add column `number` tinyint(20) DEFAULT 0;
+
+2013,8,26 wendy删除bugIngo表面的invitationCode字段
+    alter table buginfo drop column invitationCode;
+
+2013,8,26 wendy删除invitecode表
+    DROP TABLE invitecode;
+
+2013,09,02 Athens 修改 用户积分表, 长度改大
+    ALTER TABLE `userPoint` MODIFY COLUMN `description` varchar(128) NULL DEFAULT '' COMMENT '对积分使用或者支出的描述';
+
+=============================================
+
+2013,09,09 Athens 修改优惠券表
+    ALTER TABLE `coupon`
+        MODIFY COLUMN `couponType` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Normal' COMMENT '优惠券类型(现金券 或 折扣券)' AFTER `code`,
+        ADD COLUMN `startDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '开始时间' AFTER `miniApplyOrderPrice`;
+    update coupon set startDate = createDate;
+
+========================================
+2013,09,25 Athens 修改订单历史记录表
+    ALTER TABLE `orderStateHistory`
+        MODIFY COLUMN `overlay` tinyint(1) NOT NULL DEFAULT 'false' COMMENT '是否被覆盖(已无用), 默认是 false',
+        MODIFY COLUMN `debugMode` tinyint(1) NOT NULL DEFAULT 'false' COMMENT '用户是否可见(已无用), 默认是 false';
+
+    update orderStateHistory set overlay = true, debugMode = true
+    where id not in (select * from (select id from orderStateHistory group by orderId, orderState) osh);
+
+2013-09-29 17:20:17 Alec 手动逻辑删除重复类目属性值
+    update categorypropertyvalue set isDelete=1 where id in (152139,143736,151574,143058)
+
+2013-10-8 10:50:17 Alec 手动逻辑删除重复类目属性值
+    update categorypropertyvalue set isDelete=1 where id =60827
+
+2013-10-9 15:03:17 Alec 添加SEO推广优化表
+    DROP TABLE IF EXISTS `seo`;
+    CREATE TABLE `seo` (
+      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `seoObjectId` varchar(45) NOT NULL,
+      `title` varchar(120) DEFAULT NULL,
+      `description` varchar(240) DEFAULT NULL,
+      `keywords` varchar(120) DEFAULT NULL,
+      `seoType` varchar(10) NOT NULL,
+      `createDate` datetime NOT NULL,
+      `updateDate` datetime NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+2013-10-10 Athens
+    ALTER TABLE `coupon` ADD COLUMN `msgRemind` tinyint NOT NULL DEFAULT 0 COMMENT '是否有发送短信提醒';
+
+2013-10-11 Athens
+    ALTER TABLE `skuTradeResult`
+        ADD COLUMN `backNumber`  bigint NULL DEFAULT 0 COMMENT '退货数量',
+        MODIFY COLUMN `number`  bigint NULL DEFAULT 0 COMMENT '交易数量',
+        ADD COLUMN `payNumber`  bigint NULL DEFAULT 0 COMMENT '付款数量';
+
+2013-10-11 Athens 添加
+    DROP TABLE IF EXISTS `Const`;
+    CREATE TABLE `Const` (
+      `id`  int NOT NULL AUTO_INCREMENT,
+      `constKey`  varchar(32) UNIQUE NOT NULL DEFAULT '' COMMENT '全局常量键',
+      `constValue`  varchar(32) NOT NULL DEFAULT '' COMMENT '全局常量键值',
+      `constComment`  varchar(128) NULL COMMENT '常量说明',
+      `createDate`  datetime NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+      `updateDate`  datetime NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='需要全局设定的值表';
+    insert into const(constKey, constValue, constComment, createDate, updateDate)
+    values('integral', '100', '积分兑换点数, 若值是 100, 则表示 100 点兑换 1 元', now(), now());
+    insert into const(constKey, constValue, constComment, createDate, updateDate)
+    values('couponReMindDay', '5', '优惠券过期提醒时间, 单位天. 若值是 5, 则表示今天提醒 5 天后过期的优惠券数据', now(), now());
+
+2013-10-17 12:03:48 Alec 添加
+    DROP TABLE IF EXISTS `productofplatform`;
+    CREATE TABLE `productofplatform` (
+      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `productId` int(10) unsigned NOT NULL,
+      `platform` varchar(45) NOT NULL,
+      `productOfJson` text,
+      `isDelete` tinyint(1) unsigned NOT NULL DEFAULT '0',
+      `createDate` datetime NOT NULL,
+      `updateDate` datetime NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+-- 2013-10-16 Athens 添加
+    DROP TABLE IF EXISTS `rotary`;
+    CREATE TABLE `rotary` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(32) NOT NULL COMMENT '轮盘名',
+      `description` varchar(128) COMMENT '详细说明',
+      `tally` int(11) NOT NULL COMMENT '每次抽奖消耗的点数',
+      `rule` varchar(64) NOT NULL COMMENT '抽奖规则',
+      `detailRule` text COMMENT '详细规则',
+      `startDate` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '开始时间',
+      `expireDate` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '过期时间',
+      `createDate` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+      `updateDate` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+      `isDelete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除(1 表示已删除, 0 表示未删除), 默认是 0',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抽奖活动';
+
+
+    DROP TABLE IF EXISTS `rotaryMeed`;
+    CREATE TABLE `rotaryMeed` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `rotaryId` int(11) NOT NULL COMMENT '抽奖活动 Id',
+      `meedType` varchar(16) NOT NULL COMMENT '奖品类型(积分还是商品)',
+      `meedValue` varchar(16) NOT NULL COMMENT '奖品值(类型是商品则 proId-skuId, 现金券则是面值-最小使用金额, 积分则是数值)',
+      `imageUrl` varchar(64) NOT NULL COMMENT '图片 url',
+      `description` varchar(128) NOT NULL COMMENT '图片描述',
+      `meedIndex` int(11) NOT NULL COMMENT '序号(同一个抽奖活动的序号不能重复)',
+      `meedProbability` int(11) NOT NULL COMMENT '中奖概率(万分之比例, 比如: 在 10000 里面抽中 100 次, 则此值设置为 100)',
+      `createDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+      `updateDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮盘里面的奖品项';
+
+
+    DROP TABLE IF EXISTS `lottery`;
+    CREATE TABLE `lottery` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `rotaryId` int(11) NOT NULL COMMENT '抽奖Id',
+      `rotaryMeedId` int(11) NOT NULL COMMENT '抽奖的奖品Id',
+      `userName` varchar(100) NOT NULL COMMENT '中奖人',
+      `meedType` varchar(16) NOT NULL COMMENT '奖品类型(积分还是商品)',
+      `meedValue` varchar(64) NOT NULL COMMENT '奖品值(类型是商品则 proId-skuId, 现金券则是 面值-最低使用金额, 积分则是数值)',
+      `value` varchar(64) COMMENT '商品存储商品名, 现金券则存储面值, 积分则显示数值',
+      `really` tinyint(1) default 0 COMMENT '是否真实(1 表示真实, 0 表示不真实), 默认是 0',
+      `consigneeName` varchar(16) COMMENT '收货人名字',
+      `consigneePhone` varchar(16) COMMENT '收货人电话',
+      `consigneeAddress` varchar(64) COMMENT '收货人地址',
+      `sendOut` tinyint(1) DEFAULT 0 COMMENT '是否已发货(1 表示已发货, 0 表示未发货), 默认是 0',
+      `createDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+      `updateDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='中奖信息';
+
+
+-- 2013,10,25 Athens 添加
+    insert into const(constKey, constValue, constComment, createDate, updateDate)
+    values('signInRule', '10, 20, 30, 40, 50, 60, 70', '签到送积分规则, 第一个是第一天送的积分, 第二个是第二天送的, 依此类推... 逗号隔开', now(), now());
+
+    DROP TABLE IF EXISTS `userSignIn`;
+    CREATE TABLE `userSignIn` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `userId` int(11) NOT NULL UNIQUE COMMENT '用户Id',
+      `signInCount` int(11) NOT NULL COMMENT '连续签到次数',
+      `createDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+      `updateDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户签到记录';
+
+
+-- 2013,10,28 Athens 添加
+    insert into const(constKey, constValue, constComment, createDate, updateDate)
+    values('integralBack', '1', '交易成功后返回给用户的积分比率. 若商品 100 元, 此值设置为 5, 则返给用户 500 点', now(), now());
+
+    ALTER TABLE `orderTable` ADD COLUMN `integralPercent` double DEFAULT 1 COMMENT '返还的积分比例';
+
+
+
+2013-10-28  Amos  添加
+  DROP TABLE IF EXISTS `t_order_gift`;
+  CREATE TABLE `t_order_gift` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `order_id` bigint(20) DEFAULT NULL,
+    `product_name` varchar(60) DEFAULT NULL,
+    `product_id` int(11) DEFAULT NULL,
+    `sku_id` int(11) DEFAULT NULL,
+    `date` datetime DEFAULT NULL,
+    `operate_user_id` int(11) DEFAULT NULL,
+    `number` int(11) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- 2013,11,11 Alec 添加
+  DROP TABLE IF EXISTS `couponset`;
+  CREATE TABLE `couponset` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `userId` int(10) unsigned NOT NULL,
+    `setType` varchar(45) NOT NULL,
+    `tradeNo` varchar(25) NOT NULL,
+    `payMethod` varchar(20) NOT NULL,
+    `totalPrice` varchar(20) NOT NULL DEFAULT '0',
+    `createDate` datetime NOT NULL,
+    `updateDate` datetime NOT NULL,
+    `isDelete` tinyint(1) unsigned NOT NULL DEFAULT '0',
+    `allocated` tinyint(1) unsigned NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='优惠券套餐';
+
+
+-- 2013,11,04 Athens 添加
+    ALTER TABLE `valuation`
+        ADD COLUMN `appendContent` text NULL COMMENT '追加评价',
+        ADD COLUMN `appendDate` datetime NULL DEFAULT NULL COMMENT '追加时间',
+        ADD COLUMN `appendReplyContent` text NULL COMMENT '追加回复评价',
+        ADD COLUMN `appendOperator` varchar(20) NULL COMMENT '追加回复评价的操作者',
+        ADD COLUMN `appendReplyDate` datetime NULL COMMENT '追加回复时间';
+
+
+-- 2013,12,09 Json 添加
+    ALTER TABLE `trade`
+        ADD COLUMN `bizType`  varchar(10) NULL,
+        ADD COLUMN `defaultbank`  varchar(15) NULL;
+
+
+-- 2013,12,31 Athens 添加
+    DROP TABLE IF EXISTS `productAuction`;
+    CREATE TABLE `productAuction` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `productId` int(11) NOT NULL COMMENT '商品id',
+      `startCount` int(11) NOT NULL COMMENT '竞拍起始点数',
+      `endCount` int(11) NOT NULL COMMENT '竞拍结束点数',
+      `userAuctionCount` int(11) NOT NULL COMMENT '用户竞拍次数',
+      `startDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '竞拍开始时间',
+      `endDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '竞拍结束时间',
+      `createDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `updateDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `isDelete` tinyint(1) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品竞拍表';
+
+    DROP TABLE IF EXISTS `productIntegralConversion`;
+    CREATE TABLE `productIntegralConversion` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `productId` int(11) NOT NULL COMMENT '商品id',
+      `integralCount` int(11) NOT NULL COMMENT '积分点数',
+      `userBuyCount` int(11) NOT NULL COMMENT '用户购买次数',
+      `startDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '积分兑换开始时间',
+      `endDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '积分兑换结束时间',
+      `createDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `updateDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `isDelete` tinyint(1) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='商品积分兑换表';
+
+    DROP TABLE IF EXISTS `productSuperConversion`;
+    CREATE TABLE `productSuperConversion` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `productId` int(11) NOT NULL COMMENT '商品id',
+      `integralCount` int(11) NOT NULL COMMENT '积分点数',
+      `money` bigint(20) NOT NULL COMMENT '购买金额',
+      `userBuyCount` int(11) NOT NULL COMMENT '用户购买次数',
+      `startDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '超值兑换开始时间',
+      `endDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '超值兑换结束时间',
+      `createDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `updateDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `isDelete` tinyint(1) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='商品超值兑换表';
+
+    DROP TABLE IF EXISTS `userAuction`;
+    CREATE TABLE `userAuction` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `userId` int(11) NOT NULL COMMENT '用户id',
+      `auctionId` int(11) NOT NULL COMMENT '商品竞拍id',
+      `productId` int(11) NOT NULL COMMENT '商品id',
+      `auctionCount` int(11) NOT NULL COMMENT '用户竞拍的点数',
+      `createDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `updateDate` datetime DEFAULT '0000-00-00 00:00:00',
+      `isDelete` tinyint(1) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户竞拍表';
+
+
+-- 2014,02,20 Athens 添加
+use supplier;
+delete from logisticsprintinfo where id in (63,108,112);
+ALTER TABLE `LogisticsPrintInfo` ADD UNIQUE INDEX (`name`, `customerId`);
+
+
+-- 2014,04,24 Python 添加
+ALTER TABLE `browsinghistory`
+    ADD COLUMN `deleteDate` datetime NULL,
+    ADD COLUMN `isDelete` tinyint NULL DEFAULT 0;
+
+
+-- 2014,04,30 Python 添加
+ALTER TABLE `productpicture`
+    MODIFY COLUMN `mainPic` tinyint(1) DEFAULT 0 COMMENT '主图(0 代表不是主图, 1 代表是, 默认是 0)',
+    ADD COLUMN `minorPic` tinyint(1) DEFAULT 0 COMMENT '副图(0 代表不是主图, 1 代表是, 默认是 0)' AFTER `mainPic`;
+
+
+-- 2014,05,27 Python 添加
+ALTER TABLE `brand`
+    MODIFY COLUMN `name` varchar(255) NOT NULL COMMENT '品牌名',
+    ADD COLUMN `picture` varchar(255) NULL COMMENT '品牌 logo 图',
+    ADD COLUMN `desc` varchar(512) NULL COMMENT '品牌文字描述';
+
+update brand b, brandpicture bp set b.picture = bp.pictureUrl
+where b.id = bp.brandId and bp.pictureSize = 'BIG';
+
+update brand b, brandpicture bp set b.picture = bp.pictureUrl
+where b.id = bp.brandId and bp.pictureSize = 'SMALL';
+
+update brand b, brandpicture bp set b.picture = bp.pictureUrl
+where b.id = bp.brandId and bp.pictureSize = 'MIDDLE';
+
+-- 2014,06,03 Python 添加
+ALTER TABLE `systemlog` MODIFY COLUMN `content` longtext;
+ALTER TABLE `moduleinstanceparam` MODIFY COLUMN `paramValue` longtext;
+
+-- 2014,06,26 Try 添加
+    -- 先不在线上删除, 以免出现问题
+    -- alter table backgoods drop column uploadFile  COMMENT '原来存储上传文件二进制数据的字段';
+    -- alter table backgoods drop column fileType COMMENT '原来存储上传文件类型的字段';
+    alter table backgoods add COLUMN backReasonReal varchar(30) NULL DEFAULT 'NoQualityProblem' COMMENT '退货原因, 质量问题/非质量问题 两种, 默认是非质量原因';
+    alter table backgoods add column uploadFiles varchar(512) NULL COMMENT '用户上传的文件, 可以上传三张. 格式: 原图名称|访问地址>原图名称|服务器名称';
+
+-- 2014,06,27 Maven 添加 将收藏表中的图片的_10去掉还原成原图
+update productcollect set productMainPicture = replace(productMainPicture, '_10.jpg','.jpg') where productMainPicture like '%_main_%_10.jpg';
+update productcollect set productMainPicture = replace(productMainPicture, '_10.JPG','.JPG') where productMainPicture like '%_main_%_10.JPG';
+
+-- 2014,07,03 Try 添加  退换货/保修页面  功能增加了换货和保修功能
+alter table backgoods add column processMode  varchar(10)  COMMENT '退货处理方式  退货 换货 保修';
+alter table backgoods add column backAddress  varchar(300)  COMMENT '退货地址';
+
+-- 2014,07,04 canal 增加索引
+ALTER TABLE `subscriptioninfo` ADD  INDEX `idx_userid` (`userId`);
+ALTER TABLE `stockkeepingunit` ADD  INDEX `idx_productid` (`productId`);
+ALTER TABLE `shoptemplate` ADD  INDEX `idx_shopid` (`shopId`);
+ALTER TABLE `productcollect` ADD  INDEX `idx_uid_pid` (`userId`, `productId`);
+ALTER TABLE `productcategory` ADD  INDEX `idx_pid` (`parentId`);
+ALTER TABLE `productactivity` ADD  INDEX `idx_pid_sedate` (`productId`, `startDate`, `endDate`);
+ALTER TABLE `product` ADD  INDEX `idx_category_id` (`categoryId`),  ADD  INDEX `idx_customer_id` (`customerId`),  ADD  INDEX `idx_brand_id` (`brandId`);
+
+
+-- 2014,07,07 Python 修改图片空间原文件名字段过短, 线上已更改
+    ALTER TABLE `spacepicture`
+        MODIFY COLUMN `pictureName` varchar(50) NOT NULL COMMENT '改名后的文件名',
+        MODIFY COLUMN `originalName` varchar(128) NOT NULL COMMENT '原文件名';
+
+-- 2014,07,08 Try 添加
+-- 退货表，删除以前存储退货图片的二进制字段和图片类型字段
+    alter table backgoods drop column uploadFile;
+    alter table backgoods drop column fileType;
+
+-- 2014,07,14 Try 添加
+-- 产品表product 增加tagType字段标示商品是新品或热销或无
+    alter table product add COLUMN tagType varchar(10) NULL DEFAULT 'DEFAULT' COMMENT '设置是否是新品或热销  DEFAULT就是无';
+
+-- 2014,07,16
+-- 创建新表，产品评价信息导入表，用来储存用excel导入的产品评价信息表
+    DROP TABLE IF EXISTS `t_import_valuation`;
+    CREATE TABLE `t_import_valuation` (
+      `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+      `userName` varchar(128) NOT NULL COMMENT '用户名',
+      `userGrade` varchar(45) DEFAULT NULL COMMENT '用户等级',
+      `point` int(11) DEFAULT NULL COMMENT '评价分数',
+      `content` text,
+      `productId` int(11) unsigned DEFAULT NULL COMMENT '商品id',
+      `createDate` datetime DEFAULT NULL COMMENT '创建时间',
+      `updateDate` datetime DEFAULT NULL COMMENT '更新时间',
+      `isDelete` tinyint(4) NOT NULL DEFAULT '0',
+      `operator` varchar(20) DEFAULT NULL COMMENT '导入操作人',
+      `replyContent` text COMMENT '回复内容',
+      `replyTime` datetime DEFAULT NULL COMMENT '回复时间',
+      `appendContent` text COMMENT '追加评价',
+      `appendDate` datetime DEFAULT NULL COMMENT '追加时间',
+      `appendReplyContent` text COMMENT '追加回复评价',
+      `appendReplyDate` datetime DEFAULT NULL COMMENT '追加回复时间',
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 2014,07,17 添加 css 字段
+    ALTER TABLE `shoppage` ADD COLUMN `cssContent` text NULL;
+
+-- 2014,07,25 添加索引
+ALTER TABLE `product`
+  ADD  INDEX `idx_update_time` (`updateTime`);
+
+ALTER TABLE `orderitem`
+  ADD  INDEX `idx_orderid` (`orderId`),
+  ADD  INDEX `idx_skuid` (`skuId`),
+  ADD  INDEX `idx_storeid` (`storageId`),
+  ADD  INDEX `idx_productid` (`productId`);
+
+ALTER TABLE `productintegralconversion`
+  ADD  INDEX `idx_sedate` (`startDate`, `endDate`);
+
+ALTER TABLE `productpicture`
+  ADD  INDEX `idx_productIdmainpic` (`productId`, `mainPic`),
+  ADD  INDEX `idx_skuid` (`skuId`);
+
+ALTER TABLE `cart`
+  ADD  INDEX `idx_userid` (`userId`),
+  ADD  INDEX `idx_trackid` (`trackId`);
+
+ALTER TABLE `productsuperconversion`
+  ADD  INDEX `idx_sedate` (`startDate`, `endDate`);
+
+ALTER TABLE `productactivity`
+  ADD  INDEX `idx_pid` (`productId`),
+  ADD  INDEX `idx_active_id_type` (`activityId`, `activityType`);
+
+ALTER TABLE `ordertable`
+  ADD  INDEX `idx_userid` (`userId`);
+
+ALTER TABLE `valuation`
+  ADD  INDEX `idx_userid` (`userId`),
+  ADD  INDEX `idx_productiddate` (`productId`, `updateDate`),
+  ADD  INDEX `idx_orderitemid` (`orderItemId`);
+
+ALTER TABLE `backgoods`
+  ADD  INDEX `idx_orderid` (`orderId`),
+  ADD  INDEX `idx_userid` (`userId`);
+
+ALTER TABLE `backgoodsitem`
+  ADD  INDEX `idx_badgoodid` (`backGoodsId`),
+  ADD  INDEX `idx_orderitemid` (`orderItemId`);
+
+ALTER TABLE `logistics`
+  ADD  INDEX `idx_orderid` (`orderId`),
+  ADD  INDEX `idx_addressid` (`addressId`);
+
+ALTER TABLE `cartitem`
+  ADD  INDEX `idx_cartid` (`cartId`);
+
+ALTER TABLE `consultation`
+  ADD  INDEX `idx_productid` (`productId`),
+  ADD  INDEX `idx_askid` (`askUserId`);
+
+ALTER TABLE `coupon`
+  ADD  INDEX `idx_useridexpire` (`userId`, `expireDate`);
+
+ALTER TABLE `skustorage`
+  ADD  INDEX `idx_skuidproductstoreid` (`skuId`, `productStorageId`);
+
+ALTER TABLE `productstorage`
+  ADD  INDEX `idx_customerid` (`customerId`);
+
+ALTER TABLE `categoryassociation`
+  ADD  INDEX `idx_navid` (`navId`);
+
+-- 2014,07,25 maven 修改积分比例
+  update const set constComment='积分兑换点数,若值是 1,则表示 1 积分兑换 1 元', constValue='1' where constKey='integral';
+  update const set constComment='交易成功后返回给用户的积分比率. 若商品 100 元, 此值设置为 5, 则返给用户 5 积分' where constKey='integralBack';
+  update const set constComment='签到送积分规则, 第一个是第一天送的积分, 第二个是第二天送的, 依此类推... 逗号隔开',constValue='0.1,0.2,0.3,0.4,0.5,0.6,0.7' where constKey='signInRule';
+
+-- 2014,07,29 maven 将订单表中的使用积分比例修改
+  update ordertable set priceMessageDetail=replace(priceMessageDetail,
+  concat('平摊回的积分(',substring(priceMessageDetail,locate('平摊回的积分(',priceMessageDetail)+7,char_length(priceMessageDetail)-locate('平摊回的积分(',priceMessageDetail)-8),')点'),
+  concat('平摊回的积分(',CONVERT(substring(priceMessageDetail,locate('平摊回的积分(',priceMessageDetail)+7,char_length(priceMessageDetail)-locate('平摊回的积分(',priceMessageDetail)-8)/100,DECIMAL(14,2)),')点'))
+  where substring(priceMessageDetail,locate('平摊回的积分(',priceMessageDetail)+7,char_length(priceMessageDetail)-locate('平摊回的积分(',priceMessageDetail)-8) != ''
+  and substring(priceMessageDetail,locate('平摊回的积分(',priceMessageDetail)+7,char_length(priceMessageDetail)-locate('平摊回的积分(',priceMessageDetail)-8) not like '%.%';
+
+  update ordertable set priceMessageDetail=replace(priceMessageDetail,
+  concat('积分(',substring(priceMessageDetail,locate('积分(',priceMessageDetail)+3,locate(')点',priceMessageDetail)-locate('积分(',priceMessageDetail)-3),')点'),
+  concat('积分(',CONVERT(substring(priceMessageDetail,locate('积分(',priceMessageDetail)+3,locate(')点',priceMessageDetail)-locate('积分(',priceMessageDetail)-3)/100,DECIMAL(14,2)),')点'))
+  where substring(priceMessageDetail,locate('积分(',priceMessageDetail)+3,locate(')点',priceMessageDetail)-locate('积分(',priceMessageDetail)-3) != ''
+  and substring(priceMessageDetail,locate('积分(',priceMessageDetail)+3,locate(')点',priceMessageDetail)-locate('积分(',priceMessageDetail)-3) not like '%.%';
+
+-- 2014,07,29 maven 在const表中新家配置，注册送积分值
+    insert into const(constKey, constValue, constComment, createDate, updateDate)
+    values('registerIntegral', '5', '注册账号时送个账号的积分. 若值是 5, 则表示今注册的账号会送 5 积分，若值小于等于 0， 则表示注册不送积分，若不填写值，则默认赠送为5积分', now(), now());
+
+--2014,08,05 标题显示品牌所属地
+    insert into const (constKey,constValue,constComment,createDate,updateDate)
+    values('productAddress','德国,美国,英国,法国,意大利,巴西,丹麦,韩国,日本,台湾,香港,景德镇,宜兴','用在标题显示品牌所属地，剔除不再这些值中的所属地',now(),now())
+
+--2014,08,05 删除页面原型中的意愿购页面
+    delete from pageprototype where name='意愿购原型';
+    delete from shoppage where name='活动页面' and pageType='marketing';
+
+-- 2014,08,07 Python 添加
+    ALTER TABLE `commonmodule` ADD COLUMN `caption` varchar(64) NULL COMMENT '模块说明' AFTER `id`;
+    ALTER TABLE `commonmodule` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`, `isdelete`);
+
+-- 2014,08,08 canal 添加, 用于活动的假的销售量
+ALTER TABLE `productintegralconversion` ADD COLUMN `mockSale` INT(11) DEFAULT 0  NULL  COMMENT '假的销售' AFTER `isDelete`;
+ALTER TABLE `productsuperconversion` ADD COLUMN `mockSale` INT(11) DEFAULT 0  NULL  COMMENT '假的销售' AFTER `isDelete`;
+
+--2014,08,11 Ruby 适应一张图片可被多个sku绑定
+alter table productpicture modify column skuId varchar(100) DEFAULT '0';
+
+-- 2014,08,13 maven 添加，将const表中constComment中的喀币改为积分,删除意愿购
+update const set constComment=replace(constComment,'喀币','积分');
+update ordertable set priceMessageDetail=replace(priceMessageDetail,'喀币','积分');
+delete from pageprototype where name='意愿购原型';
+delete from shoppage where name='活动页面' and pageType='marketing';
+
+-- 2014,08,14 maven 修改const表中注册送积分描述，完善资料同意送积分
+update const set constComment='注册账号和完善账户资料时送个账号的积分. 若值是 5, 则表示注册和完善账号会送 5 积分，若值小于等于 0， 则表示注册不送积分，若不填写值，则默认赠送为5积分'  where constKey='registerIntegral'
+
+
+-- 2014,8,20 Python 添加: 图片地址使用 nginx 转发, 不再使用 tomcat, 域名更改
+update html set content = replace(content, 'ejushang', 'yijushang');
+update moduleinstanceparam set paramValue = replace(paramValue, 'ejushang', 'yijushang');
+
+update spacepicture set pictureLocalUrl = replace(pictureLocalUrl, 'ejushang', 'yijushang'), pictureUrl = REPLACE(pictureUrl, 'ejushang', 'yijushang');
+update spacepicture set pictureLocalUrl = replace(pictureLocalUrl, 'http://boss.yijushang.com/spacePictures', 'http://imgs.yijushang.com'),
+pictureUrl = REPLACE(pictureUrl, 'http://boss.yijushang.com/spacePictures', 'http://imgs.yijushang.com');
+update spacepicture set pictureLocalUrl = replace(pictureLocalUrl, 'http://boss.yijushang.net/spacePictures', 'http://imgs.yijushang.net'),
+pictureUrl = REPLACE(pictureUrl, 'http://boss.yijushang.net/spacePictures', 'http://imgs.yijushang.net');
+
+update productpicture set pictureLocalUrl = replace(pictureLocalUrl, 'ejushang', 'yijushang'), pictureUrl = REPLACE(pictureUrl, 'ejushang', 'yijushang');
+update productpicture set pictureLocalUrl = replace(pictureLocalUrl, 'http://boss.ejushang.com/productPictures', 'http://imgp.yijushang.com'),
+pictureUrl = REPLACE(pictureUrl, 'http://boss.ejushang.com/productPictures', 'http://imgp.yijushang.com');
+update productpicture set pictureLocalUrl = replace(pictureLocalUrl, 'http://boss.ejushang.net/productPictures', 'http://imgp.yijushang.net'),
+pictureUrl = REPLACE(pictureUrl, 'http://boss.ejushang.net/productPictures', 'http://imgp.yijushang.net');
+
+
+-- 2014,10,13 Python 添加: o2o 项目的数据库表字段变更语句
+ALTER TABLE `cartitem`
+  ADD COLUMN `cartItemId` bigint NOT NULL AUTO_INCREMENT FIRST ,
+  ADD COLUMN `selected` bit(1) NULL DEFAULT 1 AFTER `number`,
+  ADD COLUMN `isdelete` bit(1) NULL DEFAULT 0 AFTER `selected`,
+  ADD PRIMARY KEY (`cartItemId`);
+
+ALTER TABLE `navigatecategory`
+  ADD COLUMN `imgUrl` varchar(100) NULL COMMENT '前台类目小图标';
+
+ALTER TABLE `productactivity`
+  ADD COLUMN `productName` varchar(255) NULL AFTER `isDelete`,
+  ADD COLUMN `activityPoster` varchar(255) NULL AFTER `productName`;
+
+ALTER TABLE `productcollect`
+  ADD COLUMN `skuId` int(10) NULL AFTER `updateDate`,
+  ADD COLUMN `quantity` int(255) NULL AFTER `skuId`;
+
+ALTER TABLE `user`
+  ADD COLUMN `headPic` varchar(50) NULL;
+
+
+-- 2014,10,13 Python 添加 o2o 项目的数据库表添加语句
+CREATE TABLE IF NOT EXISTS `activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `poster` varchar(255) NOT NULL DEFAULT 'default.jpg',
+  `slogan` varchar(255) NOT NULL DEFAULT '活动大酬宾',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `faq` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `categoryId` int(11) NOT NULL,
+  `question` varchar(255) NOT NULL DEFAULT '',
+  `answer` mediumtext NOT NULL,
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `faq_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parentId` int(11) NOT NULL DEFAULT '-1',
+  `isLeaf` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '1',
+  `title` varchar(25) NOT NULL DEFAULT '',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `favorit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `createDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `favorititem` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `favoritId` int(20) unsigned NOT NULL,
+  `productId` int(20) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `createTime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `kitchenmenu` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parentId` int(10) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `price` varchar(25) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `isdelete` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `kitchenorder` (
+  `id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `orderNo` bigint(20) NOT NULL,
+  `kitchenId` int(10) NOT NULL,
+  `createDate` datetime NOT NULL,
+  `startUseDate` datetime NOT NULL,
+  `endUseDate` datetime NOT NULL,
+  `totalPrice` varchar(250) NOT NULL,
+  `orderState` varchar(25) NOT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `isdelete` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `kitchenordermenumap` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `menuId` int(10) NOT NULL,
+  `orderNo` bigint(20) NOT NULL,
+  `isdelete` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `kitchenpicture` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `kitchenId` int(10) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `originalName` varchar(250) DEFAULT NULL,
+  `pictureUrl` varchar(250) DEFAULT NULL,
+  `pictureLocalUrl` varchar(250) DEFAULT NULL,
+  `mainPic` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `program` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) DEFAULT NULL,
+  `imgUrl` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `productId` varchar(11) DEFAULT NULL,
+  `createTime` datetime DEFAULT NULL,
+  `updateTime` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topicId` int(11) NOT NULL DEFAULT '0',
+  `productId` int(11) NOT NULL COMMENT '对应的商品id',
+  `productName` varchar(20) NOT NULL,
+  `productDesc1` varchar(20) DEFAULT NULL,
+  `productDesc2` varchar(20) DEFAULT NULL,
+  `tag` int(11) NOT NULL DEFAULT '0' COMMENT '活动类型标签，1是爆款，3是主推，6是一般性商品',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态，0为正常，2为已删除',
+  `promotionPrice` int(11) NOT NULL DEFAULT '0' COMMENT '活动价格',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `picture` varchar(255) DEFAULT NULL,
+  `createTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '记录新增的时间',
+  `updateTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '记录最近修改的时间，如果为新增后未改动则保持与createTime一致',
+  PRIMARY KEY (`id`),
+  KEY `topicId_status_tag_index` (`topicId`,`status`,`tag`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='168活动中参与活动的商品';
+
+CREATE TABLE IF NOT EXISTS `promotiontopic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态，0为正常，2为已删除',
+  `startTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '活动开始时间',
+  `endTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '活动结束时间',
+  `createTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '记录新增的时间',
+  `updateTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '记录最近修改的时间，如果为新增后未改动则保持与createTime一致',
+  `slogan` varchar(20) NOT NULL COMMENT '活动标语',
+  `previewImgUrl` varchar(255) DEFAULT NULL COMMENT '活动预览图',
+  `secretImgUrl` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status_index` (`status`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='168活动主题';
+
+
+ALTER TABLE `ordertable` ADD COLUMN `brush` TINYINT NULL DEFAULT '0' COMMENT '是否是刷单, 0 表示不是刷单, 1 表示是刷单, 默认是 0';
+select count(*) from ordertable where userName regexp '^[a-l]0[0-9]{3}$';
+update ordertable set brush = 1 where userName regexp '^[a-l]0[0-9]{3}$';

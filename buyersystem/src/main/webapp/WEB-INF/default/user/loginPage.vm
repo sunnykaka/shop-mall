@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>易居尚</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/css/common.css?$urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/css/account.css?$urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+<input name="isRedirect" type="hidden" id="isRedirect" value="false">
+
+    #parse("user/newLoginTop.vm")
+
+<!-- 登录页 -->
+<div class="login-page">
+    <div class="login-bg">
+        <div class="e-wrapper">
+            <div class="login-page-main">
+
+                <div class="head"><span>易居尚</span></div>
+
+                <h3>登录易居尚</h3>
+
+                <form action="$urlBroker.getUrl('PageLogin').toString()" method="POST" id="login-form">
+                    <input type="hidden" value="$!token" name="token">
+                    <input type="hidden" name="backUrl"#if($!backUrl) value= "$!backUrl"#end />
+                    <input type="hidden" name="redirectBuyHome_url" value="$!urlBroker.getUrl('RedirectBuyHome').toString()" />
+                    <ul>
+                        <li class="item-row">
+                            <label for="username" class="form-label">手机号/邮箱/用户名</label>
+                            <input type="text" class="form-text" name="userName" id="username" value="$!userName"/>
+                            <span class="errormsg" id="errormsg-username"></span>
+                        </li>
+                        <li class="item-row">
+                            <label for="password" class="form-label">请输入密码</label>
+                            <input type="password" name="password" class="form-text" id="password"/>
+                            <span class="errormsg" id="errormsg-password"></span>
+                        </li>
+                        #*<li class="code-row hidden">
+                            <label for="code" class="hidden">输入验证码</label>
+                            <input type="text" class="form-text form-code" id="code" placeholder="输入验证码"/>
+                            <a href="javascript:void(0);" class="reload-imageCode">
+                                <img id="imageCode" class="imageCode" alt="" title="看不清?换一张" src="static/images/imageCode.jpg">
+                                <span>看不清，换一张</span>
+                            </a>
+                            <span class="errormsg" id="errormsg-code"></span>
+                        </li>*#
+                        <li class="options-row">
+                            <input type="checkbox" name="rememberName" id="rememberName">
+                            <label for="rememberName">记住用户名</label>
+                            &nbsp;
+                            <input type="checkbox" name="autologin" id="autologin">
+                            <label for="autologin">自动登录</label>
+                        </li>
+                        <li class="btns">
+                            <button type="submit" class="e-btn btn-login login_submit">安全登录</button>
+                        </li>
+                        <li><a href="$!urlBroker.getUrl('UserRetakePassword').toString()">忘记密码？</a></li>
+                    </ul>
+
+                </form>
+
+                <div class="cooperation-login clearfix">
+                    <h4>使用其他帐号快速登录</h4>
+                    <ul>
+                        <li><a href="$!urlBroker.getUrl('JointLogin').addQueryData('flag','QQ').addQueryData('backUrl',${OauthBackUrl}).toString()"
+                               target="_top" class="qq" title="使用QQ账号登录">QQ</a></li>
+                        <li><a href="$!urlBroker.getUrl('JointLogin').addQueryData('flag','Sina').addQueryData('backUrl',${OauthBackUrl}).toString()"
+                               target="_top" class="sina" title="使用新浪账号登录">新浪</a></li>
+                        #*<li><a href="$!urlBroker.getUrl('JointLoginByAlipay').addQueryData('backUrl',${OauthBackUrl}).toString()" class="alipay" title="使用支付宝账号登录">支付宝</a></li>*#
+                    </ul>
+                </div>
+
+                <div class="help-block">
+                    <a href="$!urlBroker.getUrl('UserRegister').toString()" title="点击跳转到注册页面！" class="link">您还没有账号？快速10秒注册&gt;</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /登录页 -->
+#parse("user/newShopFoot.vm")
+
+<script src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/jquery.min.js"></script>
+<script src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/shop/js/var?$!urlBroker.getVersion()"></script>
+<script src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/common.js?$!urlBroker.getVersion()"></script>
+<script src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/user/FormValidate.js?$!urlBroker.getVersion()"></script>
+<script src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/user/login.js?$!urlBroker.getVersion()"></script>
+<script>
+    Ejs.user.login();
+</script>
+
+#if($!online)
+<div style="display: none">
+<script src="$!urlBroker.getUrl('StaticFileDomainForHttps').toString()/static/js/statistics.js?$!urlBroker.getVersion()"></script>
+</div>
+#end
+
+</body>
+</html>

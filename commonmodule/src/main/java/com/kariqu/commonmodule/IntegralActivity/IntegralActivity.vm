@@ -1,0 +1,221 @@
+<div class="grayBg">
+
+#*页面位置*#
+<div class="common_wrapper userleft_wrapper">
+    <div class="my_position_bar">
+        <a class="home" href="$urlBroker.getUrl('BuyHome').toString()">首页</a> <span>-</span> 积分商城
+    </div>
+</div>
+
+<div class="common_wrapper account_wrapper">
+    <!-- START 签到  兑换   -->
+    <div class="mod_kacoin_sign clearfix">
+        <div class="kacoin_register">
+
+        #if($userLogin)  #*用户登陆*#
+            <div class="kacoin_name">
+                <div><strong>$!curUser.userName</strong>$greeting！</div>
+                我的积分：<span>$!curUser.getCurrency()</span>
+            </div>
+        #else  #*用户没有登陆*#
+            <div class="kacoin_name">
+                <div>$greeting！</div>
+                我的积分：<a href="javascript:;">登录查看></a>
+            </div>
+        #end
+
+            <!-- 已签到情况 -->
+            <div class="sign_ok #if($signInfo.sign) show1 #else hide #end">
+                <p class="kacoin_kabi">
+                    <span>签到成功，您已连续签到$signInfo.signInCount天</span><br/>
+                    连续签到$signInfo.activityDays天可得$signInfo.activityTotalPoint积分
+                </p>
+                <span class="kacoin_sign">已签到</span>
+                <div class="tips" >
+                    <span class="ico"></span>
+                    <p>您已成功签到</p>
+                </div>
+            </div>
+
+            <!-- 未签到情况 -->
+            <div class="sign #if(!$signInfo.sign) show1 #else hide #end">
+                <p class="kacoin_kabi">
+                    #if($userLogin)
+                        <span>今天签到可领$signInfo.canReceive积分</span><br/>
+                    #else
+                        <span>今天签到可领积分</span><br/>
+                    #end
+                    连续签到$signInfo.activityDays天可得$signInfo.activityTotalPoint积分
+                </p>
+                <a class="kacoin_sign" href="javascript:void(0);" data-url="$urlBroker.getUrl('userSign').toString()" data-userSign="$userLogin.toString()">签到</a>
+            </div>
+            <div class="kacoin_what"><span class="Ask">什么是积分？</span> | <span class="Ask">如何获取积分？</span>
+                <div class="kacoin_AQ_Box">
+                    <div class="close clearfix close_AQ1"><span></span></div>
+                    <ul class="tabs clearfix">
+                        <li class="current">什么是积分？</li>
+                        <li>如何获取积分？</li>
+                    </ul>
+                    <div class="kacoin_AQ">
+                        <p>积分是易居尚商城积分的专属名称，</p>
+                        <p>是会员在易居尚通过购物、参与会员专属活动等获得的奖励，</p>
+                        <p>是会员在易居尚尊贵身份的象征，</p>
+                        <p>会员等级越高，获得的积分就越多，享受的会员的权益越丰厚。</p><br>
+                        <strong>积分用途：</strong>
+                        <p>1、积分抵现：1积分=1元；</p>
+                        <p>2、积分兑换商品。</p>
+                    </div>
+                    <div class="kacoin_AQ AQ_p">
+                        <p>1、注册获取积分。客户在易居尚平台注册账号之后即可获赠5积分，注册成功之后，如果用户选择继续完善个人资料，即可再获5积分；</p>
+                        <p>2、购物得积分。成功交易并确认收货后可获得相应积分（兑换比例为1%，即100元=1积分）；如果客户购买的是易居尚平台指定的活动商品则可以获得双倍积分；</p>
+                        <p>（在京东易居尚旗舰店、天猫易居尚旗舰店等非易居尚商城的销售渠道购买商品的客户，客户获得易居尚商城账号的同时，可获得实际支付金额 0.5%的积分，可累计。相同商品在易居尚商城购买，可获得实际支付金额1%的积分。）</p>
+                        <p>3、评价商品得积分。客户在确认收货后对商品进行评价，评价完成后可再次获得评论积分系数体系给出的相应积分，与购物所得积分累加；</p>
+                        <p>4、等级升级增送积分。会员从普通会员升级到一星会员送10积分，从一星会员升级到二星会员送20积分，从二星会员升级到三星会员送40积分，从三星会员升级到四星会员送80积分，从四星会员升级到五星会员送160积分；</p>
+                        <p>5、签到赠送积分。会员登陆易居尚的账号并签到可获得0.1积分，连续10天签到可获得2个积分。</p>
+                    </div>
+                    <div class="close_AQ close">关闭</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kacoin_redeemNow">
+            <div class="kacoin_img">
+                <a href="$!urlBroker.getUrl('productdIntegralDetail').addQueryData('productId', $!recommendItem.productId-skuId).toString()" target="_blank">
+                    <img data-smallImgurl="$!activitySmallImgUrl"  width="614" height="278" data-original="$!activityImgUrl" class="lazy" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif">
+                </a>
+            </div>
+            <div class="kacoin_introduce">
+                <div class="kacoin_intro_letter">
+                    <h3>
+                        <a href="$!urlBroker.getUrl('productdIntegralDetail').addQueryData('productId', $!recommendItem.productId-skuId).toString()" target="_blank">
+                            $!recommendItem.productName
+                        </a>
+                    </h3>
+                    <p>$!recommendItem.productDesc</p>
+                </div>
+            #if($recommendActivityType.equalsIgnoreCase("IntegralConversion")) #*兑换*#
+                <div class="kac_price">
+                    <div>
+                        <span>$!recommendItem.activity.humanIntegralCount()</span><i>积分</i>
+                    </div>
+                    <em>¥ $!recommendItem.price</em>
+                    已兑换$!recommendItem.purchaseCount件
+                </div>
+                <div class="kacoin_tips">
+                    <a class="kac_btn cashIt" data-productSkuId="$!recommendItem.productId-skuId" target="_blank"
+                       href="$urlBroker.getUrl('CurrencyToOrder').addQueryData('id',$!recommendItem.activity.id).addQueryData('activityType','IntegralConversion').toString()"
+                       data-goods-url="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!recommendItem.productId-skuId).toString()"
+                       data-checkCanJoin="$urlBroker.getUrl('checkUserCanJoin').addQueryData('activityType', 'IntegralConversion').addQueryData('activityId', $!recommendItem.activity.id)">
+                        立即兑换
+                    </a>
+                </div>
+            #elseif($recommendActivityType.equalsIgnoreCase("SuperConversion")) #*优惠购*#
+                <div class="kac_price">
+                    <div>
+                        <span>$!recommendItem.activity.humanIntegralCount()</span><i>积分 + </i><span>$!recommendItem.activity.fetchMoney4Human()</span><i>元</i>
+                    </div>
+                    <em>¥ $!recommendItem.price</em>
+                    已兑换$!recommendItem.purchaseCount件
+                </div>
+                <div class="kacoin_tips">
+                    <a class="kac_btn cashIt" data-productSkuId="$!recommendItem.productId-skuId" target="_blank"
+                       href="$urlBroker.getUrl('CurrencyToOrder').addQueryData('id',$!recommendItem.activity.id).addQueryData('activityType','SuperConversion').toString()"
+                       data-goods-url="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!recommendItem.productId-skuId).toString()"
+                       data-checkCanJoin="$urlBroker.getUrl('checkUserCanJoin').addQueryData('activityType', 'SuperConversion').addQueryData('activityId', $!recommendItem.activity.id)">
+                        立即兑换
+                    </a>
+                </div>
+            #end
+                <div class="kac_date">剩余时间：<span class="settime" endTime="$!recommendItem.activity.fetchEndDateWithFormat("yyyy-MM-dd HH:mm:ss")"></span></div>
+            </div>
+        </div>
+    </div>
+    <!-- END 签到  兑换   -->
+
+    <!-- START 积分兑换   -->
+    <div class="kacoin_mod mod_kacoin_exchange">
+        <div class="kacoin_title">
+            <h2>积分兑换</h2>
+            <span>直接使用积分进行兑换商品，无需额外支付费用。</span>
+        </div>
+
+        <div class="kacoin_common">
+            <ul class="kacoin_list clearfix">
+            #foreach($item in $!integralList)
+                <li>
+                    <a href="$!urlBroker.getUrl('productdIntegralDetail').addQueryData('productId', $!item.productId-skuId).toString()" target="_blank">
+                        <img width="270" height="270" alt="$item.productName" class="lazy"
+                             data-original="$!imgResolver.getBigSizeImgUrl($!item.picture)"
+                             src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif">
+                    </a>
+                    <a class="kac_let" href="$!urlBroker.getUrl('productdIntegralDetail').addQueryData('productId', $!item.productId-skuId).toString()" target="_blank">
+                        $item.productName
+                    </a>
+                    <span class="kac_explain">$!item.productDesc</span>
+                    <div class="kac_price">
+                        <span>$item.activity.humanIntegralCount()</span><i>积分</i><em>¥ $item.price</em>
+                    </div>
+                    <div class="kacoin_tips clearfix">
+                        <a class="kac_button cashIt" data-productSkuId="$!item.productId-skuId" target="_blank"
+                           href="$urlBroker.getUrl('CurrencyToOrder').addQueryData('id',$!item.activity.id).addQueryData('activityType','IntegralConversion').toString()"
+                           data-goods-url="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!item.productId-skuId).toString()"
+                           data-checkCanJoin="$urlBroker.getUrl('checkUserCanJoin').addQueryData('activityType', 'IntegralConversion').addQueryData('activityId', $!item.activity.id)">
+                            立即兑换
+                        </a>
+                        <div class="kac_ico">已兑换<span>$item.purchaseCount</span>件</div>
+                    </div>
+                    <div class="kac_date">
+                        剩余时间：<span class="settime" endTime="$!item.activity.fetchEndDateWithFormat("yyyy-MM-dd HH:mm:ss")"></span>
+                    </div>
+                </li>
+            #end
+            </ul>
+        </div>
+    </div>
+    <!-- END 积分兑换   -->
+
+    <!-- START 积分优惠购   -->
+    <div class=" kacoin_mod mod_kacoin_discount">
+        <div class="kacoin_title">
+            <h2>积分优惠购</h2>
+            <span>使用积分+低额现金进行换购。</span>
+        </div>
+
+        <div class="kacoin_common">
+            <ul class="kacoin_list clearfix">
+            #foreach($item in $!superList)
+                <li>
+                    <a href="$!urlBroker.getUrl('productdIntegralDetail').addQueryData('productId', $!item.productId-skuId).toString()" target="_blank">
+                        <img width="270" height="270" alt="$item.productName" class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!item.picture)" src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif"">
+                    </a>
+                    <a class="kac_let" href="$!urlBroker.getUrl('productdIntegralDetail').addQueryData('productId', $!item.productId-skuId).toString()" target="_blank">
+                        $item.productName
+                    </a>
+                    <span class="kac_explain">
+                        $!item.productDesc
+                    </span>
+                    <div class="kac_price">
+                        <span>$item.activity.humanIntegralCount()</span><i>积分 + </i><span>$item.activity.fetchMoney4Human()</span><i>元</i>
+                        <em>¥ $item.price</em>
+                    </div>
+                    <div class="kacoin_tips clearfix">
+                        <a class="kac_button cashIt" data-productSkuId="$!item.productId-skuId" target="_blank"
+                           href="$urlBroker.getUrl('CurrencyToOrder').addQueryData('id',$!item.activity.id).addQueryData('activityType','SuperConversion').toString()"
+                           data-goods-url="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!item.productId-skuId).toString()"
+                           data-checkCanJoin="$urlBroker.getUrl('checkUserCanJoin').addQueryData('activityType', 'SuperConversion').addQueryData('activityId', $!item.activity.id)">
+                            立即兑换
+                        </a>
+                        <div class="kac_ico">已兑换<span>$item.purchaseCount</span>件</div>
+                    </div>
+                    <div class="kac_date">
+                        剩余时间：<span class="settime" endTime="$!item.activity.fetchEndDateWithFormat("yyyy-MM-dd HH:mm:ss")"></span>
+                    </div>
+                </li>
+            #end
+            </ul>
+        </div>
+    </div>
+    <!-- END 积分优惠购  -->
+</div>
+
+</div>

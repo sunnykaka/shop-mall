@@ -1,0 +1,5 @@
+<div class="mod-special-nav mod-special-nav-s$!_PARAM['topicNavigateStyle']" id="mod-special-nav">
+    <p style="text-align: center; line-height: 38px; color: #008000; height: 38px;">
+        右侧导航模块, 请保证只在页面上添加一次! 且尽量放在除了底部外的最后一个!
+    </p>
+</div>

@@ -1,0 +1,34 @@
+<div class="mod-goodsList-s2">
+    <div class="e-wrapper">
+        <div class="title special-nav-title" title="$!_PARAM['topicBodyTitle']">
+            <img src="$!_PARAM['topicBodyImg']" width="1200">
+        </div>
+
+        <ul class="list clearfix" style="background-color: $!_PARAM['topicBodyColor']">
+            <li class="item-significant">
+                <a href="$!_PARAM['topicBodyMainLink']"><img src="$!_PARAM['topicBodyMainImg']" width="577" height="430"></a>
+            </li>
+            #foreach($product in $!productList)
+                <li>
+                    <div class="item-box">
+                        <div class="pic">
+                            #set($hotImgUrl = $!imgResolver.getBigSizeImgUrl($!product.ImageUrl))
+                            <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()" target="_blank">
+                                <img class="lazy" data-original="$!hotImgUrl" src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="245" height="245" /></a>
+                        </div>
+                        <div class="aside">
+                            <div class="price">
+                                ¥ <span>$!{product.defaultSkuObject.sellPrice.split("[.]")[0]}</span>.#if($!product.defaultSkuObject.sellPrice.split("[.]").size() > 1)$!{product.defaultSkuObject.sellPrice.split("[.]")[1]}#{else}00#end
+                            </div>
+                            <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()">$!product.name</a></div>
+                            <div class="em">
+                                #if($!product.description.length() > $!topicBodyDescNum)$!{product.description.substring(0, $!topicBodyDescNum)}...
+                                #{else}$!product.description#end
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            #end
+        </ul>
+    </div>
+</div>

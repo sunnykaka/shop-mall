@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="topicBodyTitle" dataType="String" formType="text">锅具</param>
+        <param name="topicBodyImg" dataType="String" formType="text">
+            http://html.yijushang.org/4.0/assets/images/special/s2-title.png
+        </param>
+        <param name="topicBodyColor" dataType="String" formType="text">#f7b0ad</param>
+        <param name="topicBodyMainLink" dataType="String" formType="text">http://www.yijushang.com/product/123</param>
+        <param name="topicBodyMainImg" dataType="String" formType="text">
+            http://html.yijushang.org/4.0/assets/images/special/item-significant.jpg
+        </param>
+        <param name="topicBodyProductId" dataType="String" formType="text">123, 456, 789, 230, 550, 570</param>
+        <param name="topicBodyDescNum" dataType="String" formType="text">20</param>
+    </params>
+</module>

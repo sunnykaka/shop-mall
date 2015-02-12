@@ -1,0 +1,27 @@
+#if($!list.size() == 0)
+    <div class="hide">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">逛逛时尚品质居家驿站>></a>
+        您还没有浏览过任何商品哦~
+    </div>
+#else
+    <ul id="historyList">
+        #foreach($!product in $!list)
+            <li>
+                <a href="$!product.get('url')" title="$!product.get('product')"><img src="$!product.get('picture')" width="78" height="78" alt="$!product.get('id')"></a>
+                <div class="aside">
+                    <div class="remove" data-id="$!product.get('id')">X</div>
+                    <div class="name"><a href="$!product.get('url')">$!product.get('product')</a></div>
+                    <div class="price">¥ $!product.get('price')</div>
+                </div>
+            </li>
+        #end
+    </ul>
+
+    <div class="more">
+        <a href="$!urlBroker.getUrl('MyHistory').toString()">更多浏览记录</a>
+    </div>
+#end
+
+
+
+

@@ -1,0 +1,62 @@
+#set($contentCssUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/css/order.css?$!urlBroker.getVersion()"])
+
+#parse("head.vm")
+<!-- 网站位置 Start-->
+<div class="common_wrapper">
+    <div class="position_bar">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        <span>&gt;</span>
+        <a href="$!urlBroker.getUrl('Cart').toString()">购物车</a>
+        <span>&gt;</span>
+        <a href="#">付款成功</a>
+    </div>
+</div>
+<!-- 网站位置 END -->
+
+<!-- 订单提交成功 -->
+<div class="common_wrapper">
+    <!-- 付款成功 -->
+    <div class="order_payment_status">
+        <div class="payment_success">
+
+            <div class="success">
+                <div class="title"><i></i><span>支付成功 !</span></div>
+                <div class="info">共计支付金额 &nbsp;&nbsp; <span>¥ ：$!total_fee元</span></div>
+            </div>
+
+            <div class="clearfix info1">您选择的现金券套餐已经支付成功， 共计 <span class="price">¥：$!total_fee元</span></div>
+            <div class="list">
+                <table>
+                    <tr>
+                        <th class="s1">现金券说明</th>
+                        <th class="s2">操作</th>
+                    </tr>
+                        <tr>
+                            <td class="s1">$!setType.toDesc()</td>
+                            <td class="s2"><a href="$!urlBroker.getUrl('MyCoupon').toString()">查看我的现金券&gt;&gt;</a></td>
+                        </tr>
+                </table>
+            </div>
+
+            <div class="btn_w">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()" class="common_btn"><span>继续购物</span></a>
+            </div>
+
+            <div class="service_hotline">
+                <div class="hotline">400-9933-178</div>
+                <div class="time">服务时间：09：00—23：00</div>
+            </div>
+
+        </div>
+        <div class="shadow ie6png"></div>
+    </div>
+    <!-- 付款成功 END -->
+
+
+</div>
+<!-- 订单提交成功 END -->
+#parse("foot.vm")
+
+
+
+

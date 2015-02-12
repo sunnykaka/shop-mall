@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.Property">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <sql id="Property.selector">
+        select id,name from Property
+    </sql>
+
+    <select id="selectAllProperty" resultMap="result">
+        <include refid="Property.selector"/> where isDelete = 0
+    </select>
+
+    <select id="getPropertyByName" resultMap="result">
+        <include refid="Property.selector"/> where name = #name# and isDelete = 0
+    </select>
+
+    <select id="selectProperty"
+            resultMap="result">
+        <include refid="Property.selector"/> where id = #id# and isDelete = 0
+    </select>
+
+    <insert id="insertProperty">
+        insert into Property
+        (name,createTime,updateTime)
+        values
+        (#name#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateProperty">
+        update Property
+        set name=#name#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteProperty">
+        update Property
+        set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllProperty">
+        update Property
+        set isDelete = 1,updateTime=now()
+    </delete>
+
+    <select id="queryAddedPropertyFromGivingTime"
+            resultMap="result">
+        <include refid="Property.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedPropertyFromGivingTime"
+            resultMap="result">
+        <include refid="Property.selector"/> where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedPropertyFromGivingTime"
+            resultMap="result">
+        <include refid="Property.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+</sqlMap>

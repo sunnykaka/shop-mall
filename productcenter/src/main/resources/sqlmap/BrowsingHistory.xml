@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <typeAlias alias="BrowsingHistory" type="com.kariqu.productcenter.domain.BrowsingHistory"/>
+
+    <sql id="BrowsingHistory.selector">
+        select id,userId,productId,trackId,createDate, deleteDate from BrowsingHistory
+    </sql>
+
+    <insert id="insertBrowsHistory">
+        insert into BrowsingHistory
+        (userId,productId,trackId,createDate)
+        values
+        (#userId#,#productId#,#trackId#,now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateBrowsHistoryCreateDate">
+        update BrowsingHistory set
+        <isNotEmpty property="createDate">
+            createDate=#createDate#
+        </isNotEmpty>
+        <isEmpty property="createDate">
+            createDate=now()
+        </isEmpty>
+        where productId=#productId#
+        <isGreaterThan prepend=" and " property="userId" compareValue="0">
+            userId=#userId#
+        </isGreaterThan>
+        <isNotEmpty prepend=" and " property="trackId">
+            trackId=#trackId#
+        </isNotEmpty>
+    </update>
+
+    <select id="selectBrowsHistoryByUserIdAndProductId" resultClass="BrowsingHistory">
+        <include refid="BrowsingHistory.selector"/>
+        where isDelete = 0 and userId=#userId# and productId=#productId# limit 1
+    </select>
+
+    <select id="selectBrowsHistoryByTrackIdAndProductId" resultClass="BrowsingHistory">
+        <include refid="BrowsingHistory.selector"/>
+        where isDelete = 0 and trackId=#trackId# and productId=#productId# limit 1
+    </select>
+
+    <update id="syncBrowsHistoryWhenLogin">
+        update BrowsingHistory set userId=#userId# where trackId=#trackId#
+    </update>
+
+    <select id="queryTrackBrowsHistory" resultClass="BrowsingHistory">
+        SELECT bh.id, bh.userId, bh.productId, bh.trackId, bh.createDate, bh.deleteDate
+        FROM BrowsingHistory bh inner join (SELECT MAX(id) id FROM BrowsingHistory WHERE trackId=#trackId#
+        <isGreaterThan prepend="and" property="productId" compareValue="0">
+            productId != #productId#
+        </isGreaterThan>
+        GROUP BY productId) bhi on bh.id = bhi.id
+        WHERE isDelete = 0
+        ORDER BY createDate DESC
+        <isGreaterThan prepend=" " property="limit" compareValue="0">
+            limit #limit#
+        </isGreaterThan>
+    </select>
+
+    <select id="queryBrowsHistoryByUserIdWithOutProductId" resultClass="BrowsingHistory">
+        SELECT bh.id, bh.userId, bh.productId, bh.trackId, bh.createDate, bh.deleteDate
+        FROM BrowsingHistory bh inner join (SELECT MAX(id) id FROM BrowsingHistory WHERE userId = #userId#
+        <isGreaterThan prepend="and" property="productId" compareValue="0">
+            productId != #productId#
+        </isGreaterThan>
+        GROUP BY productId) bhi on bh.id = bhi.id
+        WHERE isDelete = 0
+        ORDER BY createDate DESC
+        <isGreaterThan prepend=" " property="limit" compareValue="0">
+            limit #limit#
+        </isGreaterThan>
+    </select>
+
+    <select id="queryRecentBrowsHistoryByUserId" resultClass="BrowsingHistory">
+        SELECT bh.id, bh.userId, bh.productId, bh.trackId, bh.createDate, bh.deleteDate
+        FROM BrowsingHistory bh inner join (
+            select max(id) id from BrowsingHistory where userId = #userId# and createDate >= DATE_SUB(now(), INTERVAL 1 month)
+            group by productId
+        ) bhi on bh.id = bhi.id
+        WHERE isDelete = 0
+        ORDER BY createDate DESC
+        <isGreaterThan prepend=" " property="limit" compareValue="0">
+            limit #limit#
+        </isGreaterThan>
+    </select>
+
+    <delete id="deleteBrowsHistoryById">
+        update browsinghistory set deleteDate = now(), isDelete = 1 where id = #id#
+    </delete>
+
+    <delete id="deleteBrowsHistoryByTrackIdAndProductId">
+        delete from BrowsingHistory where productId=#productId# and trackId=#trackId#
+    </delete>
+
+    <delete id="deleteBrowsHistoryByUserIdAndProductId">
+        delete from BrowsingHistory where userId=#userId# and productId=#productId#
+    </delete>
+
+    <delete id="deleteBrowsHistoryByUserId">
+        update BrowsingHistory set deleteDate = now(), isDelete = 1 where userId=#userId#
+    </delete>
+
+</sqlMap>

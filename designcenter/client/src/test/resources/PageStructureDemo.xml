@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page pageId="" type="" name="" shopId="">
+	<head>
+		<regions>
+			<region name="_fixedRegion">
+				<module id="1000" prototypeId="1" name="" type="common">
+					<param name="">value</param>
+				</module>
+			</region>
+			<region name="head_region">
+				<module id="1001" prototypeId="2" name="" type="template">
+					<param name="">value</param>
+				</module>
+			</region>
+		</regions>
+	</head>
+	<body>
+		<regions>
+			<region name="_fixedRegion">
+				<module id="1002" prototypeId="3" name="" type="template">
+					<param name="">value</param>
+				</module>
+			</region>
+			<region name="body_region">
+				<module id="1003" prototypeId="4" name="" type="template">
+					<param name="">value</param>
+				</module>
+			</region>
+		</regions>
+	</body>
+	<foot>
+		<regions>
+			<region name="_fixedRegion">
+				<module id="1004" prototypeId="5" name="" type="template">
+					<param name="">value</param>
+				</module>
+			</region>
+			<region name="foot_region">
+				<module id="1005" prototypeId="6" name="" type="template">
+					<param name="">value</param>
+				</module>
+			</region>
+		</regions>
+	</foot>
+</page>

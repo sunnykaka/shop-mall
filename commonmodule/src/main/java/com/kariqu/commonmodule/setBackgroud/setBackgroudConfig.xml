@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="pageBackgroundColor" dataType="String" formType="text">#f0e6e1</param>
+        <param name="pageBackgroundImg" dataType="String" formType="text">
+            http://assets.yijushang.com/images/special/bg.jpg
+        </param>
+        <param name="pageBackgroundLoop" dataType="String" formType="text">y</param>
+        <param name="pageBackgroundPadding" dataType="String" formType="text">595</param>
+    </params>
+</module>

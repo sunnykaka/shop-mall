@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>$!site_title</title>
+
+    <meta name="description" content="$!site_description">
+    <meta name="Keywords" content="$!site_keywords">
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css?$!urlBroker.getVersion()"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+
+#parse("/common/header.vm")
+
+<div class="mod-category e-wrapper clearfix">
+    <div class="category-main pull-left">
+        <ul>
+            #foreach($category in $!categoryTree)
+                <li class="items#if($!velocityCount == $!categoryTree.size()) last#end"">
+                <div class="category-name">
+                    <span class="icon icon-c$!{velocityCount}"></span>
+                    #foreach($!secondCategory in $!category.children)
+                        <a href="$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId', $!secondCategory.id).toString()" target="_blank">$!secondCategory.name</a>
+                    #end
+                    <span class="icon icon-arrow"></span>
+                </div>
+                <div class="items-main">#set($backImg = "categorybackConf" + $!velocityCount)
+                    <div class="pull-left subitems"#if($!_PARAM[$!backImg].trim() != '') data-img="$!_PARAM[$!backImg].trim()"#end>
+                        #foreach($!secondCategory in $!category.children)
+                            <dl>
+                                <dt><a href="$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId', $!secondCategory.id).toString()" target="_blank">$!secondCategory.name</a></dt>
+                                <dd>
+                                    #foreach($thirdCategory in $!secondCategory.children)
+                                        #set($url = $!urlBroker.getUrl('Search').addQueryData('cid', $!{thirdCategory.id}))
+                                        #if($!secondCategory.conditions)#set($url = $!url.addQueryData('pv', ${secondCategory.conditions}))#end
+                                        <a href="$!url.toString()"#if($!thirdCategory.settingsObject().hot) class="hot"#end target="_blank">$!thirdCategory.name</a>
+                                    #end
+                                </dd>
+                            </dl>
+                        #end
+                    </div>
+                    <div class="pull-right images">
+                        #set($count = 0) #set($cateImg = "categoryImgConf" + $!velocityCount)
+                        #foreach($categoryImg in $!_PARAM[$!cateImg].trim().split("\n"))
+                            #if($!categoryImg != '')
+                                #set($cimg = $!categoryImg.split(","))
+                                #if($!cimg.size() > 1)
+                                    #set($count = $!count + 1)
+                                    <div#if($!count < 3) class="first-row"#elseif($!count == 3) class="first-row last"#elseif($!count % 3 == 0) class="last"#end>
+                                        <a href="$!cimg[1].trim()"#if($!cimg.size() > 2) title="$!cimg[2].trim()"#end target="_blank">
+                                            <img data-original="$!cimg[0].trim()" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" class="lazy" /></a></div>
+                                #end
+                            #end
+                        #end
+                    </div>
+                </div>
+                </li>
+            #end
+        </ul>
+    </div>
+    <div class="slide pull-right">
+        <ul class="slide_box">
+            #foreach($banner in $!_PARAM['bannerList'].trim().split("~!"))
+                #if($!banner != '')
+                    #set($count = 0)
+                    <li#if($!velocityCount != 1) style="display: none"#end>
+                        #foreach($bannerImg in $!banner.trim().split("\n"))
+                            #if($!bannerImg != '')
+                                #set($bannerArr = $!bannerImg.trim().split(","))
+                                #if($!bannerArr.size() > 1)
+                                    #set($count = $!count + 1)
+                                    <div#if($!count < 3) class="first-row"#elseif($!count == 3) class="first-row last"#elseif($!count % 3 == 0) class="last"#end>
+                                        <a target="_blank" href="$!bannerArr[1].trim()"#if($!bannerArr.size() > 2) title="$!bannerArr[2].trim()"#end>
+                                            <img data-original="$!bannerArr[0].trim()" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" class="lazy"/></a></div>
+                                #end
+                            #end
+                        #end
+                    </li>
+                #end
+            #end
+        </ul>
+        <ul class="slide_list">
+            #if($!_PARAM['bannerList'].split("~!").size() > 1)
+                #foreach($banner in $!_PARAM['bannerList'].split("~!"))
+                    #if($!banner != '')
+                        <li#if($!velocityCount == 1) class="current"#end>$!velocityCount</li>
+                    #end
+                #end
+            #end
+        </ul>
+        <div class="slide_btn_prev"></div>
+        <div class="slide_btn_next"></div>
+    </div>
+</div>
+
+
+#parse("/common/footer.vm")
+</body>
+</html>

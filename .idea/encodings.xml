@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/accountcenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/boss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/buyersystem" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/categorycenter/client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/categorycenter/domain" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cmscenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/commonmodule" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/commons-utils" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/designcenter/biz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/designcenter/client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/designcenter/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/designcenter/deploy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/omcenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/productcenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/searchengine" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/searchengine/dump" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/searchengine/mmseg4j" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/searchengine/query" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/searchengine/update" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/securitysystem" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/session" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/suppliercenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/suppliersystem" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tradecenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/usercenter" charset="UTF-8" />
+  </component>
+</project>

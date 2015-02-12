@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <!-- 扫描web模块的bean -->
+    <context:component-scan base-package="com.kariqu.buyer.web">
+        <context:exclude-filter type="assignable" expression="com.kariqu.buyer.web.controller.error.ErrorHandlerController"/>
+        <context:exclude-filter type="assignable" expression="com.kariqu.buyer.web.controller.myinfo.BackGoodsController"/>
+    </context:component-scan>
+
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com.kariqu.tradesystem.web"/>
+
+    <bean class="com.kariqu.buyer.web.controller.myinfo.BackGoodsController">
+        <property name="spacePictureSpacePath" value="${spacePictureSpacePath}" />
+    </bean>
+    <bean class="com.kariqu.buyer.web.controller.error.ErrorHandlerController">
+        <property name="online" value="${online}"/>
+    </bean>
+
+    <bean class="com.kariqu.buyer.web.common.KariquExceptionResolver">
+        <property name="online" value="${online}"/>
+    </bean>
+
+    <bean class="com.kariqu.buyer.web.helper.TradeViewHelper"/>
+    <bean class="com.kariqu.buyer.web.helper.OrderSplitHelper"/>
+    <bean class="com.kariqu.buyer.web.common.HeadAndFoot" />
+
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/favicon.ico" location="/static/favicon.ico"/>
+    <mvc:resources mapping="/robots.txt" location="/static/robots.txt"/>
+    <mvc:resources mapping="/sitemap.xml" location="/static/sitemap.xml"/>
+    <mvc:resources mapping="/sitemap.xsl" location="/static/sitemap.xsl"/>
+    <mvc:resources mapping="/google34a4f70235202458.html" location="/static/google34a4f70235202458.html" />
+    <mvc:resources mapping="/jos_guid.txt" location="/static/jos_guid.txt"/>
+
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/boobee/"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="com.kariqu.buyer.web.common.KariquVelocityViewResolver">
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="requestContextAttribute" value="rc"/>
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="urlBrokerBean" ref="urlBrokerFactory"/>
+        <property name="productPictureResolver" ref="productPictureResolver"/>
+        <property name="online" value="${online}"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+        <property name="dateToolAttribute" value="dateTool"/>
+        <property name="numberToolAttribute" value="numTool"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="15728640"/>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.kariqu.buyer.web.common.RenderInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <task:executor id="executor" pool-size="5"/>
+
+    <task:scheduler id="scheduler" pool-size="10"/>
+
+    <task:annotation-driven executor="executor" scheduler="scheduler"/>
+
+</beans>

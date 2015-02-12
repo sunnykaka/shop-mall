@@ -1,0 +1,65 @@
+#set($contentCssUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/css/error.css?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css?$!urlBroker.getVersion()"])
+#set($contentJsUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/js/module/list.js"])
+#parse("head.vm")
+
+<div class="box_404">
+    <div class="box">
+        <div class="img_404">
+            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/error/404_1.jpg" alt="抱歉，出现 $!{flag} 错误了！" width="287" height="184" />
+        </div>
+        <div class="text_404">
+            <strong>抱歉，出现 $!{flag} 错误了!</strong>
+            <p>$!msg</p>
+            #if(!$!online)<p>$!ex</p>#end
+            <p>您可以返回 <a href="$!urlBroker.getUrl('BuyHome').toString()" class="link">易居尚</a> 首页找你感兴趣的内容。</p>
+        </div>
+    </div>
+</div>
+<div class="e-wrapper mod-searchResults clearfix">
+    <strong class="rec_title">为您推荐以下商品：</strong>
+    <ul class="goodsList clearfix">
+        #foreach($product in $!searchResult.products)
+            <li#if($!velocityCount % 4 == 0) class="last"#end>
+                <div class="item-box">
+                    <div class="pic">
+                        <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()" target="_blank">
+                            <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                 src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="274" height="274" /></a>
+                        #if($!product.pictureUrlList && $!product.pictureUrlList.size() > 1)
+                            <div class="smallImage-list">
+                                #foreach($productUrl in $!product.pictureUrlList)
+                                <div class="thumb">
+                                    <img class="lazy" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="40" height="40"
+                                     data-original="$!imgResolver.getMinSizeImgUrl($!productUrl)" data-src="$!imgResolver.getBigSizeImgUrl($!productUrl)"/>
+                                </div>
+                                #end
+                            </div>
+                        #end
+                    </div>
+                    <div class="em">$!product.desc</div>
+                    <div class="name">
+                        <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()">$!product.nameSkuDescJoinStr</a>
+                    </div>
+                    <div class="price">#set($productPrice = $!product.displayPrice)
+                        #if($!product.activityType)#set($productPrice = $!product.activityPrice)
+                            ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>#if($!product.activityPrice.split("[.]").size() > 1).$!{product.activityPrice.split("[.]")[1]}#end
+                            <span class="old">￥ $!{product.displayPrice}</span>
+                        #else
+                            ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>#if($!product.displayPrice.split("[.]").size() > 1).$!{product.displayPrice.split("[.]")[1]}#end
+                        #end
+                    </div>
+                    #if($product.isHotProduct())
+                        <i class="sell_ico sell_hot"></i>
+                    #elseif($product.isLimitProduct())
+                        <i class="sell_ico sell_limit"></i>
+                    #elseif($product.isNewProduct())
+                        <i class="sell_ico sell_new"></i>
+                    #end
+                </div>
+            </li>
+        #end
+    </ul>
+</div>
+
+#parse("foot.vm")

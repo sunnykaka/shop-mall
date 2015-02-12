@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sessionConfig>
+    <!-- 缺省配置 -->
+    <defaultConfig>
+        <domain>${domain}</domain>
+        <lifecycle>-1</lifecycle>
+        <storeType>cookie</storeType>
+    </defaultConfig>
+
+    <!-- 生命周期为非-1的配置不能是cache,-1表示浏览器关闭后失效 -->
+    <combineConfig>
+        <combine combineKey="buyuc1">
+            <domain>${domain}</domain>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <httponly>false</httponly>
+            <storeType>cookie</storeType>
+            <entries>
+                <entry name="lastVisitTime">
+                    <key>c12</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+            </entries>
+        </combine>
+    </combineConfig>
+    <entries>
+        <entry name="sessionId">
+            <key>bs</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <httponly>true</httponly>
+            <readonly>true</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="trackId">
+            <key>tr</key>
+            <path>/</path>
+            <lifecycle>311040000</lifecycle>
+            <httponly>true</httponly>
+            <readonly>true</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="login">
+            <key>buyc11</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <encrypt>true</encrypt>
+            <readonly>false</readonly>
+            <storeType>cache</storeType>
+        </entry>
+        <entry name="userId">
+            <key>buyxxx</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+            <storeType>cache</storeType>
+        </entry>
+        <entry name="token">
+            <key>buyttttttttt</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+            <storeType>cache</storeType>
+        </entry>
+        <entry name="loginUser">
+            <key>buyl</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cache</storeType>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="sessionBackUrl">
+            <key>buyba</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cache</storeType>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+
+        <entry name="securityCode">
+            <key>buysc</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cache</storeType>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="imageCode">
+            <key>buyic</key>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cache</storeType>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>false</encrypt>
+        </entry>
+        <entry name="autologinCode">
+            <key>buyatlgcdkrq</key>
+            <path>/</path>
+            <lifecycle>1209600</lifecycle>
+            <storeType>cookie</storeType>
+            <httponly>false</httponly>
+            <readonly>false</readonly>
+            <encrypt>false</encrypt>
+        </entry>
+        <entry name="autologinName">
+            <key>buyatlgnmkrq</key>
+            <path>/</path>
+            <lifecycle>1209600</lifecycle>
+            <storeType>cookie</storeType>
+            <httponly>false</httponly>
+            <readonly>false</readonly>
+            <encrypt>false</encrypt>
+        </entry>
+    </entries>
+    <globalinfo>
+        <!-- cookie 加密的key -->
+        <key name="blowfish_key">dhDMNcMlHx7DR0Y=</key>
+        <key name="key">value</key>
+        <key name="cacheAddress">${sessionAddress}</key>
+    </globalinfo>
+</sessionConfig>

@@ -1,0 +1,53 @@
+<!-- 网站底部 -->
+<div class="e-footer" id="e-footer">
+    <div class="help-follow">
+        <div class="e-wrapper clearfix">
+            <div class="help pull-left">
+                #foreach($category in $!categoryMap.entrySet())
+                <div class="items">
+                    <h4><span class="icon icon-help-$!velocityCount"></span>$!category.key</h4>
+                    <ul>
+                        #foreach($content in $!category.value)
+                        <li><a target="_blank" href="$!urlBroker.getUrl('BuyHome').toString()/help/$!{content.id}.html">$!content.title</a></li>
+                        #end
+                    </ul>
+                </div>
+                #end
+            </div>
+
+            <div class="follow pull-right">
+                <div class="icon weixin">关注易居尚官方微信</div>
+                <div class="icon weibo"><a href="http://weibo.com/yijushang" target="_blank">关注易居尚官方微博</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="e-wrapper">
+        <p class="text-center">
+            <a href="$!urlBroker.getUrl('BuyHome').toString()/help/33.html" target="_blank">关于我们</a> |
+            <a href="$!urlBroker.getUrl('BuyHome').toString()/help/19.html" target="_blank">帮助中心</a> |
+            <a href="http://www.kariqu-holdings.com/job.php" target="_blank">人才招聘</a> |
+            客服热线 400-9933-178
+        </p>
+        <p class="text-center">
+            <a href="http://www.kariqu-holdings.com/index.php" target="_blank">寰居控股</a> |
+            <a href="http://www.yixinshang.com/" target="_blank">易欣尚</a> |
+            <a href="http://www.kariqu-holdings.com/retail.php#yylgf" target="_blank">一英里工坊</a>
+        </p>
+        <p class="links text-center">
+            &copy; 2014 yijushang.com 版权所有 | <a href="http://www.miibeian.gov.cn/" target="_blank">粤ICP备12069686号-1</a>
+        </p>
+    </div>
+
+    <div class="authentication text-center">
+        <a target="_blank" href="http://cert.ebs.org.cn/1a34673d-a9c5-4f15-8be2-8fb371be050f.html">
+            <img src="/static/images/ebs_org.jpg" alt="众信验证" /></a>
+        <a target="_blank" href="https://cert.ebs.gov.cn/0376d0b2-bc25-4815-8350-1328720594a0">
+            <img src="/static/images/ebs_gov.jpg" alt="深圳市市场监督管理局企业主体身份公示" /></a>
+        <a target="_blank" href="http://www.sznet110.gov.cn/netalarm/index.jsp">
+            <img src="/static/images/sznet110.jpg" alt="深圳网络警察报警平台"/></a>
+        <a target="_blank" class="last" href="http://www.sznet110.gov.cn/webrecord/innernet/Welcome.jsp?bano=4403501900782">
+            <img src="/static/images/sznet110_2.jpg" alt="公共信息网络安全警察"/></a>
+    </div>
+</div>
+<!-- 网站底部 END -->

@@ -1,0 +1,52 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        === <span style="color: #ff0000;">搜索页和列表页(三级页)是用的同一个实现!</span> 下面是<span style="color: #008000;">类目相关的参数设定</span> ===<br>
+        类目商品超过多少个时才显示热销推荐:<br>
+        <input type="text" name="showHotProductCount" class="long" value="$!showHotProductCount"/>
+        <br><br>
+        是否将列表页所在的类目放在最前面(y/n):<br>
+        <input type="text" name="categoryListSort" class="long" value="$!categoryListSort"/>
+        <br><br>
+        类目商品每页显示商品的个数:<br>
+        <input type="text" name="pageSize" class="long" value="$!pageSize"/>
+        <br>
+        === 类目相关的参数设定结束 ===<br>
+        <input type="submit"/><br><br>
+
+        === <span style="color: #008000;">公共参数设定</span> ===<br>
+        商品显示的最多图片数量:<br>
+        <input type="text" name="imgCount" class="long" value="$!imgCount"/>
+        <br>
+        === 公共参数设定结束 ===<br>
+        <input type="submit"/><br><br>
+
+        === <span style="color: #008000;">搜索相关的参数设定</span> ===<br>
+        关键字搜索时每页显示商品的个数:<br>
+        <input type="text" name="keyPageSize" class="long" value="$!keyPageSize"/>
+        <br><br>
+        关键字搜索时统计 pidvid 的个数:<br>
+        <input type="text" name="pidvidCount" class="long" value="$!pidvidCount"/>
+        <br><br>
+        关键字搜索时统计后台类目的个数:<br>
+        <input type="text" name="leafIdCount" class="long" value="$!leafIdCount"/>
+        <br><br>
+        #*关键字搜索时是否高亮关键字(y/n), 大小写忽略:<br>
+        <input type="text" name="highlight" class="long" value="$!highlight"/>
+        <br><br>*#
+        关键字搜索时筛选属性的最大个数:<br>
+        <input type="text" name="propertyMaxNumber" class="long" value="$!propertyMaxNumber"/>
+        <br><br>
+        关键字搜索时筛选属性值的最大个数:<br>
+        <input type="text" name="valueMaxNumber" class="long" value="$!valueMaxNumber"/>
+        <br><br>
+        关键字搜索时强制要求出现(若有)的属性:<br>
+        <input type="text" name="propertyArrayName" class="long" value="$!propertyArrayName"/>
+        <br>
+        === 搜索相关的参数设定结束 ===<br>
+        <input type="submit"/>
+    </form>
+</div>

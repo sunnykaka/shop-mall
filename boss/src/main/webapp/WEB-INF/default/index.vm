@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>易居尚运营支撑系统</title>
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/extjs/resources/css/ext-all.css"/>
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/extjs/ux/css/ux-all.css"/>
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/static/css/icon.css?$!urlBroker.getVersion()"/>
+
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/static/css/app.css?$!urlBroker.getVersion()"/>
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/static/css/desktop.css?$!urlBroker.getVersion()"/>
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/static/css/data-view.css?$!urlBroker.getVersion()"/>
+
+<script type="text/javascript" src="$!{rc.contextPath}/extjs/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/extjs/ext-all-debug.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/extjs/ux/ux-all.js"></script>
+
+<link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/extjs/ux/fileuploadfield/css/fileuploadfield.css"/>
+<script type="text/javascript" src="$!{rc.contextPath}/extjs/ux/fileuploadfield/FileUploadField.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/extjs/ux/LovCombo.js"></script>
+
+<script type="text/javascript">
+window.BossHome = '$!urlBroker.getUrl('BossDomain').toString()';
+window.BuyHome = '$!urlBroker.getUrl('BuyHome').toString()';
+window.designUrl = '$!urlBroker.getUrl('DesignHome').toString()';
+var Desktop = {};
+</script>
+
+<link rel="stylesheet" href="$!{rc.contextPath}/static/kindeditor/themes/default/default.css"/>
+<link rel="stylesheet" href="$!{rc.contextPath}/static/kindeditor/plugins/code/prettify.css"/>
+
+<script charset="utf-8" src="$!{rc.contextPath}/static/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="$!{rc.contextPath}/static/kindeditor/lang/zh_CN.js"></script>
+<script charset="utf-8" src="$!{rc.contextPath}/static/kindeditor/plugins/code/prettify.js"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/extjs/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/desktop/StartMenu.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/desktop/TaskBar.js"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/desktop/Desktop.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/desktop/App.js"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/desktop/Module.js"></script>
+<!-- framework -->
+
+<!-- application -->
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/public/PublicCode.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/public/js/ZeroClipboard.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/public/CopyButton.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/public/FormBuilder.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/public/Seo.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/model/Model.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/public/ResourceDefine.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/category/CategoryCommon.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/customer/ExpressCompany.js?$!urlBroker.getVersion()"></script>
+
+<!-- product -->
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/Picture.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/Title.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/StockPrice.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/ExtKingEditor.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/ProductDesc.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/Recommend.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/ProductSelector.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/ProductManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/PictureSpace.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/AttentionInfo.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/LimitTime.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/MealSet.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/js/UploadPanel.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/Space.js?$!urlBroker.getVersion()"></script>
+
+<!-- ProductCategory -->
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/category/CategoryManager.js?$!urlBroker.getVersion()"></script>
+
+<!-- NavigateCategory -->
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/category/NavigateCategoryManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/category/Category.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/category/PropertyValue.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/category/AggregationPropertyValue.js?$!urlBroker.getVersion()"></script>
+
+<!-- Account -->
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/account/AccountManager.js?$!urlBroker.getVersion()"></script>
+<!-- 模块及原型 -->
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/module/CommonModuleTab.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/module/PagePrototype.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/module/ModuleManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/order/OrderManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/customer/SupplierManager.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/design/Design.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/page/ShopPage.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/cms/Cms.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/consultation/Consultation.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/LogManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/user/UserManager.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/user/Valuation.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/FeedbackManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/Surveys.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/Email.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/finance/Finance.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/finance/BackGoods.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/coupon/CouponManager.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/sms/SmsManager.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/Const.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/Rotary.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/om/Trade.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!{rc.contextPath}/static/js/product/ProductExchange.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="${rc.contextPath}/static/js/program/ProgramManager.js?$urlBroker.getVersion()"></script>
+
+<script type="text/javascript">
+Ext.Notify = function () {
+    var msgCt;
+
+    function createBox(t, s) {
+        return ['<div class="msg">',
+            '<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>',
+            '<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc"><h3>', t, '</h3>', s, '</div></div></div>',
+            '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>',
+            '</div>'].join('');
+    }
+
+    return {
+        msg: function (title, format) {
+            if (!msgCt) {
+                msgCt = Ext.DomHelper.insertFirst(document.body, {id: 'msg-div', style: "right: 5px; top: 200px;cursor:pointer"}, true);
+            }
+            var s = String.format.apply(String, Array.prototype.slice.call(arguments, 1));
+            var m = Ext.DomHelper.append(msgCt, {html: createBox(title, s)}, true);
+            m.slideIn('t').pause(5).ghost("t", {remove: true});
+        }
+    };
+}();
+#*
+#if($!functionSet.contains('Order'))
+Ext.TaskMgr.start({
+    run: function () {
+
+        doAjax('order/confirm/count', function (obj) {
+            var orderCount = obj.data.orderCount;
+            if (orderCount > 0) {
+                Ext.Notify.msg("通知", "你有" + orderCount + "个订单需要确认");
+            }
+        });
+
+    },
+    interval: 20000
+});
+#end
+
+#if($!functionSet.contains('BackGoods'))
+Ext.TaskMgr.start({
+    run: function () {
+
+        doAjax('order/backOrder/count', function (obj) {
+            var orderCount = obj.data.orderCount;
+            if (orderCount > 0) {
+                Ext.Notify.msg("通知", "你有" + orderCount + "个退货单需要处理");
+            }
+        });
+
+    },
+    interval: 20000
+});
+#end
+
+#if($!functionSet.contains('Finance'))
+Ext.TaskMgr.start({
+    run: function () {
+
+        doAjax('finance/redfund/count', function (obj) {
+            var orderCount = obj.data.orderCount;
+            if (orderCount > 0) {
+                Ext.Notify.msg("通知", "你有" + orderCount + "个退款单需要处理");
+            }
+        });
+
+    },
+    interval: 20000
+});
+#end*#
+
+MyDesktop = new Ext.app.App({
+
+    init: function () {
+        Ext.QuickTips.init();
+    },
+
+    getModules: function () {
+        var modules = [];
+        #foreach($func in $!functionSet)if (Desktop.$!{func}Window != undefined) {
+            modules.push(new Desktop.$!{func}Window());
+            var text = EJS.FunctionSet['$!{func}'];
+            Ext.DomHelper.append('x-shortcuts', {
+                id: '$!{func}-win-shortcut',
+                tag: 'dt',
+                html: String.format('<img src="$!{rc.contextPath}/static/images/s.gif"/><div>{0}</div>', text)
+            });
+        }
+        #end
+        return modules;
+    },
+
+    getStartConfig: function () {
+        return {
+            title: '易居尚运营支撑系统',
+            iconCls: 'user',
+            toolItems: [
+                {
+                    text: '修改密码',
+                    iconCls: 'settings',
+                    handler: function () {
+                        Ext.apply(Ext.form.VTypes, {
+
+                            password: function (val, field) {
+                                //如果是第二个密码框
+                                if (field.initialPassField) {
+                                    var pwd = Ext.getCmp(field.initialPassField);
+                                    return (val == pwd.getValue());//比较值
+                                }
+                                return true;
+                            },
+
+                            passwordText: '两次输入不一致' //提示文本
+                        });
+
+                        var ChangePassword = new Ext.form.FormPanel({
+                            bodyStyle: 'padding:15px;background:transparent',
+                            border: false,
+                            autoHeight: true,
+                            url: 'account/changePassword',
+                            buttonAlign: 'center',
+                            items: [
+                                {
+
+                                    xtype: 'textfield',
+                                    fieldLabel: '旧密码',
+                                    name: 'oldPassword',
+                                    inputType: 'password',
+                                    allowBlank: false
+                                },
+                                {
+
+                                    xtype: 'textfield',
+                                    fieldLabel: '新密码',
+                                    name: 'newPassword',
+                                    minLength: 6,
+                                    minLengthText: "密码长度最少6个字符",
+                                    allowBlank: false,
+                                    inputType: 'password',
+                                    id: 'one'
+                                },
+                                {
+
+                                    xtype: 'textfield',
+                                    fieldLabel: '重复一次',
+                                    allowBlank: false,
+                                    inputType: 'password',
+                                    minLength: 6,
+                                    minLengthText: "密码长度最少6个字符",
+                                    vtype: 'password',
+                                    initialPassField: 'one'
+                                }
+                            ],
+                            buttons: [
+                                {
+                                    text: '修改',
+                                    handler: function () {
+                                        ChangePassword.getForm().submit({
+                                            success: function (form, action) {
+                                                win.close();
+                                                Ext.Msg.alert("信息", "修改成功");
+                                            },
+                                            failure: function (form, action) {
+                                                var result = Ext.util.JSON.decode(action.response.responseText);
+                                                Ext.Msg.alert("错误", result.msg);
+                                            }
+
+                                        });
+                                    }
+                                },
+                                {
+                                    text: '取消',
+                                    handler: function () {
+                                        win.close();
+                                    }
+                                }
+                            ]
+                        });
+
+                        var win = new Ext.Window({
+                            title: '修改密码',
+                            layout: 'fit',
+                            width: 300,
+                            autoHeight: true,
+                            items: ChangePassword
+                        });
+
+                        win.show();
+                    },
+                    scope: this
+                },
+                '-',
+                {
+                    text: '退出系统',
+                    iconCls: 'logout',
+                    handler: function () {
+                        window.location.href = '$!urlBroker.getUrl('LoginOut').toString()';
+                    },
+                    scope: this
+                }
+            ]
+        };
+    }
+});
+</script>
+
+
+</head>
+<body scroll="no">
+<div style="position: absolute;left:45%;top:40%;font-size: 30px;font-weight: 700;border: solid 2px #000">欢迎你:$!{account.userName}</div>
+<div id="x-desktop">
+    <dl id="x-shortcuts"></dl>
+</div>
+
+<div id="ux-taskbar">
+    <div id="ux-taskbar-start"></div>
+    <div id="ux-taskbuttons-panel"></div>
+    <div class="x-clear"></div>
+</div>
+</body>
+</html>

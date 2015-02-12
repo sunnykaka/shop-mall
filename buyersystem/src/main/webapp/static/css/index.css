@@ -1,0 +1,154 @@
+
+/* 品牌推荐 */
+.brand_recom{
+	position: relative;
+}
+.brand_recom_box{
+	
+}
+.brand_recom_box_top,
+.brand_recom_box_content,
+.brand_recom_box_bot{
+	background:url("http://www.boobee.me/stylesimg/cate_box_bg_ie6.jpg") repeat-y -1005px 0;
+}
+.brand_recom_box_top{
+	height: 25px;
+	overflow: hidden;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+
+}
+.brand_recom_box_bot{
+	height: 35px;
+	background-position: 0 -25px;
+	background-repeat: no-repeat;
+
+}
+.brand_recom_box_content{
+	padding:8px 12px 2px;
+}
+
+.recom_list{
+
+}
+
+.recom_list dt{
+	float: left;
+	background: url("http://www.boobee.me/stylesimg/cate_dot_bg.gif") repeat-x bottom;
+	height: 178px;
+	padding-bottom: 1px;
+	width: 170px;
+}
+
+.recom_list dt a{
+	display:block;
+	width: 170px;
+	height: 178px;
+	zoom:1;
+	_float: left;
+	_height: 182px;
+	background: url("http://www.boobee.me/stylesimg/cate_bg.png") no-repeat 0 0 #f8f6f0;
+	_background: url("http://www.boobee.me/stylesimg/cate_bg.gif") no-repeat 0 0 #f8f6f0;
+   	color: #bca490;
+	text-align: center;
+	cursor: pointer;
+}
+
+.recom_list dt h4{
+	height: 24px;
+	line-height: 24px;
+	padding-top: 90px;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.recom_list dt p{
+	line-height: 20px;
+	height: 20px;
+}
+
+.recom_list dt a:hover{
+	background-color: #ebe3d1;
+	color: #7a3918;
+	text-decoration: none;
+}
+
+.recom_list dt a:hover p{
+	text-decoration:underline;
+}
+
+.recom_list dt a.item1{
+	background-position: 2px 0;
+}
+
+.recom_list dt a.item2{
+	background-position: -170px 0;
+}
+
+.recom_list dt a.item3{
+	background-position: -340px 0;
+}
+
+.recom_list dt a.item4{
+	background-position: -510px 0;
+}
+
+.recom_list dt a.item5{
+	background-position: -672px 0;
+}
+
+.recom_list dt a.item6{
+	background-position: -850px 0;
+}
+
+.recom_list dt a.item7{
+	background-position: -1020px 0;
+}
+
+.recom_list dd{
+	float: left;
+	width: 200px;
+	height: 178px;
+	border-right: 1px solid #ded5ce;
+	border-bottom: 1px solid #ded5ce;
+	position: relative;
+}
+
+.recom_list dd a{
+	display: block;
+	width: 200px;
+	height: 178px;
+}
+
+.recom_list dd a:hover{
+	text-decoration:none;
+}
+
+.recom_list dd img{
+	width: 200px;
+	height: 178px;
+}
+
+.recom_list dd .info{
+	position: absolute;
+	padding-left: 15px;
+	left: 0;
+	top:132px;
+	width: 170px;
+	overflow-x: hidden;
+}
+
+.recom_list dd p{
+	height: 18px;
+	line-height: 18px;
+	overflow: hidden;
+}
+
+.recom_list dd.last{
+	border-right: 0;
+}
+
+/* 底部横幅 */
+.bot_banner{
+	padding-bottom: 20px;
+}

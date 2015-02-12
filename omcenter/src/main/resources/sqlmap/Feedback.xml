@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="queryFeedbackByPage" resultClass="com.kariqu.om.domain.Feedback">
+        select * from BugInfo order by id desc limit #start#,#limit#
+    </select>
+
+    <select id="selectCountForFeedback" resultClass="int">
+        select count(1) from BugInfo
+    </select>
+
+    <select id="selectFeedbackById" resultClass="com.kariqu.om.domain.Feedback">
+        select * from BugInfo where id = #id#
+    </select>
+
+</sqlMap>

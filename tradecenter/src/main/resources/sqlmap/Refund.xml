@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="refundTrade.selector">
+        select id, batchNo, successNum, realRefund, createTime, updateTime
+        from refundTrade
+    </sql>
+
+    <insert id="insertRefundTradeOrder">
+        insert into refundTradeOrder
+        (batchNo,backGoodsId,outerTradeNo,refund,createTime)
+        values
+        (#batchNo#,#backGoodsId#,#outerTradeNo#,#refund#,now())
+    </insert>
+
+    <select id="queryRefundTradeAllInfo" resultClass="com.kariqu.tradecenter.domain.RefundTrade">
+        <include refid="refundTrade.selector"/>
+        where isDelete = 0
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ createTime >= #startDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ createTime <= #endDate# ]]>
+        </isNotEmpty>
+    </select>
+
+    <select id="queryRefundTradeOrderByBatchNo" resultClass="com.kariqu.tradecenter.domain.RefundTradeOrder">
+        select batchNo,backGoodsId,outerTradeNo,refund,createTime
+        from refundTradeOrder
+        where batchNo = #batchNo#
+    </select>
+
+
+    <insert id="insertRefundTrade">
+        insert into refundTrade
+        (batchNo,realRefund,successNum,createTime)
+        values
+        (#batchNo#,#realRefund#,#successNum#,now())
+    </insert>
+
+    <update id="updateRefundTradeOrderSuccess">
+        update refundTradeOrder set success = 1,realRefund=#realRefund#,updateTime=now()
+        where outerTradeNo = #outerTradeNo# and batchNo=#batchNo# and success=0
+    </update>
+
+    <select id="queryRefundTradeOrderByBackGoodsId" resultClass="com.kariqu.tradecenter.domain.RefundTradeOrder">
+        select * from refundTradeOrder where backGoodsId = #backGoodsId#
+    </select>
+
+    <select id="getBackIdByBatchNoAndTradeNo" resultClass="Long">
+        select backGoodsId from refundTradeOrder where outerTradeNo = #outerTradeNo# and batchNo=#batchNo#
+    </select>
+
+    <select id="getBackIdByBatchNo" resultClass="Long">
+        select backGoodsId from refundTradeOrder where batchNo=#batchNo#
+    </select>
+
+    <select id="selectRefundTradeOrderCountByBackGoodsId" resultClass="Integer">
+        select count(1) from refundTradeOrder where backGoodsId = #backGoodsId#
+    </select>
+
+</sqlMap>

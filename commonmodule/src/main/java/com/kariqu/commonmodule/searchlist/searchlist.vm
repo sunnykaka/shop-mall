@@ -1,0 +1,464 @@
+<!-- 当前位置 -->
+<div class="common-position">
+    <div class="e-wrapper">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        #if($!categorySearch)
+            #* 从类目过来的 *#
+            #foreach($current in $!currentCategoryPoint)
+                <span>-</span>
+                #if($!velocityCount == 1)<a href="$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId',
+                    $!current.id).toString()">$!current.name</a>#{else}$!current.name#{end}
+            #end
+        #else
+            #* 从搜索过来的 *#
+            <span>-</span>
+            【$!{keyword}】
+        #end
+    </div>
+</div>
+<!-- /当前位置 -->
+
+#if($!noSearchResult)
+    <div class="e-wrapper mod-searchResults clearfix">
+        <div class="no-results">抱歉，没有找到“<strong class="keyword">$!keyword</strong>”的搜索结果或没有此类目，为您推荐以下商品：</div>
+
+        <ul class="goodsList clearfix">
+            #foreach($product in $!productPage.result)
+                <li#if($!velocityCount % 4 == 0) class="last"#end>
+                    <div class="item-box">
+                        <div class="pic">
+                            <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()" target="_blank">
+                                <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                     src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="274" height="274" /></a>
+                            #if($!product.pictureUrlList && $!product.pictureUrlList.size() > 1)
+                                <div class="smallImage-list">
+                                    #foreach($productUrl in $!product.pictureUrlList)
+                                    <div class="thumb">
+                                        <img class="lazy" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="40" height="40"
+                                             data-original="$!imgResolver.getMinSizeImgUrl($!productUrl)" data-src="$!imgResolver.getBigSizeImgUrl($!productUrl)"/>
+                                    </div>
+                                    #end
+                                </div>
+                            #end
+                        </div>
+                        <div class="em">$!product.desc</div>
+                        <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                        <div class="price">#set($productPrice = $!product.displayPrice)
+                            #if($!product.activityType)#set($productPrice = $!product.activityPrice)
+                                ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                <span class="old">¥ $!{product.displayPrice}</span>
+                            #else
+                                ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                            #end
+                        </div>
+                        <a href="javascript:;" class="btn-compare" img="$!imgResolver.getMinSizeImgUrl($!product.pictureUrl)"
+                           pid="$!product.id" price="$!productPrice" pname="$!product.nameSkuDescJoinStr">对比</a>
+                        #if($product.isHotProduct())
+                            <i class="sell_ico sell_hot"></i>
+                        #elseif($product.isLimitProduct())
+                            <i class="sell_ico sell_limit"></i>
+                        #elseif($product.isNewProduct())
+                            <i class="sell_ico sell_new"></i>
+                        #end
+                    </div>
+                </li>
+            #end
+        </ul>
+    </div>
+#elseif($!categorySearch)
+    <div class="e-wrapper mod-goodsList clearfix">
+        <!-- sidebar -->
+        <div class="sidebar pull-left">
+            <div class="category">
+                #foreach($category in $!categoryList)
+                    <h3#if($!category.open) class="open"#end>
+                        <a href="javascript:;">$!category.name</a>
+                        <a class="icon" #if($!category.open) href="$!urlBroker.getUrl('Search').addQueryData('cid', $!category.id).toString()"#end data-href="$!urlBroker.getUrl('Search').addQueryData('cid', $!category.id).toString()">全部 &gt;</a>
+                    </h3>
+                    #*<h3#if($!category.open) class="open"#end><a href="javascript:;">$!category.name<span class="icon">&nbsp;</span></a></h3>*#
+                    <ul class="#if(!$!category.open)hidden #{end}clearfix">
+                        #foreach($children in $!category.children)
+                            #set($downIndex = $!category.children.size() - 1) #set($class = "")
+                            #if($!velocityCount == $!category.children.size() && $!velocityCount % 2 == 0)
+                                #if($!children.id == $!cid)#set($class = ' class="current last-row even"')#{else}#set($class = ' class="last-row even"')#end
+                            #elseif(($!velocityCount == $!category.children.size() && $!velocityCount % 2 == 1) || ($!velocityCount == $!downIndex && $!velocityCount % 2 == 1))
+                                #if($!children.id == $!cid)#set($class = ' class="current last-row"')#{else}#set($class = ' class="last-row"')#end
+                            #elseif($!velocityCount % 2 == 0)
+                                #if($!children.id == $!cid)#set($class = ' class="current even"')#{else}#set($class = ' class="even"')#end
+                            #elseif($!children.id == $!cid)
+                                #set($class = ' class="current"')
+                            #end
+                            <li$!{class}>
+                                <div class="item-box">
+                                    #set($thirdUrl = $!urlBroker.getUrl('Search').addQueryData('cid', $!children.id).toString())
+                                    <div class="pic"><a href="$!thirdUrl"><img src="$!children.settingsObject().logoImg" width="50" height="50" alt="$!children.name"/></a></div>
+                                    <div class="name"><a href="$!thirdUrl">$!children.name</a></div>
+                                </div>
+                            </li>
+                        #end
+                    </ul>
+                #end
+            </div>
+            <div class="clearfix">
+                #foreach($ad in $!parentCategory.settingsObject().adImg)
+                    #if($!ad != '') #set($index = $!velocityCount - 1)
+                        <a target="_blank" href="$!parentCategory.settingsObject().mainImgLink.get($!index)">
+                            <img class="lazy" data-original="$!ad" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="220"></a>
+                    #end
+                #end
+            </div>
+        </div>
+        <!-- /sidebar -->
+
+        <!-- main -->
+        <div class="main pull-right">
+            #if($!hotProductList && $!hotProductList.size() > 0)
+                <div class="hot-recommend">
+                    <h3>热销推荐</h3>
+                    <ul class="clearfix">
+                        #foreach($product in $!hotProductList)
+                            <li>
+                                <div class="aside">
+                                    <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                                        $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                                    <div class="em">$!product.desc</div>
+                                    <div class="price">#set($productPrice = $!product.displayPrice)
+                                        #if($!product.activityType)#set($productPrice = $!product.activityPrice)
+                                            ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                            <span class="old">¥ $!{product.displayPrice}</span>
+                                        #else
+                                            ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                                        #end
+                                    </div>
+                                </div>
+                                <div class="animate-bounceInRight pic">
+                                    <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()">
+                                        <img class="lazy" data-original="$!imgResolver.getMiddleSizeImgUrl($!product.pictureUrl)"
+                                             src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo160.gif" height="150" width="150" /></a>
+                                </div>
+                                #*<a href="javascript:;" class="btn-compare" img="$!imgResolver.getMinSizeImgUrl($!product.pictureUrl)"
+                                   pid="$!product.id" price="$!productPrice" pname="$!product.name">对比</a>*#
+                            </li>
+                        #end
+                    </ul>
+                </div>
+            #end
+
+            <div class="filter">
+                #foreach($display in $!displayPropertyAndValue.searchFilterMap.entrySet())
+                    <div class="filter-item">
+                        <div class="filter-title">$!display.key.name：</div>
+                        <div class="filter-content">
+                            <dl>
+                                #set($displayUrl = $!urlBroker.getUrl('Search').addQueryData('cid', $!cid).toString())
+                                #if(!$!propertyValueHolder.emptyPV($!display.key.id))
+                                    #set($displayUrl = $!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                        $!propertyValueHolder.toNotLimitedString($!display.key.id)).toString())
+                                #end
+                                <dt><a href="$!displayUrl"#if(!$!propertyValueHolder.containsPid($!display.key.id)) class="current"#end>不限</a></dt>
+                                <dd>
+                                    #foreach($valueInfo in $!display.value)
+                                        #set($value = $!propertyValueHolder.toString($!valueInfo.pidvid))
+                                        #set($class = "")
+                                        #if($!propertyValueHolder.contains($!valueInfo.pidvid))
+                                            #set($value = $!propertyValueHolder.toStringWithOutSelf($!valueInfo.pidvid))
+                                            #set($class = ' class="current"')
+                                        #end
+                                        <a$!{class} href="$!urlBroker.getUrl('Search').addQueryData('cid',
+                                            $!cid).addQueryData('pv', $!value).toString()">$!valueInfo.value</a>
+                                        #if($!velocityCount != $!display.value.size())|#end
+                                    #end
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                #end
+            </div>
+
+            <div class="sort">
+                <div class="pull-left sort-cate">
+                    <dl>
+                        <dt>排序：</dt>
+                        <dd>
+                            <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                $!productQuery.pv).toString()" class="default#if(!($!sort && $!sort != '')) current#end">默认</a>
+
+                            #set($orderType = 'asc')#if($!order && $!order == 'asc')#set($orderType = 'desc')#end
+                            <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                $!productQuery.pv).addQueryData('sort', 'sell').addQueryData('order',
+                                $!orderType).toString()" class="#if($!sort == 'sell')up current#{else}down#end">销量<i></i></a>
+                            <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                $!productQuery.pv).addQueryData('sort', 'price').addQueryData('order',
+                                $!orderType).toString()" class="#if($!sort == 'price')up current#{else}down#end">价格<i></i></a>
+                            <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                $!productQuery.pv).addQueryData('sort', 'valuation').addQueryData('order',
+                                $!orderType).toString()" class="#if($!sort == 'valuation')up current#{else}down#end">评价<i></i></a>
+                            <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                $!productQuery.pv).addQueryData('sort', 'time').addQueryData('order',
+                                $!orderType).toString()" class="#if($!sort == 'time')up current#{else}down#end">上架时间<i></i></a>
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="pull-right sort-page">
+                    <span>共 <strong>$!productPage.totalCount</strong> 个商品</span>
+                    <a href="#if($!productPage.hasPre)$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                        $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order', $!order).addQueryData('page',
+                        $!productPage.prePage).toString()#{else}javascript:;#end" class="prev" title="上一页">&lt;</a>
+                    <span><strong>$!productPage.pageNo</strong>/$!productPage.totalPages</span>
+                    <a href="#if($!productPage.hasNext)$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                        $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order', $!order).addQueryData('page',
+                        $!productPage.nextPage).toString()#{else}javascript:;#end" class="next" title="下一页">&gt;</a>
+                </div>
+            </div>
+
+            #if($!productPage.result.size() > 0)
+            <ul class="goodsList clearfix">
+                #foreach($product in $!productPage.result)
+                    <li#if($!velocityCount % 3 == 0) class="last"#end>
+                        <div class="item-box">
+                            <div class="pic">
+                                <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()" target="_blank">
+                                    <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                         src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="296" height="296" /></a>
+                                #if($!product.pictureUrlList && $!product.pictureUrlList.size() > 1)
+                                    <div class="smallImage-list">
+                                        #foreach($productUrl in $!product.pictureUrlList)
+                                        <div class="thumb">
+                                            <img class="lazy" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="40" height="40"
+                                                 data-original="$!imgResolver.getMinSizeImgUrl($!productUrl)" data-src="$!imgResolver.getBigSizeImgUrl($!productUrl)"/>
+                                        </div>
+                                        #end
+                                    </div>
+                                #end
+                            </div>
+                            <div class="em">$!product.desc</div>
+                            <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                                $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                            <div class="price">#set($productPrice = $!product.displayPrice)
+                                #if($!product.activityType)#set($productPrice = $!product.activityPrice)
+                                    ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                    <span class="old">¥ $!{product.displayPrice}</span>
+                                #else
+                                    ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                                #end
+                            </div>
+                            <a href="javascript:;" class="btn-compare" img="$!imgResolver.getMinSizeImgUrl($!product.pictureUrl)"
+                               pid="$!product.id" price="$!productPrice" pname="$!product.nameSkuDescJoinStr">对比</a>
+                            #if($product.isHotProduct())
+                                <i class="sell_ico sell_hot"></i>
+                            #elseif($product.isLimitProduct())
+                                <i class="sell_ico sell_limit"></i>
+                            #elseif($product.isNewProduct())
+                                <i class="sell_ico sell_new"></i>
+                            #end
+                        </div>
+                    </li>
+                #end
+            </ul>
+
+            #if($!{productPage.totalPages} > 1)
+            <div class="e-pagebar">
+                <form method="get" action="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                    $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order', $!order).toString()">
+                    <input type=hidden id="maxPageNumber" value="$!productPage.totalPages"/>
+                    #if($!productPage.hasPre)
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order',
+                            $!order).addQueryData('page', $!productPage.prePage).toString()" class="page-start">上一页</a>
+                    #else
+                        <span class="page-start">上一页</span>
+                    #end
+                    #foreach($pageIndex in $cssPageBar.linkNums)
+                        #if($!pageIndex == -1)
+                            <span class="number">...</span>
+                        #elseif($!pageIndex == $!productPage.pageNo)
+                            <a href="javascript:void(0);" class="number current"><span>$!pageIndex</span></a>
+                        #else
+                            <a href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                                $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order',
+                                $!order).addQueryData('page', $!pageIndex).toString()" class="number"><span>$!pageIndex</span></a>
+                        #end
+                    #end
+                    #if($!productPage.hasNext)
+                        <a class="page-next" href="$!urlBroker.getUrl('Search').addQueryData('cid', $!cid).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order',
+                            $!order).addQueryData('page', $!productPage.nextPage).toString()">下一页</a>
+                    #else
+                        <span class="page-next">下一页</span>
+                    #end
+
+                    <span>跳转至</span>
+                    <input class="text" name="jumpto" size="3" value="$!productPage.pageNo" type="text" id="PageNumber"
+                           onkeyup="value=value.replace(/[^\d]/g,'')"
+                           onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+                    <span>/ $!{productPage.totalPages} 页</span>
+                    <button type="submit" class="btn">确定</button>
+                </form>
+            </div>
+            #end
+            #else
+                <div class="no-results">抱歉, 易居尚商城暂无对应的商品.</div>
+            #end
+        </div>
+        <!-- /main -->
+    </div>
+#else
+    <div class="e-wrapper mod-searchResults clearfix">
+        <div class="filter">
+            #foreach($display in $!statsPv.searchFilterMap.entrySet())
+                <div class="filter-item">
+                    <div class="filter-title">$!display.key.name：</div>
+                    <div class="filter-content">
+                        <dl>
+                            #set($displayUrl = $!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).toString())
+                            #if(!$!propertyValueHolder.emptyPV($!display.key.id))
+                                #set($displayUrl = $!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                                    $!propertyValueHolder.toNotLimitedString($!display.key.id)).toString())
+                            #end
+                            <dt><a href="$!displayUrl"#if(!$!propertyValueHolder.containsPid($!display.key.id)) class="current"#end>不限</a></dt>
+                            <dd>
+                                #foreach($valueInfo in $!display.value)
+                                    #set($value = $!propertyValueHolder.toString($!valueInfo.pidvid))
+                                    #set($class = "")
+                                    #if($!propertyValueHolder.contains($!valueInfo.pidvid))
+                                        #set($value = $!propertyValueHolder.toStringWithOutSelf($!valueInfo.pidvid))
+                                        #set($class = ' class="current"')
+                                    #end
+                                    <a$!{class} href="$!urlBroker.getUrl('Search').addQueryData('keyword',
+                                        $!keyword).addQueryData('pv', $!value).toString()">$!valueInfo.value</a>
+                                    #if($!velocityCount != $!display.value.size())|#end
+                                #end
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            #end
+        </div>
+
+        <div class="sort">
+            <div class="pull-left sort-cate">
+                <dl>
+                    <dt>排序：</dt>
+                    <dd>
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                            $!productQuery.pv).toString()" class="default#if(!($!sort && $!sort != '')) current#end">默认</a>
+
+                        #set($orderType = 'asc')#if($!order && $!order == 'asc')#set($orderType = 'desc')#end
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', 'sell').addQueryData('order',
+                            $!orderType).toString()" class="#if($!sort == 'sell')up current#{else}down#end">销量<i></i></a>
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', 'price').addQueryData('order',
+                            $!orderType).toString()" class="#if($!sort == 'price')up current#{else}down#end">价格<i></i></a>
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', 'valuation').addQueryData('order',
+                            $!orderType).toString()" class="#if($!sort == 'valuation')up current#{else}down#end">评价<i></i></a>
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', 'time').addQueryData('order',
+                            $!orderType).toString()" class="#if($!sort == 'time')up current#{else}down#end">上架时间<i></i></a>
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="pull-right sort-page">
+                <span>共 <strong>$!productPage.totalCount</strong> 个商品</span>
+                <a href="#if($!productPage.hasPre)$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                    $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order', $!order).addQueryData('page',
+                    $!productPage.prePage).toString()#{else}javascript:;#end" class="prev" title="上一页">&lt;</a>
+                <span><strong>$!productPage.pageNo</strong>/$!productPage.totalPages</span>
+                <a href="#if($!productPage.hasNext)$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                    $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order', $!order).addQueryData('page',
+                    $!productPage.nextPage).toString()#{else}javascript:;#end" class="next" title="下一页">&gt;</a>
+            </div>
+        </div>
+
+        #if($!productPage.result.size() > 0)
+        <ul class="goodsList clearfix">
+            #foreach($product in $!productPage.result)
+                <li#if($!velocityCount % 4 == 0) class="last"#end>
+                    <div class="item-box">
+                        <div class="pic">
+                            <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()" target="_blank">
+                                <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                     src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="274" height="274" /></a>
+                            #if($!product.pictureUrlList && $!product.pictureUrlList.size() > 1)
+                                <div class="smallImage-list">
+                                    #foreach($productUrl in $!product.pictureUrlList)
+                                    <div class="thumb">
+                                        <img class="lazy" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="40" height="40"
+                                             data-original="$!imgResolver.getMinSizeImgUrl($!productUrl)" data-src="$!imgResolver.getBigSizeImgUrl($!productUrl)"/>
+                                    </div>
+                                    #end
+                                </div>
+                            #end
+                        </div>
+                        <div class="em">$!product.desc</div>
+                        <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                        <div class="price">#set($productPrice = $!product.displayPrice)
+                            #if($!product.activityType)#set($productPrice = $!product.activityPrice)
+                                ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                <span class="old">¥ $!{product.displayPrice}</span>
+                            #else
+                                ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                            #end
+                        </div>
+                        <a href="javascript:;" class="btn-compare" img="$!imgResolver.getMinSizeImgUrl($!product.pictureUrl)"
+                           pid="$!product.id" price="$!productPrice" pname="$!product.nameSkuDescJoinStr">对比</a>
+                        #if($product.isHotProduct())
+                            <i class="sell_ico sell_hot"></i>
+                        #elseif($product.isLimitProduct())
+                            <i class="sell_ico sell_limit"></i>
+                        #elseif($product.isNewProduct())
+                            <i class="sell_ico sell_new"></i>
+                        #end
+                    </div>
+                </li>
+            #end
+        </ul>
+
+        #if($!{productPage.totalPages} > 1)
+        <div class="e-pagebar">
+            <form method="get" action="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order', $!order).toString()">
+                <input type=hidden id="maxPageNumber" value="$!productPage.totalPages"/>
+                #if($!productPage.hasPre)
+                    <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                        $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order',
+                        $!order).addQueryData('page', $!productPage.prePage).toString()" class="page-start">上一页</a>
+                #else
+                    <span class="page-start">上一页</span>
+                #end
+                #foreach($pageIndex in $cssPageBar.linkNums)
+                    #if($!pageIndex == -1)
+                        <span class="number">...</span>
+                    #elseif($!pageIndex == $!productPage.pageNo)
+                        <a href="javascript:void(0);" class="number current"><span>$!pageIndex</span></a>
+                    #else
+                        <a href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                            $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order',
+                            $!order).addQueryData('page', $!pageIndex).toString()" class="number"><span>$!pageIndex</span></a>
+                    #end
+                #end
+                #if($!productPage.hasNext)
+                    <a class="page-next" href="$!urlBroker.getUrl('Search').addQueryData('keyword', $!keyword).addQueryData('pv',
+                        $!productQuery.pv).addQueryData('sort', $!sort).addQueryData('order',
+                        $!order).addQueryData('page', $!productPage.nextPage).toString()">下一页</a>
+                #else
+                    <span class="page-next">下一页</span>
+                #end
+
+                <span>跳转至</span>
+                <input class="text" name="jumpto" size="3" value="$!productPage.pageNo" type="text" id="PageNumber"
+                       onkeyup="value=value.replace(/[^\d]/g,'')"
+                       onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+                <span>/ $!{productPage.totalPages} 页</span>
+                <button type="submit" class="btn">确定</button>
+            </form>
+        </div>
+        #end
+        #else
+            <div class="no-results">抱歉, 易居尚商城暂无对应的商品.</div>
+        #end
+    </div>
+#end

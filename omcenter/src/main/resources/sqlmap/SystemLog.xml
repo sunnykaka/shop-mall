@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <insert id="createSystemLog">
+        insert into SystemLog(operator,ip,title,content,roleName,date)
+        values
+        (#operator#, #ip#, #title#, #content#, #roleName#,now())
+    </insert>
+
+    <select id="queryByTitleAndIp" resultClass="com.kariqu.om.domain.SystemLog">
+        select * from SystemLog
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="title">
+                title like '%$title$%'
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="ip">
+                ip like '%$ip$%'
+            </isNotEmpty>
+        </dynamic>
+        limit #start#, #limit#
+    </select>
+
+    <select id="queryAllByTitleAndIp" resultClass="int">
+        select count(1) from SystemLog where 1=1
+        <isNotNull prepend="AND"  property="title">
+            title like '%$title$%'
+        </isNotNull>
+        <isNotNull prepend="AND"  property="ip">
+            ip like '%$ip$%'
+        </isNotNull>
+    </select>
+
+    <delete id="deleteSystemLogById">
+        delete from SystemLog where id = #id#
+    </delete>
+</sqlMap>

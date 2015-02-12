@@ -1,0 +1,37 @@
+### 待评价的商品
+
+<table class="product_list">
+    <thead>
+    <tr>
+        <td class="s0"></td>
+        <td class="s1">商品名称</td>
+        <td class="s2">购买时间</td>
+        <td class="s3">操作</td>
+    </tr>
+    </thead>
+    <tbody>
+        #foreach($valuationView in $!valuationList)
+        <tr#if($velocityCount == 1) class="first"#end>
+            <td class="s0">
+                <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!valuationView.productId).addQueryData('skuId', $!valuationView.skuId).toString()"
+                   target="_blank" title="$!valuationView.skuName &#10; $!valuationView.skuExplain">
+                    <img src="$!imgResolver.getMinSizeImgUrl($!valuationView.skuMainPicture)" alt="$!valuationView.skuExplain" />
+                </a>
+            </td>
+            <td class="s1">
+                <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!valuationView.productId).addQueryData('skuId', $!valuationView.skuId).toString()"
+                   target="_blank">$!valuationView.skuName</a>
+            </td>
+            <td class="s2">$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{valuationView.createDate})</td>
+            <td class="s3">
+                <a href="$!urlBroker.getUrl('MyValuation').toString()/?anchor$!{valuationView.orderItemId}" class="btn">我要评价</a> <br>
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/product/$!valuationView.productId#comment">
+                    查看#if($!valuationView.valuationCount > 0)已有的 $!valuationView.valuationCount 个#{end}评价<span>&gt;</span></a>
+            </td>
+        </tr>
+        #end
+    </tbody>
+</table>
+<div class="more">
+    <a href="$!urlBroker.getUrl('MyValuation').toString()">查看更多待评价的商品 <span>&gt;</span></a>
+</div>

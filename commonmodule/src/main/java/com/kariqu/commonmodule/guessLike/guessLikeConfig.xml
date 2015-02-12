@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="guessProductIds" dataType="String" formType="text">1114,591,1230,1016,1071,1231,165,234,587,965</param>
+    </params>
+</module>

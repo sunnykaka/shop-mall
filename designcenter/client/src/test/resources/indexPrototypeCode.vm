@@ -1,0 +1,13 @@
+<div class="e_region grid990">
+    #include_region("demoRegion1",[["module1","1.0.0",101],["module2","1.0.2",102]])
+</div>
+
+<div class="grid990">
+    <div class="e_region grid200">
+        #include_common_module("module1","1.0.0",100);
+        #include_region("demoRegion2",[])
+    </div>
+    <div class="e_region grid790">
+        #include_region("demoRegion3",[])
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+	
+	<select id="selectAllTemplates" resultClass="com.kariqu.designcenter.domain.model.prototype.Template">
+		select * from Template
+	</select>
+	
+	<select id="selectTemplate" resultClass="com.kariqu.designcenter.domain.model.prototype.Template">
+    	select * from Template where id = #id#
+	</select>
+
+	<select id="queryTemplateByName" resultClass="com.kariqu.designcenter.domain.model.prototype.Template">
+    	select * from Template where name = #name#
+	</select>
+
+	<update id="updateTemplate">
+    	update Template
+		set name=#name#,
+		description=#description#,
+		templateType=#templateType#
+		where id=#id#
+	</update>
+
+	<insert id="insertTemplate">
+		insert into Template
+		(name,description,templateType)
+		values
+		(#name#,#description#,#templateType#)
+		<selectKey resultClass="int" keyProperty="id"> 
+        SELECT LAST_INSERT_ID(); 
+		</selectKey>
+	</insert>
+	
+	<delete id="deleteTemplate">
+		delete from Template
+		where id = #id#
+	</delete>
+	
+</sqlMap>

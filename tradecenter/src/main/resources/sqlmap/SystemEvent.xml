@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+	<select id="selectSystemEvent"
+		resultClass="com.kariqu.tradecenter.domain.SystemEvent">
+		select orderId,date,operator,eventInfo,beforeState,afterState
+        from SystemEvent where orderId = #orderId#
+	</select>
+
+	<insert id="insertSystemEvent">
+		insert into SystemEvent
+		(orderId,date,operator,eventInfo,beforeState,afterState)
+		values
+		(#orderId#,now(),#operator#,#eventInfo#,#beforeState#,#afterState#)
+	</insert>
+
+	<delete id="deleteSystemEvents">
+		delete from SystemEvent
+		where orderId = #orderId#
+	</delete>
+
+</sqlMap>

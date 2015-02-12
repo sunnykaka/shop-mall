@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <title>商品对比</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css?$!urlBroker.getVersion()"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+
+<body>
+    ${shopHead}
+    ${category}
+
+<!-- 产品对比页 -->
+<div class="mod-compare e-wrapper">
+    <h3 class="title">商品对比</h3>
+    #if($prodList.size() > 0)
+        <table class="table" #if($prodList.size()==2)class="twoProducts"#end>
+            <tr>
+                <th>产品图片</th>
+                #foreach($img in $!imageList)
+                    #set($pidIndex = $velocityCount - 1)
+                    <td class="pic">
+                        <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!prodList.get($!pidIndex).id).toString()"
+                           target="_blank"><img src="$!imgResolver.getMiddleSizeImgUrl($!img)" width="160" height="160" /></a>
+                        <span pid="$prodList.get($pidIndex).id" index=$pidIndex class="remove">X删除</span>
+                    </td>
+                #end
+                #foreach($img in $!nullList)
+                    <td>
+                        <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/compare-goods-empty.png" alt=""/>
+                    </td>
+                #end
+            </tr>
+
+            <tr>
+                <th>商品名称</th>
+                #foreach($prod in $!prodList)
+                    #set($pidIndex = $velocityCount - 1)
+                    <td><a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $prodList.get($pidIndex).id).toString()" target="_blank">$prod.name</a></td>
+                #end
+                #foreach($img in $!nullList)
+                    <td class="pic">
+                    </td>
+                #end
+            </tr>
+
+            <tr>
+                <th>商品单价</th>
+                #foreach($price in $!priceList)
+                    <td class="price">$price</td>
+                #end
+                #foreach($img in $!nullList)
+                    <td class="pic">
+                    </td>
+                #end
+            </tr>
+
+            #if($descMap.entrySet().size()>0)
+            <tr>
+                <th>推荐理由</th>
+                #foreach($prod in $!prodList)
+                  <td #if($descMap.get($prod.id))#end>$!descMap.get($prod.id)</td>
+                #end
+                #foreach($img in $!nullList)
+                    <td class="pic">
+                    </td>
+                #end
+            </tr>
+            #end
+
+            #foreach($compareItem in $!compareMap.entrySet())
+            <tr>
+                <th>$compareItem.key</th>
+                #foreach($value in $compareItem.value)
+                    <td>$value</td>
+                #end
+            </tr>
+            #end
+
+            <tr class="last">
+                <th></th>
+                #foreach($prod in $!prodList)
+                <td class="col1" class="add_favorites">
+                    <a target="_blank"
+                       href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!prod.id).toString()"
+                       class="e-btn btn-default">查看详情</a>
+                </td>
+                #end
+                #foreach($img in $!nullList)
+                    <td class="pic">
+                    </td>
+                #end
+            </tr>
+        </table>
+    #else
+        <div class="noContrast">亲，您还没有选择要对比的商品！</div>
+    #end
+</div>
+<!-- 产品对比页 END -->
+
+    ${shopFoot}
+
+##<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+##<script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/shop/js/var?$!urlBroker.getVersion()"></script>
+##<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js?$!urlBroker.getVersion()"></script>
+##<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/common.js?$!urlBroker.getVersion()"></script>
+##<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/compare.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/shop/js/var"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/common.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/module/compare.js"></script>
+
+</body>
+</html>
+
+

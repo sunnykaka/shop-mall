@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="PropertyValueDetail.selector">
+        select id,propertyId,valueId,pictureUrl,description from PropertyValueDetail
+    </sql>
+
+    <select id="selectAllCategoryPropertyValueDetails"
+            resultClass="com.kariqu.categorycenter.domain.model.PropertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/>
+    </select>
+
+    <select id="selectCategoryPropertyValueDetail"
+            resultClass="com.kariqu.categorycenter.domain.model.PropertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where id = #id#
+    </select>
+
+    <select id="getPropertyValueDetail"
+            resultClass="com.kariqu.categorycenter.domain.model.PropertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where propertyId = #propertyId# and valueId =#valueId#
+    </select>
+
+    <insert id="insertCategoryPropertyValueDetail">
+        insert into PropertyValueDetail
+        (id,propertyId,valueId,pictureUrl,description)
+        values
+        (#id#,#propertyId#,#valueId#,#pictureUrl#,#description#)
+    </insert>
+
+    <update id="updateCategoryPropertyValueDetail">
+        update PropertyValueDetail
+        set propertyId=#propertyId#,valueId=#valueId#,pictureUrl=#pictureUrl#,description=#description#
+        where id=#id#
+    </update>
+
+    <delete id="deleteCategoryPropertyValueDetail">
+        delete from PropertyValueDetail
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllCategoryPropertyValueDetail">
+        delete from PropertyValueDetail
+    </delete>
+
+</sqlMap>

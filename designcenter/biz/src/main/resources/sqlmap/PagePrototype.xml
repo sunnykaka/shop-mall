@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <typeAlias alias="PagePrototype"
+               type="com.kariqu.designcenter.domain.model.prototype.PagePrototype"/>
+
+    <resultMap id="pagePrototype" class="PagePrototype">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="areaType" column="areaType"/>
+        <result property="prototypeState" column="prototypeState"/>
+        <result property="pageCode" column="pageCode"/>
+        <result property="configContent" column="configContent"/>
+    </resultMap>
+
+
+    <sql id="PagePrototype.selector">
+        select
+        id,name,description,areaType,prototypeState,pageCode,
+        configContent
+        from  PagePrototype
+    </sql>
+
+    <select id="selectAllPagePrototypes"
+            resultMap="pagePrototype">
+        <include refid="PagePrototype.selector"/>
+    </select>
+
+    <select id="selectPagePrototype" resultMap="pagePrototype">
+        <include refid="PagePrototype.selector"/>
+        where id = #id#
+    </select>
+
+
+    <update id="updatePagePrototype">
+        update PagePrototype
+        set name=#name#,
+        description=#description#,
+        areaType=#areaType#,
+        pageCode=#pageCode#,
+        prototypeState=#prototypeState#,
+        configContent=#configContent#
+        where id=#id#
+    </update>
+
+    <insert id="insertPagePrototype">
+        insert into PagePrototype
+        (name,description,areaType,pageCode,configContent,prototypeState)
+        values
+        (#name#,#description#,#areaType#,#pageCode#,#configContent#,#prototypeState#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <delete id="deletePagePrototype">
+        delete from PagePrototype
+        where id = #id#
+    </delete>
+
+</sqlMap>

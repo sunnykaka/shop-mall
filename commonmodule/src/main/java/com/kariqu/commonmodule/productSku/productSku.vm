@@ -1,0 +1,185 @@
+<div class="clearfix e-wrapper mod-goodsSku">
+    <div class="goodsSku-main">
+        <div class="photo">
+            <div class="photo-small">
+                <a href="$!_product.imageUrl" rel='gal1' id="jqzoombox">
+                    <img src="$!imgResolver.getHalfSizeImgUrl($!_product.imageUrl)" alt="" class="big_pic" width="360" height="360"/>
+                </a>
+            </div>
+            <div class="photo-thumb" id="photo-thumb">
+                <ul>
+                    #foreach($picture in $!_product.productPictureList)
+                    <li><a rel="{gallery: 'gal1', smallimage: '$!imgResolver.getHalfSizeImgUrl($!picture.pictureUrl)',largeimage: '$!picture.pictureUrl'}"
+                           href="javascript:void(0);"#if($!picture.mainPic) class="zoomThumbActive"#end><img src="$!imgResolver.getMinSizeImgUrl($!picture.pictureUrl)"/></a></li>
+                    #end
+                </ul>
+            </div>
+        </div>
+
+        <div class="basic-info">
+            <div class="title">
+                <div class="name">$!{productAddress}$!{_product.brandName}$!{_product.name} <span id="skuDesc">$!skuDesc</span></div>
+                <div class="em">$!{_product.description}</div>
+            </div>
+
+            #*
+            #if($!_product.marketing)
+            <div class="prices">
+                #if($!_product.defaultSkuObject.marketPrice != "0.00")<span class="market">专柜价：¥ <span id="marketPrice">$!_product.defaultSkuObject.marketPrice</span></span>#end
+                <span class="price original-price">价格：¥ <span id="product-price">$!_product.defaultSkuObject.money</span></span>
+                促销：
+                <span class="discount">
+                    #if($!{_product.defaultSkuObject.activityType} == 'LimitTime')<a target="_blank" href="$!urlBroker.getUrl('BuyHome').toString()/page/176">杰迷专享</a>
+                    #{else}$!{_product.defaultSkuObject.activityType.toDesc()}#end</span>
+                <span class="price">¥
+                    <span id="marketingPrice">
+                        <span>$!{_product.defaultSkuObject.marketingPrice.split("[.]")[0]}</span>.#if($!_product.defaultSkuObject.marketingPrice.split("[.]").size() > 1)$!{_product.defaultSkuObject.marketingPrice.split("[.]")[1]}#{else}00#end
+                </span>
+                &nbsp;&nbsp; $!_product.defaultSkuObject.activityDateStr 后结束
+            </div>
+            #else
+            *#
+            <div class="prices">
+                #if($!_product.defaultSkuObject.marketPrice != "0.00")<span class="market">专柜价：¥ <span id="marketPrice">$!_product.defaultSkuObject.marketPrice</span></span>#end
+                价格：<span class="price">¥
+                <span id="product-price"><span>$!{_product.defaultSkuObject.money.split("[.]")[0]}</span>.#if($!_product.defaultSkuObject.money.split("[.]").size() > 1)$!{_product.defaultSkuObject.money.split("[.]")[1]}#{else}00#end</span>
+            </span>
+            </div>
+            #*
+            #end
+            *#
+
+            <div class="score">
+                <div class="star" hint="$!{valuationScore}"></div>
+                #if($valuationNum > 0)
+                    $!{valuationPercent}% 好评
+                    <span class="star-count">(共 $!{valuationNum} 条评论)</span>
+                #else
+                    暂无评价
+                #end
+            </div>
+
+            #*<div class="gift">
+                赠品：<span class="gift-pic"><a href="#"><img src="" alt="40x40" width="40" height="40"></a></span> 戴德24cm宽边玻璃盖
+                x 1
+            </div>*#
+
+            #if(!$!_product.singleSku)
+            <div class="choose-sku" id="choose-sku">
+                #foreach($pv in $!_product.skuPickMap.entrySet())
+                <dl class="clearfix">
+                    <dt>$!{pv.key.name}：</dt>
+                    <dd>
+                        <div class="sel">
+                            #foreach($v in $!pv.value)
+                            <a class="sku" href="javascript:void(0);" title="$!v.description"
+                               data="$!_product.mergeSkuPicPV($!pv.key.id, $!v.id)"><span>$!v.valueName</span></a>
+                            #end
+                        </div>
+                    </dd>
+                </dl>
+                #end
+            </div>
+            #end
+
+            <div class="integral">
+                #*
+                送积分：<span id="integral">$!{_product.defaultSkuObject.skuIntegral}</span> 个(<a href="http://www.yijushang.com/help/19.html" target="_blank">积分规则</a>)
+                *#
+            </div>
+
+            #if($_product.online && $!_product.hasStock)
+            <div class="amount" id="amount">
+                <span class="pull-left dt">数量：</span>
+                <a href="javascript:void(0);" class="btn-sub"><span>-</span></a>
+                <input type="text" size="3" maxlength="3" class="text-number" id="buy-number" value="1"/>
+                <a href="javascript:void(0);" class="btn-add"><span>+</span></a>
+            </div>
+            #end
+
+            <div class="btns">
+                #if($_product.online)
+                    #if($!_product.hasStock)
+                        <a href="javascript:void(0);" class="btn-toCart" id="addToCart">加入购物车</a>
+                    #else
+                        <a href="javascript:void(0);" class="btn-soldOut">已售罄</a>
+                    #end
+                #else
+                    <a href="javascript:void(0);" class="btn-offShelf">已下架</a>
+                #end
+            </div>
+
+            <div class="btns">
+                #*
+                <a href="javascript:void(0);" class="btn-follow#if($!wasFollow) btn-follow-selected#end"
+                   data-url="$!urlBroker.getUrl('AddMyFavorites').toString()?productId=$!_product.id"><i></i>关注</a>
+
+                <div class="share-wrap">
+                    <a href="javascript:void(0);" class="btn-share"><i></i>分享</a>
+
+                    <div class="bdsharebuttonbox" data-tag="share_1">
+                        <a class="bds_tsina" data-cmd="tsina"></a>
+                        <a class="bds_tqq" data-cmd="tqq"></a>
+                        <a class="bds_qzone" data-cmd="qzone"></a>
+                        <a class="bds_more" data-cmd="more">更多</a>
+                    </div>
+                </div>
+                *#
+            </div>
+        </div>
+    </div>
+
+    <div class="ensure-payment">
+        <h4>购物保障</h4>
+        <ul class="clearfix ensure-list">
+            <li>
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/26.html" target="_blank">
+                    <i class="icon-1"></i>全场免邮</a>
+            </li>
+            <li class="last">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/29.html" target="_blank">
+                    <i class="icon-2"></i>30天退换货</a>
+            </li>
+            <li>
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/43.html" target="_blank">
+                    <i class="icon-3"></i>终身保养</a>
+            </li>
+            <li class="last">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/42.html" target="_blank">
+                    <i class="icon-4"></i>正品保证</a>
+            </li>
+        </ul>
+
+        <h4>支付方式</h4>
+        <ul class="clearfix payment-list">
+            <li><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/detail_zfb.png" alt="支付宝" width="83" height="28"></li>
+            <li class="last"><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/detail_cft.png" alt="财付通" width="83" height="28"/></li>
+            <li><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/detail_zxzf.png" alt="" width="83" height="28"/></li>
+            <li class="last">&nbsp;</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+var productId = $!_product.id;
+var addToCart = "$!urlBroker.getUrl("buyHome").toString()/trade/cart/add";
+var directBuy = "$!urlBroker.getUrl("buyHome").toString()/trade/order/new/bySku";
+</script>
+
+#* 是否有库存 *#
+#if($!_product.hasStock)
+<script type="text/javascript">
+#* 是否是单 sku *#
+#if($!_product.singleSku)
+var defaultSku = $!_product.defaultSkuJson;
+#else
+var skuMap = $!_product.skuJson;
+#* 是否有选择 sku *#
+#if($_sku)
+var selectSku = $_sku;
+#else
+var defaultSku = $!_product.defaultSkuJson;
+#end
+#end
+</script>
+#end

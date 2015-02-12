@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>true</isCacheable>
+        <isDelete>true</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+
+    <params>
+
+        <param name="p1" label="导航1" dataType="String" formType="text">Home</param>
+
+        <param name="p2" label="导航2" dataType="String" formType="text">Products</param>
+
+        <param name="p3" label="导航3" dataType="String" formType="text">Specials</param>
+
+        <param name="testTextArea" label="导航3" dataType="String" formType="textarea">Specials</param>
+
+        <param name="checkbox1" label="我有自行车" dataType="String" formType="checkbox">bicycle</param>
+
+        <param name="checkbox2" label="我有小汽车" dataType="String" formType="checkbox">car</param>
+
+        <param name="testRadio" description="" label="性别" dataType="String" formType="radio">
+            <option value="male" label="男"/>
+            <option value="femal" label="女" selected="selected"/>
+        </param>
+
+        <param name="testSelect" description="" label="选择车" dataType="String" formType="select">
+            <option value="volvo" label="VOLVO"/>
+            <option value="saab" label="SAAB" selected="selected"/>
+            <option value="fiat" label="FIAT"/>
+            <option value="audi" label="AUDi"/>
+        </param>
+
+    </params>
+</module>
+
+
+

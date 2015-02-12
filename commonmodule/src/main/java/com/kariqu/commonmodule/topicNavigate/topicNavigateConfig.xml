@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="topicNavigateStyle" dataType="String" formType="text">1</param>
+    </params>
+</module>

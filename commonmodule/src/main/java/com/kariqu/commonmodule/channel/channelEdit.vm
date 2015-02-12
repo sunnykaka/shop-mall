@@ -1,0 +1,23 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+        是否将频道所在的二级类目排在最前面(y/n):<br>
+        <input type="text" name="categorySort" class="long" value="$!categorySort"/>
+        <br><br>
+
+        热销推荐显示的商品个数:
+        <input style="width: 160px" name="hotNum" value="$!hotNum">
+        <br><br>
+
+        限时优惠显示的商品个数:
+        <input style="width: 160px" name="limitNum" value="$!limitNum">
+        <br><br>
+
+        新品上市显示的商品个数:
+        <input style="width: 160px" name="newNum" value="$!newNum">
+        <br><br>
+        <input type="submit"/>
+    </form>
+</div>

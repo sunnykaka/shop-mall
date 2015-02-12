@@ -1,0 +1,2 @@
+#include_region("headRegion",[["shopHead","1.0.0",100]])
+#include_common_module("category","1.0.0",102)

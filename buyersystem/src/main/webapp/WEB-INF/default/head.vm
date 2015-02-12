@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>$!{site_title} - 易居尚</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()"/>
+    #if($!leftCss)<link rel="stylesheet" href="$!leftCss"/>#end #* 左侧 css. 针对 <我的账户> 相关的页面! *#
+    #foreach($cssUrl in $!contentCssUrls)<link rel="stylesheet" href="$!cssUrl"/>#end #* 内容 css, 针对单个页面! *#
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+
+${shopHead}
+
+$!{categoryInfo}

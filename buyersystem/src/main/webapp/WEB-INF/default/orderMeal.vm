@@ -1,0 +1,131 @@
+#set($contentCssUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/css/order.css?$!urlBroker.getVersion()"])
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/order.js?$!urlBroker.getVersion()"])
+
+#parse("head.vm")
+<input id="addressBaseUrl" type="hidden" value="$!urlBroker.getUrl('AddressBaseUrl').toString()"/>
+
+<!-- 网站位置 -->
+<div class="common_wrapper">
+    <div class="position_bar">
+        <a href="index.php">首页</a>
+        <span>&gt;</span>
+        填写订单
+    </div>
+</div>
+<!-- 网站位置 END -->
+
+<!-- 购物车步骤 -->
+<div class="shopcart_steps_wrapper">
+    <div class="step_two ie6png"></div>
+</div>
+<!-- 购物车步骤 END -->
+
+<div class="common_wrapper shopping_car">
+<div class="shopping_car_box_2">
+<div class="top"></div>
+<div class="content">
+
+<h3>填写核对订单信息</h3>
+
+<div class="content_box">
+
+#parse("address.vm")
+<!-- /收货人信息 -->
+
+<div class="list_goods">
+    <h4>订单列表</h4>
+
+    <div class="list_goods_box">
+        <div class="list_goods_table assemble_goods_table">
+            <div class="caption">
+                <strong>$!{meal.name}</strong>
+                此订单由商家<span>$!productStorage.customerName</span>从<span>$!productStorage.name</span>发货
+            </div>
+            <div class="content">
+                <div class="list_goods_wrapper">
+                    <div class="title">
+                        <span class="col1">商品</span>
+                        <span class="col3">价格</span>
+                        <span class="col4">数量</span>
+                        <span class="col5">库存状态</span>
+                    </div>
+                    #foreach($mealTradeItem in $!mealTradeItemViewList)
+                    <div class="clearfix row#if($velocityCount == $!tradeItemViewList.size()) last#end">
+                        <div class="cell col1">
+                            <a target="_blank" class="skuId" skuid="$!mealTradeItem.tradeItem.skuId" number="$!mealTradeItem.tradeItem.number"
+                               href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!mealTradeItem.tradeItem.productId).addQueryData('skuId', $!mealTradeItem.tradeItem.skuId).toString()"
+                               title="$!mealTradeItem.tradeItem.productName">
+                                <img src="$!imgResolver.getMinSizeImgUrl($!mealTradeItem.tradeItem.imageUrl)"
+                                alt="$!mealTradeItem.tradeItem.productName"></a>
+                        </div>
+                        <div class="cell col2">
+                            <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!mealTradeItem.tradeItem.productId).addQueryData('skuId', $!mealTradeItem.tradeItem.skuId).toString()">
+                                <p>$!mealTradeItem.tradeItem.productName</p><span>$!mealTradeItem.tradeItem.skuPv</span>
+                            </a>
+                        </div>
+                        <div class="cell col3">
+                            <span class="original">原价：¥ $!mealTradeItem.tradeItem.price </span><br>
+                            <span>套餐价：$!mealTradeItem.mealPrice</span>
+                        </div>
+                        <div class="cell col4">$!mealTradeItem.tradeItem.number</div>
+                        <div class="cell col5">#if($!mealTradeItem.tradeItem.hasStock)有货 #else 无货#end</div>
+                    </div>
+                    #end
+                </div>
+            </div>
+
+            <div class="foot clearfix">
+                <div class="total_price">
+                    <dl>
+                        <dt>应付总额：</dt>
+                        <dd>¥ <span id="totalPrice2">$!mealTotalPrice</span></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /订单列表 -->
+
+#parse("payType.vm")
+<!-- /支付方式 -->
+
+#parse("invoice.vm")
+<!-- /发票信息 -->
+
+<div class="remark">
+    <h4>备注</h4>
+    <div class="remark_box">
+        <textarea cols="50" role="2" name="remark" id="remark" class="remark_textarea"></textarea>
+    </div>
+</div>
+
+<div class="shopcart_submit">
+<form id="orderSubmit" method="post" action="$!urlBroker.getUrl('buyHome').toString()/order/meal/add">
+    <input type="hidden" name="token" value="$!token"/>
+    <input type="hidden" name="addressId" id="addressId" value="$!defaultAddress.id"/>
+    <input type="hidden" name="payBank" id="payBank" value="Alipay"/>
+    <input type="hidden" name="invoice" id="isInvoice" value="false"/>
+    <input type="hidden" name="invoiceType" id="invoiceType" value="普通发票"/>
+    <input type="hidden" name="invoiceTitle" id="invoiceTitle" value="individual"/>
+    <input type="hidden" name="invoiceContent" id="invoiceContent" value="办公用品"/>
+    <input type="hidden" name="companyName" id="companyName" value=""/>
+    <input type="hidden" name="messageInfo" id="messageInfo" value="">
+
+    <input type="hidden" name="mealId" value="$!meal.id" />
+    #foreach($mealTradeItem in $!mealTradeItemViewList)
+    #set($index = $!velocityCount - 1)
+    <input type="hidden" name="skuId_$!index" value="$!mealTradeItem.tradeItem.skuId" />
+    #end
+    <input type="hidden" name="skuCount" value="$!mealTradeItemViewList.size()" />
+
+    <a href="#" id="submitLink" class="common_btn"><span>提交订单</span></a>
+</form>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+#parse("foot.vm")

@@ -1,0 +1,140 @@
+#foreach($data in $list)
+
+$velocityCount
+
+#end
+
+#if
+#else  #elseif
+#end
+
+判断null：#if (! $foo) 判断$foo为空，判断非空为 #if ($foo)
+
+设置变量，和使用urlbroker
+
+#set( $a = "Velocity" )
+
+
+#set($pageUrl = $urlBroker.getUrl('Search').addQueryData('cid', $cid).addQueryData('keyword', $keyword).addQueryData('page', $page.nextPage).addQueryData('sort',$sort).addQueryData('order',$order).addQueryData('pv', $propertyValueHolder.toString()).toString())
+
+四则运算
+#set ($sum = $num1 + $num2)
+#set ($sub = $num1 - $num2)
+#set ($mul = $num1 * $num2)
+#set ($div = $num1 / $num2)
+#set ($mod = $num1 % $num2)
+
+可直接在指令中调用java方法并传参
+
+
+$_PARAM['p1']在模块中引入参数
+
+
+定义宏
+#macro (subStats $children)
+    #foreach($child in $children)
+        #if($child.productNumber != 0)
+        ------$child.name [$child.productNumber]<br>
+            #subStats($child.children)
+        #end
+    #end
+#end
+
+subStats是函数名
+
+
+判断字符串空：””或null
+#if ($stringUtil.isEmpty($str)) … #end
+判断字符串非空：非””和null
+#if ($stringUtil.isNotEmpty($str)) … #end
+
+$foo[0]       ## $foo takes in an Integer look up
+$foo[$i]      ## Using another reference as the index
+$foo["bar"]   ## Passing a string where $foo may be a Map
+
+$!{email}在email没值时不显示
+
+类目使用宏来调出树结构
+#macro (subStats $children)
+    #foreach($child in $children)
+        #if($child.productNumber != 0)
+        ------$child.name [$child.productNumber]<br>
+            #subStats($child.children)
+        #end
+    #end
+#end
+
+
+<h1>后台类目统计</h1>
+#foreach($rootCategory in $categoryTreeStats)
+    #if($rootCategory.productNumber != 0)
+        $rootCategory.name [$rootCategory.productNumber]<br>
+        #subStats($rootCategory.children)
+    #end
+#end
+
+
+<h1>前台类目统计</h1>
+
+#foreach($rootCategory in $navCategoryTreeStats)
+    #if($rootCategory.productNumber != 0)
+        $rootCategory.name [$rootCategory.productNumber]<br>
+        #subStats($rootCategory.children)
+    #end
+#end
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+velocity判断空和null
+博客分类： velocity
+
+velocity .
+
+
+判断是否为null有下面几种方法：
+
+     1. #if (! $foo) 判断$foo为空，判断非空为 #if ($foo)
+
+     2. 使用 #ifnull() 或 #ifnotnull()
+
+     #ifnull ($foo)
+
+     要使用这个特性必须在velocity.properties文件中加入：
+ userdirective = org.apache.velocity.tools.generic.directive.Ifnull
+userdirective = org.apache.velocity.tools.generic.directive.Ifnotnull
+
+     3. 使用null工具判断
+
+     #if($null.isNull($foo))
+
+     注意这种方式特别有用，尤其你在需要这个判断作为一个判断字句时，比如我要你判断一个集合为null或为空时只能使用这种方式了：
+
+     $if ($null.isNull($mycoll) || $mycoll.size()==0)
+
+=========================================
+
+1、判断Velocity 是否为null
+       方法一   、 #ifnull() 或 #ifnotnull()
+      Eg： #ifnull ($XXX)
+
+
+     Warn：要使用这个特性必须在velocity.properties 文件中加入：
+      userdirective = org.apache.velocity.tools.generic.directive.Ifnull
+      userdirective = org.apache.velocity.tools.generic.directive.Ifnotnull
+
+       方法二   、$null.isNull()
+      Eg：#if($null.isNull())
+
+      推荐使用方法二，特别是在判断集合对象为null时，灰常有用。
+
+2、判断Velocity是否为空
+
+       判断空：#if (! $xxx)
+       判断非空： #if ($xxx)
+
+3、更详细的介绍请参考：
+       http://wiki.apache.org/velocity/VelocityNullSupport
+      http://wiki.apache.org/velocity/CheckingForNull
+

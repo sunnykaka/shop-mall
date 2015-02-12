@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="headConfig" label="头部导航" dataType="String" formType="text">
+            <![CDATA[
+http://www.yixinshang.com,易欣尚
+            ]]>
+        </param>
+    </params>
+</module>

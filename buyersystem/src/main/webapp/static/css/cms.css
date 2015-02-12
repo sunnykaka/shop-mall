@@ -1,0 +1,57 @@
+/* CMS */
+.mod-cms{margin: 10px auto 30px;}
+.cms-sidebar{float:left;border: 1px solid #ddd;width:158px;border-top-width: 0;padding-bottom: 30px;background-color: #fafafa}
+.cms-sidebar h4{border-top: 1px solid #ddd;color: #748130;font: bold 14px/38px "Microsoft Yahei",STHeiti, SimSun;padding-left: 20px;}
+.cms-sidebar li,
+.cms-sidebar a{display: block;color: #4a4a4a;height: 28px;line-height: 28px;overflow: hidden;}
+.cms-sidebar a{padding-left: 30px;}
+.cms-sidebar .current a{color: #fff;font-weight:700;background-color: #748130;}
+
+.cms-main{float:right;width: 1010px;}
+.cms-main .title{height: 36px;border-bottom: 2px solid #ddd;}
+.cms-main .title span{position: absolute;height: 36px;padding: 0 10px;
+    font: normal 16px/36px "Microsoft Yahei",STHeiti, SimSun;border-bottom: 2px solid #748130;}
+.cms-main .content {line-height: 1.8em;padding: 15px 10px;}
+
+/* editor 样式定义 */
+.content{line-height:1.8em;padding:15px 10px;color: #4a4a4a}
+.content h1{font-size:138.5%;}
+.content h1{font-size:138.5%;}
+.content h2{font-size:123.1%;}
+.content h3{font-size:108%;}
+.content h1,
+.content h2,
+.content h3{margin:1em 0;}
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6,
+.content strong{font-weight:bold;}
+.content abbr,
+.content acronym{border-bottom:1px dotted #000;cursor:help;}
+.content em{font-style:italic;}
+.content blockquote,
+.content ul,
+.content ol,
+.content dl{margin:1em;}
+.content ol,
+.content ul,
+.content dl{margin-left:2em;}
+.content ol{list-style:decimal outside;}
+.content ul{list-style:disc outside;}
+.content dl dd{margin-left:1em;}
+.content th,
+.content td{border:1px solid #000;padding:.5em;}
+.content th{font-weight:bold;text-align:center;}
+.content caption{margin-bottom:.5em;text-align:center;}
+.content p,
+.content fieldset,
+.content table,
+.content pre{margin-bottom:1em;}
+
+
+
+
+

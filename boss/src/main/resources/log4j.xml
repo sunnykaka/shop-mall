@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- ===================================================================== -->
+    <!--  appender definitions                                                 -->
+    <!-- ===================================================================== -->
+    <appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/boss.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <appender name="searchengine" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/boss-search.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n "/>
+        </layout>
+    </appender>
+
+    <appender name="groovy" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/boss-groovy.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n "/>
+        </layout>
+    </appender>
+
+
+    <appender name="designCenter" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/boss-designCenter.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <appender name="alipayTradeLogAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${tradeLoggingRoot}/boss-alipayTradeLog.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="tenpayTradeLogAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${tradeLoggingRoot}/boss-tenpayTradeLog.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="umpayAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${tradeLoggingRoot}/boss-umpay.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="DeletedModuleInstance" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/deletedModuleInstance.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="SmsModuleInstance" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/boss-sms.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <appender name="SqlAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/boss-sql.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyy-MM-dd HH:mm:ss} [%p] %c : %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="java.sql.Connection" additivity="false">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="SqlAppender" />
+    </logger>-->
+
+    <logger name="SmsLog" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="SmsModuleInstance"/>
+    </logger>
+
+    <logger name="RecordDeleteModuleInstanceParam" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="DeletedModuleInstance"/>
+    </logger>
+
+
+    <logger name="groovy" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="groovy"/>
+    </logger>
+
+    <logger name="com.kariqu.searchengine" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="searchengine"/>
+    </logger>
+
+    <logger name="com.kariqu.designcenter" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="designCenter"/>
+    </logger>
+
+
+    <logger name="alipayTradeLog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="alipayTradeLogAppender"/>
+    </logger>
+
+    <logger name="tenpayTradeLog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="tenpayTradeLogAppender"/>
+    </logger>
+
+    <logger name="umpayLog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="umpayAppender"/>
+    </logger>
+
+    <!-- ===================================================================== -->
+    <!--  Root log                                                          -->
+    <!-- ==================================================================== -->
+    <root>
+        <level value="warn"/>
+        <appender-ref ref="PROJECT"/>
+    </root>
+</log4j:configuration>

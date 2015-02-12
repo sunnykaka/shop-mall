@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>易居尚商家管理后台</title>
+     <script>
+         window.isMainAccount=${isMainAccount};
+     </script>
+
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/ext/resources/css/ext-all-neptune.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/assets/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/assets/css/desktop.css">
+    <script type="text/javascript" src="${rc.contextPath}/ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/ext/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/assets/js/common.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/assets/js/lodopFuncs.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/assets/js/App.js"></script>
+</head>
+<body>
+    <div id="m_wrap"></div>
+</body>
+</html>

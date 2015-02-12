@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <file>module.vm</file>
+    <thumbnail>/assets/images/module.png
+    </thumbnail>
+
+    <config>
+        <isCacheable>true</isCacheable>
+    </config>
+
+    <params>
+        <param name="testText" description="desc" label="名字" dataType="number" formType="text">content</param>
+
+        <param name="testTextArea" description="" label="页面内容" dataType="" formType="textarea">content</param>
+
+
+        <param name="testCheckbox" description="" label="I have a bike" dataType="" formType="checkbox">Bike</param>
+
+        <param name="testCheckbox2" description="" label="I have a car" dataType="" formType="checkbox">Car</param>
+
+        <param name="testSelect" description="" label="选择车" dataType="" formType="select">
+            <option value="volvo" label="VOLVO" selected="selected"/>
+            <option value="saab" label="SAAB"/>
+            <option value="fiat" label="FIAT"/>
+            <option value="audi" label="AUDi"/>
+        </param>
+
+        <param name="sex" description="" label="性别" dataType="" formType="radio">
+            <option value="male" label="男" selected="selected"/>
+            <option value="female" label="女"/>
+        </param>
+
+    </params>
+</module>

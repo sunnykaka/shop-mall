@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="NavCategoryProperty.selector">
+        select id,navCategoryId,propertyId,priority,searchable from NavCategoryProperty
+    </sql>
+
+    <select id="selectAllNavCategoryProperty"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryProperty">
+        <include refid="NavCategoryProperty.selector"/>
+    </select>
+
+    <select id="queryNavCategoryProperties"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryProperty">
+        <include refid="NavCategoryProperty.selector"/> where navCategoryId =
+        #navCategoryId# order by priority asc
+    </select>
+
+    <update id="updatePropertiesSearchable">
+        update NavCategoryProperty set searchable=0 where navCategoryId = #navCategoryId# order by priority asc
+    </update>
+
+    <update id="updateNavigateCategoryPropertySearchable">
+        update NavCategoryProperty set searchable=#searchable#
+        where propertyId=#propertyId# and navCategoryId=#navCategoryId#
+    </update>
+
+    <select id="queryNavCategoryPropertiesSearchable"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryProperty">
+        <include refid="NavCategoryProperty.selector"/> where navCategoryId =
+        #navCategoryId# and searchable=1 order by priority asc
+    </select>
+
+    <select id="selectNavCategoryProperty"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryProperty">
+        <include refid="NavCategoryProperty.selector"/> where id = #id#
+    </select>
+
+    <insert id="insertNavCategoryProperty">
+        insert into NavCategoryProperty
+        (id,navCategoryId,propertyId,priority,searchable)
+        values
+        (#id#,#navCategoryId#,#propertyId#,#priority#,#searchable#)
+    </insert>
+
+    <update id="updateNavCategoryProperty">
+        update NavCategoryProperty
+        set navCategoryId=#navCategoryId#,propertyId=#propertyId#,priority=#priority#,searchable=#searchable#
+        where id=#id#
+    </update>
+
+    <delete id="deleteNavCategoryProperty">
+        delete from NavCategoryProperty
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllNavCategoryProperty">
+        delete from NavCategoryProperty
+    </delete>
+
+    <delete id="deleteNavCategoryPropertyByNavCategoryId">
+        delete from NavCategoryProperty
+        where navCategoryId = #navCategoryId#
+    </delete>
+
+
+</sqlMap>

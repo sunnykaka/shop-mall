@@ -1,0 +1,92 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_address.js?$!urlBroker.getVersion()", "<script type='text/javascript'>userAddress();</script>"])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_order" id="ucOrder">
+            <h3 class="tit">收货信息管理</h3>
+        </div>
+        <div class="address_manage">
+            <div class="shipping_address">
+                <div class="th_header clearfix">
+                    <span class="col1">收货人</span>
+                    <span class="col2">电话</span>
+                    <span class="col3">地址</span>
+                    <span class="col4">邮编</span>
+                    <span class="col5">操作</span>
+                </div>
+                <ul id="address_list" class="address_list">
+                    #if($addressList.size()>0)
+                        #foreach($address in $addressList)
+                            <li data-id="$address.id" >
+                                <p class="clearfix single #if($address.defaultAddress) cur #end">
+                                    <span class="col1">$address.name</span>
+                                    <span class="col2">$address.mobile</span>
+                                    <span class="col3">$address.province.replaceAll(",","")$address.location</span>
+                                    <span class="col4 postcode">$address.zipCode</span>
+                                    <a href="javascript:" class="delete">删除</a>
+                                    <a href="javascript:" class="modify">修改</a>
+                                    #if($address.defaultAddress)
+                                        <a class="default">默认收货地址</a>
+                                    #else
+                                        <a href="#" class="setDefault">设为默认地址</a>
+                                    #end
+                                </p>
+                            </li>
+                        #end
+                    #else
+                        <li id="haveNoAddress" style="text-align: center">
+                            <span style="color: #808080">您还没有添加收货地址！</span> </p>
+                        </li>
+                    #end
+                </ul>
+            </div>
+            <div class="add_new_address" id="add_new_address">
+                <b></b>
+                <a href="javascript:">新增收货地址</a>
+            </div>
+            <div id="new_address" class="address_form">
+                <div class="new">
+                    <form id="add_my_new_address">
+                        <ul>
+                            <li>
+                                <label><b>*</b>选择地区：</label>
+                                <select name="province" class="select">
+                                </select>
+                                <select name="city" class="select">
+                                </select>
+                                <select name="districts" class="select">
+                                </select>
+                            </li>
+                            <li>
+                                <label for="text_location"><b>*</b>详细地址：</label>
+                                <input type="text" name="location" style="width: 372px;" class="text" id="text_location">
+                                <!--<span>有助于快速确定订货地址</span>-->
+                            </li>
+                            <li>
+                                <label for="text_zipCode"><b>*</b>邮政编码：</label>
+                                <input type="text" name="zipCode" class="text" id="text_zipCode">
+                            </li>
+                            <li>
+                                <label for="text_name"><b>*</b>收&nbsp;货&nbsp;人：</label>
+                                <input type="text" name="name" class="text" id="text_name">
+                            </li>
+                            <li>
+                                <label for="text_mobile"><b>*</b>手&#12288;&#12288;机：</label>
+                                <input type="text" name="mobile" class="text" id="text_mobile" value="$!loginUser.phone">
+                            </li>
+                            <li>
+                                <label for="text_phone">固定电话：</label>
+                                <input type="text" value="" name="" class="text" id="text_phone" />
+                            </li>
+                            <li class="btn_w">
+                                <button type="submit" class="all_btn">增加</button>
+                                #*<button type="submit" class="cancel_btn">取消</button>*#
+                                <span id="add_address_error" class="add_address_error"></span>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

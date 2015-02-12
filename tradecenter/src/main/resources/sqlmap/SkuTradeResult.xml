@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="SkuTradeResult.selector">
+        select id, skuId, productId, number, backNumber, payNumber from SkuTradeResult
+    </sql>
+
+    <select id="selectSkuTradeResult" resultClass="com.kariqu.tradecenter.domain.payment.SkuTradeResult">
+        <include refid="SkuTradeResult.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="selectProductTradeResult" resultClass="com.kariqu.tradecenter.domain.payment.SkuTradeResult">
+        select productId, sum(number) as number, sum(backNumber) as backNumber, sum(payNumber) as payNumber
+        from SkuTradeResult
+        where productId = #productId# group by productId
+    </select>
+
+    <select id="selectBySkuId" resultClass="com.kariqu.tradecenter.domain.payment.SkuTradeResult">
+        <!-- skuId 在此表中是有唯一约束的 -->
+        <include refid="SkuTradeResult.selector"/>
+        where skuId = #skuId#
+    </select>
+
+    <insert id="insertSkuTradeResult">
+        insert into SkuTradeResult(skuId, productId, number, backNumber, payNumber)
+        values(#skuId#, #productId#, #number#, #backNumber#, #payNumber#)
+    </insert>
+
+    <update id="updateSkuTradeResult">
+        update SkuTradeResult
+        set skuId=#skuId#,
+        productId=#productId#,
+        number = #number#,
+        backNumber = #backNumber#,
+        payNumber = #payNumber#
+        where id = #id#
+    </update>
+
+    <delete id="deleteSkuTradeResult">
+        delete from SkuTradeResult where id = #id#
+    </delete>
+
+</sqlMap>

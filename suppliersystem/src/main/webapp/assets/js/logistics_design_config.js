@@ -1,0 +1,11 @@
+LODOP.PRINT_INITA(0,0,1000,600,"初始化打印控件");
+LODOP.ADD_PRINT_SETUP_BKIMG("<img border='0' src='http://supplier.yijushang.com/supplier/uploadFile/shentong15.jpg'>");
+LODOP.SET_SHOW_MODE("BKIMG_WIDTH",869);
+LODOP.SET_SHOW_MODE("BKIMG_HEIGHT",480);
+LODOP.SET_SHOW_MODE("BKIMG_IN_PREVIEW",true);
+LODOP.ADD_PRINT_TEXTA("发货人",57,413,175,30,"发货人");
+LODOP.ADD_PRINT_TEXTA("发货地址",100,32,175,30,"发货地址");
+LODOP.ADD_PRINT_TEXTA("发货人联系方式",150,32,175,30,"发货人联系方式");
+LODOP.ADD_PRINT_TEXTA("收货人",250,32,175,30,"收货人");
+LODOP.ADD_PRINT_TEXTA("收货人联系方式",300,32,175,30,"收货人联系方式");
+LODOP.ADD_PRINT_TEXTA("收货人地址",312,413,175,30,"收货人地址");

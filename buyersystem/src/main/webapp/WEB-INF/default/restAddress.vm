@@ -1,0 +1,10 @@
+#foreach($address in $restAddress)
+<li class="row clearfix" data-id="$!address.id">
+    <p class="clearfix">
+        <span class="col1"><i></i>$!address.name</span>
+        <span class="col2">$!address.toString().replaceAll(",", "")<span class="phone">$!address.mobile</span></span>
+        #*<a href="javascript:void(0);" class="delete">删除</a>*#
+        <a href="javascript:void(0);" class="modify">修改</a>
+    </p>
+</li>
+#end

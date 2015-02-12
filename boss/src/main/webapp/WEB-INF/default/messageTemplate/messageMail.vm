@@ -1,0 +1,64 @@
+<html>
+<head>
+    <style>body {margin:0;overflow:auto;font:normal 14px Verdana;background:#fff;padding:2px 4px 0;cursor:text;}body, p, font, div, li { line-height: 1.5;}body, td, th {color:#000000;}.i {width:100%;*width:auto;table-layout:fixed;}pre {white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;}a { color: #ff6600;}</style>
+</head>
+
+<body style="padding: 2px 4px 0px; ">
+
+<div style="margin:0 auto">
+
+    <table cellspacing="0" cellpadding="0" width="760" align="center" border="0">
+        <tbody>
+        <tr>
+            <td>
+
+                <table cellspacing="0" cellpadding="0" width="760" border="0" style="font-size: 12px">
+                    <tbody>
+                    <tr>
+                        <td><img height="50" width="265" src="http://img07.yijushang.com/images/yijushang_mail.jpg"/></td>
+                        <td valign="bottom" align="right"><a style="color: #4e5d80" href="http://www.yijushang.com">进入易居尚
+                            www.yijushang.com </a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table cellspacing="0" cellpadding="0" width="760" border="0"
+                       style="border-right: #c0dfef 1px solid; border-top: #c0dfef 1px solid; margin-top: 10px; font-size: 12px; border-left: #c0dfef 1px solid; color: #333; border-bottom: #c0dfef 1px solid; background-color: #f0f9ff; border-radius: 3px">
+                    <tbody>
+                    <tr>
+                        <td valign="top" colspan="2"
+                            style="padding-right: 0px; padding-left: 20px; padding-bottom: 20px; padding-top: 20px">
+                            欢迎加入易居尚：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" colspan="2">
+                            <div style="padding: 10px 0 10px 200px;line-height: 22px">
+                                <strong>您好，欢迎加入易居尚,请妥善保管您的登录信息：</strong><br/>
+                                <p style="padding: 5px 0 ;">
+                                    用户名：$accountName <br>
+                                    密码：$password
+                                </p>
+                                为了你的帐号安全，请尽快修改您的密码。
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center; padding-right: 0px;padding-bottom: 20px; padding-top: 20px">
+                            <div style="color: #999">
+                                此邮件易居尚系统发出，请勿回复<br/>
+                                如有任何疑问，请拨打客服热线 400 9933 178-4
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body></html>

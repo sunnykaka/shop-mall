@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+    <context:annotation-config/>
+
+    <bean id="spacepicture-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:spacepicture-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+
+    </bean>
+
+    <bean id="spacePictureRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.SpacePictureRepositoryImpl">
+        <property name="sqlMapClient" ref="spacepicture-sqlMapClient"/>
+    </bean>
+
+    <bean id="spacePictureService" class="com.kariqu.productcenter.service.impl.SpacePictureServiceImpl">
+        <property name="spacePictureRepository" ref="spacePictureRepository"/>
+    </bean>
+
+    <bean id="uploadImageService" class="com.kariqu.productcenter.service.impl.UploadImageServiceImpl">
+        <property name="savePosition" value="${spacePictureUploadPath}"/>
+        <property name="upLoadOnCdn" value="true"/>
+        <property name="useJMagick" value="false"/>
+        <property name="yunStore" ref="fileStore"/>
+        <property name="scales">
+            <list>
+            </list>
+        </property>
+    </bean>
+    <bean id="fileStore" class="com.kariqu.common.file.UpYunStore"/>
+
+</beans>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <insert id="insertProductActivity">
+        insert into ProductActivity
+        (productId,activityType,activityPrice,activityId,startDate,endDate)
+        values
+        (#productId#,#activityType#,#activityPrice#,#activityId#,#startDate#,#endDate#)
+    </insert>
+
+    <select id="selectCountOfProductJoinActivityAfterCurrentTime" resultClass="Integer">
+        select count(1) from ProductActivity where productId=#productId# and (<![CDATA[ #startDate# >= now() ]]> or
+        <![CDATA[ #endDate# >= now() ]]>)
+    </select>
+
+    <select id="getActivityCountWrapperGivingDate" resultClass="int">
+        select count(1) from ProductActivity where productId = #productId# and
+        <![CDATA[ #dateInterval# >= startDate and #dateInterval# <= endDate ]]>
+    </select>
+
+    <select id="getActivityCountWrapperGivingDateExceptSelf" resultClass="int">
+        select count(*) from ProductActivity where productId = #productId# and
+        <![CDATA[ #dateInterval# >= startDate and #dateInterval# <= endDate ]]>
+        <isNotEqual prepend="and" property="id" compareValue="0">
+            id != #id#
+        </isNotEqual>
+    </select>
+
+    <select id="getActivityCountInDateRange" resultClass="int">
+        select count(1) from ProductActivity where productId = #productId# and
+        <![CDATA[ startDate > #start# and endDate < #end# ]]>
+    </select>
+
+    <select id="getActivityCountInDateRangeExceptSelf" resultClass="int">
+        select count(1) from ProductActivity where productId = #productId# and
+        <![CDATA[ startDate > #start# and endDate < #end# ]]>
+        <isNotEqual prepend="and" property="id" compareValue="0">
+            id != #id#
+        </isNotEqual>
+    </select>
+
+
+    <sql id="ProductActivity.selector">
+        select id,productId,activityType,activityPrice,activityId,startDate,endDate from ProductActivity
+    </sql>
+
+    <select id="getProductActivityByGivingTime" resultClass="com.kariqu.productcenter.domain.ProductActivity">
+        <include refid="ProductActivity.selector"/>
+        where productId=#productId# and <![CDATA[ #specificDate# >= startDate and #specificDate# <= endDate ]]>
+    </select>
+
+    <select id="getProductActivityByActivityIdAndType" resultClass="com.kariqu.productcenter.domain.ProductActivity">
+        <include refid="ProductActivity.selector"/>
+        where activityType = #activityType# and activityId = #activityId#
+    </select>
+
+    <update id="updateProductActivity">
+        update ProductActivity
+        set productId = #productId#, activityType = #activityType#, activityPrice = #activityPrice#,
+        activityId = #activityId#, startDate = #startDate#, endDate = #endDate#
+        where id = #id#
+    </update>
+
+    <delete id="deleteProductActivity">
+        delete from ProductActivity where productId=#productId# and activityId=#activityId#
+    </delete>
+
+    <select id="getUserBuyCountForIntegralAndSuperConversionBySkuId" resultClass="int">
+        select userBuyCount from productintegralconversion where skuId = #skuId# and isDelete = 0 and <![CDATA[ #specificDate# >= startDate and #specificDate# <= endDate ]]>
+        union all
+        select userBuyCount from productsuperconversion where skuId = #skuId# and isDelete = 0 and <![CDATA[ #specificDate# >= startDate and #specificDate# <= endDate ]]>
+    </select>
+</sqlMap>

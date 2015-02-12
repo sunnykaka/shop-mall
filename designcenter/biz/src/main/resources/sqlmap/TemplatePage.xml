@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForTemplatePage" resultClass="int">
+        select count(1) from TemplatePage where templateVersionId = #templateVersionId#
+    </select>
+
+    <select id="selectAllTemplatePages" resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage
+    </select>
+
+    <select id="queryTemplatePagesByTemplateVersionId"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where templateVersionId = #templateVersionId#
+    </select>
+
+    <select id="queryTemplatePagesByTemplateVersionIdAndPage"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where templateVersionId = #templateVersionId# limit #start#,#limit#
+    </select>
+
+    <select id="selectTemplatePage"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where id = #id#
+    </select>
+
+
+    <select id="queryIndexTemplatePage"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where pageType = 'index' and templateVersionId = #templateVersionId#
+    </select>
+
+    <select id="querySearchListTemplatePage"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where pageType = 'searchList' and templateVersionId = #templateVersionId#
+    </select>
+
+    <select id="queryDetailTemplatePage"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where pageType = 'detail' and templateVersionId = #templateVersionId#
+    </select>
+
+
+    <select id="queryTemplatePageByPageNameAndTemplateVersionId"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplatePage">
+        select * from TemplatePage where templateVersionId = #templateVersionId# and pageName = #pageName#
+    </select>
+
+
+    <insert id="insertTemplatePage">
+        insert into TemplatePage
+        (templateVersionId,pageName,pageContent,configContent,configKey,pageType)
+        values
+        (#templateVersionId#,#pageName#,#pageContent#,#configContent#,#configKey#,#pageType#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateTemplatePage">
+        update TemplatePage
+        set templateVersionId=#templateVersionId#,
+        pageName=#pageName#,
+        pageContent=#pageContent#,
+        configContent=#configContent#,
+        configKey=#configKey#,
+        pageType=#pageType#
+        where id=#id#
+    </update>
+
+    <delete id="deleteTemplatePage">
+        delete from
+        TemplatePage where id = #id#
+    </delete>
+
+    <delete id="deleteTemplatePageByTemplateVersionId">
+        delete from
+        TemplatePage
+        where templateVersionId = #templateVersionId#
+    </delete>
+
+</sqlMap>

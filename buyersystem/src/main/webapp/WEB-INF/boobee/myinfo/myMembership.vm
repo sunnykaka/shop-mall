@@ -1,0 +1,80 @@
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="vip_info">
+            <strong class="vip_title">我的会员等级</strong>
+            <div class="my_vip">
+                <p><em>您的会员级别是：</em>$userGradeRule.name（<a href="#mapPrivilege" class="check_intro">查看易居尚会员介绍</a>）</p>
+                <p><em>您目前累计购物： </em>
+                    <span class="rental">¥$expenseTotal</span>
+                    #if($nextUserGradeRule)
+                        再消费满<span class="price">¥$!money</span>，可升级到${nextUserGradeRule.name}。
+                    #end
+                </p>
+
+                <p><em>您的会员成长记录： </em>
+                    #foreach($userHistroyView in $userHistroyViews)
+                        #if($velocityCount == $userHistroyViews.size() && $userHistroyView.date)
+                            $dateTool.format("yyyy-MM-dd",$userHistroyView.date)&#12288;
+                            <a href="" class="get_vip">$userHistroyView.name</a>
+                        #end
+                    #end
+                </p>
+            </div>
+            <strong class="vip_title">${userGradeRule.name}权力及优惠</strong>
+            <a id="mapPrivilege"></a>
+            <div class="privilege">
+                #*<p>A、在易居尚商城<span>登陆注册</span>或在易居尚（京东、天猫）旗舰店购物，即成为易居尚会员；</p>
+                <p>B、享受购物积分；</p>
+                <p>C、对购买商品进行评论，评论积分系数为0.3；</p>
+                <p>D、购买任何商品免运费；</p>
+                <p>E、七天无理由退换货（不影响二次销售）。</p>*#
+                $userGradeRule.gradeDescription
+            </div>
+            <strong class="vip_title">会员级别图示</strong>
+            <ul class="vip_grade">
+                <li>
+                    <div class="vip_name">
+                        <i class="vip_ico v1 ie6png"></i>
+                        <strong>普通会员</strong>
+                    </div>
+                    <p>注册即成为普通会员</p>
+                </li>
+                <li>
+                    <div class="vip_name">
+                        <i class="vip_ico v2 ie6png"></i>
+                        <strong>瓷碗会员</strong>
+                    </div>
+                    <p>或累积购物2000元</p>
+                </li>
+                <li>
+                    <div class="vip_name">
+                        <i class="vip_ico v3 ie6png"></i>
+                        <strong>铁碗会员</strong>
+                    </div>
+                    <p>或累积购物5000元</p>
+                </li>
+                <li>
+                    <div class="vip_name">
+                        <i class="vip_ico v4 ie6png"></i>
+                        <strong>铜碗会员</strong>
+                    </div>
+                    <p>或累积购物10000元</p>
+                </li>
+                <li>
+                    <div class="vip_name">
+                        <i class="vip_ico v5 ie6png"></i>
+                        <strong>银碗会员</strong>
+                    </div>
+                    <p>或累积购物30000元</p>
+                </li>
+                <li>
+                    <div class="vip_name">
+                        <i class="vip_ico v6 ie6png"></i>
+                        <strong>金碗会员</strong>
+                    </div>
+                    <p>或累积购物50000元</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForRoleScope" resultClass="int">
+        select count(1) from RoleScope
+    </select>
+
+    <select id="selectAllRoleScopes" resultClass="com.kariqu.securitysystem.domain.RoleScope">
+        select * from RoleScope
+    </select>
+
+    <select id="queryRoleScopeByPage"
+            resultClass="com.kariqu.securitysystem.domain.RoleScope">
+        select * from RoleScope limit #start#,#limit#
+    </select>
+
+    <select id="selectRoleScope"
+            resultClass="com.kariqu.securitysystem.domain.RoleScope">
+        select * from RoleScope where id = #id#
+    </select>
+
+    <select id="queryRoleScopeByRoleId"
+            resultClass="com.kariqu.securitysystem.domain.RoleScope">
+        select * from RoleScope where roleId = #roleId#
+    </select>
+
+    <select id="queryRoleScopeByRoleIdAndResourceName"
+            resultClass="com.kariqu.securitysystem.domain.RoleScope">
+        select * from RoleScope where roleId = #roleId# and resource = #resourceName#
+    </select>
+
+    <insert id="insertRoleScope">
+        insert into RoleScope
+        (roleId,resource,resourceAuthScript,uiAuthScript,scopeValue)
+        values
+        (#roleId#,#resource#,#resourceAuthScript#,#uiAuthScript#,#scopeValue#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateRoleScope">
+        update RoleScope
+        set
+        roleId=#roleId#,resource=#resource#,resourceAuthScript=#resourceAuthScript#,uiAuthScript=#uiAuthScript#,scopeValue=#scopeValue#
+        where id=#id#
+    </update>
+
+    <delete id="deleteRoleScope">
+        delete from RoleScope
+        where id = #id#
+    </delete>
+
+
+    <delete id="deleteRoleScopeByRoleId">
+        delete from RoleScope
+        where roleId = #roleId#
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sessionConfig>
+
+    <!-- 缺省配置 -->
+    <defaultConfig>
+        <domain>kariqu.com</domain>
+        <lifecycle>-1</lifecycle>
+        <storeType>cookie</storeType>
+    </defaultConfig>
+
+    <!-- 生命周期为非-1的配置不能是cache,-1表示浏览器关闭后失效 -->
+    <combineConfig>
+        <combine combineKey="combineKey1">
+            <domain>kariqu.com</domain>
+            <path>/</path>
+            <lifecycle>1800</lifecycle>
+            <httponly>true</httponly>
+            <storeType>cookie</storeType>
+            <entries>
+                <entry name="name1">
+                    <key>key1</key>
+                    <encrypt>true</encrypt>
+                    <readonly>true</readonly>
+                </entry>
+                <entry name="name2">
+                    <key>key2</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+            </entries>
+        </combine>
+        <combine combineKey="combineKey2">
+            <domain>kariqu.com</domain>
+            <path>/demo</path>
+            <lifecycle>1800</lifecycle>
+            <httponly>false</httponly>
+            <storeType>cookie</storeType>
+            <entries>
+                <entry name="name3">
+                    <key>key3</key>
+                    <encrypt>true</encrypt>
+                    <readonly>true</readonly>
+                </entry>
+                <entry name="name4">
+                    <key>key4</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+            </entries>
+        </combine>
+    </combineConfig>
+    <entries>
+        <entry name="sessionId">
+            <key>cookie</key>
+            <path>/</path>
+            <httponly>true</httponly>
+            <readonly>true</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="cart">
+            <key>c</key>
+            <domain>kariqu.com</domain>
+            <path>/cart</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cache</storeType>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+    </entries>
+    <globalinfo>
+        <!-- cookie 加密的key -->
+        <key name="blowfish_key">the blowfish encrypt key</key>
+        <key name="key">value</key>
+    </globalinfo>
+</sessionConfig>

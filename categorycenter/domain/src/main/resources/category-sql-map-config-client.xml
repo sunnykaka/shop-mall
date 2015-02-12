@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <sqlMap resource="sqlmap/hsql/ValueClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/PropertyClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/ProductCategoryClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/CategoryPropertyClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/CategoryPropertyValueClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/PropertyValueDetailClient.xml"/>
+
+    <sqlMap resource="sqlmap/hsql/NavigateCategoryClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/NavCategoryPropertyValueClient.xml"/>
+    <sqlMap resource="sqlmap/hsql/NavCategoryPropertyClient.xml"/>
+
+</sqlMapConfig>

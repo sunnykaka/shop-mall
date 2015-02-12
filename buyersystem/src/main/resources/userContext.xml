@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="user-repository.xml"/>
+
+    <bean id="userService" class="com.kariqu.usercenter.service.impl.UserServiceImpl"/>
+    <bean id="userPointService" class="com.kariqu.usercenter.service.impl.UserPointServiceImpl"/>
+
+    <bean id="subscriptionInfoService" class="com.kariqu.usercenter.service.impl.SubscriptionInfoServiceImpl"/>
+
+    <bean id="statisticsEntryService" class="com.kariqu.usercenter.service.impl.StatisticsEntryServiceImpl"/>
+
+    <bean id="mailKey" class="java.util.HashMap">
+        <constructor-arg index="0">
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="qq.com" value="http://mail.qq.com"/>
+                <entry key="gmail.com" value="http://mail.google.com"/>
+                <entry key="sina.com" value="http://mail.sina.com.cn"/>
+                <entry key="163.com" value="http://mail.163.com"/>
+                <entry key="126.com" value="http://mail.126.com"/>
+                <entry key="yeah.net" value="http://www.yeah.net"/>
+                <entry key="sohu.com" value="http://mail.sohu.com"/>
+                <entry key="tom.com" value="http://mail.tom.com"/>
+                <entry key="sogou.com" value="http://mail.sogou.com"/>
+                <entry key="139.com" value="http://mail.10086.cn"/>
+                <entry key="hotmail.com" value="http://www.hotmail.com"/>
+
+                <entry key="live.com" value="http://login.live.com"/>
+                <entry key="live.cn" value="http://login.live.cn"/>
+                <entry key="live.com.cn" value="http://login.live.com.cn"/>
+                <entry key="189.com" value="http://webmail16.189.cn/webmail"/>
+                <entry key="yahoo.com.cn" value="http://mail.cn.yahoo.com"/>
+                <entry key="yahoo.cn" value="http://mail.cn.yahoo.com"/>
+                <entry key="eyou.com" value="http://www.eyou.com"/>
+                <entry key="21cn.com" value="http://mail.21cn.com"/>
+                <entry key="188.com" value="http://www.188.com"/>
+                <entry key="foxmail.com" value="http://www.foxmail.com"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jointLoginConfig" class="com.kariqu.usercenter.Oauth">
+        <property name="jointLoginConfigName" value="/JointLogin.properties"/>
+    </bean>
+
+    <bean class="com.kariqu.buyer.web.helper.BuySessionLogin"/>
+    <bean class="com.kariqu.buyer.web.helper.CheckUser" />
+
+</beans>

@@ -1,0 +1,406 @@
+原则：一切皆文件,函数式，流式处理,文本化配置，开放，自由，专注，简单
+/proc/cpuinfo /proc/meminfo /proc/ioports uname -a
+
+发行版:
+1,redhant系列 redhat fedora centos   yum rpm
+2,debian ubuntu  apt
+3,gentoo 高度自由定制的发行版，需要对linux非常熟悉  portage基于源代码分发
+4,freeBSD 类unix系统 稳定的服务器操作系统 portage
+
+debian, centos ,freeBSD,redhat，服务器操作系统的首选
+
+
+debain 是最遵守 GUN 的操作系统: www.zeuux.com/blog/content/3614/
+因为 GUN 的严谨, debian 上的应用都是很稳定的.
+
+unbuntu fedora作为桌面的首选
+
+如果需要一个稳定的服务器系统，而且想深入摸索一下Linux的各个方面的知识，想自己定制许多内容，使用Gentoo
+
+linux会大量的使用内存，用sync来同步内存中的数据
+
+bc命令是个计算器，+ - * / ^(幂） %
+
+开机过程：
+1，加载BIOS，寻找第一个启动设备代号
+2，读取第一个启动设备的MBR的引导程序
+3，加载操作系统的核心，开始驱动硬件
+4，核心执行/sbin/init这个程序
+5，init开始挂接各种模块，各种启动脚本
+6，执行/bin/login，等待用户登陆
+7，登陆成功之后以shell控制主机
+
+开机脚本执行顺序
+第一步：通过/boot/vm进行启动
+vmlinuz
+
+第二步：
+init
+/etc/inittab
+
+第三步：启动相应的脚本，并且打开终端
+rc.sysinit
+rc.d(里面的脚本）
+rc.local
+
+可在rc.local中写入系统完全启动要初始化的一些自己的任务脚本
+
+第四步：启动login登录界面
+login
+
+第五步:在用户登录的时候执行sh脚本的顺序：每次登录的时候都会完全执行的
+/etc/profile
+/etc/bashrc
+/root/.bashrc
+/root/.bash_profile
+
+dmesg 查看开机信息
+
+关机命令
+shutdown -h now
+shutdown -h 20:25
+shutdown -r now //重启
+shutdown -r +30 'message' 30分钟后重启，并显示信息
+shutdown -k now 'message' 只是警告，并不真正关机
+reboot = shutdown -r now
+
+安全的关机重启方法：sync;sync;sync; reboot
+
+软件安装
+yum/rpm    yum install iptables
+apt/dpkg   apt-get install iptables
+源码安装 ./configure ./make ./make install
+.bin  ./software.bin直接执行
+二进制分发
+
+rpm -q subversion //查询某个套件
+rpm -aq |grep mysql //查询安装的mysql的软件
+rpm -qi //查询套件信息
+rpm -ql //查询这个套件占用的目录和文件
+rpm -qc 配置文件
+rpn -qd 帮助文件
+rpm -ivh //安装
+
+测试端口telnet
+telnet ip port
+
+打开22号ssh端口，然后远程命令行管理
+service sshd start
+
+vsftpd,打开ftp，一般监听21号端口
+不过有些windows ftp客户端可以用22号ssh隧道进行文件传输
+
+常用端口
+25 email
+80 http
+53 dns
+
+查看监听端口
+lsof list open file
+lsof -Pnl +M -i4
+lsof -Pnl +M -i6
+lsof -i:port
+netstat -tulpn
+netstat -nltp
+
+windows下查看端口netstat -an
+
+IP设置
+静态修改/etc/sysconfig/network/ifcfg-eth0
+
+ifconfig eth0 222.222.222.222
+ifconfig eth0 ip broadcast cast netmask mask
+
+ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' 可提取系统ip
+
+网络
+lspci | grep Ethernet 查看网卡
+dns配置：/etc/resolv.conf
+netstat  显示网络连接、路由表和网络接口信息，能让用户得知目前都有哪些网络连接正在运作。
+route route -n 路由
+nslookup
+arp
+tcpdump 将监视第一个网络界面上所有流过的数据包。
+一个网卡可绑定多个IP
+一个IP可以绑定在多个网卡上
+host 查询域名 host -a example.com
+IP配置文件  /etc/sysconfig/network-scripts/ifcfg-eth0
+
+防火墙：
+service iptables restart
+service iptables start
+service iptables stop
+iptables -L -n //查看防火规则
+开放端口，屏蔽IP，经常tomcat开启不能访问，那是因为iptables没有配置
+开放80端口： iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables由表 (tables)，链(chains)，规则(rules)组成
+
+hosts地址
+/etc/hosts
+
+httpd:
+service httpd status
+html位置 /var/www/
+
+网卡
+service network start
+service network restart
+service network stop
+service network status
+service network reload
+
+service只是一个脚本，它解析后面的参数然后在/etc/init.d下找程序
+
+端口服务查询
+cat /etc/services
+
+进程
+ps aux
+ps -aux | grep java
+top
+pstree
+kill 不物理杀死，只是给信号
+kill -9 pid 强迫杀死
+
+内存
+free free -m
+监控交换分区free -m | grep Swap | awk '{print $4}'
+vmstat 对系统整体情况进行统计,内核线程、虚拟内存、磁盘、陷阱和 CPU 活动的统计信息
+vmstat -n 2
+
+监控cpu mem
+top -n 1 | grep  Cpu
+top -n 1 | grep Mem
+mpstat
+uptime  监控负载
+cat /proc/loadavg
+
+磁盘监控
+iostat -d -k -t 2
+iostat
+df (disk free)  df -h
+监控根磁盘的使用情况 df -h | grep /dev/sda3 | awk '{print $5}' | cut -f 1 -d "%" 百分比
+du (disk usage)
+fdisk
+quota  显示磁盘已使用的空间与限
+mount/umount 加载文件系统/卸载文件系统
+
+查找文件
+find /etc -name hosts
+find . -name *.xml
+whereis which
+locate 查找是基于索引
+
+查找内容 | 管道 >重定向  >>append to file   < puts file to input
+同时想终端和文件中写数据tee date|tee now
+grep -r 'Dao[Impl|Mock]' src
+ls -lh | grep 'search' | more
+ls -lh > log.txt
+awk sed(stream editor) 强大的文本处理工具
+tr 是sed的简化版
+sort 排序
+uniq 消重
+cut 用来提取各种各样的数据
+
+
+内容阅读
+ls -l 列出文件详细信息
+cat 从第一行开始全部显示    cat -n 显示行号
+tac 从最后一行反向显示
+nl 显示的时候输出行号
+more 分页，空格下一页
+less 也是分页，但是有类似vi的前后，搜索
+head 前几行
+tail 后几行
+tail -f file 可以实时查看一个正在被改变的文件
+wc 统计单词个数
+
+文件操作
+cp 复制
+mv 移动，重命名
+rm 删除 -r 递归
+mkdir 创建目录  目录不存在的时候创建多级目录 -p
+
+
+文件安全命令
+-表示文件 d表示目录 l表示连接文件 .开头是隐藏文件  c字符特殊文件 b块特殊文件 p命名管道 s Socket
+chmod  设定权限 chmod u+x jdk.bin  符号和八进制两种  (u,g,o,a)   + - =
+chown  改变所有者  chgrp wan test.java
+chgrp  改变用户组 chown groupName /opt/book
+chattr 改变文件属性
+网络telnet ftp http文本协议安全性低于ssh,sftp,https
+用户，组，其他，权限是操作+资源，操作是读，写，执行(rwx)   rwx和ugo组合出rwx rwx rwx九个字符来表示权限
+useradd,userdel,groupadd
+
+/etc/passwd 用户的配置文件
+/etc/shadow 密码文件
+/etc/group
+/etc/gshadow
+
+/etc/sudoers
+visudo
+
+
+ln -s 源文件 目标文件 建立软链接
+
+umask  建立文件时预设的权限掩码
+
+
+打包和压缩
+
+tar用于打包  .tar    .tar.gz tar 程序打包的档案，其中并且经过 gzip 的压缩！
+tar可在打包的时候调用gzip bzip2    -z调用gzip -j调用bzip2
+
+tar -cf java.tar java.txt
+tar -xf java.tar
+
+-x是解包 -cf是打包 -tf列出包中的文件
+
+gzip/gunzip 压缩/解压   .gz     -d解压
+bzip2/bunzip2 压缩/解压  .bz2   -d解压
+compress/uncompress 压缩/解压  .Z   -d解压
+zip unzip 压缩/解压 .zip
+
+环境变量
+export unset
+echo
+$PATH
+env
+/etc/profile
+./profile ./bash_profile
+
+Java环境
+下载jdk-linux-i586.bin
+然后chmod u+x jdk-linux-i586.bin 赋予执行权限
+./jdk-linux.i586.bin
+设置环境变量export JAVA_HOME=jdk-linux.586 export PATH=$PATH:$JAVA_HOME/bin
+环境变量可以设置在用户级别和全局级别
+
+tomcat应用服务器安装
+下载tomcat.zip
+unzip tomcat.zip
+chmod a+x tomcat
+
+chkconfig 对服务进行管理
+
+memcached安装
+1，下载libevent 我测试的是libevnet1.4.10
+tar -xzf libevnet.tar.gz
+./configure
+./make install
+2,下载memcached ,最新版
+./configure
+./make install
+
+然后memcached -u root start 启动，发现有 libevnet.so文件加载错误，在
+/etc/ld.so.conf中加入/usr/local/lib這一行
+执行更新/sbin/ldconfig –v
+
+root用户的时候启动memcached会can't run as root without the -u switch
+
+memcached start -u root -d -p 11212 启动一个监听11212的实例
+
+memcached的启动参数
+memcached 1.4.4
+-p <num>      TCP port number to listen on (default: 11211)
+-U <num>      UDP port number to listen on (default: 11211, 0 is off)
+-s <file>     UNIX socket path to listen on (disables network support)
+-a <mask>     access mask for UNIX socket, in octal (default: 0700)
+-l <ip_addr>  interface to listen on (default: INADDR_ANY, all addresses)
+-d            run as a daemon
+-r            maximize core file limit
+-u <username> assume identity of <username> (only when run as root)
+-m <num>      max memory to use for items in megabytes (default: 64 MB)
+-M            return error on memory exhausted (rather than removing items)
+-c <num>      max simultaneous connections (default: 1024)
+-k            lock down all paged memory.  Note that there is a
+              limit on how much memory you may lock.  Trying to
+              allocate more than that would fail, so be sure you
+              set the limit correctly for the user you started
+              the daemon with (not for -u <username> user;
+              under sh this is done with 'ulimit -S -l NUM_KB').
+-v            verbose (print errors/warnings while in event loop)
+-vv           very verbose (also print client commands/reponses)
+-vvv          extremely verbose (also print internal state transitions)
+-h            print this help and exit
+-i            print memcached and libevent license
+-P <file>     save PID in <file>, only used with -d option
+-f <factor>   chunk size growth factor (default: 1.25)
+-n <bytes>    minimum space allocated for key+value+flags (default: 48)
+-L            Try to use large memory pages (if available). Increasing
+              the memory page size could reduce the number of TLB misses
+              and improve the performance. In order to get large pages
+              from the OS, memcached will allocate the total item-cache
+              in one large chunk.
+-D <char>     Use <char> as the delimiter between key prefixes and IDs.
+              This is used for per-prefix stats reporting. The default is
+              ":" (colon). If this option is specified, stats collection
+              is turned on automatically; if not, then it may be turned on
+              by sending the "stats detail on" command to the server.
+-t <num>      number of threads to use (default: 4)
+-R            Maximum number of requests per event, limits the number of
+              requests process for a given connection to prevent
+              starvation (default: 20)
+-C            Disable use of CAS
+-b            Set the backlog queue limit (default: 1024)
+-B            Binding protocol - one of ascii, binary, or auto (default)
+-I            Override the size of each slab page. Adjusts max item size
+              (default: 1mb, min: 1k, max: 128m)
+
+
+mysql安装
+在官网下载mysql.tar.gz文件，然后拷贝到usr/local
+先清空机器上的所有mysql文件，比如/etc/mysql/my.cnf等
+tar xzf mysql.tar.gz
+shell> groupadd mysql
+shell> useradd -r -g mysql mysql
+shell> cd /usr/local
+shell> tar zxvf /path/to/mysql-VERSION-OS.tar.gz
+shell> ln -s full-path-to-mysql-VERSION-OS mysql
+shell> cd mysql
+shell> chown -R mysql .
+shell> chgrp -R mysql .
+shell> scripts/mysql_install_db --user=mysql
+shell> chown -R root .
+shell> chown -R mysql data
+# Next command is optional
+shell> cp support-files/my-medium.cnf /etc/my.cnf
+shell> bin/mysqld_safe --user=mysql &
+# Next command is optional
+shell> cp support-files/mysql.server /etc/init.d/mysql.server //系统开机启动
+
+mysql -h ip -u root -p
+
+安装好了监听3306端口,root用户默认没有密码，也不能远程连接，要手动用sql去修改 ，也可以通过一个命令
+grant all on *.* to 'root'@'%' identified by 'root'; %表示任何主机，可以指定具体IP,identified是密码
+select * from mysql.user;
+update user set host='ip' where user='root';
+flush privileges;
+
+UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';  改root密码
+FLUSH PRIVILEGES;
+
+mysql导入数据
+mysql -u root -p < /opt/xxx.sql
+
+character_set_server=utf8在etc/my.cnf中配置编码
+show variables like ‘%character%’;显示编码信息
+
+/etc/init.d/mysqld start //启动
+/etc/init.d/mysqld restart
+
+service mysqld start也可以
+
+lower_case_table_names=1来让它大小写不敏感
+
+
+如何修改文件句柄数
+ulimit -n
+在/etc/security/limits.conf文件中设置最大打开文件数， 下面是一行提示:
+#<domain>  <type>  <item>  <value>
+
+ulimit -SHn 65535 可在当前shell下生效设置最大打开文件数，重启失效 SH是软限制和硬限制的意思
+
+
+
+

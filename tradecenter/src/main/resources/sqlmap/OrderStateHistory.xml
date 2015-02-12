@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="orderStateHistory.selector">
+        select id, orderId, orderState, date, overlay, debugMode, stateLevel, operator, doWhat, remark
+        from OrderStateHistory
+    </sql>
+
+    <insert id="insertOrderStateHistory">
+        insert into OrderStateHistory
+        (orderId,orderState,date,overlay,debugMode,stateLevel, operator, doWhat, remark)
+        values
+        (#orderId#,#orderState#,now(),#overlay#,#debugMode#,#stateLevel#, #operator#, #doWhat#, #remark#)
+    </insert>
+
+    <select id="queryUserModeOrderStateHistory" resultClass="com.kariqu.tradecenter.domain.OrderStateHistory">
+        <include refid="orderStateHistory.selector"/>
+        where orderId = #orderId# and debugMode = false and overlay = false
+        and orderState in <iterate conjunction="," property="orderStateList" open="(" close=")">#orderStateList[]#</iterate>
+        order by id desc
+    </select>
+
+    <select id="queryAllOrderStateHistory" resultClass="com.kariqu.tradecenter.domain.OrderStateHistory">
+        <include refid="orderStateHistory.selector"/>
+        where orderId = #orderId# order by id
+    </select>
+
+    <select id="queryHistoryWithState" resultClass="com.kariqu.tradecenter.domain.OrderStateHistory">
+        <include refid="orderStateHistory.selector"/>
+        where orderId = #orderId# and orderState = #orderState#
+        order by id desc limit 1
+    </select>
+
+    <select id="queryOrderStateHistoryWithOutState" resultClass="com.kariqu.tradecenter.domain.OrderStateHistory">
+        <include refid="orderStateHistory.selector"/>
+        where orderId = #orderId# and orderState != #orderState#
+        order by id desc limit 1
+    </select>
+
+    <update id="updateOrderMutexStateHistory">
+        update OrderStateHistory
+        set overlay=true where orderId = #orderId# and stateLevel = #stateLevel#
+    </update>
+
+    <update id="updateOrderStateHistoryToVisibleWithUser">
+        update OrderStateHistory set debugMode = true, overlay = true where orderId = #orderId# and orderState = #orderState#
+    </update>
+
+    <select id="queryOrderStateHistoryDistinct" resultClass="com.kariqu.tradecenter.domain.OrderStateHistory">
+        SELECT orderState,date FROM (SELECT orderId,orderState,date FROM OrderStateHistory where orderId = #orderId#
+        order by id desc) history
+        group by orderState order by date desc
+    </select>
+
+    <select id="queryNotConfirmSuccessOrderId" resultClass="long">
+    <![CDATA[
+        SELECT orderId FROM
+        (
+            SELECT * FROM (SELECT orderId, date, orderState FROM orderStateHistory ORDER BY date DESC) osh
+            GROUP BY osh.orderId
+        ) oh
+        WHERE orderState = #orderState# AND ADDDATE(oh.date, INTERVAL #delay# DAY) <= NOW()
+    ]]>
+
+        <!--
+        如果数据不完整, 则可能下面的语句与上面的语句查出来的数据不一致, 以上面的数据(History 记录)为准!
+        SELECT * FROM orderTable WHERE orderState = 'Send' AND ADDDATE(modifyDate,INTERVAL 35 DAY) < NOW();
+        -->
+    </select>
+
+</sqlMap>

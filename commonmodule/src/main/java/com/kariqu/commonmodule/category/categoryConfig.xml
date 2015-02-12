@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>true</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="categoryWordNumber" label="子类目一行最多显示多少个汉字" dataType="String" formType="text">8</param>
+        <param name="categoryConfig" label="类目配置" dataType="String" formType="text">
+            <![CDATA[
+http://www.yijushang.com/page/89,易居尚生活
+            ]]>
+        </param>
+    </params>
+</module>

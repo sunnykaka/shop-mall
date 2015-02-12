@@ -1,0 +1,94 @@
+Extjs是使用面向对象思想完成的一个组件UI框架，怎么布局各种组件是开发者需要注意的
+
+布局有很多种，他们的共同基类是：ContainerLayout 定义公共的布局行为，继承下来的子类如下：
+
+
+AutoLayout (没有列入extjs的文档api，所以不常用)
+
+BorderLayout (使用东西南北中来布局) 容器中的面板用属性region属性来标明方位:west,north,east,south,center
+new Ext.Viewport({
+            layout : 'border',
+            items : [
+                {
+                    height : 75,
+                    region : 'north',
+                    title : 'Does Santa live here?'
+                },
+                {
+                    width : 150,
+                    region : 'west',
+                    title : 'The west region rules'
+                },
+                {
+                    region : 'center',
+                    title : 'No, this region rules!'
+                }
+            ]
+        });
+
+
+
+ColumnLayout (垂直式结构而准备的布局，当中包含已指定宽度的多个列，列的宽度可以是固定值，也可以是可伸缩的百分比宽度)
+new Ext.Panel({
+            layout:'column',
+            items:[
+                {
+                    title:'列一',
+                    width:100  //表示像素
+                },
+                {
+                    title:'列二',
+                    columnWidth:.5 //%50百分比
+                },
+                {
+                    title:'列三',
+                    columnWidth:.5
+                }
+            ]
+        });
+
+BoxLayout -->(HBoxLayout,VBoxLayout)
+BoxLayout为HBox和VBox提供基类，不直接使用,HBox垂直，VBox水平
+
+AnchorLayout --->(AbsoluteLayout,FormLayout)
+AnchorLayout 相对于容器四周的尺寸大小，对其包含在内的元素进行定位式（Anchoring）的布局。如果容器大小发生变化，所有已固定的项都会随着定位规则而变化
+AbsoluteLayout 绝对布局，继承了AnchorLayout布局，增加x,y坐标
+
+FormLayout是用来布局表单的，渲染出来的Field是能够支持HTML label元素的用户体验设计，一般我们会选择使用Ext.form.FormPanel（自动使用FormLayout作为布局类），
+表单布局会自动把里面的组件按照一列显示，我们可以配置标签宽度，Filed宽度等。表单面板中也可放入其他面板以实现复杂的表单。
+
+
+FitLayout(单容器中有一个子面板的时候，设置这种布局让面板充满整个容器，如果有多个，只会渲染第一个)
+-->(CardLayout,AccordionLayout)
+CardLayout继承FitLayout，所以也会子面板填充整个容器，但是CardLayout可以有多个子面板，可以通过一个函数setActiveItem来设定渲染哪个
+所以这种布局适合哪种信息导航式的功能，点击下一步，上一步。
+AccordionLayout继承FitLayout，同一也是只渲染一个面板，但是每个面板可以展开和搜索
+new Ext.Panel({
+    title: 'Accordion Layout',
+    layout:'accordion',
+    defaults: {
+        bodyStyle: 'padding:15px'
+    },
+    items: [{
+        title: 'Panel 1',
+        html: '<p>Panel content!</p>'
+    },{
+        title: 'Panel 2',
+        html: '<p>Panel content!</p>'
+    },{
+        title: 'Panel 3',
+        html: '<p>Panel content!</p>'
+    }]
+});
+
+
+
+
+MenuLayout (在菜单中布局，通常不能直接使用)
+ToolBarLayout (在工具栏中布局)
+
+TableLayout (这种布局渲染到html的表格)
+
+当然你可以自己扩展自己的布局，比如CenterLayout,RowLayout就是Extjs扩展包中的布局类
+
+

@@ -1,0 +1,23 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.raty.min.js?$urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_comment.js?$urlBroker.getVersion()",
+'<script type="text/javascript">
+new UserCenter.comment();
+</script>'])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_order" id="ucOrder">
+            <h3 class="tit">商品评价</h3>
+        </div>
+        <div class="product_comment" id="product_comment">
+            <ul class="tabs">
+                <li class="current"><a href="$!urlBroker.getUrl('MyValuationList').addQueryData('pageNo',$!pageNo).addQueryData('state',0).toString()">未评价</a></li>
+                <li><a href="$!urlBroker.getUrl('MyValuationList').addQueryData('pageNo',$!pageNo).addQueryData('state',1).toString()">已评价</a></li>
+            </ul>
+            <div class="comment_list" id="comment_list">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

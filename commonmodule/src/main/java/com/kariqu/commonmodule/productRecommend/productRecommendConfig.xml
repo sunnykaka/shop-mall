@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="priceInterval" dataType="String" formType="text">10</param>
+        <param name="samePriceNum" dataType="String" formType="text">4</param>
+        <param name="historyRecommendNum" dataType="String" formType="text">4</param>
+    </params>
+</module>

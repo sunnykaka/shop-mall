@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="yijushang-category" version="1.3">
+
+    <types>
+        <fieldtype name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="text_ptn" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.PatternTokenizerFactory" pattern="\(([^\(]+)\)" group="1"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            </analyzer>
+        </fieldType>
+    </types>
+
+    <fields>
+        <field name="id" type="string" indexed="true" stored="true" multiValued="false" required="true"/>
+        <field name="name" type="string" indexed="true" stored="true" multiValued="false"/>
+        <field name="keyWord" type="text_ptn" indexed="true" stored="true" multiValued="false"/>
+    </fields>
+
+    <uniqueKey>id</uniqueKey>
+
+</schema>

@@ -1,0 +1,6 @@
+<div class="head">
+	#include_template_module("module1",100)
+</div>
+<div class="K_Region">
+	#include_region("demoRegion",[["module1",101],["module2",102]])
+</div>

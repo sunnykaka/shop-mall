@@ -1,0 +1,171 @@
+maven环境变量:M2_HOME
+
+MAVEN_OPTS配置maven的运行参数
+
+maven 的设置如果在软件的conf目录则所有用户共享，用户可以在自己
+的home目录放置自己的settings.xml文件
+
+两种机制：聚合和继承
+
+groupId大组织，比如com.kariqu
+artifactId大组织中的一个项目,比如accountCenter账户中心
+version版本 version-SNAPSHOT为快照版本
+
+
+我们公司的maven结构
+groupId:com.kariqu
+然后各个aptifactId就是项目，比如accountCenter,productCenter
+
+如果还有子项目多个模块，则groupId是com.kariqu.projectName
+例如com.kariqu.designcenter
+
+在m2.repository有一个com.kariqu.parent是所有的pom的父亲
+然后自己聚合编译模块
+pom.xml自己维护，不放在版本控制中
+
+
+手动安装jar
+mvn install:install-file -Dfile=velocity-1.7.jar -Dsources=velocity-1.7-sources.jar -DgroupId=com.kariqu.velocity -DartifactId=kariqu-velocity -Dpackaging=jar -Dversion=1.7 -Dclassifier=sources
+
+ mvn install:install-file -Dfile=jos.jar -DgroupId=com.jd -DartifactId=jos -Dversion=1.0 -Dpackaging=jar
+ mvn install:install-file -Dfile=top.jar -DgroupId=com.taobao -DartifactId=top -Dversion=1.0 -Dpackaging=jar
+
+1,在杭州开发的时候直接在maven的conf目录settings.xml中加了一个镜像       然后手动安装和覆盖了一些包，比如jmagic,pinyin4j,ibatis,velocity
+
+     <mirror>
+	      <id>ibiblio.org</id>
+	      <name>ibiblio Mirror of http://repo1.maven.org/maven2/</name>
+	      <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+	      <mirrorOf>central</mirrorOf>
+    </mirror>
+
+    这个镜像了maven中央仓库，maven的仓库配置在maven home目录的jar中
+   找到这个文件：${M2_HOME}/lib/maven-2.0.10-uber.jar ，打开该文件，能找到超级POM：\org\apache\maven\project\pom-4.0.0.xml ，它是所有Maven POM的父POM，所有Maven项目继承该配置，你可以在这个POM中发现如下配置：
+   Xml代码
+   <repositories>
+     <repository>
+       <id>central</id>
+       <name>Maven Repository Switchboard</name>
+       <layout>default</layout>
+       <url>http://repo1.maven.org/maven2</url>
+       <snapshots>
+         <enabled>false</enabled>
+       </snapshots>
+     </repository>
+   </repositories>
+   关于远程仓库的配置，这里我们知道，中央仓库的id为central，远程url地址为http://repo1.maven.org/maven2，它关闭了snapshot版本构件下载的支持。
+
+
+ 2，采用nexus本地仓库管理
+    镜像
+     <mirror>
+             <id>nexus</id>
+             <name>nexus</name>
+             <url>http://localhost:8081/nexus/content/groups/public/</url>
+             <mirrorOf>*</mirrorOf>
+      </mirror>
+      <mirrorOf>*</mirrorOf>  以保证该镜像是Maven唯一使用的仓库
+
+      好像还有一种方法
+
+      <profiles>
+        <profile>
+          <id>dev</id>
+          <repositories>
+            <repository>
+              <id>local-nexus</id>
+              <url>http://127.0.0.1:8081/nexus/content/groups/public/</url>
+              <releases>
+                <enabled>true</enabled>
+              </releases>
+              <snapshots>
+                <enabled>true</enabled>
+              </snapshots>
+            </repository>
+          </repositories>
+        </profile>
+      </profiles>
+      <activeProfiles>
+        <activeProfile>dev</activeProfile>
+      </activeProfiles>
+
+
+     发布服务器配置
+     <server>
+            <id>nexus-releases</id>
+            <username>admin</username>
+            <password>admin123</password>
+        </server>
+        <server>
+            <id>nexus-snapshots</id>
+            <username>admin</username>
+            <password>admin123</password>
+        </server>
+
+    deploy到公司仓库
+         <distributionManagement>
+                <repository>
+                    <id>nexus-releases</id>
+                    <name>Nexus Release Repository</name>
+                    <url>http://127.0.0.1:8081/nexus/content/repositories/releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>nexus-snapshots</id>
+                    <name>Nexus Snapshot Repository</name>
+                    <url>http://127.0.0.1:8081/nexus/content/repositories/snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+
+      nexus下载构件的顺序是先在本地releases找有没有，再snapshots，再3rd party，最后是本地机子都没有构件就到远程（外网）提供的网站下载构件。
+
+deploy到公司仓库的公司项目的jar好像在某个项目中下载不下来，需要在具体项目的pom.xml中配置
+
+    <repositories>
+        <repository>
+            <id>company</id>
+            <url>http://172.16.0.88:8081/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+
+ maven的profile机制
+ 由于我们希望在各种中灵活的但是不手动取改响应的配置，就可以利用maven的profile机制，比如我们开发适合用的数据库是a,希望产品打包时用b，就可以利用这个机制
+     profile可以设置多个地方maven/conf m2/ pom.xml
+
+     项目中
+<profiles>
+   <!--生产环境部署通用打包 profile-->
+   <profile>
+    <id>prod</id>
+    <build>
+    <filters>
+        <filter>src/main/filter/filter_DC_prod.properties</filter>
+    </filters>
+    </build>
+   </profile>
+</profiles>
+
+mvn package -P prod就调用这个profile
+如果要忽略测试:mvn clean package -P prod -Dmaven.test.skip=true
+
+
+maven依赖jar的6种scope
+
+compile
+默认的scope，表示 dependency 都可以在生命周期中使用。而且，这些dependencies 会传递到依赖的项目中。
+provided
+跟compile相似，但是表明了dependency 由JDK或者容器提供，例如Servlet AP和一些Java EE APIs。这个scope 只能作用在编译和测试时，同时没有传递性。
+runtime
+表示dependency不作用在编译时，但会作用在运行和测试时
+test
+表示dependency作用在测试时，不作用在运行时。
+system
+跟provided 相似，但是在系统中要以外部JAR包的形式提供，maven不会在repository查找它
+
+
+
+

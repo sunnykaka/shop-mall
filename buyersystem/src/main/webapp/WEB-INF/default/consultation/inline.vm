@@ -1,0 +1,63 @@
+#set($contentJsUrls= ["$urlBroker.getUrl('StaticFileDomain').toString()/js/consult_page.js?$urlBroker.getVersion()"])
+
+<div style="display: none;">$!categoryName $!category</div>
+<dl class="consult_tabs clearfix">
+    <dt>查看问题类别：</dt>
+    <dd>
+        <a href="#" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"product").addQueryData('pageNo', 1).toString()" #if($!category == "product")class="current" #end>商品咨询</a>
+        <a href="#" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"stock").addQueryData('pageNo', 1).toString()" #if($!category == "stock")class="current" #end>库存及配送</a>
+        <a href="#" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"pay").addQueryData('pageNo', 1).toString()" #if($!category == "pay")class="current" #end>支付问题</a>
+        <a href="#" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"invoice").addQueryData('pageNo', 1).toString()" #if($!category == "invoice")class="current" #end>发票及保修</a>
+        <a href="#" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"sales").addQueryData('pageNo', 1).toString()" #if($!category == "sales")class="current" #end>促销及赠品</a>
+    </dd>
+</dl>
+#if($!consultationPage.totalCount>0)
+<ul>
+#foreach($consultation in $!consultationPage.result)
+    <li>
+        <dl class="name clearfix">
+            <dt>用户：</dt>
+            <dd>$!consultation.askedUserName &nbsp;&nbsp; $dateTool.format("yyyy年MM月dd日 HH点", $!consultation.askTime) &nbsp;&nbsp;$!categoryName</dd>
+        </dl>
+
+        <dl class="content clearfix">
+            <dt>咨询内容：</dt>
+            <dd>$!consultation.askContent</dd>
+        </dl>
+
+        <dl class="reply_content clearfix">
+            <dt>易居尚回复：</dt>
+            <dd><span class="time">$dateTool.format("yyyy年MM月dd日 HH点", $!consultation.answerTime)</span>$!consultation.answerContent</dd>
+        </dl>
+    </li>
+#end
+</ul>
+<div class="pagebar">
+    <div class="pagebar_inner">
+        #*<a href="#" val="$urlBroker.getUrl('BuyHome').toString()$!{categoryUrl}1">首页</a>*#
+        #if($consultationPage.hasPre)
+            <a href="#" class="page_start" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',$!category).addQueryData('pageNo', $!consultationPage.prePage).toString()">上一页</a>
+        #else
+            <span class="page_start">上一页</span>
+        #end
+        #foreach($pageIndex in $!consultationPageBar.linkNums)
+            #if($pageIndex == -1)
+                <a href="#" class="number"><span>...</span></a>
+            #elseif($pageIndex == $consultationPage.pageNo)
+                <a href="javascript:void(0);" class="number current"><span>$pageIndex</span></a>
+            #else
+                    <a href="#" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',$!category).addQueryData('pageNo',$!pageIndex).toString()" class="number"><span>$pageIndex</span></a>
+            #end
+
+        #end
+        #if($consultationPage.hasNext)
+            <a href="#" class="page_next" val="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',$!category).addQueryData('pageNo',$!consultationPage.nextPage).toString()">下一页</a>
+        #else
+            <span class="page_next">下一页</span>
+        #end
+    </div>
+</div>
+#else
+<br/><br/>
+<p style="text-align: center"><span style="color: #808080">还没有相关咨询记录！</span></p>
+#end

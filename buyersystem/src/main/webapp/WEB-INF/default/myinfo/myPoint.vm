@@ -1,0 +1,119 @@
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper my_title clearfix" id="ucOrder">
+            <h3 class="tit"><span>我的积分</span></h3>
+            <ul>
+                #if($currentPointType == "")
+                    <li class="curr"><a href="#0">积分流水</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyPoint').toString()">积分流水</a></li>
+                #end
+
+                #if($currentPointType == "InComing")
+                    <li class="curr"><a href="#0">收入积分</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyPoint').addQueryData('pointType','InComing').toString()">收入积分</a></li>
+                #end
+
+                #if($currentPointType == "OutComing")
+                    <li class="curr"><a href="#0">支出积分</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyPoint').addQueryData('pointType','OutComing').toString()">支出积分</a></li>
+                #end
+            </ul>
+        </div>
+
+#if($!{pointPage.totalCount}>0)
+        <div class="my_integral">
+            <p class="my_integral_p">当前账户积分：<strong class="str">$!currency</strong>，可抵用<strong class="str">￥$pointTotalAsMoney</strong>元现金</p>
+            <!-- 积分流水 Start-->
+            <table width="990" border="0" class="my_integral_table">
+                <thead>
+                <tr>
+                    <th width="25%">时间</th>
+                    <th width="27%">明细</th>
+                <th width="23%">
+                    #if($currentPointType == "OutComing")
+                        支出
+                    #elseif($currentPointType == "InComing")
+                        收入
+                    #else
+                        收入/支出
+                    #end
+                </th>
+                    <th width="25%">积分变化</th>
+                </tr>
+                </thead>
+                <tbody>
+                #foreach($item in $pointPage.result)
+                    <tr>
+                        <td>$dateTool.format("yyyy-MM-dd  HH:mm:ss", $!item.createTime)</td>
+                        <td>$!item.description</td>
+                        #if($item.Type  == "InComing")
+                            <td class="add">+$!item.getCurrency()</td>
+                        #elseif($item.Type  == "OutComing")
+                            <td class="pay">-$!item.getCurrency()</td>
+                        #end
+                        <td>$!item.getCurrency()</td>
+                    </tr>
+                #end
+                </tbody>
+
+                <tfoot>
+                    #if($pointPage.getTotalPages() > 1)
+                    <tr>
+                        <td colspan="4">
+                            <div class="pagebars">
+                                <div class="pagebar_inner">
+                                    <form method="get" action="$!urlBroker.getUrl('MyPoint').toString()" id="pagebarForm">
+                                        <input type=hidden name="pointType" id="pointType" value="$!currentPointType"/>
+                                        <input type=hidden id="maxPageNumber" value="$pointPage.totalPages"/>
+                                        <input type=hidden id="pageBaseUrl" value="/product_list.htm?1=1"/>
+                                        #if($pointPage.hasPre)
+                                            <a href="$!urlBroker.getUrl('MyPoint').addQueryData('pageNo',$!pointPage.prePage).addQueryData('pointType',$!currentPointType).toString()" class="page_start">上一页</a>
+                                        #else
+                                            <span class="page_start">上一页</span>
+                                        #end
+
+                                        #foreach($pageIndex in $!pointPageBar.linkNums)
+                                            #if($pageIndex == -1)
+                                                <a href="javascript:void(0)" class="number"><span>...</span></a>
+                                            #elseif($pageIndex == $pointPage.pageNo)
+                                                <a href="javascript:void(0);" class="number current"><span>$pageIndex</span></a>
+                                            #else
+                                                <a href="$!urlBroker.getUrl('MyPoint').addQueryData('pointType',$!currentPointType).addQueryData('pageNo',$!pageIndex).toString()" class="number"><span>$pageIndex</span></a>
+                                            #end
+                                        #end
+
+                                        #if($pointPage.hasNext)
+                                            <a href="$!urlBroker.getUrl('MyPoint').addQueryData('pointType',$!currentPointType).addQueryData('pageNo',$!pointPage.nextPage).toString()" class="page_next">下一页</a>
+                                        #else
+                                            <span class="page_next">下一页</span>
+                                        #end
+
+                                        #*<span class="letter">跳转至</span>
+                                        <input type="text" name="pageNo" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="$pointPage.pageNo" class="text_in">
+                                        <span class="letter">/$pointPage.totalPages页</span>
+                                        <input type="submit" value="确定" class="button_ok">*#
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    #end
+                </tfoot>
+
+            </table>
+            <!-- 积分流水 End-->
+        </div>
+         #else
+        <!-- 无积分 -->
+        <div class="my_integral">
+            当前账户积分：<strong class="str">0</strong>
+        </div>
+         #end
+
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>

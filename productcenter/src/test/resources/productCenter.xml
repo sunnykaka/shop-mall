@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+    <context:annotation-config/>
+
+    <bean id="product-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:product-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="attentionInfoRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.AttentionInfoRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+    <bean id="productRepository" class="com.kariqu.productcenter.repository.impl.ibatis.ProductRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+    <bean id="productPictureRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.ProductPictureRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+    <bean id="productPropertyRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.ProductPropertyRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+
+    <bean id="htmlRepository" class="com.kariqu.productcenter.repository.impl.ibatis.HtmlRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+
+    <bean id="stockKeepingUnitRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.StockKeepingUnitRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+    <bean id="spacePictureRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.SpacePictureRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+    <bean id="consultationRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.ConsultationRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+    <bean id="productActivityRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.ProductActivityRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient"/>
+    </bean>
+
+    <bean id="limitedTimeDiscountRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.LimitedTimeDiscountRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient" />
+    </bean>
+
+    <bean id="mealSetRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.MealSetRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient" />
+    </bean>
+
+    <bean id="browsHistoryRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.BrowsingHistoryRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient" />
+    </bean>
+
+    <bean id="productIntegralConversionRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.ProductIntegralConversionRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient" />
+    </bean>
+
+    <bean id="productSuperConversionRepository"
+          class="com.kariqu.productcenter.repository.impl.ibatis.ProductSuperConversionRepositoryImpl">
+        <property name="sqlMapClient" ref="product-sqlMapClient" />
+    </bean>
+
+    <bean id="browsHistoryService" class="com.kariqu.productcenter.service.impl.BrowsingHistoryServiceImpl"/>
+    <bean id="attentionInfoService" class="com.kariqu.productcenter.service.impl.AttentionInfoServiceImpl"/>
+
+</beans>

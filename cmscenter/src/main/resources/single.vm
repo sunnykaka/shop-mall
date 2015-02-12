@@ -1,0 +1,23 @@
+<!-- 单页 -->
+<div class="common_wrapper">
+
+    <div class="help_site">
+        您现在的位置：<a href="$urlBroker.getUrl('BuyHome').toString()">首页</a> &gt; ${content.title}
+    </div>
+
+
+    <div class="page_content">
+        <h2 class="title">${content.title}</h2>
+
+        <div class="content_box">
+
+            $content.content
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- 单页 END -->
+

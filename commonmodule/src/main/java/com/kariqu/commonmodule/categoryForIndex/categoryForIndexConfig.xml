@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="categoryWordNumber" label="子类目一行最多显示多少个汉字" dataType="String" formType="text">8</param>
+        <param name="categorybackConf1" label="第一个类目的背景图" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="categoryImgConf1" label="第一个类目的九张图片" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/category1-banner-img1.jpg,http://www.yijushang.com/product/165
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img2.jpg,http://www.yijushang.com/product/165
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img3.jpg,http://www.yijushang.com/product/1231
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img4.jpg,http://www.yijushang.com/product/165
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img5.jpg,http://www.yijushang.com/product/165
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img6.jpg,http://www.yijushang.com/product/1013
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img7.jpg,http://www.yijushang.com/product/165
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img8.jpg,http://www.yijushang.com/product/165
+
+http://assets.yijushang.com/images/index/0505/category1-banner-img9.jpg,http://www.yijushang.com/product/1013
+            ]]>
+        </param>
+
+
+        <param name="categorybackConf2" label="第二个类目的背景图" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="categoryImgConf2" label="第二个类目的九张图片" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/category2-banner-img1.jpg,http://www.yijushang.com/product/516
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img2.jpg,http://www.yijushang.com/product/516
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img3.jpg,http://www.yijushang.com/product/872
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img4.jpg,http://www.yijushang.com/product/516
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img5.jpg,http://www.yijushang.com/product/516
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img6.jpg,http://www.yijushang.com/product/1294
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img7.jpg,http://www.yijushang.com/product/516
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img8.jpg,http://www.yijushang.com/product/516
+
+http://assets.yijushang.com/images/index/0505/category2-banner-img9.jpg,http://www.yijushang.com/product/1079
+            ]]>
+        </param>
+
+
+        <param name="categorybackConf3" label="第三个类目的背景图" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="categoryImgConf3" label="第三个类目的九张图片" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/category3-banner-img1.jpg,http://www.yijushang.com/product/783
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img2.jpg,http://www.yijushang.com/product/783
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img3.jpg,http://www.yijushang.com/product/1179
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img4.jpg,http://www.yijushang.com/product/783
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img5.jpg,http://www.yijushang.com/product/783
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img6.jpg,http://www.yijushang.com/product/802
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img7.jpg,http://www.yijushang.com/product/783
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img8.jpg,http://www.yijushang.com/product/783
+
+http://assets.yijushang.com/images/index/0505/category3-banner-img9.jpg,http://www.yijushang.com/product/802
+            ]]>
+        </param>
+
+
+        <param name="categorybackConf4" label="第四个类目的背景图" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="categoryImgConf4" label="第四个类目的九张图片" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/category4-banner-img1.jpghttp://www.yijushang.com/product/237
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img2.jpg,http://www.yijushang.com/product/237
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img3.jpg,http://www.yijushang.com/product/991
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img4.jpg,http://www.yijushang.com/product/237
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img5.jpg,http://www.yijushang.com/product/237
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img6.jpg,http://www.yijushang.com/product/991
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img7.jpg,http://www.yijushang.com/product/237
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img8.jpg,http://www.yijushang.com/product/237
+
+http://assets.yijushang.com/images/index/0505/category4-banner-img9.jpg,http://www.yijushang.com/product/230
+            ]]>
+        </param>
+
+
+        <param name="categorybackConf5" label="第五个类目的背景图" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="categoryImgConf5" label="第五个类目的九张图片" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/category5-banner-img1.jpg,http://www.yijushang.com/product/1382
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img2.jpg,http://www.yijushang.com/product/1382
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img3.jpg,http://www.yijushang.com/product/1169
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img4.jpg,http://www.yijushang.com/product/1382
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img5.jpg,http://www.yijushang.com/product/1382
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img6.jpg,http://www.yijushang.com/product/938
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img7.jpg,http://www.yijushang.com/product/1382
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img8.jpg,http://www.yijushang.com/product/1382
+
+http://assets.yijushang.com/images/index/0505/category5-banner-img9.jpg,http://www.yijushang.com/product/938
+            ]]>
+        </param>
+
+
+
+        <param name="categorybackConf6" label="第六个类目的背景图" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="categoryImgConf6" label="第六个类目的九张图片" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/category6-banner-img1.jpg,http://www.yijushang.com/product/1132
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img2.jpg,http://www.yijushang.com/product/1132
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img3.jpg,http://www.yijushang.com/product/1130
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img4.jpg,http://www.yijushang.com/product/1132
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img5.jpg,http://www.yijushang.com/product/1132
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img6.jpg,http://www.yijushang.com/product/1130
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img7.jpg,http://www.yijushang.com/product/1132
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img8.jpg,http://www.yijushang.com/product/1132
+
+http://assets.yijushang.com/images/index/0505/category6-banner-img9.jpg,http://www.yijushang.com/product/1167
+            ]]>
+        </param>
+
+
+        <param name="bannerList" label="banner 图轮播" dataType="String" formType="text">
+            <![CDATA[
+http://assets.yijushang.com/images/index/0505/banner-1-1.jpg,http://www.yijushang.com/product/1174
+
+http://assets.yijushang.com/images/index/0505/banner-1-2.jpg,http://www.yijushang.com/product/1174
+
+http://assets.yijushang.com/images/index/0505/banner-1-3.jpg,http://www.yijushang.com/product/1174
+
+http://assets.yijushang.com/images/index/0505/banner-1-4.jpg,http://www.yijushang.com/product/1174
+
+http://assets.yijushang.com/images/index/0505/banner-1-5.jpg,http://www.yijushang.com/product/1174
+
+http://assets.yijushang.com/images/index/0505/banner-1-6.jpg,http://www.yijushang.com/product/1174
+
+http://assets.yijushang.com/images/index/0505/banner-1-7.jpg,http://www.yijushang.com/product/1040
+
+http://assets.yijushang.com/images/index/0505/banner-1-8.jpg,http://www.yijushang.com/product/1188
+
+http://assets.yijushang.com/images/index/0505/banner-1-9.jpg,http://www.yijushang.com/product/1172
+
+~!
+
+http://assets.yijushang.com/images/index/0505/banner-2-1.jpg,http://www.yijushang.com/product/635
+
+http://assets.yijushang.com/images/index/0505/banner-2-2.jpg,http://www.yijushang.com/product/635
+
+http://assets.yijushang.com/images/index/0505/banner-2-3.jpg,http://www.yijushang.com/product/1388
+
+http://assets.yijushang.com/images/index/0505/banner-2-4.jpg,http://www.yijushang.com/product/635
+
+http://assets.yijushang.com/images/index/0505/banner-2-5.jpg,http://www.yijushang.com/product/635
+
+http://assets.yijushang.com/images/index/0505/banner-2-6.jpg,http://www.yijushang.com/product/1220
+
+http://assets.yijushang.com/images/index/0505/banner-2-7.jpg,http://www.yijushang.com/product/635
+
+http://assets.yijushang.com/images/index/0505/banner-2-8.jpg,http://www.yijushang.com/product/635
+
+http://assets.yijushang.com/images/index/0505/banner-2-9.jpg,http://www.yijushang.com/product/1231
+            ]]>
+        </param>
+    </params>
+</module>

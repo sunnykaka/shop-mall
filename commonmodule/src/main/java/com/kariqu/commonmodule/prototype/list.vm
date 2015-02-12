@@ -1,0 +1,2 @@
+#include_common_module("categoryHotProduct","1.0.0",102)
+#include_common_module("searchlist","1.0.0",100)

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>物流单设计</title>
+    <link rel="stylesheet" href="${rc.contextPath}/assets/css/logistics_design.css"/>
+    <script src="${rc.contextPath}/assets/js/jquery.min.js"></script>
+    <script src="${rc.contextPath}/assets/js/jquery.form.js"></script>
+    <script src="${rc.contextPath}/assets/js/lodopFuncs.js"></script>
+    <script src="${rc.contextPath}/assets/js/logistics_design.js"></script>
+</head>
+<body>
+
+<div class="sidebar">
+    <h3>物流公司列表</h3>
+
+    <div class="add">
+        <a href="#" title="添加物流公司" id="add_logistics"><img src="${rc.contextPath}/assets/images/logistics/add.png" alt="add"></a>
+    </div>
+
+    <ul class="logistics_list" id="logistics_list">
+    #foreach($logisticsPrintInfo in $logisticsPrintInfoList)
+        <li data-id="$logisticsPrintInfo.id" data-increase="$logisticsPrintInfo.law">
+            <span>
+                #foreach($deliveryType in $!deliveryTypeList)
+                #if($!logisticsPrintInfo.name == $!deliveryType)$!deliveryType.toDesc()#end
+                #end
+            </span>
+        </li>
+    #end
+    </ul>
+</div>
+
+<div class="content" id="content">
+
+    <!-- 添加物流 -->
+    <div class="add_logistics_box form" id="add_logistics_box">
+        <h3>添加物流公司</h3>
+        <form id="add_logistics_form" enctype="multipart/form-data" method="POST" action="/logisticDesign/company/add">
+            <ul>
+                <li>
+                    <dl>
+                        <dt><label for="deliveryType">公司名称:</label></dt>
+                        <dd><select name="name" id="deliveryType" class="select">
+                            <option value="0">请选择</option>
+                            #foreach($deliveryType in $!deliveryTypeList)
+                            <option value="$!deliveryType">$!deliveryType.toDesc()</option>
+                            #end
+                        </select></dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><label for="uploadFile">物流面单照片:</label></dt>
+                        <dd>
+                            <div class="input-file">
+                                <span>选择图片</span>
+                                <input type="file" name="uploadFile" id="uploadFile" class="file">
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><label for="add_exp_num">递增数:</label></dt>
+                        <dd><input type="text" name="law" class="text" id="add_exp_num" style="width: 60px;"
+                                   maxlength="2" value="1"></dd>
+                    </dl>
+                </li>
+            </ul>
+            <div class="btn_w">
+                <button class="button" id="add_submit_btn" type="submit">提交</button>
+            </div>
+        </form>
+    </div>
+    <!-- 添加物流 END -->
+
+    <!-- 修改物流 -->
+    <div class="modify_logistics_box form" id="modify_logistics_box">
+        <h3>修改物流信息</h3>
+
+        <form id="modify_logistics_form" enctype="multipart/form-data" method="POST"
+              action="/logisticDesign/company/update">
+            <ul>
+                <li>
+                    <dl>
+                        <dt><label for="deliveryType">公司名称:</label></dt>
+                        <dd></dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><label for="uploadFile">物流面单照片:</label></dt>
+                        <dd>
+                            <div class="input-file">
+                                <span>选择图片</span>
+                                <input type="file" name="uploadFile" id="modify_uploadFile" class="file">
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><label for="modify_exp_num">递增数:</label></dt>
+                        <dd><input type="text" name="law" class="text" id="modify_exp_num" style="width: 60px;"
+                                   maxlength="2"></dd>
+                    </dl>
+                </li>
+            </ul>
+            <div class="btn_w">
+                <input type="hidden" name="id" id="modify_id"/>
+                <button class="button" id="modify_submit_btn" type="submit">提交</button>
+            </div>
+        </form>
+
+    </div>
+    <!-- 修改物流 END -->
+
+    <!-- 设计物流单 -->
+    <div class="design_box" id="design_box">
+
+        <h3>添加物流公司</h3>
+
+        <div class="tools">
+            <label>
+                <input type="checkbox" name="发货人" value="56" val="发货人"> 发货人
+            </label>
+            <label>
+                <input type="checkbox" name="发货地址" value="100" val="发货地址"> 发货地址
+            </label>
+            <label>
+                <input type="checkbox" name="发货人联系方式" value="150" val="发货人联系方式"> 发货人联系方式
+            </label>
+            <label>
+                <input type="checkbox" name="发货人单位名称" value="200" val="发货人单位名称"> 发货人单位名称
+            </label>
+            <label>
+                <input type="checkbox" name="收货人" value="250" val="收货人"> 收货人
+            </label>
+            <label>
+                <input type="checkbox" name="收货人联系方式" value="300" val="收货人联系方式"> 收货人联系方式
+            </label>
+            <label>
+                <input type="checkbox" name="邮编" value="350" val="邮编"> 邮编
+            </label>
+            <label>
+                <input type="checkbox" name="收货人地址" value="400" val="收货人地址"> 收货人地址
+            </label>
+            <label>
+                <input type="checkbox" name="发货时间" value="450" val="发货时间"> 发货时间
+            </label>
+        </div>
+
+        <div class="main">
+            <object id="LODOP2" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=1000 height=700>
+                <param name="Caption" value="内嵌显示区域">
+                <param name="Border" value="1">
+                <param name="Color" value="#C0C0C0">
+                <embed id="LODOP_EM2" TYPE="application/x-print-lodop" width=1000 height=700
+                       PLUGINSPAGE="install_lodop.exe">
+            </object>
+        </div>
+
+        <div class="form">
+            <form id="design_form"
+                  action="/logisticDesign/company/update/design_page"
+                  method="post">
+                <input name="printHtml" id="printHtml" type="hidden" value="">
+                <input name="id" id="logisticsInfoId" type="hidden" value="">
+                <button type="button" class="button" id="save_btn">保存</button>
+                <button type="button" class="button" id="delete_btn">删除所选内容项</button>
+            </form>
+        </div>
+
+    </div>
+    <!-- 设计物流单 END -->
+
+</div>
+
+
+</body>
+</html>

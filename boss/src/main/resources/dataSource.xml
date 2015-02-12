@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url.boss}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        &lt;!&ndash; 取出连接时是否进行验证 &ndash;&gt;
+        <property name="testOnBorrow" value="true" />
+        &lt;!&ndash; 放回连接时是否进行验证 &ndash;&gt;
+        <property name="testOnReturn" value="false" />
+        &lt;!&ndash; 空闲时是否进行验证 &ndash;&gt;
+        <property name="testWhileIdle" value="true" />
+        <property name="validationQuery" value="select 1" />
+
+        <property name="maxWait" value="1000" />
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="20" />
+        <property name="maxIdle" value="5" />
+        <property name="timeBetweenEvictionRunsMillis"  value="15000" />
+        <property name="numTestsPerEvictionRun" value="20" />
+    </bean>-->
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.url.boss}" />
+        <property name="user" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+
+        <!-- http://www.mchange.com/projects/c3p0/index.html -->
+        <property name="maxPoolSize" value="20" />
+        <property name="minPoolSize" value="5" />
+        <property name="initialPoolSize" value="8" />
+        <property name="acquireIncrement" value="5" />
+        <property name="maxIdleTime" value="500" />
+        <property name="idleConnectionTestPeriod" value="540" />
+        <property name="maxStatements" value="200"/>
+        <property name="checkoutTimeout" value="60000"/>
+        <property name="acquireRetryAttempts" value="30" />
+        <property name="acquireRetryDelay" value="100" />
+        <property name="maxConnectionAge" value="0"/>
+        <property name="maxIdleTimeExcessConnections" value="300"/>
+        <property name="breakAfterAcquireFailure" value="false" />
+        <property name="testConnectionOnCheckin" value="false" />
+        <property name="testConnectionOnCheckout" value="false"/>
+        <property name="preferredTestQuery" value="SELECT 1"/>
+    </bean>
+
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:product-sql-map-config.xml</value>
+                <value>classpath:category-sql-map-config.xml</value>
+                <value>classpath:cms-sql-map-config.xml</value>
+                <value>classpath:supplier-sql-map-config.xml</value>
+                <value>classpath:om-sql-map-config.xml</value>
+                <value>classpath:trade-sql-map-config.xml</value>
+                <value>classpath:security-sql-map-config.xml</value>
+                <value>classpath:spacepicture-sql-map-config.xml</value>
+                <value>classpath:template-sql-map-config.xml</value>
+                <value>classpath:user-sql-map-config.xml</value>
+            </list>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id = "jdbcTemplate"
+          class = "org.springframework.jdbc.core.JdbcTemplate">
+        <property name = "dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--激活注解的事务驱动，这个时候业务层的所有事务都将通过上面配置的 transactionManager -->
+    <tx:annotation-driven/>
+
+</beans>

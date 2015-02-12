@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectAddressById"
+            resultClass="com.kariqu.tradecenter.domain.Address">
+        select id, userId, name, province, location, mobile,
+        telephone, email, zipCode, defaultAddress, frequency
+        from Address where id = #id# and isDelete=0
+    </select>
+
+    <select id="selectAddressByIdAndUserId"
+            resultClass="com.kariqu.tradecenter.domain.Address">
+        select id, userId, name, province, location, mobile,
+        telephone, email, zipCode, defaultAddress, frequency
+        from Address where id = #id# and userId=#userId# and isDelete=0
+    </select>
+
+    <select id="selectAddressByUserId"
+            resultClass="com.kariqu.tradecenter.domain.Address">
+        select id, userId, name, province, location, mobile,
+        telephone, email, zipCode, defaultAddress, frequency
+        from Address where userId = #userId# and isDelete=0 order by frequency desc
+    </select>
+
+    <update id="updateAddress">
+        update Address
+        set name=#name#,province=#province#,location=#location#,mobile=#mobile#,telephone=#telephone#,
+        email=#email#,zipCode=#zipCode#,frequency=#frequency#,updateDate=now() where id = #id#
+        <isGreaterThan prepend="AND" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+    </update>
+
+    <update id="updateDefaultAddressById">
+        update Address
+        set defaultAddress=true,updateDate=now() where id = #id#
+    </update>
+
+    <update id="updateFrequencyByAddressId">
+        update Address
+        set frequency=frequency+1,updateDate=now() where id = #id#
+    </update>
+
+    <update id="updateDefaultAddress">
+        update Address
+        set defaultAddress=false ,updateDate=now() where id != #id# and userId=#userId#
+    </update>
+
+    <insert id="insertAddress">
+        insert into Address
+        (userId,name,province,location,mobile,telephone,email,zipCode,defaultAddress,frequency,createDate,updateDate)
+        values
+        (#userId#,#name#,#province#,#location#,#mobile#,#telephone#,#email#,#zipCode#,#defaultAddress#,#frequency#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <select id="queryDefaultAddress"
+            resultClass="com.kariqu.tradecenter.domain.Address">
+        select id, userId, name, province, location, mobile,
+        telephone, email, zipCode, defaultAddress, frequency
+        from Address where userId = #userId# and isDelete=0 and defaultAddress=true
+    </select>
+
+    <update id="deleteAddress">
+        update Address set isDelete=1 ,updateDate=now()
+        where id = #id#
+    </update>
+
+    <update id="deleteAddressByIdAndUserId">
+        update Address set isDelete=1 ,updateDate=now()
+        where id = #id# and userId = #userId#
+    </update>
+
+</sqlMap>

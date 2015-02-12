@@ -1,0 +1,112 @@
+<!-- 购买咨询 -->
+<div class="tab_bd" style="display:block">
+
+<div class="product_comment">
+    <div class="product_comment_info clearfix">
+        <div class="rate">
+            <strong>$!{likesPercent}%<span>好评</span></strong>
+            <span>$allCount 人参与评论</span>
+        </div>
+        <ul class="percent">
+            <li>
+                <dl>
+                    <dt>喜欢</dt>
+                    <dd>
+                        <div><span style="width: $!likesPercent%"></span></div>
+                        <span>$!likesPercent%</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl>
+                    <dt>一般</dt>
+                    <dd>
+                        <div><span style="width: $!finesPercent%"></span></div>
+                        <span>$!finesPercent%</span>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl>
+                    <dt>不喜欢</dt>
+                    <dd>
+                        <div><span style="width: $!unlikesPercent%"></span></div>
+                        <span>$!unlikesPercent%</span>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="product_comment_tabs" id="productCommentTabs">
+        <ul>
+            <li><a href="javascript:void(0);"   data-url="$urlBroker.getUrl('ProductValuation').addQueryData('productId',$!productId).addQueryData('pageNo', 1).toString()">全部评价（ ${allCount}）</a></li>
+            <li><a href="javascript:void(0);"   data-url="$urlBroker.getUrl('ProductValuation').addQueryData('productId',$!productId).addQueryData('likeFilter','Good').addQueryData('pageNo',1).toString()">喜欢（$likesCount)</a></li>
+            <li><a href="javascript:void(0);"  data-url="$urlBroker.getUrl('ProductValuation').addQueryData('productId',$!productId).addQueryData('likeFilter','Fine').addQueryData('pageNo',1).toString()">一般（$finesCount）</a></li>
+            <li><a href="javascript:void(0);"  data-url="$urlBroker.getUrl('ProductValuation').addQueryData('productId',$!productId).addQueryData('likeFilter','Bad').addQueryData('pageNo', 1).toString()">不喜欢（$unlikesCount）</a></li>
+        </ul>
+    </div>
+
+    <div class="product_comment_list" id="productCommentList">
+    </div>
+
+    <div class="product_consult">
+        <div class="product_consult_tabs" id="productConsultTabs">
+            <ul>
+                <li><a href="javascript:void(0);"  data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('pageNo', 1).toString()">全部购买咨询</a></li>
+                <li><a href="javascript:void(0);" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"product").addQueryData('pageNo', 1).toString()">商品咨询</a></li>
+                <li><a href="javascript:void(0);" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"stock").addQueryData('pageNo', 1).toString()">库存及配送</a></li>
+                <li><a href="javascript:void(0);" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"pay").addQueryData('pageNo', 1).toString()">支付问题</a></li>
+                <li><a href="javascript:void(0);" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"invoice").addQueryData('pageNo', 1).toString()">发票及保修</a></li>
+                <li class="last"><a href="javascript:void(0);" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',"sales").addQueryData('pageNo', 1).toString()">促销及赠品</a></li>
+            </ul>
+        </div>
+
+        <dl class="statement clearfix">
+            <dt>声明：</dt>
+            <dd>您可在购买前对产品包装、颜色、运输、库存等方面进行咨询，我们有专人进行回复！因厂家随时会更改一些产品的包装、颜色、产地等参数，所以该回复仅在当时对提问者有效，其他网友仅供参考！<br>
+                咨询回复的工作时间为：<strong>周一至周日，9:00至23:00</strong>，请耐心等待工作人员回复。
+                <a href="#" class="common_btn" id="show_consult_form"><span>我要咨询</span></a>
+            </dd>
+        </dl>
+
+        <div class="consult_form">
+            <div class="box" id="consult_form_box">
+                <form action="$!urlBroker.getUrl('BuyHome').toString()/my/consultation/add"
+                      method="post" name="addProductConsultation" id="addProductConsultation">
+                    <input type="hidden" name="productId" value="$!productId">
+                    <dl class="clearfix">
+                        <dt>咨询类型：</dt>
+                        <dd class="type">
+                            <label><input type="radio" name="consultationCategory" value="product" checked="checked">商品咨询</label>
+                            <label><input type="radio" name="consultationCategory" value="pay">支付问题</a></label>
+                            <label><input type="radio" name="consultationCategory" value="invoice">发票及保修</a></label>
+                            <label><input type="radio" name="consultationCategory" value="stock">库存及配送</a></label>
+                            <label><input type="radio" name="consultationCategory" value="sales">促销及赠品</a></label>
+                        </dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>咨询内容：</dt>
+                        <dd>
+                            <textarea name="askContent" rows="3" cols="60" class="txt"></textarea>
+                        </dd>
+                    </dl>
+                    <div class="btn_w">
+                        <a href="javascript:void(0);" class="common_btn" id="consult_form_submit"><span>提 交</span></a> &nbsp;
+                        <a href="javascript:void(0);" id="hide_consult_form">收起</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="product_consult_list" id="productConsultList">
+        </div>
+    </div>
+</div>
+<!-- 购买咨询 END -->
+
+<script type="text/javascript">
+ProductDes.comment();
+ProductDes.consult();
+ProductDes.submitConsult();
+</script>

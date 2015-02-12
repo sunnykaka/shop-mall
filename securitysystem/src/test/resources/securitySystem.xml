@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+    <bean id="security-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:security-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="roleRepository" class="com.kariqu.securitysystem.repository.impl.ibatis.RoleRepositoryImpl">
+        <property name="sqlMapClient" ref="security-sqlMapClient"/>
+    </bean>
+
+    <bean id="permissionRepository"
+          class="com.kariqu.securitysystem.repository.impl.ibatis.UrlPermissionRepositoryImpl">
+        <property name="sqlMapClient" ref="security-sqlMapClient"/>
+    </bean>
+
+    <bean id="roleScopeRepository" class="com.kariqu.securitysystem.repository.impl.ibatis.RoleScopeRepositoryImpl">
+        <property name="sqlMapClient" ref="security-sqlMapClient"/>
+    </bean>
+
+    <bean id="securityService" class="com.kariqu.securitysystem.service.impl.SecurityServiceImpl"/>
+
+
+</beans>

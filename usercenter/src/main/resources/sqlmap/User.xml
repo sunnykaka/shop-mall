@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="user.selector">
+        select
+        id,userName,password,email, phone,
+        isActive,registerDate,registerIP,hasForbidden,isDelete,loginTime,loginCount,grade,pointTotal,expenseTotal
+        from User
+    </sql>
+
+    <select id="selectAllUsers" resultClass="com.kariqu.usercenter.domain.User">
+        select * from User
+    </select>
+
+    <select id="selectUserGradeByGrade" resultClass="com.kariqu.usercenter.domain.UserGradeRule">
+        select name from UserGradeRule where grade = #grade#
+    </select>
+
+
+    <select id="selectUser"
+            resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        where id = #id#
+    </select>
+    <!--isDelete=0 and-->
+    <select id="selectUserByUserName"
+            resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        where userName = #userName#
+    </select>
+
+    <insert id="insertUser">
+        insert into User
+        (userName,password,email, phone,registerDate,registerIP,isActive,loginTime,loginCount,pointTotal)
+        values
+        (#userName#,#password#,#email#, #phone#, now(),#registerIP#,#isActive#,now(),1,#pointTotal#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateUser">
+        update User
+        set userName=#userName#,password=#password#,email=#email#, phone=#phone#, isActive=#isActive#
+        where id=#id#
+    </update>
+
+    <update id="deleteUser">
+        update User
+        set isDelete=1
+        where id=#id#
+    </update>
+
+    <select id="selectUserByEmail"
+            resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        where email = #email#
+    </select>
+
+    <select id="selectUserByPhone" resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        where phone = #phone#
+    </select>
+
+    <select id="selectCountForSameIPToday" resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        where registerIP =#registerIP#
+        and date(registerDate)=date(now())
+    </select>
+
+    <select id="selectUserByCookieValue" resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        user,UserSession userSession
+        where user.id = userSession.userId
+        and userSession.cookieValue=#cookieValue#
+        <![CDATA[  and checkInDate > date_sub(now(),interval 14 day) ]]>
+    </select>
+
+    <delete id="deleteUserSession">
+        delete from UserSession
+        where userId = #userId#
+    </delete>
+    <insert id="insertUserSession">
+        insert into UserSession
+        (userId,cookieValue,checkInDate)
+        values
+        (#userId#,#cookieValue#,#checkInDate#)
+    </insert>
+
+    <select id="queryUserByPage" resultClass="com.kariqu.usercenter.domain.User">
+        <include refid="user.selector"/>
+        WHERE isDelete = 0
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            id=#userId#
+        </isGreaterThan>
+        <isNotEmpty prepend="and" property="userName">
+            userName like '%$userName$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="email">
+            email like '%$email$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="phone">
+            phone = #phone#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ registerDate >= #startDate# ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ registerDate <= #endDate# ]]>
+        </isNotEmpty>
+
+        <isNotEmpty property="type">
+            <isNotEmpty property="sortMode">
+                order by $type$ $sortMode$
+            </isNotEmpty>
+
+            <isEmpty property="sortMode">
+                order by isActive desc
+            </isEmpty>
+        </isNotEmpty>
+
+        <isEmpty property="type">
+            order by isActive desc
+        </isEmpty>
+        limit #start#,#limit#
+    </select>
+
+    <select id="selectCountForUser" resultClass="int">
+        select count(1) from User WHERE isDelete = 0
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            id=#userId#
+        </isGreaterThan>
+        <isNotEmpty prepend="and" property="userName">
+            userName like '%$userName$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="email">
+            email like '%$email$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="phone">
+            phone = #phone#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ registerDate >= #startDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ registerDate <= #endDate# ]]>
+        </isNotEmpty>
+    </select>
+
+    <update id="updateUserForbiddenStatus">
+        update User
+        set hasForbidden=#hasForbidden#
+        where id=#id#
+    </update>
+
+    <update id="updateUserIsActive">
+        update User
+        set isActive=#isActive#
+        where id=#id#
+    </update>
+
+    <update id="updateUserLoginInfo">
+        update User
+        set loginCount=loginCount+1 ,loginTime=now()
+        where id=#id#
+    </update>
+
+
+    <update id="updateUserGrade">
+        update User
+        set grade = #grade#
+        where id=#userId#
+    </update>
+
+
+    <insert id="createUserOuter">
+        insert into userOuter
+        (outerId,accountType,userId,createDate,updateDate)
+        values
+        (#outerId#,#accountType#,#userId#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <select id="queryUserOuterByOuterIdAndType" resultClass="com.kariqu.usercenter.domain.UserOuter">
+        select id,outerId, accountType,userId,createDate,isLocked from userOuter
+        where outerId=#outerId# and accountType=#accountType# and isDelete=0
+    </select>
+
+
+    <insert id="createUserData">
+        insert into UserData
+        (userId,name,sex,phoneNumber,familyNumber,hasMarried,birthday,createDate,updateDate)
+        values
+        (#userId#,#name#,#sex#,#phoneNumber#,#familyNumber#,#hasMarried#,#birthday#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateUserData">
+        update UserData
+        set
+        name=#name#,sex=#sex#,phoneNumber=#phoneNumber#,familyNumber=#familyNumber#,hasMarried=#hasMarried#,
+        birthday=#birthday#,updateDate=now()
+        where userId=#userId#
+    </update>
+
+    <select id="getUserDataByUserId"
+            resultClass="com.kariqu.usercenter.domain.UserData">
+        select id, userId,name,sex,phoneNumber,familyNumber,hasMarried,birthday,createDate,updateDate from UserData
+        where userId = #userId#
+    </select>
+
+    <insert id="insertUserGradeRule">
+        insert into usergraderule
+        (name,totalExpense,onceExpense,valuationRatio,grade,gradePic,gradeDescription,createTime,updateTime)
+        values
+        (#name#,#totalExpense#,#onceExpense#,#valuationRatio#,#grade#,#gradePic#,#gradeDescription#,now(),now())
+    </insert>
+
+    <insert id="insertUserGradeHistory">
+        insert into usergradehistory
+        (userId,grade,createTime,updateTime)
+        values
+        (#userId#,#grade#,now(),now())
+    </insert>
+
+    <update id="updateUserGradeRule">
+        update usergraderule
+        set
+        name=#name#,totalExpense=#totalExpense#,onceExpense=#onceExpense#,valuationRatio=#valuationRatio#,gradePic=#gradePic#,gradeDescription=#gradeDescription#,updateTime=now()
+        where
+        grade=#grade#
+    </update>
+
+    <sql id="gradeRule.selector">
+        select name,grade,totalExpense,onceExpense,valuationRatio,gradePic,gradeDescription from usergraderule
+    </sql>
+
+
+    <select id="getGradeRule" resultClass="com.kariqu.usercenter.domain.UserGradeRule">
+        <include refid="gradeRule.selector"/>
+        where grade=#grade#
+    </select>
+
+    <select id="getOnceExpenseReachGradeRule" resultClass="com.kariqu.usercenter.domain.UserGradeRule">
+        <include refid="gradeRule.selector"/>
+        where onceExpense &lt;= #money# order by onceExpense desc limit 0,1
+    </select>
+
+    <select id="getTotalExpenseReachGradeRule" resultClass="com.kariqu.usercenter.domain.UserGradeRule">
+        <include refid="gradeRule.selector"/>
+        where totalExpense &lt;= #totalExpense# order by totalExpense desc limit 0,1
+    </select>
+
+    <select id="queryAllGradeRule" resultClass="com.kariqu.usercenter.domain.UserGradeRule">
+        <include refid="gradeRule.selector"/>
+        order by grade asc
+    </select>
+
+    <select id="getUserGradeHistory" resultClass="com.kariqu.usercenter.domain.UserGradeHistory">
+        select userId,grade,createTime,updateTime from usergradehistory where userId=#userId# order by id desc
+    </select>
+
+    <update id="increaseUserTotalExpense">
+        update user
+        set expenseTotal = expenseTotal + #money# where id=#userId#
+    </update>
+
+    <update id="increaseUserPoint">
+        update user
+        set pointTotal = pointTotal + #point# where id=#userId# and (pointTotal + #point# > 0)
+    </update>
+
+    <update id="decreaseUserPoint">
+        update user
+        set pointTotal = pointTotal - #point# where id=#userId# and (pointTotal - #point# >= 0)
+    </update>
+
+</sqlMap>

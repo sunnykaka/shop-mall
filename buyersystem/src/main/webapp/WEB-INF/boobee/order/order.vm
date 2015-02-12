@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>提交订单</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/cart/index.css?$!urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+#parse("user/newLoginTop.vm")
+<input id="fromCart" submitUrl="$!OrderSubmitUrl" type="hidden" value="$!fromCart"/>
+
+<div class="e-header-min e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+
+    <div class="cart-steps">
+        <ul>
+            <li>我的购物车</li>
+            <li>填写核对订单</li>
+            <li class="last">订单提交成功</li>
+        </ul>
+        <div class="step">&nbsp;</div>
+    </div>
+</div>
+
+<div class="order-page">
+<div class="e-wrapper">
+#parse("order/address.vm")
+<!-- /收货人信息 -->
+
+#parse("order/payType.vm")
+<!-- /支付方式 -->
+
+#parse("order/invoice.vm")
+<!-- /发票信息 -->
+
+<div class="order-box inventory">
+    <h3>送货清单</h3>
+    <div class="cart-head">
+        <table>
+            <tr>
+                <th class="col1-2">商品信息</th>
+                <th class="col3">单价</th>
+                <th class="col4">数量</th>
+                <th class="col5">总价</th>
+            </tr>
+        </table>
+    </div>
+    <div class="cart-body">
+        #foreach($entry in $!cartItemGroup.entrySet())
+        <div class="list">
+            <table>
+                <caption>由商家${entry.key.customerName}从${entry.key.name}发货</caption>
+                <tbody>
+                #foreach($cartItem in $!entry.value)
+                <tr class="row">
+                    <td class="col1">
+                        <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $cartItem.productId).addQueryData('skuId', $cartItem.skuId).toString()">
+                            <img src="$imgResolver.getMinSizeImgUrl($!cartItem.imageUrl)" width="60" height="60" alt="$!cartItem.productName"/>
+                        </a>
+                    </td>
+                    <td class="col2">
+                        <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $cartItem.productId).addQueryData('skuId', $cartItem.skuId).toString()">
+                            $!cartItem.productName
+                        </a> <br>
+                        $!cartItem.skuPv
+                    </td>
+                    <td class="col3">
+                        #if($!cartItem.hasActive())
+                            <span class="market-price">¥$!cartItem.originalPrice</span><br>
+                        #end
+                        <span class="price">¥$!cartItem.price</span>
+                    </td>
+                    <td class="col4">
+                        $!cartItem.number
+                    </td>
+                    <td class="col5">
+                        ¥$!cartItem.totalPrice
+                    </td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+        #end
+    </div>
+
+    <div class="remark-box">
+        若您对包裹有特殊要求，请在此备注：
+        <textarea name="remark" id="remark" cols="50" rows="2" class="form-text"></textarea>
+    </div>
+
+</div>
+
+<div class="order-box order-total">
+    <h3>订单结算</h3>
+
+    <div class="row clearfix">
+        <span class="pull-left">商品合计</span>
+        <span class="pull-right price">¥$!totalPrice</span>
+    </div>
+    <div class="row clearfix">
+        <span class="pull-left">运费合计(boobee平台商品全场包邮)</span>
+        <span class="pull-right">免邮费</span>
+    </div>
+    #*<div class="row coupon clearfix" data-url="$!urlBroker.getUrl('BuyHome').toString()/order/integral/check">
+        <h4><i></i>使用优惠券</h4>
+
+        <div class="coupon-box">
+            <div class="coupon-list">
+            #foreach($couponItem in $!couponList)
+                #if($!couponItem.couponType && $!couponItem.couponType == "Normal")
+                    <span class="form-radio" name="coupon" val="$!couponItem.code">满${couponItem.getYuantMiniApplyMoney()}元减${couponItem.getYuanMoney()}元优惠券</span>
+                #else
+                    <span class="form-radio" name="coupon" val="$!couponItem.code">满${couponItem.getYuantMiniApplyMoney()}元${couponItem.getYuanMoney()}折优惠劵</span>
+                #end
+            #end
+            </div>
+            <div class="form">
+                <label class="form-radio" name="coupon">使用优惠码</label>
+                <input type="text" name="coupon" class="form-text" disabled/>
+                <button type="button" class="e-btn btn-default btn-save">确定</button>
+            </div>
+            <div class="selected">
+                <span class="form-radio coupon-text" name="coupon"></span>
+                <button type="button" class="e-btn btn-grey btn-cancel">取消</button>
+            </div>
+            <span class="price coupon-price">-¥<span id="coupon-price">0.00</span></span>
+        </div>
+
+    </div>*#
+
+    <div class="row integral clearfix" data-url="$!urlBroker.getUrl('BuyHome').toString()/order/integral/check">
+        <h4><i></i>使用积分</h4>
+
+        <div class="integral-box">
+            <div class="form">
+                本次结算中最我可用$!{totalCurrency}积分，本次使用
+                <input name="integral" type="text" class="form-text" max-value="$!{totalCurrency}"/>
+                <button type="button" class="e-btn btn-default btn-save">确定</button>
+            </div>
+            <div class="selected">
+                <span class="integral-text"></span>
+                <button type="button" class="e-btn btn-grey btn-cancel">取消</button>
+            </div>
+            <span class="price integral-price">-¥<span id="integral-price">0.00</span></span>
+        </div>
+    </div>
+    <div class="btns clearfix">
+        <form id="orderSubmit" method="post" action="/">
+            <input type="hidden" name="token" value="$!token">
+            <input type="hidden" name="addressId" id="addressId" value="$!defaultAddress.id">
+            <input type="hidden" name="payBank" id="payBank" value="Alipay">
+            <input type="hidden" name="invoice" id="isInvoice" value="false">
+            <input type="hidden" name="invoiceType" id="invoiceType" value="普通发票">
+            <input type="hidden" name="invoiceTitle" id="invoiceTitle" value="individual">
+            <input type="hidden" name="invoiceContent" id="invoiceContent" value="办公用品">
+            <input type="hidden" name="companyName" id="companyName" value="">
+            <input type="hidden" name="skuId" id="skuId" value="1">
+            <input type="hidden" name="source" id="source">
+            <input type="hidden" name="useCoupon" id="useCoupon" value="false">
+            <input type="hidden" name="code" id="code" value="">
+            <input type="hidden" name="integral" id="integral" value="0">
+            <input type="hidden" name="number" id="number" value="1">
+            <input type="hidden" name="totalPrice" id="totalPrice" value="0.00">
+            <input type="hidden" name="messageInfo" id="messageInfo" value="">
+
+            <div class="pull-right">
+                <dl>
+                    <dt>合计：</dt>
+                    <dd><span class="price total-price">¥<span id="total-price">$!totalPrice</span></span></dd>
+                </dl>
+                <a id="submitLink" class="e-btn btn-orange">提交订单</a>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+
+#parse("order/oderFoot.vm")
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/cart/order.js"></script>
+</body>
+</html>

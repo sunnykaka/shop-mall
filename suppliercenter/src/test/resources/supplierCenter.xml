@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+    <bean id="supplier-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:supplier-sql-map-config.xml</value>
+                <value>classpath:supp-sql-map-config.xml</value>
+            </list>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="customerRepository" class="com.kariqu.suppliercenter.repository.impl.SupplierRepositoryImpl">
+        <property name="sqlMapClient" ref="supplier-sqlMapClient"/>
+    </bean>
+
+    <bean id="productStorageRepository" class="com.kariqu.suppliercenter.repository.impl.ProductStorageRepositoryImpl">
+        <property name="sqlMapClient" ref="supplier-sqlMapClient"/>
+    </bean>
+
+    <bean id="brandRepository" class="com.kariqu.suppliercenter.repository.impl.BrandRepositoryImpl">
+        <property name="sqlMapClient" ref="supplier-sqlMapClient"/>
+    </bean>
+
+    <bean id="logisticsPrintInfoRepository" class="com.kariqu.suppliercenter.repository.impl.LogisticsPrintInfoRepositoryImpl">
+        <property name="sqlMapClient" ref="supplier-sqlMapClient"/>
+    </bean>
+
+    <bean id="supplierLogRepository" class="com.kariqu.suppliercenter.repository.impl.SupplierLogRepositoryImpl">
+        <property name="sqlMapClient" ref="supplier-sqlMapClient"/>
+    </bean>
+
+    <bean id="supplierRoleRepository" class="com.kariqu.suppliercenter.repository.impl.SupplierRoleRepositoryImpl">
+        <property name="sqlMapClient" ref="supplier-sqlMapClient"/>
+    </bean>
+</beans>

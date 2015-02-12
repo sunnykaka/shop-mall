@@ -1,0 +1,39 @@
+<!-- 帮助中心 -->
+<div class="common_wrapper">
+
+    <div class="help_site">
+        您现在的位置：<a href="$urlBroker.getUrl('BuyHome').toString()">首页</a> &gt; ${rootCategory.name} &gt; ${content.title}
+    </div>
+
+    <div class="help_page clearfix">
+        <div class="help_sidebar">
+            <div class="help_nav">
+                <ul>
+                    #foreach($category in $subCategoryList)
+                        #if($category.id == $content.id)
+                        <li class="cur">
+                        #else
+                        <li>
+                        #end
+                            <a href="$urlBroker.getUrl('CmsContent').addQueryData('directory',$rootCategory.directory).addQueryData('fileName',$category.id).toString()">$category.title</a>
+                        </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="help_content">
+            <h2 class="title">$content.title</h2>
+
+            <div class="content_box">
+                $content.content
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- 帮助中心 END -->
+
+
+

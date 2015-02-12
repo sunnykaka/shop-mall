@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="template-repository.xml"/>
+
+    <import resource="cacheConfig.xml"/>
+
+    <bean class="com.kariqu.designcenter.service.impl.ModuleInstanceParamServiceImpl"/>
+    <bean class="com.kariqu.designcenter.service.impl.PagePrototypeServiceImpl"/>
+    <bean class="com.kariqu.designcenter.service.impl.ShopPageServiceImpl"/>
+    <bean class="com.kariqu.designcenter.service.impl.ShopTemplateServiceImpl"/>
+    <bean class="com.kariqu.designcenter.service.impl.TemplatePrototypeProduceServiceImpl"/>
+    <bean class="com.kariqu.designcenter.service.impl.TemplateServiceImpl"/>
+
+    <bean class="com.kariqu.designcenter.service.GroovySpringContextBinding"/>
+    <bean class="com.kariqu.designcenter.client.service.impl.PageDesignServiceImpl"/>
+    <bean class="com.kariqu.designcenter.client.service.impl.PageRenderServiceImpl"/>
+    <bean class="com.kariqu.designcenter.client.infrastructure.VelocityRenderEngine"/>
+    <bean class="com.kariqu.designcenter.service.PageStructureBuilder"/>
+
+    <bean id="prodOpenApiContext" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="targetMapClass" value="java.util.HashMap"/>
+        <property name="sourceMap">
+            <map key-type="java.lang.String">
+                <entry key="categoryService" value-ref="prodCategoryService"/>
+                <entry key="productService" value-ref="prodProductService"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean class="com.kariqu.designcenter.client.service.impl.ModulePreviewServiceImpl">
+        <property name="prodOpenApiContext" ref="prodOpenApiContext"/>
+    </bean>
+
+    <bean id="prodCategoryService" class="com.kariqu.designcenter.client.domain.open.api.CategoryServiceImpl"/>
+
+    <bean id="prodProductService" class="com.kariqu.designcenter.client.domain.open.api.ProductServiceImpl"/>
+
+    <bean id="renderContextFactory"
+          class="com.kariqu.designcenter.client.domain.factory.impl.RenderContextFactoryImpl">
+        <property name="prodOpenApiContext" ref="prodOpenApiContext"/>
+    </bean>
+
+    <bean id="commonModuleService" class="com.kariqu.designcenter.service.impl.CommonModuleServiceImpl">
+        <property name="developMode" value="${developMode}"/>
+        <property name="localCommonModulePath" value="${localCommonModulePath}"/>
+    </bean>
+
+    <bean id="commonModuleContainer"
+          class="com.kariqu.designcenter.service.CommonModuleContainer">
+        <property name="developMode" value="${developMode}"/>
+        <property name="localCommonModulePath" value="${localCommonModulePath}"/>
+    </bean>
+
+    <bean id="moduleContextExecutor"
+          class="com.kariqu.designcenter.service.ModuleContextExecutor">
+        <property name="developMode" value="${developMode}"/>
+    </bean>
+
+</beans>

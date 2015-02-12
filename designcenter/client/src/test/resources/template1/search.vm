@@ -1,0 +1,14 @@
+<div class="search">
+	<div class="module1">
+		#include_template_module("module1",100)
+	</div>
+	<div class="module2">
+		#include_template_module("module2",101)
+	</div>	
+	<div class="module3">
+		#include_template_module("module3",102)
+	</div>
+	<div class="K_Region">
+		#include_region("demoRegion",[["module2",103],["module3",104]])
+	</div>
+</div>

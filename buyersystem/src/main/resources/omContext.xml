@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="om-repository.xml"/>
+
+    <bean class="com.kariqu.om.service.impl.QuestionnaireServiceImpl" />
+    <bean id="constService" class="com.kariqu.om.service.impl.ConstServiceImpl"/>
+
+    <bean name="seoService" class="com.kariqu.om.service.impl.SeoServiceImpl"/>
+
+</beans>

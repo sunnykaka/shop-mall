@@ -1,0 +1,62 @@
+#set($contentCssUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/css/order.css?$!urlBroker.getVersion()"])
+
+#parse("head.vm")
+<!-- 网站位置 Start-->
+<div class="common_wrapper">
+    <div class="position_bar">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        <span>&gt;</span>
+        <a href="$!urlBroker.getUrl('Cart').toString()">购物车</a>
+        <span>&gt;</span>
+        <a href="#">付款失败</a>
+    </div>
+</div>
+<!-- 付款失败 -->
+<div class="common_wrapper">
+    <div class="order_payment_status">
+        <div class="payment_failure">
+
+            <div class="failure">
+                <div class="title"><i></i><span>您的订单尚未付款</span></div>
+            </div>
+
+            <div class="clearfix info1">以下$!orders.size()个订单已经支付失败， 应付金额<span class="failure_c"> ¥：$!total_fee元</span></div>
+            <div class="list">
+                <table>
+                    <tr>
+                        <th class="s1">订单号</th>
+                        <th class="s2">支付金额</th>
+                        <th class="s3">发货信息</th>
+                        <th class="s3">订单状态</th>
+                        <th class="s4">操作</th>
+                    </tr>
+                    #foreach($order in $!orders)
+                        <tr>
+                            <td class="s1">订单 1：<a href="$!urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $!order.orderNo).toString()" class="number">$!order.orderNo</a></td>
+                            <td class="s2">¥：$!order.totalPrice元</td>
+                            <td class="s3">$!consignmentInfo.get($!order.orderNo)</td>
+                            <td class="s3">$!order.orderState.toDesc()</td>
+                            <td class="s4"><a
+                                    href="$!urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $!order.orderNo).toString()">查看订单详情 &gt;&gt;</a>
+                            </td>
+                        </tr>
+                    #end
+                </table>
+            </div>
+
+            <div class="btn_w">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()" class="common_btn2"><span>继续购物</span></a>
+            </div>
+
+            <div class="service_hotline">
+                <div class="hotline">400-9933-178</div>
+                <div class="time">服务时间：09：00—23：00</div>
+            </div>
+
+        </div>
+        <div class="shadow ie6png"></div>
+    </div>
+</div>
+<!-- 付款失败 END -->
+#parse("foot.vm")
+

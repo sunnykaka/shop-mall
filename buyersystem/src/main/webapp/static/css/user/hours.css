@@ -1,0 +1,35 @@
+
+@charset "utf-8";
+
+img{ border:none;}
+li{ padding:0; margin:0;}
+
+.userleft_wrapper{ background-color: #f0f0f0; width:100%; padding:4px 0;}
+.my_position_bar{ width:1200px; margin:0 auto;}
+.Bg168{ background:#9de7e5 url(../../images/168hours/bg.jpg) no-repeat center top}
+.Box168{ width:1200px; margin:0 auto; padding-bottom: 100px; }
+.loBar{ height: 106px; padding:15px 0;}
+.loBar .logo168,.loBar .timer168,.loBar .sold{ float: left;}
+.loBar .logo168{ padding-left:22px;}
+.loBar .timer168{ padding:0 190px 0 165px;}
+.loBar .timer168 span{ font-family: Arial; background: url(../../images/168hours/timerbg.jpg) repeat-x; display: inline-block; letter-spacing:28px; padding-left:12px;  height: 48px; margin-right: 3px; color: #fff; font-size: 36px; line-height: 48px; }
+.loBar .timer168 span.hour{ width:132px;}
+.loBar .timer168 span.minute{ width:82px;}
+.loBar .timer168 span.second{ width:82px;}
+.loBar .timer168 p{padding:20px 0 10px;font-size: 16px;font-family: "Microsoft Yahei",STHeiti;}
+.loBar .timer168 em{ padding:0 6px 0 3px; font-style: normal;}
+.loBar .sold{padding:80px 0 0; font-size: 16px;font-family: "Microsoft Yahei",STHeiti; display: none;}
+.loBar .sold span{ color: #f39519; font-size: 18px; font-family: Arial;}
+
+
+.content_hours .title{ height: 56px; line-height: 56px;*line-height: 60px; background-color: #58a35c;font-family: "Microsoft Yahei",STHeiti; color: #FFF; border-top-left-radius: 4px; border-top-right-radius: 4px; -moz-border-radius-topleft: 4px; -moz-border-radius-topright: 4px;}
+.content_hours .title  h1,.content_hours .title span.next{ display: inline-block; }
+.content_hours .title  h1{font-size: 28px;  text-align: center; font-weight: normal;}
+.content_hours .title span.next{ background: url(../../images/168hours/titlebg.png) no-repeat; float: right; font-size: 18px; width:426px; text-align: center;}
+.picBox div.banner168{ padding-bottom: 10px;}
+.picBox ul{ background-color: #fff; padding-bottom: 50px;}
+.picBox ul li{ *margin-top:-2px;}
+.picBox a{ display: block;}
+.picBox  img{ display: inline-block;}
+.picBox .hoursLi{ position: relative;}
+.picBox .hoursLi a{ position: absolute; display: block;  overflow: hidden; background: #fff;filter:alpha(opacity=0.0001);-moz-opacity:0; -khtml-opacity:0; opacity: 0; line-height: 10000px;  }

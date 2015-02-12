@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.CategoryProperty">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="propertyId" column="propertyId"/>
+        <result property="propertyType" column="propertyType"/>
+        <result property="multiValue" column="multiValue"/>
+        <result property="compareable" column="compareable"/>
+        <result property="priority" column="priority"/>
+    </resultMap>
+
+    <sql id="CategoryProperty.selector">
+        select id,categoryId,propertyId,propertyType,multiValue,compareable,priority from CategoryProperty
+    </sql>
+
+    <select id="selectAllCategoryProperty" resultMap="result">
+         <include refid="CategoryProperty.selector"/> where isDelete = 0
+    </select>
+
+    <select id="getCategoryProperties" resultMap="result">
+         <include refid="CategoryProperty.selector"/> where categoryId=#categoryId# and propertyType=#propertyType# and isDelete = 0 order by priority asc
+    </select>
+
+    <select id="selectCategoryProperty"
+            resultMap="result">
+         <include refid="CategoryProperty.selector"/> where id = #id# and isDelete = 0
+    </select>
+
+
+    <select id="queryCategoryPropertyByCategoryId"
+            resultMap="result">
+         <include refid="CategoryProperty.selector"/> where categoryId = #categoryId# and isDelete = 0 order by priority asc
+    </select>
+
+    <select id="queryCategoryPropertyByCategoryIdAndPropertyId"
+            resultMap="result">
+         <include refid="CategoryProperty.selector"/> where categoryId = #categoryId# and propertyId = #propertyId# and isDelete = 0
+    </select>
+
+    <insert id="insertCategoryProperty">
+        insert into CategoryProperty
+        (categoryId,propertyId,propertyType,multiValue,compareable,priority,createTime,updateTime)
+        values
+        (#categoryId#,#propertyId#,#propertyType#,#multiValue#,#compareable#,#priority#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateCategoryProperty">
+        update CategoryProperty
+        set
+        categoryId=#categoryId#,propertyId=#propertyId#,propertyType=#propertyType#,multiValue=#multiValue#,compareable=#compareable#,priority=#priority#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteCategoryProperty">
+        update CategoryProperty
+        set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllCategoryProperty">
+        update CategoryProperty
+        set isDelete = 1,updateTime=now()
+    </delete>
+
+    <delete id="deleteCategoryPropertyByCPId">
+        update CategoryProperty
+        set isDelete = 1,updateTime=now()
+        where categoryId = #categoryId# and propertyId=#propertyId#
+    </delete>
+
+    <delete id="deleteCategoryPropertyByCategoryId">
+        update CategoryProperty
+        set isDelete = 1,updateTime=now()
+        where categoryId = #categoryId#
+    </delete>
+
+    <select id="queryAddedCategoryPropertyFromGivingTime"
+            resultMap="result">
+         <include refid="CategoryProperty.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedCategoryPropertyFromGivingTime"
+            resultMap="result">
+         <include refid="CategoryProperty.selector"/> where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedCategoryPropertyFromGivingTime"
+            resultMap="result">
+         <include refid="CategoryProperty.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+</sqlMap>

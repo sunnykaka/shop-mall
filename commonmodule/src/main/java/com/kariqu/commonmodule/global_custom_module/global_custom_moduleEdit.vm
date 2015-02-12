@@ -1,0 +1,31 @@
+<script>
+setTimeout(function () {
+    window.designEditor = KindEditor.create('textarea[name="Module_Html_ParamName"]', {
+        allowFileManager: false,
+        allowFileUpload: false,
+        allowImageUpload: false,
+        filterMode: false
+    });
+}, 500);
+</script>
+
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        css, 一行一个 css 文件, 可以为空.<br>
+        <span style="color: #ff0000;">比如想要加载 http://assets.yijushang.com/css/common.css, 只写 css/common.css 即可</span> :<br>
+        <textarea name="Module_Css_ParamName" style="width:714px; height: 100px;" class="long">$!Module_Css_ParamName</textarea>
+
+        <br><br>
+        html :<br>
+        <textarea name="Module_Html_ParamName" style="width:714px; height: 350px;" class="long">$!Module_Html_ParamName</textarea>
+
+        <br><br>
+        js :<br>
+        <textarea name="Module_Js_ParamName" style="width:710px; height: 200px;" class="long">$!Module_Js_ParamName</textarea>
+        <br><br><p style="text-align:center;"><input type="submit"/></p><br>
+    </form>
+</div>

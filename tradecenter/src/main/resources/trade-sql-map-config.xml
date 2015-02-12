@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+    <sqlMap resource="sqlmap/Cart.xml"/>
+    <sqlMap resource="sqlmap/CartItem.xml"/>
+
+    <sqlMap resource="sqlmap/VirtualOrder.xml"/>
+    <sqlMap resource="sqlmap/Order.xml"/>
+    <sqlMap resource="sqlmap/OrderItem.xml"/>
+    <sqlMap resource="sqlmap/OrderStateHistory.xml"/>
+
+    <sqlMap resource="sqlmap/Logistics.xml"/>
+    <sqlMap resource="sqlmap/LogisticsEvent.xml"/>
+    <sqlMap resource="sqlmap/SystemEvent.xml"/>
+    <sqlMap resource="sqlmap/PaymentEvent.xml"/>
+    <sqlMap resource="sqlmap/Address.xml"/>
+    <sqlMap resource="sqlmap/TradeInfo.xml"/>
+    <sqlMap resource="sqlmap/InvoiceCompany.xml"/>
+
+    <!-- 省市区县三级联动. -->
+    <sqlMap resource="sqlmap/Linkage.xml"/>
+
+    <!-- 与第三方物流交互数据 -->
+    <sqlMap resource="sqlmap/LogisticsInfo.xml"/>
+
+    <!-- 统计 sku 销售数 -->
+    <sqlMap resource="sqlmap/SkuTradeResult.xml"/>
+
+    <!-- 退货单信息 -->
+    <sqlMap resource="sqlmap/BackGoods.xml"/>
+
+    <!-- 退货单详情 -->
+    <sqlMap resource="sqlmap/BackGoodsItem.xml"/>
+
+    <!-- 退货单日志 -->
+    <sqlMap resource="sqlmap/BackGoodsLog.xml"/>
+
+    <!-- 交易订单关联表 -->
+    <sqlMap resource="sqlmap/TradeOrder.xml"/>
+
+    <!-- 退款交易信息 -->
+    <sqlMap resource="sqlmap/Refund.xml"/>
+
+    <!-- 现金券-->
+    <sqlMap resource="sqlmap/Coupon.xml"/>
+
+    <sqlMap resource="sqlmap/Valuation.xml"/>
+
+    <!-- 轮盘抽奖相关 -->
+    <sqlMap resource="sqlmap/rotaryLottery.xml"/>
+
+
+</sqlMapConfig>

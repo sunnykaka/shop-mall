@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+
+    <sqlMap resource="sqlmap/SystemLog.xml"/>
+    <sqlMap resource="sqlmap/Feedback.xml"/>
+
+    <sqlMap resource="sqlmap/Survey.xml"/>
+    <sqlMap resource="sqlmap/Question.xml"/>
+    <sqlMap resource="sqlmap/Answer.xml"/>
+    <sqlMap resource="sqlmap/Result.xml"/>
+    <sqlMap resource="sqlmap/ResultDetail.xml"/>
+    <sqlMap resource="sqlmap/Const.xml"/>
+
+    <sqlMap resource="sqlmap/Seo.xml"/>
+
+</sqlMapConfig>

@@ -1,0 +1,39 @@
+<div class="mod-detailSidebar">
+    #if($!recommendProductList.size() > 0)
+    <div class="box">
+        <h3>同价位商品推荐</h3>
+        <ul>
+            #foreach($product in $!recommendProductList)
+            <li>
+                <div class="pic"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()">
+                    <img class="lazy" data-original="$!imgResolver.getMiddleSizeImgUrl($!product.pictureUrl)"
+                         src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif"/></a>
+                </div>
+                <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                    $!product.id).toString()">$!product.nameSkuDescJoinStr</a></div>
+                <div class="price">¥ #if($!product.activityType) $!{product.activityPrice} #else $!{product.displayPrice} #end</div>
+            </li>
+            #end
+        </ul>
+    </div>
+    #end
+
+    #if($!historyProductList.size() > 0)
+    <div class="box">
+        <h3>根据浏览记录向您推荐</h3>
+        <ul>
+            #foreach($product in $!historyProductList)
+                <li>
+                    <div class="pic"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()">
+                        <img class="lazy" data-original="$!imgResolver.getMiddleSizeImgUrl($!product.pictureUrl)"
+                             src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif"/></a>
+                    </div>
+                    <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                        $!product.id).toString()">$!product.nameSkuDescJoinStr</a></div>
+                    <div class="price">¥ #if($!product.activityType) $!{product.activityPrice} #else $!{product.displayPrice} #end</div>
+                </li>
+            #end
+        </ul>
+    </div>
+    #end
+</div>

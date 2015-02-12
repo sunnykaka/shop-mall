@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForProduct" resultClass="int">
+        select count(1) from product where isDelete =0
+    </select>
+
+    <select id="selectCountForProductByCategoryId" resultClass="int">
+        select count(1) from product where categoryId = #categoryId# and isDelete =0
+    </select>
+
+    <select id="selectCountForProductByCustomerId" resultClass="int">
+        select count(1) from product where customerId = #customerId# and isDelete =0
+    </select>
+
+    <select id="selectCountForProductByBrandId" resultClass="int">
+        select count(1) from product where brandId = #brandId# and isDelete =0
+    </select>
+
+    <select id="selectCountForProductByStoreId" resultClass="int">
+        select count(1) from product where id in ( select productId from StockKeepingUnit sku,SkuStorage store where store.productStorageId = #storeId# and sku.id= store.skuId) and isDelete =0
+    </select>
+
+    <select id="selectProductCountByOnlineStatus" resultClass="int">
+        select count(1) from product where online=#online# and isDelete =0
+    </select>
+
+    <sql id="product.selector">
+        select id, productCode, categoryId, customerId, brandId, name, description, tagType,
+        storeStrategy, createTime, onlineTime, offlineTime, onLineTimeLong, updateTime,online
+        from product
+    </sql>
+
+    <select id="selectProductByCustomer" resultClass="int">
+        select id from product where isDelete =0 and customerId = #customerId#
+        <isNotEmpty prepend="AND" property="productCode">
+            productCode = #productCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="name">
+            name like concat('%', #name#, '%')
+        </isNotEmpty>
+    </select>
+
+    <select id="selectProductByOnlineStatus" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where isDelete = 0 and online = #online# limit #start#,#limit#
+    </select>
+
+    <select id="selectAllProducts" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where isDelete =0
+    </select>
+
+    <select id="queryMarketingProduct" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+    </select>
+
+    <select id="queryProductsByCategoryId" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where categoryId = #categoryId# and isDelete =0
+    </select>
+
+    <select id="queryAllProductsByPage" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where isDelete =0 limit #start#,#limit#
+    </select>
+
+    <select id="queryProductsByCategoryIdByPage" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where categoryId = #categoryId# and isDelete =0 limit #start#,#limit#
+    </select>
+
+    <select id="queryProductsByCustomerIdByPage" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where customerId = #customerId# and isDelete =0 limit #start#,#limit#
+    </select>
+
+    <select id="queryProductsByBrandIdByPage" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where brandId = #brandId# and isDelete =0 limit #start#,#limit#
+    </select>
+
+    <select id="queryProductsByStoreIdByPage" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where id in ( select productId from StockKeepingUnit sku,SkuStorage store where store.productStorageId = #storeId# and sku.id= store.skuId) and isDelete =0 limit #start#,#limit#
+    </select>
+
+    <select id="queryProductByFuzzy" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where isDelete =0 and name like #search#
+    </select>
+
+
+    <select id="selectProduct"
+            resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where id = #id# and isDelete = 0
+    </select>
+
+    <select id="getProductByCode"
+            resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where productCode = #productCode# and isDelete = 0
+    </select>
+
+    <select id="selectOneProduct"
+            resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where categoryId = #categoryId# and isDelete =0 limit 0,1
+    </select>
+
+    <insert id="insertProduct">
+        insert into product
+        (categoryId,productCode,name,description,storeStrategy,createTime,customerId,brandId,online,onlineTime,onLineTimeLong)
+        values
+        (#categoryId#,#productCode#,#name#,#description#,#storeStrategy#,now(),#customerId#,#brandId#,#online#,now(),#onLineTimeLong#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateProductStrategy">
+        update product set storeStrategy = #storeStrategy# where id=#id#
+    </update>
+
+    <insert id="insertRecommendProduct">
+        insert into RecommendProduct
+        (productId,recommendProductId,recommendType)
+        values
+        (#productId#,#recommendProductId#,#recommendType#)
+    </insert>
+
+    <delete id="deleteRecommendProduct">
+        delete from RecommendProduct where productId = #productId#
+        <isGreaterEqual prepend="AND" property="recommendProductId" compareValue="0">
+            recommendProductId = #recommendProductId#
+        </isGreaterEqual>
+        <isNotEmpty prepend="AND" property="recommendType">
+            recommendType = #recommendType#
+        </isNotEmpty>
+    </delete>
+
+    <delete id="deleteRecommendBy">
+        delete from RecommendProduct where recommendProductId = #recommendProductId#
+    </delete>
+
+
+    <select id="selectRecommendByType" resultClass="Integer">
+        select recommendProductId from RecommendProduct where productId = #productId# and recommendType = #type#
+    </select>
+
+    <update id="updateProduct">
+        update product
+        set
+        categoryId=#categoryId#,name=#name#,description=#description#,productCode=#productCode#,
+        updateTime=now(),customerId=#customerId#,brandId=#brandId#,online=#online#,tagType=#tagType#
+        where id=#id#
+    </update>
+
+    <update id="updateProductName">
+        update product
+        set name=#name#
+        where id=#id#
+    </update>
+
+    <update id="changeProductOnlineStatus">
+        update product
+        set online=#online#,updateTime=now()
+        <isEqual prepend="," property="online" compareValue="true">
+            onlineTime = #onlineTime#,onLineTimeLong=#onLineTimeLong#
+        </isEqual>
+        <isNotEqual prepend="," property="online" compareValue="true">
+            offLineTime = #offLineTime#
+        </isNotEqual>
+        where id=#productId#
+    </update>
+
+    <delete id="deleteProduct">
+        update product set isDelete =1,updateTime=now() where id = #productId#
+    </delete>
+
+    <update id="updateProductModifyTime">
+        update product set updateTime=now() where id = #productId#
+    </update>
+
+    <select id="searchQueryProducts" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where id !=0 and isDelete =0
+        <isNotEmpty prepend="AND" property="productCode">
+            productCode = #productCode#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="searchName">
+            name like #searchName#
+        </isNotEmpty>
+
+        <isNotEqual prepend="AND" property="brandId" compareValue="0">
+            brandId = #brandId#
+        </isNotEqual>
+
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId = #customerId#
+        </isNotEqual>
+
+        limit #start#,#limit#
+    </select>
+
+    <select id="searchQueryCountProducts" resultClass="int">
+        select count(1) from product where id != 0 and isDelete =0
+        <isNotEmpty prepend="AND" property="searchName">
+            name like #searchName#
+        </isNotEmpty>
+
+        <isNotEqual prepend="AND" property="brandId" compareValue="0">
+            brandId = #brandId#
+        </isNotEqual>
+
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId = #customerId#
+        </isNotEqual>
+    </select>
+
+    <select id="queryProductByFuzzyPage" resultClass="com.kariqu.productcenter.domain.Product">
+        <include refid="product.selector"/>
+        where isDelete =0 and name like #search# limit #start#,#limit#
+    </select>
+
+    <select id="selectCountByFuzzyPage" resultClass="int">
+        select count(1) from product where isDelete =0 and name like #search#
+    </select>
+
+    <select id="queryProductAmountByProductCode" resultClass="int">
+        select count(1) from product where isDelete =0 and productCode = #productCode#
+    </select>
+
+    <select id="queryDeletedProductFromGivingTime" resultClass="int">
+        select id from product where (isDelete = 1 or online = 0) and updateTime > #date#
+    </select>
+
+    <!-- consultation -->
+    <insert id="createConsultation">
+        insert into consultation
+        (productId,askedUserName,askUserId,askContent,consultationCategory,hasAnswer,askTime,createDate,updateDate)
+        values
+        (#productId#,#askedUserName#,#askUserId#,#askContent#,#consultationCategory#,0 ,now(),now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="answerConsultation">
+        update consultation set answerContent = #answerContent# ,hasAnswer = 1 ,answerTime=now() ,updateDate=now()
+        where id=#id#
+    </update>
+
+    <sql id="consultation.selector">
+        select id, productId, askContent, answerContent, consultationCategory,
+        hasAnswer, askedUserName, askUserId, askTime, answerTime
+        from consultation
+    </sql>
+
+    <!-- consultation咨询表连接user用户表查询用户等级 -->
+    <sql id="consultationJoinUser.selector">
+        select grade, id, productId, askContent, answerContent, consultationCategory,
+        hasAnswer, askedUserName, askUserId, askTime, answerTime
+        from (
+        select u.grade, c.id, c.productId, c.askContent, c.answerContent, c.consultationCategory,
+        c.hasAnswer, c.askedUserName, c.askUserId, c.askTime, c.answerTime, c.isDelete, c.createDate
+        from consultation c left join user u on u.id = c.askUserId
+        ) a
+    </sql>
+
+    <!-- consultation咨询表连接user用户表查询用户等级 记录条数 -->
+    <sql id="consultationJoinUserCount.selector">
+        select count(1) from (
+        select u.grade, c.id, c.productId, c.askContent, c.answerContent, c.consultationCategory,
+        c.hasAnswer, c.askedUserName, c.askUserId, c.askTime, c.answerTime, c.isDelete, c.createDate
+        from consultation c left join user u on u.id = c.askUserId
+        ) a
+    </sql>
+
+    <select id="queryConsultation" resultClass="com.kariqu.productcenter.domain.Consultation">
+        <include refid="consultationJoinUser.selector"/>
+        where isDelete = 0 and now() > createDate
+        <isNotEmpty property="consultationCategory" prepend="AND">
+            consultationCategory = #consultationCategory#
+        </isNotEmpty>
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId = #productId#
+        </isNotEqual>
+        <isNotEmpty prepend="AND" property="hasAnswer">
+            hasAnswer = #hasAnswer#
+        </isNotEmpty>
+        order by id desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryAmountOfConsultation" resultClass="int">
+        <include refid="consultationJoinUserCount.selector"/>
+        where isDelete = 0 and now() > createDate
+        <isNotEmpty property="consultationCategory" prepend="AND">
+            consultationCategory = #consultationCategory#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="productId">
+            productId = #productId#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="hasAnswer">
+            hasAnswer = #hasAnswer#
+        </isNotEmpty>
+    </select>
+
+    <select id="queryConsultationById" resultClass="com.kariqu.productcenter.domain.Consultation">
+        <include refid="consultation.selector"/>
+        where id = #id#
+    </select>
+
+
+    <select id="searchConsultation" resultClass="com.kariqu.productcenter.domain.Consultation">
+        <include refid="consultation.selector"/>
+        where isDelete = 0
+        <isNotEmpty property="consultationCategory" prepend="AND">
+            consultationCategory = #consultationCategory#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="askUserId">
+            askUserId = #askUserId#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="hasAnswer">
+            hasAnswer = #hasAnswer#
+        </isNotEmpty>
+        order by id desc limit #start#,#limit#
+    </select>
+
+    <select id="searchConsultationCount" resultClass="int">
+        select count(1) from consultation where isDelete = 0
+        <isNotEmpty property="consultationCategory" prepend="AND">
+            consultationCategory = #consultationCategory#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="askUserId">
+            askUserId = #askUserId#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="hasAnswer">
+            hasAnswer = #hasAnswer#
+        </isNotEmpty>
+    </select>
+
+
+    <update id="deleteConsultationByProductId">
+        update consultation set isDelete=1,updateDate=now() where productId = #productId#
+    </update>
+
+    <update id="deleteConsultationById">
+        update consultation set isDelete=1,updateDate=now() where id = #id#
+    </update>
+
+    <insert id="addProductToPlatform">
+        insert into ProductOfPlatform
+        (productId,platform,productOfJson,isDelete,createDate,updateDate)
+        values
+        (#productId#,#platform#,#productOfJson#,0 ,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <select id="queryProductOfPlatform" resultClass="com.kariqu.productcenter.domain.ProductOfPlatform">
+        select id,productId,platform,productOfJson,isDelete,createDate,updateDate from ProductOfPlatform where isDelete = 0
+        and productId = #productId# and platform = #platform#
+    </select>
+
+</sqlMap>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+	<body>
+		<regions>
+			<region name="_fixedRegion">
+				<module id="1739725261" prototypeId="1" name="module1" type="template">
+					<param name="nav1">http://www.zhiwen.com
+					</param>
+					<param name="nav2">http://www.kariqu.com
+					</param>
+				</module>
+				<module id="1739755053" prototypeId="2" name="module2" type="template">
+					<param name="pic1">/a.jpg</param>
+					<param name="pic2">/b.jpg</param>
+				</module>
+			</region>
+			<region name="demoRegion">
+				<module id="1739725263" prototypeId="1" name="module1" type="template">
+					<param name="nav1">http://www.zhiwen.com
+					</param>
+					<param name="nav2">http://www.kariqu.com
+					</param>
+				</module>
+				<module id="1739755055" prototypeId="2" name="module2" type="template">
+					<param name="pic1">/a.jpg</param>
+					<param name="pic2">/b.jpg</param>
+				</module>
+			</region>
+		</regions>
+	</body>
+</page>

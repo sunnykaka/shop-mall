@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>易居尚，提供高品质生活家居用品</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/wish.css" />
+    #foreach($css in $!pageCss)
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/$!css" />
+    #end
+
+    <script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/shop/js/var"></script>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/common.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/modules.js"></script>
+</head>
+<body>
+
+${pageContent}
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+
+<table>
+    <thead>
+        <tr>
+            <th class="s0">劵号</th>
+            <th class="s1">说明</th>
+            <th class="s2">过期时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        #foreach($item in $coupons)
+        <tr#if($!velocityCount == 1) class="first"#end>
+            <td class="s0">$item.code</td>
+            <td class="s1">易居尚 $!{item.money}元 现金劵<br>#if($!item.miniApplyOrderPrice > 0)（满 $!{item.miniApplyMoney}元 可使用）#else（无金额限制）#end</td>
+            <td class="s2">
+                $dateTool.format("yyyy-MM-dd HH:mm:ss",$!{item.expireDate})
+                <br/>
+                #if(!$item.used && !$item.expire)<span class="available">未使用</span>
+                #elseif($item.used)<span class="Unavailable">已使用</span>
+                #else<span class="fail">已过期</span>#end
+            </td>
+        </tr>
+        #end
+    </tbody>
+</table>

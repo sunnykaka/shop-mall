@@ -1,0 +1,66 @@
+#set($leftCss="$urlBroker.getUrl('StaticFileDomain').toString()/css/user/usercenter.css?$urlBroker.getVersion()")
+#set($leftJs="$!urlBroker.getUrl('StaticFileDomain').toString()/js/my_sidebar.js?$!urlBroker.getVersion()")
+#*#set($leftJs="$!urlBroker.getUrl('StaticFileDomain').toString()/shop/js/var?$!urlBroker.getVersion()")*#
+
+#parse("head.vm")
+
+<div class="wrapper">
+<!-- 网站位置 -->
+<div class="common_wrapper userleft_wrapper">
+    <div class="my_position_bar">
+        <a href="$urlBroker.getUrl('BuyHome').toString()" class="home">首页</a>
+        <span>-</span>
+        <a href="$urlBroker.getUrl('MyAccount').toString()">我的boobee</a>
+        #if($!site_title)
+            <span>-</span>
+            $!site_title
+        #end
+    </div>
+</div>
+<!-- 网站位置 END -->
+
+<!-- 内容-->
+<div class="common_wrapper account_wrapper">
+    <div class="n_acc_left" id="my_sidebar">
+        <div class="widget widget_order">
+            <div class="h">交易管理</div>
+            <ul class="list">
+                <li><a href="$!urlBroker.getUrl('MyOrders').toString()">我的订单</a></li>
+                <li><a href="$!urlBroker.getUrl('MyFavorites').toString()">我的关注</a></li>
+                <li><a href="$!urlBroker.getUrl('MyPoint').toString()">我的积分</a></li>
+##                <li><a href="$!urlBroker.getUrl('MyCoupon').toString()">我的现金券</a></li>
+                <li><a href="$!urlBroker.getUrl('MyConsult').toString()">商品咨询</a></li>
+                <li><a href="$!urlBroker.getUrl('MyValuation').toString()">商品评价</a></li>
+            </ul>
+        </div>
+
+        <div class="widget widget_acc">
+            <div class="h">账户管理</div>
+            <ul class="list">
+##                <li><a href="$!urlBroker.getUrl('MyMembership').toString()">我的会员等级</a></li>
+                <li><a href="$!urlBroker.getUrl('MyAccountToData').toString()">个人资料</a></li>
+                <li><a href="$!urlBroker.getUrl('MyAccountToChangePsw').toString()">账户安全</a></li>
+                <li><a href="$!urlBroker.getUrl('MyAddress').toString()">收货信息管理</a></li>
+            </ul>
+        </div>
+
+        <div class="widget widget_services">
+            <div class="h">售后服务</div>
+            <ul class="list">
+                <li><a href="$!urlBroker.getUrl('MyBackGoodsApplyList').toString()">退货</a></li>
+                <!--            <li><a href="my_fillin_exchange.php">填写退换</a></li>-->
+                <li><a href="$!urlBroker.getUrl('BackGoodsList').toString()">查看记录</a></li>
+                <!--            <li><a href="my_return_warranty.php">退换/保修详情</a></li>-->
+            </ul>
+        </div>
+    </div>
+
+#* 中间主体部分 *#
+    #parse("$!contentVm")
+
+    <div class="clearfix"></div>
+</div>
+<!-- 内容 END -->
+
+#parse('foot.vm')
+</div>

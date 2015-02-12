@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <!-- ===================================================================== -->
+    <!--  appender definitions                                                 -->
+    <!-- ===================================================================== -->
+    <appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/supplier.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="suppliersystem" class="org.apache.log4j.FileAppender">
+        <param name="File" value="${loggingRoot}/supplier-system.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="LogisticsModuleInstance" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/supplier-logistics.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="SmsModuleInstance" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/supplier-sms.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss sss} [%X{userInfo}] [%X{requestURIWithQueryString}] [%p] %l - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <!--<appender name="SqlAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${loggingRoot}/supplier-sql.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyy-MM-dd HH:mm:ss} [%p] %c : %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="java.sql.Connection" additivity="true">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="true">
+        <level value="DEBUG" />
+        <appender-ref ref="SqlAppender" />
+    </logger>-->
+
+
+    <logger name="org.springframework" additivity="true">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="com.kariqu.suppliersystem" additivity="true">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="suppliersystem"/>
+    </logger>
+
+    <logger name="LogisticsLog" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="LogisticsModuleInstance"/>
+    </logger>
+
+    <logger name="SmsLog" additivity="false">
+        <level value="${loggerLevel}"/>
+        <appender-ref ref="SmsModuleInstance"/>
+    </logger>
+
+    <!-- ===================================================================== -->
+    <!--  Root log                                                          -->
+    <!-- ==================================================================== -->
+    <root>
+        <level value="warn"/>
+        <appender-ref ref="PROJECT"/>
+    </root>
+</log4j:configuration>

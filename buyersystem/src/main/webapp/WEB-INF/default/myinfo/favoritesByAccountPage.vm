@@ -1,0 +1,30 @@
+#if($productCollectPage)
+    <div class="list clearfix">
+        <div class="prev"></div>
+        <div class="concern_box">
+            <ul class="concern clearfix">
+                #foreach($productCollect in $!productCollectPage.result)
+                    <li>
+                        <a href="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $productCollect.productId).toString()" class="pic">
+                            <img src="$!imgResolver.getMiddleSizeImgUrl($!productCollect.productMainPicture)" width="158" height="158">
+                        </a>
+                        <a href="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $productCollect.productId).toString()" class="let">
+                            $!productCollect.productName
+                        </a>
+                        <span>¥ $!productCollect.unitPrice</span>
+                    </li>
+                #end
+            </ul>
+        </div>
+        <div class="next"></div>
+    </div>
+#else
+    <div class="hide">
+        看到心仪的宝贝要关注哦~
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">看看大家都关注什么宝贝>>  </a>
+    </div>
+#end
+
+
+
+

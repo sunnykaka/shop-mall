@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>错误页面</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/static/css/base.css" type="text/css">
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/static/css/main.css" type="text/css">
+
+</head>
+<body>
+<div class="error_page">
+    $msg
+</div>
+</body>
+</html>

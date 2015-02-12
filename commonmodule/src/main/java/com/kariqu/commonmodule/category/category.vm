@@ -1,0 +1,42 @@
+<!-- 网站导航 -->
+<div class="e-nav">
+    <div class="e-wrapper">
+        <div class="category-all pull-left">
+            <h3 class="title">全部商品分类<span class="icon icon-down"></span></h3>
+            <div class="category-all-main clearfix">
+                #foreach($category in $!categoryTree)
+                <div class="items#if($!velocityCount == $!categoryTree.size()) last#end">
+                    <h4><span class="icon icon-c$!{velocityCount}"></span>$!category.name</h4>
+                    #foreach($!secondCategory in $!category.children)
+                    <dl>
+                        <dt><a target="_blank" href="$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId', $!secondCategory.id).toString()">$!secondCategory.name</a></dt>
+                        <dd>
+                            #set($size = 0)
+                            #foreach($thirdCategory in $!secondCategory.children)
+                                #set($size = $!size + $!thirdCategory.name.length())
+                                #set($url = $!urlBroker.getUrl('Search').addQueryData('cid', $!{thirdCategory.id}).toString())
+                                #if($!secondCategory.conditions)#set($url = $!urlBroker.getUrl('Search').addQueryData('cid',
+                                    $!{thirdCategory.id}).addQueryData('pv', $!{secondCategory.conditions}).toString())#end
+                            <a target="_blank" href="$!url"#if($!thirdCategory.settingsObject().hot) class="hot"#end >$!thirdCategory.name</a>
+                            #if($!size >= $!wordNumber)<br>#set($size = 0)#*#elseif($!velocityCount != $!secondCategory.children.size())|*##end
+                            #end
+                        </dd>
+                    </dl>
+                    #end
+                </div>
+                #end
+                <span class="btn-close">x 关闭</span>
+            </div>
+        </div>
+
+        <ul class="nav-main pull-left">
+            <li><a  href="$!urlBroker.getUrl('BuyHome').toString()">首页</a></li>
+            #foreach($config in $!_PARAM['categoryConfig'].split("\n"))
+                #if($!config != '' && $!config.split(",").size() > 1)
+                    <li><a target="_blank" href="$!config.split(",")[0].trim()">$!config.split(",")[1].trim()</a></li>
+                #end
+            #end
+        </ul>
+    </div>
+</div>
+<!-- 网站导航 END -->

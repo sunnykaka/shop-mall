@@ -1,0 +1,247 @@
+/* Desktop Shortcuts */
+#x-shortcuts dt {
+    float: left;
+    margin: 0 0 0 15px;
+    clear: left;
+    width: 87px;
+    height: 88px;
+    font: normal 12px tahoma, arial, verdana, sans-serif;
+    text-align: center;
+    zoom: 1;
+    display: block;
+    padding: 15px 0 0;
+}
+
+#x-shortcuts dt:hover {
+    cursor: pointer;
+    background: url('../images/appbutton_mouseover_bg3.png') no-repeat 50% 50%
+}
+
+#x-shortcuts dt div {
+    width: 100%;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.ext-ie #x-shortcuts dt img {
+    background: transparent !important;
+}
+
+#x-shortcuts dt a:hover {
+    text-decoration: none;
+}
+
+/* shortcuts */
+#Product-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Product.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Product.png', sizingMethod = 'scale');
+}
+
+#Valuation-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Valuation.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Valuation.png', sizingMethod = 'scale');
+}
+
+#Account-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Account.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Account.png', sizingMethod = 'scale');
+}
+
+#Category-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Category.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Category.png', sizingMethod = 'scale');
+}
+
+#NavigateCategory-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/NavigateCategory.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/NavigateCategory.png', sizingMethod = 'scale');
+}
+
+#Template-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Template.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Template.png', sizingMethod = 'scale');
+}
+
+#Page-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Page.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Page.png', sizingMethod = 'scale');
+}
+
+#Cms-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Cms.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Cms.png', sizingMethod = 'scale');
+}
+
+#Order-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Order.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Order.png', sizingMethod = 'scale');
+}
+
+#Design-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Design.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Design.png', sizingMethod = 'scale');
+}
+
+#Consultation-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Consultation.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Consultation.png', sizingMethod = 'scale');
+}
+
+#Log-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Log.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Log.png', sizingMethod = 'scale');
+}
+
+#User-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/User.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/User.png', sizingMethod = 'scale');
+}
+
+#Feedback-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Feedback.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Feedback.png', sizingMethod = 'scale');
+}
+
+/* 商家管理 */
+#Supplier-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Supplier.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Supplier.png', sizingMethod = 'scale');
+}
+
+/* 图片管理 */
+#PictureSpace-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/PictureSpace.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/PictureSpace.png', sizingMethod = 'scale');
+}
+
+#Finance-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Finance.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Finance.png', sizingMethod = 'scale');
+}
+
+#BackGoods-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/BackGoods.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/BackGoods.png', sizingMethod = 'scale');
+}
+
+#LimitTime-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/LimitTime.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/LimitTime.png', sizingMethod = 'scale');
+}
+
+#Module-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Module.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Module.png', sizingMethod = 'scale');
+}
+
+#Surveys-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Surveys.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Surveys.png', sizingMethod = 'scale');
+}
+
+#Email-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Email.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Email.png', sizingMethod = 'scale');
+}
+
+#MealSet-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/MealSet.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/MealSet.png', sizingMethod = 'scale');
+}
+
+#Coupon-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Coupon.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Coupon.png', sizingMethod = 'scale');
+}
+
+#Const-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Const.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Const.png', sizingMethod = 'scale');
+}
+
+#Rotary-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Rotary.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Rotary.png', sizingMethod = 'scale');
+}
+
+#Sms-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Sms.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Sms.png', sizingMethod = 'scale');
+}
+
+#Trade-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Trade.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Trade.png', sizingMethod = 'scale');
+}
+
+#Exchange-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Exchange.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Exchange.png', sizingMethod = 'scale');
+}
+
+#Program-win-shortcut img {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/app/Order.png);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/static/images/app/Order.png', sizingMethod = 'scale');
+}

@@ -1,0 +1,129 @@
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper my_title clearfix" id="ucOrder">
+            <h3 class="tit"><span>退换货服务</span></h3>
+            <ul>
+                #if($currentBackGoods=="apply")
+                    <li class="curr"><a href="#0">申请退换货/保修</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyBackGoodsApplyList').toString()">申请退换货/保修</a></li>
+                #end
+
+                #if($currentBackGoods == "record")
+                    <li class="curr"><a href="#0">退换货/保修记录</a></li>
+                #else
+                    <li><a href="$!urlBroker.getUrl('MyBackGoodsList').toString()">退换货/保修记录</a></li>
+                #end
+            </ul>
+        </div>
+
+        <div class="my_integral" id="Integral_check">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="my_integral_table my_eturns_table">
+                <thead>
+                <tr>
+                    <th width="8%">售后单号</th>
+                    <th width="40%">商品</th>
+                    <th width="17%">订单编号</th>
+                    <th width="17%">处理状态</th>
+                    <th width="17%">操作</th>
+                </tr>
+                </thead>
+                #if($!backGoodsPage.totalCount>0)
+                    <tbody>
+                        #foreach($backGood in $backGoodsPage.result)
+                        <tr>
+                            <td valign="top" rowspan="$backGood.backGoodsItemList.size()">$backGood.id</td>
+                            <td valign="middle" >
+                                #foreach($backGoodItem in $backGood.backGoodsItemList)
+                                    <div class="clearfix my_eturns_list #if($backGoods.orderItemList.size()<=1)single#end">
+                                        <div class="my_eturns_img">
+                                            <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $backGoodItem.orderItem.productId).addQueryData('skuId', $backGoodItem.orderItem.skuId).toString()" target="_blank" title="$backGoodItem.orderItem.skuName &#10; $backGoodItem.orderItem.skuExplain">
+                                                <img src="$imgResolver.getMinSizeImgUrl($backGoodItem.orderItem.skuMainPicture)" alt="$backGoodItem.orderItem.skuExplain" />
+                                            </a>
+                                        </div>
+                                        <div class="my_eturns_letter">
+                                            <p>
+                                                <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $backGoodItem.orderItem.productId).addQueryData('skuId', $backGoodItem.orderItem.skuId).toString()" target="_blank" title="$backGoodItem.orderItem.skuName &#10; $backGoodItem.orderItem.skuExplain">
+                                                    $backGoodItem.orderItem.skuName
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                #end
+                            </td>
+                            <td valign="top" rowspan="$backGood.backGoodsItemList.size()">$!{backGood.orderNo}</td>
+
+                            <td valign="top" rowspan="$backGood.backGoodsItemList.size()" class="#if($!{backGood.backStateCancel}=="Cancel")expired#elseif($!{backGood.backStateCancel}=="Success")unused#else orange#end">
+                                $!{backGood.backState.userDesc($backGood.backType)}
+                            </td>
+                            <td valign="top" rowspan="$backGood.backGoodsItemList.size()">
+                                #*#if(!$backGood.backState.checkCanNotCancelForUser())
+                                    <a href="$urlBroker.getUrl('CancelReturnsOrder').addQueryData('id', $backGood.id).toString()"
+                                       class="as1 cancel">取消</a><br>
+                                #end*#
+                                <a href="$!urlBroker.getUrl('BackGoodsDetail').addQueryData('id',$backGood.id).toString()" class="green">查看详情</a>
+                            </td>
+                        </tr>
+                        #end
+                    </tbody>
+
+                    <tfoot>
+                    #if($backGoodsPage.getTotalPages() > 1)
+
+                    <tr>
+                        <td colspan="5">
+                            <div class="pagebars">
+                                <div class="pagebar_inner">
+                                    <form method="post" action="$!urlBroker.getUrl('MyBackGoodsList').toString()" id="pagebarForm">
+                                        <input type=hidden id="maxPageNumber" value="$backGoodsPage.totalPages"/>
+                                        <input type=hidden id="pageBaseUrl" value="/product_list.htm?1=1"/>
+                                        #if($backGoodsPage.hasPre)
+                                            <a href="$!urlBroker.getUrl('MyBackGoodsList').addQueryData('pageNo',$!backGoodsPage.prePage).toString()" class="page_start">上一页</a>
+                                        #else
+                                            <span class="page_start">上一页</span>
+                                        #end
+
+                                        #foreach($pageIndex in $!backGoodsPageBar.linkNums)
+                                            #if($pageIndex == -1)
+                                                <a href="javascript:void(0)" class="number"><span>...</span></a>
+                                            #elseif($pageIndex == $backGoodsPage.pageNo)
+                                                <a href="javascript:void(0);" class="number current"><span>$pageIndex</span></a>
+                                            #else
+                                                <a href="$!urlBroker.getUrl('MyBackGoodsList').addQueryData('pageNo',$!pageIndex).toString()" class="number"><span>$pageIndex</span></a>
+                                            #end
+                                        #end
+
+                                        #if($backGoodsPage.hasNext)
+                                            <a href="$!urlBroker.getUrl('MyBackGoodsList').addQueryData('pageNo',$!backGoodsPage.nextPage).toString()" class="page_next">下一页</a>
+                                        #else
+                                            <span class="page_next">下一页</span>
+                                        #end
+
+                                        #*<span class="letter">跳转至</span>
+                                        <input type="text" name="pageNo" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="$backGoodsPage.pageNo" class="text_in">
+                                        <span class="letter">/$backGoodsPage.totalPages页</span>
+                                        <input type="submit" value="确定" class="button_ok">*#
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    #end
+                    </tfoot>
+
+                #else
+                    <tbody>
+                    <tr class="last">
+                        <td colspan="5">当前账户没有退换货记录</td>
+                    </tr>
+                    </tbody>
+                #end
+            </table>
+
+
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>

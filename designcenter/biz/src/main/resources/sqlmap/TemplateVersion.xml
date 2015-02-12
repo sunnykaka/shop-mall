@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+	
+	<select id="selectAllTemplateVersions"
+		resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateVersion">
+		select * from TemplateVersion
+	</select>
+
+	<select id="queryTemplateVersionsByTemplateId"
+		resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateVersion">
+		select * from TemplateVersion where templateId = #templateId#
+	</select>
+
+	<select id="selectTemplateVersion"
+		resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateVersion">
+		select * from TemplateVersion where id = #id#
+	</select>
+
+	<insert id="insertTemplateVersion">
+		insert into TemplateVersion
+		(templateId,headContent,footContent,headConfigContent,footConfigContent,state,version,globalCssId,globalJsId,defaultStyleId)
+		values
+		(#templateId#,#headContent#,#footContent#,#headConfigContent#,#footConfigContent#,#state#,#version#,#globalCssId#,#globalJsId#,#defaultStyleId#)
+		<selectKey resultClass="int" keyProperty="id"> 
+        SELECT LAST_INSERT_ID(); 
+		</selectKey>
+	</insert>
+
+	<update id="updateTemplateVersion">
+		update TemplateVersion
+		set templateId=#templateId#,
+		headContent=#headContent#,
+		footContent=#footContent#,
+		headConfigContent=#headConfigContent#,
+		footConfigContent=#footConfigContent#,
+		state=#state#,
+		version=#version#,
+		globalCssId=#globalCssId#,
+		globalJsId=#globalJsId#,
+        defaultStyleId=#defaultStyleId#
+		where id=#id#
+	</update>
+
+	<delete id="deleteTemplateVersion">
+		delete from
+		TemplateVersion
+		where id = #id#
+	</delete>
+
+
+</sqlMap>

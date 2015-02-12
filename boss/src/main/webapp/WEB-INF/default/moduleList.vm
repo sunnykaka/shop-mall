@@ -1,0 +1,23 @@
+<div class="com_module">
+    <div class="dialog_nav">
+        <ul>
+            <li class="cur"><a href="#">公共模块</a></li>
+        </ul>
+    </div>
+    <div class="dialog_panel">
+        <ul style="display: block;">
+            #foreach($module in $!commonModuleList)
+            <li#if($!velocityCount % 2 == 1) style="background: #e3e3e3;height: 55px;"#end>
+                <img src="http://img04.taobaocdn.com/tps/i4/T1CU4wXi8jXXXXXXXX-50-50.gif">
+
+                <p style="line-height: 54px;"><strong>$!{module.caption}</strong> ($!{module.name})</p>
+                <div class="left">
+                    <button type="button" class="btn_ok" data-url="$!addUrl"
+                            data-regionName="$!regionName" data-prototypeId="$!module.id">添加
+                    </button>
+                </div>
+            </li>
+            #end
+        </ul>
+    </div>
+</div>

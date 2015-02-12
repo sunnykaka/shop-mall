@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="topicStyleNumber" dataType="String" formType="text">2</param>
+        <param name="topicStyleTitle" dataType="String" formType="text">爆款天天抢</param>
+        <param name="topicStyleImg" dataType="String" formType="text">
+            http://html.yijushang.org/4.0/assets/images/special/s1-title.png
+        </param>
+        <param name="topicStyleColor" dataType="String" formType="text">#5fc9c7</param>
+        <param name="topicStyleProductId" dataType="String" formType="text">123, 456, 789, 790</param>
+        <param name="topicStyleDescNum" dataType="String" formType="text">20</param>
+    </params>
+</module>

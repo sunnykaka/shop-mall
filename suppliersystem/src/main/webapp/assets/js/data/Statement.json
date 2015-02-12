@@ -1,0 +1,64 @@
+{
+    "data": {
+        "list": [
+            {
+                "brand": "多样屋",
+                "good_name": "TAYOHYA多样屋中国风盖杯",
+                "good_attr": "商品属性：颜色:黑",
+                "good_num": "TA210201044DWs",
+                "code": "TA210502126ZZ",
+                "good_cate": "水杯",
+                "order_amount": "0",
+                "market_amount": "0",
+                "return_amount": "0",
+                "good_price": "¥245.55",
+                "sell_price": "¥0",
+                "return_price": "¥0"
+            },
+            {
+                "brand": "多样屋",
+                "good_name": "TAYOHYA多样屋中国风盖杯",
+                "good_attr": "商品属性：颜色:黑",
+                "good_num": "TA210201044DWf",
+                "code": "TA210502126ZZ",
+                "good_cate": "水杯",
+                "order_amount": "0",
+                "market_amount": "0",
+                "return_amount": "0",
+                "good_price": "¥245.55",
+                "sell_price": "¥0",
+                "return_price": "¥0"
+            },
+            {
+                "brand": "多样屋",
+                "good_name": "TAYOHYA多样屋中国风盖杯",
+                "good_attr": "商品属性：颜色:黑",
+                "good_num": "TA210201044DWg",
+                "code": "TA210502126ZZ",
+                "good_cate": "水杯",
+                "order_amount": "0",
+                "market_amount": "0",
+                "return_amount": "0",
+                "good_price": "¥245.55",
+                "sell_price": "¥0",
+                "return_price": "¥0"
+            },
+            {
+                "brand": "多样屋",
+                "good_name": "TAYOHYA多样屋中国风盖杯",
+                "good_attr": "商品属性：颜色:黑",
+                "good_num": "TA210201044DWe",
+                "code": "TA210502126ZZ",
+                "good_cate": "水杯",
+                "order_amount": "0",
+                "market_amount": "0",
+                "return_amount": "0",
+                "good_price": "¥245.55",
+                "sell_price": "¥0",
+                "return_price": "¥0"
+            }
+        ]
+    },
+    "success": true,
+    "message": "Loaded data"
+}

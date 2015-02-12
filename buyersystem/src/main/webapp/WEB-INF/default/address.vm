@@ -1,0 +1,69 @@
+<div class="order-box address">
+    <h3>收货信息</h3>
+    <ul class="list" id="address_list">
+    #foreach($address in $addressList)
+        #if($address.defaultAddress)
+        <li class="row clearfix current" data-id="$!address.id">
+        #else
+        <li class="row clearfix" data-id="$!address.id">
+        #end
+            <p class="clearfix">
+                <span class="col1"><i></i>$!address.name</span>
+                <span class="col2">$!address.toString().replaceAll(",", "")<span class="phone">$!address.mobile</span></span>
+                #*<a href="javascript:void(0);" class="delete">删除</a>*#
+                <a href="javascript:void(0);" class="modify">修改</a>
+            </p>
+        </li>
+    #end
+    </ul>
+
+    <div class="bar">
+        #if($addressSize == 10)
+            <span>地址库已满,请修改已经存在的地址</span>
+        #else
+            <a href="javascript:void(0);" class="form-controller" id="add_new_address"><i></i>新增收货地址</a>
+        #end
+
+        #if($addressSize > 3)
+            <a href="javascript:void(0);" class="show-all-address pull-right" id="show_all_address">显示全部</a>
+        #end
+    </div>
+
+    <div id="new_address">
+        <div class="new" style="display: none">
+            <i class="arrow-up"></i>
+
+            <form method="post" action="/" id="add_my_new_address">
+                <ul>
+                    <li>
+                        <label for="form-province"><b>*</b>选择地区：</label>
+                        <select name="province" id="form-province" class="form-select"></select>
+                        <select name="city" class="form-select"></select>
+                        <select name="districts" class="form-select"></select>
+                    </li>
+                    <li>
+                        <label for="form-location"><b>*</b>详情地址：</label>
+                        <input id="form-location" name="location" type="text" class="form-text form-location">
+                    </li>
+                    <li>
+                        <label for="form-zipCode"><b>*</b>邮政编码： </label>
+                        <input id="form-zipCode" name="zipCode" type="text" class="form-text form-zipCode"/>
+                    </li>
+                    <li>
+                        <label for="form-name"><b>*</b>收&nbsp;货&nbsp;人：</label>
+                        <input id="form-name" name="name" type="text" class="form-text"/>
+                    </li>
+                    <li><label for="form-mobile"><b>*</b>联系电话：</label>
+                        <input id="form-mobile" name="mobile" type="text" class="form-text"/>
+                    </li>
+                    <li class="btn_w">
+                        <button type="submit" class="e-btn btn-default btn-save">确认收货地址</button>
+                        <button type="button" class="e-btn btn-cancel">取消</button>
+                        <span id="add_address_error" class="add_address_error"></span>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+</div>

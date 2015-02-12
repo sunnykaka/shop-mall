@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css"
+          href="${rc.contextPath}/extjs/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/static/css/desktop.css"/>
+    <script type="text/javascript"
+            src="${rc.contextPath}/extjs/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/extjs/ext-all-debug.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/extjs/ext-lang-zh_CN.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+    Ext.onReady(function() {
+        var roleForm = new Ext.form.FormPanel({
+                    // 给面板的body元素指定自定义的CSS样式信息
+                    bodyStyle : 'padding-top:6px',
+                    // 容器中元素的默认类型
+                    defaultType : 'textfield',
+                    // 标签的默认对齐方式
+                    labelAlign : 'right',
+                    // 指定标签的默认长度
+                    labelWidth : 55,
+                    // 标签与字段录入框之间的空白
+                    labelPad : 0,
+                    // 窗口是否显示背景色
+                    frame : true,
+                    // 容器中组件默认统一配置选项
+                    defaults : {
+                        // 验证字段是否能为空
+                        allowBlank : false,
+                        // 字段宽度
+                        width : 158
+                    },
+                    // 指定容器中的元素
+                    items : [
+                        {
+                            xtype :'combo',
+                            hiddenName :'roleId',
+                            fieldLabel :'选择角色',
+                            store : new Ext.data.JsonStore({
+                                        data : $roleList,
+                                        fields : [ 'id', 'roleName' ]
+                                    }),
+                            triggerAction :'all',
+                            emptyText :'请选择',
+                            mode: 'local',
+                            editable :false,
+                            displayField :'roleName',
+                            valueField :'id',
+                            allowBlank :false
+                        }
+                    ]
+                });
+        var win = new Ext.Window({
+                    // 窗口面板标题
+                    title : '选择角色登陆系统',
+                    // 窗口面板宽度
+                    width : 265,
+                    // 高度
+                    height : 'auto',
+                    // 该面板布局类型
+                    layout : 'column',
+                    // 面板是否可以关闭及打开
+                    collapsible : true,
+                    defaults : {
+                        // 容器内元素是否显示边框
+                        border : false
+                    },
+                    items : {
+                        // 指定内部元素所占宽度1表示100% .5表示50%
+                        columnWidth : 1,
+                        // 把表单面板容器增加入其中,使之成为窗口面板容器的子容器
+                        items : roleForm
+                    },
+                    // 面板中按钮的排列方式
+                    buttonAlign : 'center',
+                    // 面板底部的一个或多个按钮对象
+                    buttons : [
+                        {
+                            // 按钮上需显示的文本
+                            text : '进入',
+                            // 单击按钮时响应的动作
+                            handler : function() {
+                                if (!roleForm.getForm().isValid()) {
+                                    return;
+                                }
+                                roleForm.form.submit({
+                                            waitTitle : '进度',
+                                            // 动作发生期间显示的文本信息
+                                            waitMsg : '正在登录',
+                                            // submit发生时指向的地址
+                                            url : 'login',
+                                            // 表单提交方式
+                                            method : 'GET',
+                                            // 数据验证通过时发生的动作
+                                            success : function(form, action) {
+                                                window.location.href = "$urlBroker.getUrl('AdminHome').toString()";
+                                            },
+                                            failure : function(form, action) {
+                                                Ext.Msg.alert("错误", "登陆失败");
+                                            }
+
+                                        });
+                            }
+                        },
+                        {
+                            text : '放弃',
+                            handler : function() {
+                                window.location.href = '$urlBroker.getUrl('ToLogin').toString()';
+                            }
+                        }
+                    ]
+                });
+        win.show();
+    });
+</script>
+</body>
+</html>

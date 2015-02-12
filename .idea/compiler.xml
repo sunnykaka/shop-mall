@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="accountcenter" target="1.8" />
+      <module name="boss" target="1.8" />
+      <module name="buyersystem" target="1.8" />
+      <module name="categorycenter-client" target="1.8" />
+      <module name="categorycenter-domain" target="1.8" />
+      <module name="cmscenter" target="1.8" />
+      <module name="commonmodule" target="1.8" />
+      <module name="commons-utils" target="1.8" />
+      <module name="designcenter-biz" target="1.8" />
+      <module name="designcenter-client" target="1.8" />
+      <module name="designcenter-core" target="1.8" />
+      <module name="designcenter-deploy" target="1.8" />
+      <module name="omcenter" target="1.8" />
+      <module name="productcenter" target="1.8" />
+      <module name="searchengine" target="1.8" />
+      <module name="searchengine-dump" target="1.8" />
+      <module name="searchengine-mmseg4j" target="1.8" />
+      <module name="searchengine-query" target="1.8" />
+      <module name="searchengine-update" target="1.8" />
+      <module name="securitysystem" target="1.8" />
+      <module name="session" target="1.8" />
+      <module name="suppliercenter" target="1.8" />
+      <module name="suppliersystem" target="1.8" />
+      <module name="tradecenter" target="1.8" />
+      <module name="usercenter" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

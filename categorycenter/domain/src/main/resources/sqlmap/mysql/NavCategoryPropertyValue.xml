@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.navigate.NavCategoryPropertyValue">
+        <result property="id" column="id"/>
+        <result property="navCategoryId" column="navCategoryId"/>
+        <result property="propertyId" column="propertyId"/>
+        <result property="valueId" column="valueId"/>
+        <result property="priority" column="priority"/>
+    </resultMap>
+
+    <sql id="NavCategoryPropertyValue.selector">
+        select id,navCategoryId,propertyId,valueId,priority from NavCategoryPropertyValue
+    </sql>
+    
+    
+
+    <select id="selectAllNavCategoryPropertyValues"
+            resultMap="result">
+        <include refid="NavCategoryPropertyValue.selector"/> where isDelete = 0 order by priority asc
+    </select>
+
+
+    <select id="queryNavCategoryPropertyValues"
+            resultMap="result">
+        <include refid="NavCategoryPropertyValue.selector"/> where navCategoryId=#navCategoryId# and propertyId=#propertyId# and
+        isDelete = 0 order by priority asc
+    </select>
+
+    <select id="selectNavCategoryPropertyValue"
+            resultMap="result">
+        <include refid="NavCategoryPropertyValue.selector"/> where id = #id# and isDelete = 0
+    </select>
+
+    <insert id="insertNavCategoryPropertyValue">
+        insert into NavCategoryPropertyValue
+        (navCategoryId,propertyId,valueId,priority,createTime,updateTime)
+        values
+        (#navCategoryId#,#propertyId#,#valueId#,#priority#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateNavCategoryPropertyValue">
+        update NavCategoryPropertyValue
+        set navCategoryId=#navCategoryId#,propertyId=#propertyId#,valueId=#valueId#,priority=#priority#, updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteNavCategoryPropertyValue">
+        update NavCategoryPropertyValue set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteNavCategoryPropertyValueByNavCategoryId">
+        update NavCategoryPropertyValue set isDelete = 1,updateTime=now() where navCategoryId = #navCategoryId#
+    </delete>
+
+    <delete id="deleteAllNavCategoryPropertyValue">
+        update NavCategoryPropertyValue set isDelete = 1,updateTime=now()
+    </delete>
+
+    <select id="queryAddedNavCategoryPropertyValueFromGivingTime"
+            resultMap="result">
+        <include refid="NavCategoryPropertyValue.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedNavCategoryPropertyValueFromGivingTime"
+            resultMap="result">
+        <include refid="NavCategoryPropertyValue.selector"/> where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedNavCategoryPropertyValueFromGivingTime"
+            resultMap="result">
+        <include refid="NavCategoryPropertyValue.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+</sqlMap>

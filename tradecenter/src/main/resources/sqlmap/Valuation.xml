@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="valuation.selector">
+        select id, userId, userName, content, point, productId, orderItemId, createDate, updateDate, orderCreateDate,
+        <!-- 客服回复 -->
+        operatorId, operator, replyContent, replyTime,
+        <!-- 用户追加评论 -->
+        appendContent, appendDate,
+        <!-- 客服追加回复 -->
+        appendReplyContent, appendOperator, appendReplyDate
+        from Valuation
+    </sql>
+
+    <sql id="importValuation.selector">
+        select id, userName, userGrade, content, point, productId, createDate, updateDate,
+        <!-- 客服回复 -->
+        operator, replyContent, replyTime,
+        <!-- 用户追加评论 -->
+        appendContent, appendDate,
+        <!-- 客服追加回复 -->
+        appendReplyContent, appendReplyDate
+        from t_import_valuation
+    </sql>
+
+    <!-- valuation表关联user表查询用户等级，同时联合t_import_valuation表的数据 -->
+    <sql id="valuationJoinUser.selector">
+        select a.grade, a.id, a.userId, a.userName, a.content, a.point, a.productId, a.orderItemId, a.createDate, a.updateDate, a.orderCreateDate,
+        a.operatorId, a.operator, a.replyContent, a.replyTime,
+        a.appendContent, a.appendDate,
+        a.appendReplyContent, a.appendOperator, a.appendReplyDate
+        from (
+        select u.grade, v.id, v.userId, v.userName, v.content, v.point, v.productId, v.orderItemId, v.createDate, v.updateDate, v.orderCreateDate,
+        v.operatorId, v.operator, v.replyContent, v.replyTime,
+        v.appendContent, v.appendDate, v.isDelete,
+        v.appendReplyContent, v.appendOperator, v.appendReplyDate
+        from Valuation v left join user u on userId = u.id
+        union all
+        select usergrade as grade, id, '0' as userId, userName, content, point, productId, '0' as orderItemId, createDate, updateDate, '0' as orderCreateDate,
+        '0' as operatorId, '0' as operator, replyContent, replyTime,
+        appendContent, appendDate, isDelete,
+        appendReplyContent, '0' as appendOperator, appendReplyDate
+        from t_import_valuation where now() > updateDate
+        ) a
+    </sql>
+
+    <!-- valuation表关联user表查询用户等级，同时联合t_import_valuation表的数据 记录条数 -->
+    <sql id="valuationJoinUserCount.selector">
+        select count(1) from (
+        select v.userId, v.point, v.productId, v.orderItemId, v.createDate,
+        v.isDelete, v.updateDate from Valuation v left join user u on userId = u.id
+        union all
+        select '0' as userId, point, productId, '0' as orderItemId, createDate, isDelete, updateDate
+        from t_import_valuation
+        ) a
+    </sql>
+
+    <select id="getValuationByUserIdAndOrderItemId" resultClass="com.kariqu.tradecenter.domain.Valuation">
+        <include refid="valuation.selector"/>
+        where isDelete=0 and userId=#userId# and orderItemId = #orderItemId#
+    </select>
+
+    <select id="queryValuationAndImportValuation" resultClass="com.kariqu.tradecenter.domain.Valuation">
+        <include refid="valuationJoinUser.selector"/>
+        where isDelete=0
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId=#productId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="userId" compareValue="0">
+            userId=#userId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="orderItemId" compareValue="0">
+            orderItemId=#orderItemId#
+        </isNotEqual>
+        <isNotNull property="point">
+            <isEqual prepend="AND" property="point" compareValue="Good">
+                <![CDATA[ point > 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Fine">
+                <![CDATA[ point = 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Bad">
+                <![CDATA[ point < 3 ]]>
+            </isEqual>
+        </isNotNull>
+        order by createDate desc limit #start#,#limit#
+    </select>
+
+    <select id="queryValuation" resultClass="com.kariqu.tradecenter.domain.Valuation">
+        <include refid="valuation.selector"/>
+        where isDelete=0 and now() > updateDate
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId=#productId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="userId" compareValue="0">
+            userId=#userId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="orderItemId" compareValue="0">
+            orderItemId=#orderItemId#
+        </isNotEqual>
+        <isNotNull property="point">
+            <isEqual prepend="AND" property="point" compareValue="Good">
+                <![CDATA[ point > 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Fine">
+                <![CDATA[ point = 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Bad">
+                <![CDATA[ point < 3 ]]>
+            </isEqual>
+        </isNotNull>
+        order by id desc limit #start#,#limit#
+    </select>
+
+    <!-- 查询t_import_valuation(导入评论表)数据 -->
+    <select id="queryImportValuation" resultClass="com.kariqu.tradecenter.domain.Valuation">
+        <include refid="importValuation.selector"/>
+        where isDelete=0 and now() > updateDate
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId=#productId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="userName" compareValue="">
+            userName=#userName#
+        </isNotEqual>
+        <isNotNull property="point">
+            <isEqual prepend="AND" property="point" compareValue="Good">
+                <![CDATA[ point > 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Fine">
+                <![CDATA[ point = 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Bad">
+                <![CDATA[ point < 3 ]]>
+            </isEqual>
+        </isNotNull>
+        order by createDate desc limit #start#,#limit#
+    </select>
+
+    <select id="selectCountValuationAndImportValuation" resultClass="Integer">
+        <include refid="valuationJoinUserCount.selector"/>
+        where isDelete = 0 and now() > updateDate
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId=#productId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="userId" compareValue="0">
+            userId=#userId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="orderItemId" compareValue="0">
+            orderItemId=#orderItemId#
+        </isNotEqual>
+        <isNotNull property="point">
+            <isEqual prepend="AND" property="point" compareValue="Good">
+                <![CDATA[ point >= 4 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Fine">
+                <![CDATA[ point = 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Bad">
+                <![CDATA[ point < 3 ]]>
+            </isEqual>
+        </isNotNull>
+    </select>
+
+    <select id="selectCountValuation" resultClass="Integer">
+        select count(1) from Valuation
+        where isDelete = 0 and now() > updateDate
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId=#productId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="userId" compareValue="0">
+            userId=#userId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="orderItemId" compareValue="0">
+            orderItemId=#orderItemId#
+        </isNotEqual>
+        <isNotNull property="point">
+            <isEqual prepend="AND" property="point" compareValue="Good">
+                <![CDATA[ point >= 4 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Fine">
+                <![CDATA[ point = 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Bad">
+                <![CDATA[ point < 3 ]]>
+            </isEqual>
+        </isNotNull>
+    </select>
+
+    <!-- 根据条件查询导入产品信息的数量 -->
+    <select id="selectCountImportValuation" resultClass="Integer">
+        select count(1) from t_import_valuation
+        where isDelete = 0 and now() > updateDate
+        <isNotEqual prepend="AND" property="productId" compareValue="0">
+            productId=#productId#
+        </isNotEqual>
+        <isNotEqual prepend="AND" property="userName" compareValue="">
+            userName=#userName#
+        </isNotEqual>
+        <isNotNull property="point">
+            <isEqual prepend="AND" property="point" compareValue="Good">
+                <![CDATA[ point >= 4 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Fine">
+                <![CDATA[ point = 3 ]]>
+            </isEqual>
+            <isEqual prepend="AND" property="point" compareValue="Bad">
+                <![CDATA[ point < 3 ]]>
+            </isEqual>
+        </isNotNull>
+    </select>
+
+    <select id="queryValuationGroup" resultClass="HashMap">
+        SELECT productId, count(1) as count FROM valuation
+        where isDelete=0 group by productId order by count desc limit
+        #start#,#limit#
+    </select>
+
+    <select id="queryValuationGroupCount" resultClass="Integer">
+        select count(distinct productId) from valuation where isDelete=0
+    </select>
+
+    <select id="selectValuationCountByUserIdAndOrderItemId" resultClass="Integer">
+        select count(1) from valuation where userId=#userId# and orderItemId=#orderItemId# and isDelete = 0
+    </select>
+
+    <select id="queryValuationCountByProductId" resultClass="Integer">
+        select count(1) from valuation where productId=#productId# and isDelete = 0
+    </select>
+
+
+    <select id="queryPointByProductId" resultClass="Integer">
+        select point from valuation where productId=#productId# and isDelete = 0 union all select point from t_import_valuation where productId=#productId# and isDelete = 0 and now() > updateDate
+    </select>
+
+    <delete id="deleteValuation">
+        update valuation set isDelete = 1 where id=#id#
+    </delete>
+
+    <!-- 删除导入商品评论信息将isdelete置为1为删除 -->
+    <delete id="deleteImportValuation">
+        update t_import_valuation set isDelete = 1 where id=#id#
+    </delete>
+
+    <delete id="deleteValuationByProductId">
+        update valuation set isDelete = 1 where productId=#productId#
+    </delete>
+
+    <update id="updateValuationReply">
+        update valuation set updateDate = now()
+        <!-- 评论回复 -->
+        <isGreaterThan prepend=", " property="operatorId" compareValue="0">
+            operatorId = #operatorId#
+        </isGreaterThan>
+        <isNotEmpty prepend=", " property="operator">
+            operator = #operator#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="replyContent">
+            replyContent = #replyContent#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="replyTime">
+            replyTime = #replyTime#
+        </isNotEmpty>
+        <!-- 追加评论 -->
+        <isNotEmpty prepend=", " property="appendContent">
+            appendContent = #appendContent#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="appendDate">
+            appendDate = #appendDate#
+        </isNotEmpty>
+        <!-- 追加回复评论 -->
+        <isNotEmpty prepend=", " property="appendReplyContent">
+            appendReplyContent = #appendReplyContent#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="appendOperator">
+            appendOperator = #appendOperator#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="appendReplyDate">
+            appendReplyDate = #appendReplyDate#
+        </isNotEmpty>
+        where id = #id#
+    </update>
+
+    <insert id="insertValuation">
+        insert into Valuation
+        (userId,userName,content,point,productId,orderItemId,createDate,updateDate,orderCreateDate)
+        values
+        (#userId#,#userName#,#content#,#point#,#productId#,#orderItemId#,now(),now(),#orderCreateDate#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="insertImportValuation">
+        insert into t_import_valuation
+        (userName,userGrade,content,point,productId,createDate,updateDate,operator,replyContent,replyTime,appendContent,appendDate,appendReplyContent,appendReplyDate)
+        values
+        (#userAllName#,#grade#,#content#,#point#,#productId#,#createDate#,#updateDate#,#operator#,#replyContent#,#replyTime#,#appendContent#,#appendDate#,#appendReplyContent#,#appendReplyDate#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</sqlMap>

@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlConfig>
+
+    <url name="BuyDomain">
+        <severUrl>${domain}</severUrl>
+    </url>
+
+    <url name="StaticFileDomain">
+        <severUrl>${yijushang.static.file.domain}</severUrl>
+    </url>
+
+    <url name="StaticFileDomainForHttps">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+    </url>
+
+    <url name="StaticProductImgDomain">
+        <severUrl>${yijushang.static.img.product.domain}</severUrl>
+    </url>
+
+    <url name="StaticImgDomain">
+        <severUrl>${yijushang.static.img.domain}</severUrl>
+    </url>
+
+    <url name="StaticDesignImgDomain">
+        <severUrl>${yijushang.static.img.design.domain}</severUrl>
+    </url>
+
+    <url name="ToChat">
+        <severUrl>http://chat32.live800.com/live800/chatClient/chatbox.jsp</severUrl>
+    </url>
+
+    <url name="ToErrorPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>toErrorPage</path>
+    </url>
+
+    <url name="HotSell">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/hotsell</path>
+    </url>
+
+    <url name="ProductDetail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>product/{productId}</path>
+        <tokens>
+            <token name="productId"/>
+        </tokens>
+    </url>
+
+    <url name="ProductDetailBase">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>product</path>
+    </url>
+
+    <url name="BrowsingHistory">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>historyList</path>
+    </url>
+
+
+    <url name="ChannelPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>channel/{categoryId}</path>
+        <tokens>
+            <token name="categoryId"/>
+        </tokens>
+    </url>
+
+    <url name="SkuDetail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>product/{productId}-{skuId}</path>
+        <tokens>
+            <token name="productId"/>
+            <token name="skuId"/>
+        </tokens>
+    </url>
+
+    <url name="productdIntegralDetail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>product/currency/{productId}</path>
+        <tokens>
+            <token name="productId"/>
+        </tokens>
+    </url>
+
+
+    <url name="GetSkuPanel">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/product/skuPic</path>
+    </url>
+
+    <url name="ProductCompare">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/compare</path>
+    </url>
+
+    <url name="BuyHome">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+    </url>
+
+    <url name="Search">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>products</path>
+    </url>
+
+    <url name="SearchSuggest">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>suggest</path>
+    </url>
+
+    <url name="ContrastProduct">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>contrastProduct</path>
+    </url>
+
+    <url name="LoginOut">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/loginOut</path>
+    </url>
+
+    <!--到登陆页面-->
+    <url name="ToPageLogin">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>user/toPageLogin</path>
+    </url>
+
+
+    <url name="JointLogin">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/jointLogin</path>
+    </url>
+
+    <url name="JointLoginByAlipay">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/loginByAlipay</path>
+    </url>
+
+    <!-- user info -->
+    <url name="MyInfo">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my</path>
+    </url>
+
+    <url name="MyOrders">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/order/nav</path>
+    </url>
+
+    <url name="MyValuation">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/valuation</path>
+    </url>
+
+    <url name="MyOrderList">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/order/list</path>
+    </url>
+
+    <url name="SpaceImageUpload">
+        <severUrl>${yijushang.static.img.spacePicture.domain}</severUrl>
+        <path>/{fileName}</path>
+        <tokens>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+
+    <url name="MyValuationList">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/valuation/list</path>
+    </url>
+
+    <url name="MyConsult">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/consult</path>
+    </url>
+
+    <url name="MyFavorites">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/favorites</path>
+    </url>
+
+    <url name="MyHistory">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/history</path>
+    </url>
+    <url name="DelAllHistory">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/delAllHistory</path>
+    </url>
+
+    <url name="MyCoupon">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/coupons</path>
+    </url>
+
+    <url name="MyPoint">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/point/list</path>
+    </url>
+
+    <url name="MyBackGoodsList">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/backGoods/list</path>
+    </url>
+
+    <url name="MyBackGoodsApplyList">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/backGoodsApply/list</path>
+    </url>
+
+    <url name="MyMembership">
+           <severUrl>${yijushang.buy.domain}</severUrl>
+           <path>my/membership</path>
+       </url>
+
+    <url name="AddMyFavorites">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/favorites/add</path>
+    </url>
+
+    <url name="CancelMyFavorites">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/favorites/delete</path>
+    </url>
+
+    <url name="CancelMyFavoritesByIds">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/favorites/delete/batch</path>
+    </url>
+
+    <url name="MyAddress">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/address</path>
+    </url>
+
+    <url name="ToBackGoods">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/toBack</path>
+    </url>
+
+    <url name="BackGoodsList">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/backGoods/list</path>
+    </url>
+
+    <url name="ApplyBackGoods">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/toBack/apply</path>
+    </url>
+
+    <url name="SubmitBackGoods">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/toBack/submit</path>
+    </url>
+
+    <url name="UploadBackGoodPictures">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/toBack/uploadBackGoodPictures</path>
+    </url>
+
+    <url name="BackGoodsDetail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/backGoods/detail</path>
+    </url>
+
+    <url name="CancelReturnsOrder">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/cancelReturnsOrder</path>
+    </url>
+
+    <url name="MyAccountToChangePsw">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/toChangePsw</path>
+    </url>
+    <url name="MyAccountChangePsw">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/changePsw</path>
+    </url>
+
+    <url name="MyAccountToData">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/toMyData</path>
+    </url>
+    <url name="MyAccountData">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/myData</path>
+    </url>
+
+    <!-- 我的账户 -->
+    <url name="MyAccount">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/account</path>
+    </url>
+    <!-- 上一个月的订单 -->
+    <url name="MyRecentOrder">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/recentOrder</path>
+    </url>
+    <!-- 待评价的商品 -->
+    <url name="MyWaitValuation">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/waitValuation</path>
+    </url>
+    <!-- 待评价的商品 -->
+    <url name="GradeRule">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/gradeRule</path>
+    </url>
+    <!-- 修改用户电话号码 -->
+    <url name="ChangePhone">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/changePhone</path>
+    </url>
+    <!-- 设置邮箱 -->
+    <url name="PutEmail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/putEmail</path>
+    </url>
+
+
+    <url name="AddressBaseUrl">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/address/</path>
+    </url>
+
+    <url name="Cart">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart</path>
+    </url>
+
+    <url name="JsonCart">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/json</path>
+    </url>
+
+    <url name="CheckCart">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/check</path>
+    </url>
+
+    <url name="OrderDetail">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>my/order/{orderNo}</path>
+        <tokens>
+            <token name="orderNo"/>
+        </tokens>
+    </url>
+
+    <url name="OrderPayBase">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>order/pay</path>
+    </url>
+
+    <url name="OrderPay">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>order/pay/{orderNo}</path>
+        <tokens>
+            <token name="orderNo"/>
+        </tokens>
+    </url>
+
+    <url name="ConfirmReceipt">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>order/confirmReceipt</path>
+    </url>
+
+    <url name="Cache">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache</path>
+    </url>
+
+    <url name="AddSkuToCart">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/sku/add</path>
+    </url>
+
+    <url name="AddProductToCart">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/product/add</path>
+    </url>
+
+
+    <url name="CartToOrder">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>order</path>
+    </url>
+
+    <url name="CurrencyToOrder">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>currency/order/{id}/{activityType}</path>
+        <tokens>
+            <token name="id"/>
+            <token name="activityType"/>
+        </tokens>
+    </url>
+
+    <url name="SubmitOrder">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/order/add</path>
+    </url>
+
+
+    <url name="OrderCancelUrl">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>order/cancel</path>
+    </url>
+
+    <url name="InvoiceCompanyBase">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/invoice/company/</path>
+    </url>
+
+
+    <url name="DeleteCartItem">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/deleteCartItem</path>
+    </url>
+
+    <url name="DeleteAllCartItem">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/deleteAllCartItem</path>
+    </url>
+
+    <url name="ProductConsultation">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/product/consultation</path>
+    </url>
+
+    <url name="ProductValuation">
+          <severUrl>${yijushang.buy.domain}</severUrl>
+          <path>/product/valuation</path>
+      </url>
+
+
+    <url name="UpdateCartItem">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>cart/updateCartItem</path>
+    </url>
+
+    <url name="ClearAllCache">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/clearAll</path>
+    </url>
+
+    <url name="ClearIndexShopPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/index/shopPage</path>
+    </url>
+
+    <url name="ClearSearchShopPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/search/shopPage</path>
+    </url>
+
+    <url name="ClearDetailShopPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/detail/shopPage</path>
+    </url>
+
+    <url name="ClearHeadFootContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/content/headfoot</path>
+    </url>
+
+    <url name="ClearHeadFootContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/content/headfoot</path>
+    </url>
+
+    <url name="ClearIndexContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/content/index</path>
+    </url>
+
+    <url name="ClearSearchContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/content/search</path>
+    </url>
+
+    <url name="ClearChannelContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/content/channel</path>
+    </url>
+
+    <url name="ClearDetailContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/content/detail</path>
+    </url>
+
+    <url name="ClearIndexPageStructure">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/pageStructure/index</path>
+    </url>
+
+    <url name="ClearSearchPageStructure">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/pageStructure/search</path>
+    </url>
+
+    <url name="ClearChannelPageStructure">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/pageStructure/channel</path>
+    </url>
+
+    <url name="ClearDetailPageStructure">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>shop/cache/pageStructure/detail</path>
+    </url>
+
+    <url name="OauthCallBack">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>oauth/callback</path>
+    </url>
+
+    <url name="AlipayCallBack">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>oauth/alipay</path>
+    </url>
+
+
+    <url name="RetakePassword">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/forwardRetakePassword</path>
+    </url>
+
+    <url name="CheckUserForRetakePasswordHttps">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/checkUserForRetakePassword</path>
+    </url>
+
+    <url name="CheckUserNameForRetakePassword">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/checkUserEmailforRetakePassword</path>
+    </url>
+    <url name="CheckMatchingOfUserForRetakePassword">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/checkMatchingOfUserForRetakePassword</path>
+    </url>
+    <url name="ChangePassword">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/changePassword</path>
+    </url>
+    <url name="ForwardChangePassword">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/forwardChangePassword</path>
+    </url>
+    <url name="ImageCode">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/imageCode</path>
+    </url>
+
+    <url name="ImageCodeHttp">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/imageCode</path>
+    </url>
+
+    <url name="ActiveUser">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>user/activeUser</path>
+    </url>
+
+    <url name="CheckUserNameForRegister">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/checkUserNameForRegister</path>
+    </url>
+
+    <url name="CheckUserNameHttp">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/checkUserNameForRegister</path>
+    </url>
+
+
+    <url name="CheckUserEmailForRegister">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/checkUserEmailForRegister</path>
+    </url>
+
+    <url name="CheckUserEmailForRegisterHttp">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/checkUserEmailForRegister</path>
+    </url>
+
+    <url name="CheckUserEmailHttp">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/checkUserEmailForRegister</path>
+    </url>
+
+    <url name="CheckImageCode">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/checkImageCode</path>
+    </url>
+
+    <url name="CheckImageCodeHttps">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/checkImageCode</path>
+    </url>
+
+    <url name="CheckOldPassword">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/checkOldPassword</path>
+    </url>
+    <url name="SendMailForRetakePassword">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/sendMailForRetakePassword</path>
+    </url>
+    <url name="SendMailForRetakePasswordHttps">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/sendMailForRetakePassword</path>
+    </url>
+    <url name="UserRegister">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/userRegister</path>
+    </url>
+
+    <url name="ToWindowLogin">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/toWindowLogin</path>
+    </url>
+
+    <url name="WindowLogin">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/window/login</path>
+    </url>
+
+    <url name="ToWindowRegister">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/toWindowRegister</path>
+    </url>
+
+    <url name="WindowRegister">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/window/register</path>
+    </url>
+
+
+    <url name="UserRetakePassword">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/userPassword</path>
+    </url>
+
+    <url name="AddUser">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>user/users</path>
+    </url>
+    <url name="JumpPage">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/jumpPage</path>
+    </url>
+    <url name="RedirectLoginPage">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/user/redirectPageLogin</path>
+    </url>
+    <url name="RedirectBuyHome">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/redirectBuyHome</path>
+    </url>
+    <url name="PageLogin">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>user/pageLogin</path>
+    </url>
+    <url name="SendMailForActiveUser">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/sendMailForActiveUser</path>
+    </url>
+    <url name="SendMailForActiveUserHttps">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>user/sendMailForActiveUser</path>
+    </url>
+
+    <url name="CheckLoginStatus">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/checkLogin</path>
+    </url>
+
+    <url name="AcquireLoginUserName">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>user/acquireLoginUserName</path>
+    </url>
+
+    <!-- 付款链接 -->
+    <url name="ToPay">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/toPay</path>
+    </url>
+
+
+    <!-- 付款后回调yijushang.com的地址 -->
+    <url name="PayStateCallBack">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/pay/order/status/callback</path>
+    </url>
+
+    <!-- 咨询 -->
+    <url name="QueryConsultation">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/product/consultation/{productId}/async</path>
+        <tokens>
+            <token name="productId"/>
+        </tokens>
+    </url>
+
+    <!-- 第三方物流查询平台回调的请求地址 -->
+    <url name="LogisticsCallBackUrl">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/logistics/back</path>
+    </url>
+
+    <url name="QueryUserFavoritesNum">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/my/favorites/num</path>
+    </url>
+
+    <url name="CmsContent">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/{directory}/{fileName}.html</path>
+        <tokens>
+            <token name="directory"/>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+
+    <url name="CouponSet">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/couponSet</path>
+        <path>/couponSet/{type}</path>
+        <tokens>
+            <token name="type"/>
+        </tokens>
+    </url>
+
+    <url name="ToPayCouponSet">
+        <severUrl>${yijushang.buy.login.security.domain}</severUrl>
+        <path>/toPayCouponSet</path>
+    </url>
+
+    <!--用户签到送积分-->
+    <url name="userSign">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/user/sign</path>
+    </url>
+
+    <!--判断用户是否可参加活动-->
+    <url name="checkUserCanJoin">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/activity/checkUserCanJoin/{activityType}/{activityId}</path>
+        <tokens>
+            <token name="activityType" />
+            <token name="activityId" />
+        </tokens>
+    </url>
+</urlConfig>

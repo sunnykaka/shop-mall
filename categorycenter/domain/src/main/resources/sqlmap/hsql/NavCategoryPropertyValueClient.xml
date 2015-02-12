@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="NavCategoryPropertyValue.selector">
+        select id,navCategoryId,propertyId,valueId,priority from NavCategoryPropertyValue
+    </sql>
+
+    <select id="selectAllNavCategoryPropertyValues"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryPropertyValue">
+        <include refid="NavCategoryPropertyValue.selector"/> order by priority asc
+    </select>
+
+
+
+    <select id="queryNavCategoryPropertyValues"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryPropertyValue">
+        <include refid="NavCategoryPropertyValue.selector"/> where
+        navCategoryId=#navCategoryId# and propertyId=#propertyId# order by priority asc
+    </select>
+
+    <select id="selectNavCategoryPropertyValue"
+            resultClass="com.kariqu.categorycenter.domain.model.navigate.NavCategoryPropertyValue">
+        <include refid="NavCategoryPropertyValue.selector"/> where id = #id#
+    </select>
+
+    <insert id="insertNavCategoryPropertyValue">
+        insert into NavCategoryPropertyValue
+        (id,navCategoryId,propertyId,valueId,priority)
+        values
+        (#id#,#navCategoryId#,#propertyId#,#valueId#,#priority#)
+    </insert>
+
+    <update id="updateNavCategoryPropertyValue">
+        update NavCategoryPropertyValue
+        set navCategoryId=#navCategoryId#,propertyId=#propertyId#,valueId=#valueId#,priority=#priority#
+        where id=#id#
+    </update>
+
+    <delete id="deleteNavCategoryPropertyValue">
+        delete from NavCategoryPropertyValue
+        where id = #id#
+    </delete>
+
+    <delete id="deleteNavCategoryPropertyValueByNavCategoryId">
+        delete from NavCategoryPropertyValue
+        where navCategoryId = #navCategoryId#
+    </delete>
+
+    <delete id="deleteAllNavCategoryPropertyValue">
+        delete from NavCategoryPropertyValue
+    </delete>
+
+</sqlMap>

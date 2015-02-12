@@ -1,0 +1,13 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+        热销推荐商品设置, 英文逗号分隔 <span style="color:green;">图片地址,链接,商品名,文字摘要,价格</span>, 可以有空行, 一行一条配置:<br>
+        <textarea name="hotProduct" style="width:710px;height:180px;">$!hotProduct</textarea><br><br>
+
+        热点推荐商品 id 设置, 英文逗号分隔:
+        <input type="text" style="width: 485px;" name="hotProductIds" value="$!hotProductIds"/><br><br>
+        <input type="submit" value="提交" />
+    </form>
+</div>

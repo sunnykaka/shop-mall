@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="orderItem.selector">
+        select id, orderId, skuId, unitPrice, orderState, storeStrategy,
+        number,skuExplain, skuMainPicture, skuName, barCode, itemNo,storageId,skuMarketingId, skuActivityType, itemTotalPrice,
+        productId,categoryId,customerId,brandId, appraise, createDate, updateDate
+        from OrderItem
+    </sql>
+    <!-- 根据订单号查询能退货的订单项-->
+    <select id="selectCanBackOrderItemByOrderNo" resultClass="com.kariqu.tradecenter.domain.OrderItem">
+        SELECT oi.* FROM orderitem oi
+        INNER JOIN (SELECT id FROM ordertable WHERE isDelete = 0 and orderNo = #orderNo#) ot ON oi.orderId = ot.id
+        LEFT JOIN (
+            SELECT orderitemid oid FROM backgoodsitem bgi
+            INNER JOIN backgoods bg ON bgi.backGoodsId = bg.id
+            AND bg.orderno = #orderNo# AND bg.backState != 'Cancel'
+        ) oiim ON oi.id = oiim.oid
+        where oiim.oid IS NULL
+    </select>
+
+    <!-- 查询用户所有等待评价的订单项数量及订单项总金额 -->
+    <select id="selectValuationCountByUserIdAndAppraise" resultClass="java.util.HashMap">
+        SELECT count(oi.itemTotalPrice) as count, sum(oi.itemTotalPrice) as sum from OrderItem oi
+        INNER JOIN (select id from OrderTable where isDelete = 0 and userId = #userId#) ot ON oi.orderId = ot.id
+        LEFT JOIN (select orderItemId from valuation where userId = #userId# and isDelete = 1) val ON val.orderItemId = oi.id
+        where val.orderItemId IS NULL and orderState = 'Success' and appraise = #appraise#
+    </select>
+    <!-- 查询用户所有等待评价的订单项数据 -->
+    <select id="selectValuationByUserIdAndAppraise" resultClass="com.kariqu.tradecenter.domain.OrderItem">
+        SELECT oi.* FROM orderitem oi
+        INNER JOIN (select id from OrderTable where userId = #userId#) ot ON oi.orderId = ot.id
+        LEFT JOIN (select orderItemId from valuation where userId = #userId# and isDelete = 1) val ON oi.id = val.orderItemId
+        where val.orderItemId IS NULL and orderState = 'Success' and appraise = #appraise#
+        order by id desc limit #start#, #limit#
+    </select>
+
+    <select id="selectOrderItemById" resultClass="com.kariqu.tradecenter.domain.OrderItem">
+        <include refid="orderItem.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="selectOrderItemByOrderId" resultClass="com.kariqu.tradecenter.domain.OrderItem">
+        <include refid="orderItem.selector"/>
+        where orderId = #orderId#
+    </select>
+
+    <select id="selectCountOrderItemByOrderId" resultClass="int">
+        select count(1) from OrderItem where orderId = #orderId#
+    </select>
+
+    <select id="selectCountOrderItemByOrderIdAndState" resultClass="int">
+		select count(1) from OrderItem where orderId = #orderId#
+        <isNotNull prepend="and" property="orderState">
+            orderState = #orderState#
+        </isNotNull>
+	</select>
+
+    <!--按活动id查询商品成交量-->
+    <select id="selectCountOrderItemByMarketingId" resultClass="int">
+        /*selectCountOrderItemByMarketingId(按活动id查询商品成交量)*/
+        SELECT COUNT(1)
+        FROM orderitem
+        WHERE
+            orderState in ('Pay', 'Confirm', 'Print', 'Verify', 'Send', 'Success')/*交易状态*/
+        <isNotEmpty property="squIds">
+            AND skuid IN <iterate property="squIds" open="(" close=")" conjunction=",">#squIds[]#</iterate> /*skuid*/
+        </isNotEmpty>
+            AND skuActivityType = #skuActivityType# /*活动类型*/
+            AND skuMarketingId = #skuMarketingId#/*活动id*/
+    </select>
+
+    <!--查找用户已参加指定活动的次数-->
+    <select id="selectUserJoinSepecialActivityCount" resultClass="int">
+        /*selectUserJoinSepecialActivityCount(查找用户已参加指定活动的次数)*/
+        SELECT COUNT(a.orderId)
+        FROM orderitem a LEFT JOIN ordertable b ON a.orderId = b.id
+        WHERE
+            b.userId = #userId#
+            AND a.orderState IN ('Create', 'Pay', 'Confirm', 'Print', 'Verify', 'Send', 'Success')
+        <isNotEmpty property="squIds">
+            AND skuid IN <iterate property="squIds" open="(" close=")" conjunction=",">#squIds[]#</iterate>
+        </isNotEmpty>
+            AND a.skuActivityType= #skuActivityType# /*活动类型*/
+            AND a.skuMarketingId = #skuMarketingId# /*活动id*/
+            AND b.isDelete = 0
+    </select>
+
+	<insert id="insertOrderItem">
+		insert into OrderItem
+		(orderId,skuId,number,storeStrategy,unitPrice,skuExplain,skuMainPicture,skuName,
+        barCode,itemNo,storageId,productId,categoryId,customerId,brandId,skuMarketingId,
+        skuActivityType, itemTotalPrice, orderState, createDate)
+		values
+		(#orderId#,#skuId#,#number#,#storeStrategy#,#unitPrice#,#skuExplain#,#skuMainPicture#,#skuName#,
+        #barCode#,#itemNo#,#storageId#,#productId#,#categoryId#,#customerId#,#brandId#,#skuMarketingId#,
+        #skuActivityType#, #itemTotalPrice#, #orderState#, now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateOrderItemById">
+        update OrderItem
+        set orderId = #orderId#,
+        skuId = #skuId#,
+        unitPrice = #unitPrice#,
+        itemTotalPrice = #itemTotalPrice#,
+        orderState = #orderState#,
+        storeStrategy = #storeStrategy#,
+        number = #number#,
+        skuExplain = #skuExplain#,
+        skuMainPicture = #skuMainPicture#,
+        skuName = #skuName#,
+        barCode = #barCode#,
+        itemNo = #itemNo#,
+        updateDate = now()
+        where id = #id#
+        <isNotEmpty prepend="and" property="mustPreviousState">
+            orderState = #mustPreviousState#
+        </isNotEmpty>
+    </update>
+
+    <update id="updateOrderItemState">
+        update OrderItem set orderState = #orderState#, updateDate = now()
+        where id = #orderItemId#
+        <isNotEmpty prepend="and" property="previousState">
+            orderState = #previousState#
+        </isNotEmpty>
+    </update>
+
+    <update id="updateOrderItemAppraise">
+        update OrderItem set appraise = 1, updateDate = now() where id = #orderItemId#
+    </update>
+
+</sqlMap>

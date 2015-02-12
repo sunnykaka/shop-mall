@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <typeAlias alias="ModuleInstanceParam"
+               type="com.kariqu.designcenter.domain.model.ModuleInstanceParam"/>
+
+    <resultMap id="moduleInstanceParam" class="ModuleInstanceParam">
+        <result property="id" column="id"/>
+        <result property="moduleInstanceId" column="moduleInstanceId"/>
+        <result property="modulePrototypeId" column="modulePrototypeId"/>
+        <result property="pageId" column="pageId"/>
+        <result property="shopId" column="shopId"/>
+        <result property="paramName" column="paramName"/>
+        <result property="paramType" column="paramType"/>
+        <result property="paramValue" column="paramValue"/>
+    </resultMap>
+
+
+    <sql id="ModuleInstanceParam.selector">
+        select
+        id,moduleInstanceId,modulePrototypeId,pageId,shopId,paramName,
+        paramType, paramValue
+        from moduleInstanceParam
+    </sql>
+    <select id="queryModuleParamsByModuleInstanceId"
+            resultMap="moduleInstanceParam">
+        <include refid="ModuleInstanceParam.selector"/>
+        where moduleInstanceId = #moduleInstanceId#
+    </select>
+
+    <delete id="deletePageParamsByPageId">
+        delete from
+        moduleinstanceparam
+        where pageId = #pageId#
+    </delete>
+
+    <delete id="deleteModuleInstanceParamOfSingleModule">
+        delete from
+        moduleinstanceparam
+        where moduleInstanceId = #moduleInstanceId#
+    </delete>
+
+    <delete id="deleteShopHeadAndFootParamByShopId">
+        delete from
+        moduleinstanceparam
+        where shopId = #shopId# and (pageId is
+        null or pageId=0)
+    </delete>
+
+    <delete id="deleteShopParamsByShopIdAndParamType">
+        delete from
+        moduleinstanceparam
+        where shopId = #shopId# and (pageId is
+        null or pageId=0)  and paramType =#paramType#
+    </delete>
+
+    <select id="selectModuleInstanceParamById"
+            resultMap="moduleInstanceParam">
+        <include refid="ModuleInstanceParam.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="selectAllModuleInstanceParams"
+            resultMap="moduleInstanceParam">
+         <include refid="ModuleInstanceParam.selector"/>
+    </select>
+
+
+    <insert id="insertModuleInstanceParam">
+        insert into moduleinstanceparam
+        (moduleInstanceId,modulePrototypeId,pageId,shopId,paramName,paramValue,paramType)
+        values
+        (#moduleInstanceId#,#modulePrototypeId#,#pageId#,#shopId#,#paramName#,#paramValue#,#paramType#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateModuleInstanceParam">
+        update moduleinstanceparam
+        set
+        moduleInstanceId=#moduleInstanceId#,
+        modulePrototypeId=#modulePrototypeId#,
+        pageId=#pageId#,
+        shopId=#shopId#,
+        paramName=#paramName#,
+        paramValue=#paramValue# ,
+        paramType =#paramType#
+        where
+        id=#id#
+    </update>
+
+    <delete id="deleteModuleInstanceParam">
+        delete from
+        moduleinstanceparam
+        where id = #id#
+    </delete>
+
+</sqlMap>

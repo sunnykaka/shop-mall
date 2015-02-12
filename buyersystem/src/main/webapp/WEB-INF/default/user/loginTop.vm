@@ -1,0 +1,23 @@
+<!-- 顶部通用栏 -->
+<div class="e-toolbar">
+    #*<div class="e-wrapper">
+        <div class="links pull-left">
+            <ul>
+                <li class="current"><a href="$!urlBroker.getUrl('BuyHome').toString()">品质·居家用品网购平台</a></li>
+                <li><a href="http://www.yixinshang.com" target="_blank">易欣尚</a></li>
+            </ul>
+        </div>
+    </div>*#
+</div>
+
+<div class="e-header e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+    <div class="search">
+        <form id="header_search_form" action="$!urlBroker.getUrl('Search').toString()" method="get">
+            <input id="e-keyword" class="search-text" autocomplete="off" type="text" placeholder="请输入搜索关键字" name="keyword">
+            <button type="submit" class="search-btn">搜索</button>
+            <div id="search-keyword-list" class="keyword-list" style="display: none"></div>
+        </form>
+    </div>
+</div>
+<!-- 顶部通用栏 END -->

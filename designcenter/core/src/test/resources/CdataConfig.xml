@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+    </config>
+    <params>
+        <param name="modules"  label="自定义模板" dataType="Html" formType="text">
+            <![CDATA[
+             <div class="common_wrapper siteTop" style="width: 1000px">
+                <div class="groupBuy" style="width: 500px;height: 100px;">
+                aaaaaaaaaa
+                    <img src="http://pic13.nipic.com/20110314/4398341_165416414152_2.jpg"/>
+                </div>
+            </div>
+          ]]>
+        </param>
+    </params>
+</module>

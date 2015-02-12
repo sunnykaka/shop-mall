@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <select id="querySupplierLogPageBySupplierId" resultClass="com.kariqu.suppliercenter.domain.SupplierLog">
+        select id,supplierId,operator,ip,title,content,date from supplierLog where supplierId=#supplierId#
+        <isNotEmpty property="content" prepend="AND">
+            content like concat('%', #content#, '%')
+        </isNotEmpty>
+        order by date desc limit #start#,#limit#
+    </select>
+
+    <select id="selectCountForSupplierLog" resultClass="int">
+        select count(1) from supplierLog where supplierId=#supplierId#
+        <isNotEmpty property="content" prepend="AND">
+            content like concat('%', #content#, '%')
+       </isNotEmpty>
+    </select>
+
+    <insert id="insertSupplierLog">
+        insert into supplierLog
+        (supplierId,operator,ip,title,content,date)
+        values
+        (#supplierId#,#operator#,#ip#,#title#,#content#,now())
+    </insert>
+
+    <delete id="deleteSupplierLogById">
+        delete from supplierLog
+        where id = #id#
+    </delete>
+
+</sqlMap>

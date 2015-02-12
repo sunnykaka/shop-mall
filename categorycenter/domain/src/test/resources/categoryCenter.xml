@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="mysqlDataSource.xml"/>
+
+
+    <bean id="productCategoryService"
+          class="com.kariqu.categorycenter.domain.service.impl.ProductCategoryServiceImpl"></bean>
+
+    <bean id="navigateCategoryService"
+          class="com.kariqu.categorycenter.domain.service.impl.NavigateCategoryServiceImpl"></bean>
+
+    <bean id="navigateCategoryPropertyService"
+          class="com.kariqu.categorycenter.domain.service.impl.NavigateCategoryPropertyServiceImpl"></bean>
+
+    <bean id="categoryPropertyService"
+          class="com.kariqu.categorycenter.domain.service.impl.CategoryPropertyServiceImpl"></bean>
+
+    <bean id="propertyRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.PropertyRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="valueRepository" class="com.kariqu.categorycenter.domain.repository.impl.ibatis.ValueRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="productCategoryRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.ProductCategoryRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="categoryPropertyValueRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.CategoryPropertyValueRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="categoryPropertyRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.CategoryPropertyRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+
+    <bean id="categoryPropertyValueDetailRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.PropertyValueDetailRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="navigateCategoryRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.NavigateCategoryRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="navCategoryPropertyRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.NavCategoryPropertyRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+    <bean id="navCategoryPropertyValueRepository"
+          class="com.kariqu.categorycenter.domain.repository.impl.ibatis.NavCategoryPropertyValueRepositoryImpl">
+        <property name="sqlMapClient" ref="category-sqlMapClient"/>
+    </bean>
+
+</beans>

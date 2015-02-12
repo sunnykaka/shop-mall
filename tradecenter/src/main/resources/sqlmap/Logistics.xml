@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="logistics" class="com.kariqu.tradecenter.domain.Logistics">
+        <result property="id" column="id"/>
+        <result property="orderId" column="orderId"/>
+        <result property="addressId" column="addressId"/>
+        <result property="name" column="name"/>
+        <result property="province" column="province"/>
+        <result property="location" column="location"/>
+        <result property="mobile" column="mobile"/>
+        <result property="telephone" column="telephone"/>
+        <result property="email" column="email"/>
+        <result property="zipCode" column="zipCode"/>
+        <result property="addressOwner" column="addressOwner"/>
+        <result property="deliveryInfo.deliveryType" column="deliveryType"/>
+        <result property="deliveryInfo.deliveryTime" column="deliveryTime"/>
+        <result property="deliveryInfo.cost" column="cost"/>
+        <result property="deliveryInfo.waybillNumber" column="waybillNumber"/>
+    </resultMap>
+
+
+    <select id="selectLogistics" resultMap="logistics">
+        select id,orderId,addressId,deliveryType,deliveryTime,waybillNumber,
+        cost,addressOwner,name,province,location,mobile,telephone,email,zipCode
+        from Logistics where id = #id#
+    </select>
+
+    <select id="selectLogisticsByOrderId" resultMap="logistics">
+        select id,orderId,addressId,deliveryType,deliveryTime,waybillNumber,
+        cost,addressOwner,name,province,location,mobile,telephone,email,zipCode
+        from Logistics where orderId = #orderId#
+    </select>
+
+    <select id="selectOrderIdByLogisticsId" resultClass="java.lang.Long">
+        select orderId from logistics where waybillNumber = #waybillNumber# order by orderId desc limit 1
+    </select>
+
+    <select id="selectOrderIdsByLogisticsId" resultClass="java.lang.Long">
+        select orderId from logistics where waybillNumber = #waybillNumber#
+    </select>
+
+    <insert id="insertLogistics">
+        insert into Logistics
+        (orderId,deliveryType,deliveryTime,cost,addressId,
+        name,province,location,mobile,telephone,email,zipCode,addressOwner)
+        values
+        (#orderId#,#deliveryInfo.deliveryType#,#deliveryInfo.deliveryTime#,#deliveryInfo.cost#,#addressId#,
+        #name#,#province#,#location#,#mobile#,#telephone#,#email#,#zipCode#,#addressOwner#)
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateLogistics">
+        update Logistics set
+        orderId=#orderId#,deliveryType=#deliveryInfo.deliveryType#,deliveryTime=#deliveryInfo.deliveryTime#,
+        WaybillNumber=#deliveryInfo.waybillNumber#,cost=#deliveryInfo.cost#,addressId=#addressId#,
+        name=#name#,province=#province#,location=#location#,mobile=#mobile#,telephone=#telephone#,
+        email=#email#,zipCode=#zipCode#,addressOwner=#addressOwner#
+        where id = #id#
+    </update>
+
+    <delete id="deleteLogistics">
+        delete from Logistics
+        where id = #id#
+    </delete>
+
+    <delete id="deleteLogisticsByOrderId">
+        delete from Logistics
+        where orderId = #orderId#
+    </delete>
+
+
+    <update id="updateLogisticsRedundancy">
+        update Logistics set
+        <isNotEmpty prepend=" " property="editor">
+            editor=#editor#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="nameRewrite">
+            nameRewrite=#nameRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="provinceRewrite">
+            provinceRewrite=#provinceRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="locationRewrite">
+            locationRewrite=#locationRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="mobileRewrite">
+            mobileRewrite=#mobileRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="zipCodeRewrite">
+            zipCodeRewrite=#zipCodeRewrite#,
+        </isNotEmpty>
+        timeRewrite=now() where id = #id#
+    </update>
+
+    <update id="updateLogisticsDeliveryType">
+        update Logistics set deliveryType = #deliveryType#,
+        timeRewrite=now() where orderId = #orderId#
+    </update>
+
+    <update id="updateWaybillNumberByOrderId">
+        update Logistics set waybillNumber = #waybillNumber#, timeRewrite=now() where orderId = #orderId#
+    </update>
+
+    <select id="queryLogisticsRedundancy"
+            resultClass="com.kariqu.tradecenter.domain.LogisticsRedundancy">
+        select id,deliveryType,editor,nameRewrite,provinceRewrite,locationRewrite,
+        mobileRewrite,zipCodeRewrite,timeRewrite from Logistics where id = #id#
+    </select>
+
+</sqlMap>

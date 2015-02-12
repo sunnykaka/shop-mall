@@ -1,0 +1,65 @@
+<html>
+<head>
+    <style>body {margin:0;overflow:auto;font:normal 14px Verdana;background:#fff;padding:2px 4px 0;cursor:text;}body, p, font, div, li { line-height: 1.5;}body, td, th {color:#000000;}.i {width:100%;*width:auto;table-layout:fixed;}pre {white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;}a { color: #ff6600;}</style>
+</head>
+
+<body style="padding: 2px 4px 0px; ">
+<div style="margin:0 auto">
+
+    <div><br></div>
+
+    <table cellspacing="0" cellpadding="0" width="760" align="center" border="0">
+        <tbody>
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" width="760" border="0" style="font-size: 12px">
+                    <tbody>
+                    <tr>
+                        <td><img height="50" alt="易居尚" width="265" src="$urlBroker.getUrl('StaticDesignImgDomain').toString()/images/yijushang_mail.jpg"></td>
+                        <td valign="bottom" align="right"><a style="color: #4e5d80" href="$urlBroker.getUrl('BuyHome').toString()">进入易居尚 www.yijushang.com </a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table cellspacing="0" cellpadding="0" width="760" border="0" style="border-right: #c0dfef 1px solid; border-top: #c0dfef 1px solid; margin-top: 10px; font-size: 12px; border-left: #c0dfef 1px solid; color: #333; border-bottom: #c0dfef 1px solid; background-color: #f0f9ff; border-radius: 3px">
+                    <tbody>
+                    <tr>
+                        <td valign="top" colspan="2" style="padding-right: 0px; padding-left: 20px; padding-bottom: 20px; padding-top: 20px">您好，亲爱的会员<strong style="color: #ff6600">$!userName </strong>：</td>
+                    </tr>
+                    <tr>
+                        <td valign="top" align="right" width="150" rowspan="3" style="padding-right: 10px">&nbsp;</td>
+                        <td valign="top" width="608" height="40" style="font-size: 14px; color: #000; padding-top: 10px">
+                            <div>
+                                <strong>您的$!{title}地址为：</strong>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" height="50" >
+                            <div>
+                                <strong><a style="color: #ff6600" href="$!url">$!url </a></strong>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" height="30" style="line-height: 2">
+                            <div><span style="color: #333"><strong>请您在30分钟内完成此操作，感谢您对易居尚的支持！</strong><br/>如果链接不能点击，请复制地址到浏览器，然后直接打开。 </span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" colspan="2" style="text-align:center; padding-right: 0px;padding-bottom: 20px; padding-top: 20px">
+                            <div style="color: #999">
+                                此邮件易居尚系统发出，请勿回复<br>
+                                如有任何疑问，请拨打客服热线 400 9933 178-4
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div></body></html>
+
+

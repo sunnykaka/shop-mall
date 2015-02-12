@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="logisticsPrintInfo.selector">
+        select id,name,law,printHtml,logisticsPicturePath,customerId
+        from LogisticsPrintInfo
+    </sql>
+
+    <select id="selectAllLogisticsPrintInfoByCustomerId" resultClass="com.kariqu.suppliercenter.domain.LogisticsPrintInfo">
+        <include refid="logisticsPrintInfo.selector"/>
+        where customerId=#customerId#
+    </select>
+
+    <select id="selectLogisticsPrintInfoByNameAndCustomerId" resultClass="com.kariqu.suppliercenter.domain.LogisticsPrintInfo">
+        <include refid="logisticsPrintInfo.selector"/>
+        where name = #name# and customerId=#customerId#
+    </select>
+
+    <select id="selectLogisticsPrintInfoById" resultClass="com.kariqu.suppliercenter.domain.LogisticsPrintInfo">
+        <include refid="logisticsPrintInfo.selector"/>
+        where id = #id#
+    </select>
+
+    <insert id="insertLogisticsPrintInfo">
+        insert into LogisticsPrintInfo
+        (name,law,printHtml,logisticsPicturePath,customerId)
+        values
+        (#name#,#law#,#printHtml#,#logisticsPicturePath#,#customerId#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateLogisticsPrintInfo">
+        update LogisticsPrintInfo
+        set name=#name#,law=#law#,printHtml=#printHtml#,logisticsPicturePath=#logisticsPicturePath#,customerId=#customerId# where id=#id#
+    </update>
+
+    <delete id="deleteLogisticsPrintInfoById">
+        delete from LogisticsPrintInfo
+        where id = #id#
+    </delete>
+</sqlMap>

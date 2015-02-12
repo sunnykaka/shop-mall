@@ -1,0 +1,46 @@
+.image-block,
+.image-block img{
+    display: block;
+}
+.image-block{
+    background-color: #fff;
+}
+
+.h168-head{
+    height: 60px;
+    padding-top: 126px;
+    background: url("http://www.boobee.me/static/images/page/h168/banner.png") no-repeat center 0;
+}
+.h168-head .timer{
+    height: 51px;
+    padding:9px 0 0 440px;
+    background: #333;;
+}
+.h168-head .timer em,
+.h168-head .timer span{
+    float: left;
+    height: 42px;
+    color: #fff;
+    font: normal 14px/42px "Microsoft Yahei",STHeiti;
+}
+.h168-head .timer em{
+    padding: 0 10px;
+}
+.h168-head .timer span{
+    width: 46px;
+    background: url("http://www.boobee.me/static/images/page/h168/timer.png") no-repeat 0 0;
+    text-align: center;
+    color: #000;
+    font-size: 28px;
+}
+.h168-head .timer .second{
+    width: 72px;
+    background-position: -46px 0;
+}
+.h168-body{
+    background: url("http://www.boobee.me/static/images/page/h168/bg.jpg") fixed repeat-y center 0;
+}
+
+.h168-body .daily-goods{
+    background: url("http://www.boobee.me/static/images/page/h168/ajax-loader.gif") no-repeat 50% 50%;
+}

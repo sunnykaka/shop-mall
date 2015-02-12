@@ -1,0 +1,13 @@
+
+<h1 align="left">欢迎加入易居尚：</h1>
+<div align="center">
+    <font color="red">$accountName</font>,&nbsp;您好：<br>
+    &nbsp;&nbsp;<div>
+                    欢迎加入易居尚,请妥善保管您的登录信息：<br>
+                    用户名：<font color="red">$accountName</font> &nbsp;&nbsp;&nbsp;&nbsp;密码：<font color="red">$password</font><br>
+                </div>
+   <br>
+    为了你的帐号安全，请尽快修改您的密码。 <br>
+    <br>
+    此邮件为系统所发，请勿直接回复。
+</div>

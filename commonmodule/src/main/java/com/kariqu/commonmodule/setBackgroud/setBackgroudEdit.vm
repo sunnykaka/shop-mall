@@ -1,0 +1,22 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        <span style="color: #ff0000;">此模块主要是用来给页面设置背景, 一个页面请只添加一次此模块! 添加多个会导致背景无法显示!</span><br><br>
+
+        页面的背景颜色:
+        <input type="text" name="pageBackgroundColor" value="$!pageBackgroundColor" style="width: 450px;"/><br><br>
+        页面的背景图:<br>
+        <input type="text" name="pageBackgroundImg" value="$!pageBackgroundImg" style="width: 550px;"/><br><br>
+        背景图是否循环:
+        <label><input type="radio" name="pageBackgroundLoop" value="y"#if($!pageBackgroundLoop == 'y') checked#end> 循环</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="pageBackgroundLoop" value="n"#if($!pageBackgroundLoop != 'y') checked#end> 不循环</label><br><br>
+        上边距(仅数字, 背景与页面第一个模块的距离, 单位: 像素):
+        <input type="text" name="pageBackgroundPadding" value="$!pageBackgroundPadding" style="width: 202px;"/><br><br>
+
+        <span style="color: #ff0000;">尽量将此模块放在除底部以外的最后一个位置!</span><br>
+        <input type="submit"/>
+    </form>
+</div>

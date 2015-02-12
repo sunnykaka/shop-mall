@@ -1,0 +1,10 @@
+<!-- 网站底部 -->
+<div class="e-footer" id="e-footer">
+
+    <div class="e-wrapper">
+        <p class="text-center">&copy; 2014 yijushang.com 版权所有 | <a href="http://www.miibeian.gov.cn/" target="_blank">粤ICP备12069686号-1</a></p>
+        <p class="text-center"><a href="http://www.yijushang.com/about/33.html">关于我们</a>｜客服热线 400-9933-178</p>
+    </div>
+
+</div>
+<!-- 网站底部 END -->

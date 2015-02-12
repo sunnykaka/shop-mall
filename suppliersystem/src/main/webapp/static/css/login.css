@@ -1,0 +1,120 @@
+
+html,body{background:#d9d9d9 url("../images/login_bg.jpg") no-repeat center center ;height:100%;}
+
+html,body, .inner, .outer, .wrapper, .common_wrapper {
+    border: none;
+    height:100%;
+}
+
+.common_wrapper {
+    position: relative;
+    min-height: 500px;
+    _height: 500px;
+    width:100%;
+}
+
+.login_page {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -200px;
+    margin-left:-250px;
+    width: 454px;
+    border:7px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+}
+
+.login_page form {
+    padding:70px 0 25px 0;
+    background: #fff url("../images/title.jpg") no-repeat 70px 15px;
+}
+
+.login_page dl {
+    margin: 0 0 10px;
+}
+
+.login_page dt {
+    float: left;
+    width: 120px;
+    text-align: right;
+    padding: 0 10px 0 0;
+    font: normal normal 14px/32px 'Microsoft YaHei', Tahoma, Arial, SimSun;
+}
+
+.login_page .text {
+    float: left;
+    width: 210px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    font-family: 'microsoft yahei', tahoma, simsun;
+    font-size: 16px;
+    color: #333;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #a5a5a5 #d5d5d0 #d5d5d0;
+    border-radius: 3px;
+    background: #fdfdfd;
+}
+
+.login_page .text:focus {
+    border-color: #157fcc #157fcc #157fcc;
+    -webkit-box-shadow: 0 0 2px #157fcc;
+    -moz-box-shadow: 0 0 2px #157fcc;
+    box-shadow: 0 0 2px #157fcc;
+    background: #fdf8f6;
+}
+
+.login_page .code {
+    width: 70px;
+    margin-right: 5px;
+}
+
+.login_page .code_img {
+    float: left;
+}
+
+.login_page .code_img img {
+    float: left;
+    height: 30px;
+    cursor: pointer;
+}
+
+.login_page .code_img span {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 0 0 10px;
+}
+
+.login_page .tip {
+    padding-left: 130px;
+    height: 32px;
+    line-height: 32px;
+    color: #ef7613;
+    font-weight: 700;
+}
+
+.login_page .btn_w {
+    padding: 10px 0 0 130px;
+    height: 30px;
+}
+
+.login_page .submit_btn {
+    float: left;
+    width: 80px;
+    height: 29px;
+    background: url("../images/btn_bg.jpg") no-repeat 0 0;
+    border: 0;
+    cursor: pointer;
+    font: normal normal 14px/29px 'Microsoft YaHei', Tahoma, Arial, SimSun;
+    color: #fff;
+}
+
+.login_page .rem_up {
+    float: left;
+    padding: 6px 0 0 10px;
+    height: 18px;
+    line-height: 18px;
+}
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>$!site_title</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/questionnaire.css?$!urlBroker.getVersion()" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+            #parse("user/loginTop.vm")
+
+            <!-- 调查问卷 -->
+            <div class="questionnaire">
+                <h2>$!survey.surveyName</h2>
+                <div class="info">
+                    <p>
+                    亲爱的网购用户，您好！<br/>
+                    不知不觉我们已经陪伴您走过一年半的时光了，不知道这段时间里您对我们是否还满意呢？为了更好地为您服务，我们邀请您花5分钟填写以下问卷。我们将为每一位填写完整问卷的注册用户赠送一张20元现金券。
+                    </p>
+
+                    <p>您的每一个回答都将帮助我们为您提供更好的服务！谢谢您的支持:)
+                </div>
+
+                <form action="$!urlBroker.getUrl('BuyHome').toString()/survey/submit" id="questionnaire_form" method="post">
+                    #foreach($!question in $!survey.questionList)
+                    <div class="box"#if($!question.mustReply) isChecking="true"#end>
+                        <dl>
+                            #set($questionCount = $!velocityCount)
+                            <input type="hidden" name="question_$!questionCount" value="$!question.id" />
+                            <dt>$!{questionCount}. $!{question.questionDetail} #if($!question.mustReply)<span>*</span>#end</dt>
+                            <dd>
+                                #set($answerSize = $!question.answerList.size())
+                                #foreach($!answer in $!question.answerList)
+                                <input type="$!question.answerType" name="answer_$!questionCount" id="item_$!{questionCount}_$!velocityCount" value="$!answer.id" />
+                                <label for="item_$!{questionCount}_$!velocityCount">$!answer.answerDetail#if($!answer.hasWrite) <input name="write_$!answer.id"/>#end</label>
+                                #if($!velocityCount != $!answerSize)<br/>#end
+                                #end
+                            </dd>
+                        </dl>
+                    </div>
+                    #end
+
+                    <div class="box">
+                        <dl>#set($otherQuestionCount = $!survey.questionList.size() + 1)
+                            <dt>$!{otherQuestionCount}. 请您填写好您的注册信息，方便我们赠送给您优惠券后通知您（完善注册信息，即可优先享受到优惠券到账等信息通知，注册名、邮箱、手机号等信息我们会保密）：</dt>
+                            <dd>
+                                <ul>
+                                    <li><label for="name">注册名</label> <input type="text" name="userName" class="text" id="name" value="$!address.name" /></li>
+                                    <li><label for="email">邮箱</label> <input type="text" name="email" class="text" id="email" value="$!loginUser.email" /></li>
+                                    #*<li><label for="address">地址</label> <input type="text" name="address" class="text" id="address" value="$!{address.province}$!{address.location}" /></li>*#
+                                    <li><label for="tel">手机号</label> <input type="text" name="mobile" class="text" id="tel" value="$!address.mobile" /></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="box">
+                        <dl>#set($otherQuestionCount = $!otherQuestionCount + 1)
+                            <dt> $!{otherQuestionCount}. 易居尚的茁壮成长离不开您的参与，请在这里留下您的宝贵意见，建议一经采纳，我们将有小惊喜送出！</dt>
+                            <dd><textarea cols="50" rows="5" class="text2" name="suggest"></textarea></dd>
+                        </dl>
+                    </div>
+                    <div class="btn_wrapper">
+                        <button>提交问卷</button>
+                    </div>
+                    <input type="hidden" name="questionCount" value="$!survey.questionList.size()" />
+                    <input type="hidden" name="surveyId" value="$!survey.id" />
+                    <input type="hidden" name="userId" value="#if($!loginUser.id)$!loginUser.id#{else}0#end" />
+                    <input type="hidden" name="token" value="$!token" />
+                </form>
+            </div>
+            <!-- 调查问卷 END -->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/url.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/questionnaire.js?$!urlBroker.getVersion()"></script>
+
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/statistics.js"></script>
+
+</body>
+</html>

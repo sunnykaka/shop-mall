@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <resultMap id="BackGoodsResult" class="com.kariqu.tradecenter.domain.BackGoods">
+        <result column="id" property="id"/>
+        <result column="orderNo" property="orderNo"/>
+        <result column="orderId" property="orderId"/>
+        <result column="userId" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="accountType" property="accountType"/>
+        <result column="expressNo" property="expressNo"/>
+        <result column="backReason" property="backReason"/>
+        <result column="backReasonReal" property="backReasonReal"/>
+        <result column="backShopperName" property="backShopperName"/>
+        <result column="backPhone" property="backPhone"/>
+        <result column="backPrice" property="backPrice"/>
+        <result column="backState" property="backState"/>
+        <result column="backType" property="backType"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="uploadFiles" property="uploadFiles"/>
+        <result column="backAddress" property="backAddress"/>
+        <result column="processMode" property="processMode"/>
+    </resultMap>
+
+    <insert id="insertBackGoods">
+        insert into BackGoods (orderNo, orderId,userId, userName, accountType, backReasonReal,  backReason, backShopperName,
+        backPhone, backPrice, backState, backType, uploadFiles, backAddress, processMode, createTime, updateTime)
+        values (#orderNo#, #orderId#,#userId#, #userName#, #accountType#, #backReasonReal#, #backReason#, #backShopperName#,
+        #backPhone#, #backPrice#, #backState#, #backType#, #uploadFiles#, #backAddress#, #processMode#, now(), now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <delete id="deleteBackGoods">
+		delete from BackGoods where id = #id#
+	</delete>
+
+    <select id="selectCountForBackGoods" resultClass="int">
+        select count(1) from BackGoods
+        where backState = #backState# and isDelete = 0
+    </select>
+
+    <sql id="backGoods.selector">
+        select id, orderNo,orderId, userId, userName, accountType, expressNo, backReasonReal, backReason, backShopperName,
+        backPhone, backPrice, backState, backType, createTime, updateTime, uploadFiles, processMode, backAddress
+		from BackGoods
+    </sql>
+
+    <select id="selectBackGoodsByState" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where backState = #backState# and isDelete = 0
+        order by createTime desc <!-- limit #start#, #limit# -->
+    </select>
+
+    <select id="selectBackGoodsById" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where id = #id# and isDelete = 0
+    </select>
+
+    <select id="selectBackGoodsByIdAndUserId" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where id = #id# and userId =#userId# and isDelete = 0
+    </select>
+
+    <select id="selectBackGoodsByOrderId" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where orderId = #orderNo# and backState != 'Cancel' and backState != 'Create' and isDelete = 0
+        order by createTime desc <!-- limit #start#, #limit# -->
+    </select>
+
+    <select id="selectBackGoodsByOrderNo" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where orderNo = #orderNo# and userId = #userId# and backState != 'Cancel' and isDelete = 0
+        order by createTime desc <!-- limit #start#, #limit# -->
+    </select>
+
+    <select id="selectBackGoodsIdByOrderNo" resultClass="long">
+        select id from BackGoods
+        where orderNo = #orderNo# and userId = #userId# and backState != 'Cancel' and isDelete = 0
+    </select>
+
+    <select id="selectBackGoodsByUserId" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where userId = #userId# and isDelete = 0
+        order by createTime desc <!-- limit #start#, #limit# -->
+    </select>
+
+    <select id="queryBackGoodsByUserIdPage" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where userId = #userId# and isDelete = 0
+        order by createTime desc
+        limit #start#, #limit#
+    </select>
+
+    <select id="queryCountBackGoodsByUserIdPage" resultClass="int">
+        select count(1) from BackGoods
+        where userId = #userId# and isDelete = 0
+    </select>
+
+    <select id="selectCountForFinance" resultClass="int">
+        select count(1) from BackGoods
+        where ((backType = 'NoSend' and backState = 'Verify') or (backType = 'YetSend' and backState = 'Receive'))
+        and isDelete = 0
+    </select>
+
+    <select id="selectForFinance" resultMap="BackGoodsResult">
+        <include refid="backGoods.selector"/>
+        where ((backType = 'NoSend' and backState = 'Verify') or (backType = 'YetSend' and backState = 'Receive'))
+        and isDelete = 0
+    </select>
+
+    <update id="updateBackGoods">
+		update BackGoods
+		set expressNo = #expressNo#,
+		backReason = #backReason#,
+		backShopperName = #backShopperName#,
+		backPhone = #backPhone#,
+		backPrice = #backPrice#,
+		backState = #backState#,
+		updateTime = now()
+		where id = #id#
+	</update>
+
+    <update id="updateBackGoodsForDelete">
+		update BackGoods set updateTime = now(), isDelete = 1 where id = #id#
+	</update>
+
+    <update id="updateBackGoodsSelective">
+        update BackGoods
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="expressNo">
+                expressNo = #expressNo#
+            </isNotNull>
+            <isNotNull prepend="," property="backReason">
+                backReason = #backReason#
+            </isNotNull>
+            <isNotNull prepend="," property="backShopperName">
+                backShopperName = #backShopperName#
+            </isNotNull>
+            <isNotNull prepend="," property="backPhone">
+                backPhone = #backPhone#
+            </isNotNull>
+            <isNotNull prepend="," property="backPrice">
+                backPrice = #backPrice#
+            </isNotNull>
+            <isNotNull prepend="," property="backState">
+                backState = #backState#
+            </isNotNull>
+            <isNotNull prepend="," property="backType">
+                backType = #backType#
+            </isNotNull>
+            <isNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNull>
+            <isNotNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+        <isNotEmpty prepend="and" property="mustPreviousState">
+            backState = #mustPreviousState#
+        </isNotEmpty>
+    </update>
+
+</sqlMap>

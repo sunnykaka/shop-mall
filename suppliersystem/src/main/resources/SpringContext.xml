@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <import resource="dataSource.xml"/>
+
+    <import resource="userContext.xml"/>
+    <import resource="supplierContext.xml"/>
+    <import resource="categoryContext.xml"/>
+    <import resource="tradeContext.xml"/>
+    <import resource="productContext.xml"/>
+    <import resource="sucurityContext.xml"/>
+    <bean id="urlBrokerFactory" class="com.kariqu.common.uri.URLBrokerFactory" init-method="init">
+        <property name="urlConfigName" value="/url.xml"/>
+    </bean>
+    <bean class="com.kariqu.tradecenter.client.impl.TradeCenterClientSupplierImpl"/>
+
+    <task:executor id="executor" pool-size="5"/>
+</beans>

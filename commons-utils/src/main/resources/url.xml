@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlConfig>
+    <url name="templateResource">
+        <severUrl>http://${dc.template.resource.domainname}</severUrl>
+        <path>template/resources/{resourceId}</path>
+        <tokens>
+            <token name="resourceId"/>
+        </tokens>
+    </url>
+    <url name="moduleEdit">
+        <severUrl>http://${dc.template.resource.domainname}</severUrl>
+        <path>/{moduleInstanceId}</path>
+        <tokens>
+            <token name="resourceId"/>
+        </tokens>
+    </url>
+</urlConfig>

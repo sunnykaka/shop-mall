@@ -1,0 +1,69 @@
+安装过程可通过yum
+
+也可从源码安装
+tar xzvf httpd-2.2.6.tar.gz
+./configure --prefix=/home/mahaibo/apache  //prefix指定安装目录
+make
+make install
+
+httpd:
+service httpd status
+html位置 /var/www/
+
+apache用于静态文件的响应，动态内容代理到后端的应用服务器，所以要配置apache+tomcat集成,tomcat的官网上就提供了这个连接器
+
+去官网下载到这个连接器实现的apache的模块的二进制文件，比如:  mod_jk-1.2.31-httpd-2.2.x.so 请注意配合apache的版本号
+
+拷贝 mod_jk-1.2.31-httpd-2.2.x.so 到apache的模块目录 /etc/httpd/modules
+
+然后写一个针对mod_jk的配置文件让apache加载，apacha会自动加载它安装目录conf.d下的所有.conf文件，所以我们可以写一个mod_jk.conf放到那里
+
+内容是：
+
+#加载这个模块
+<IfModule !jk_module>
+    LoadModule jk_module modules/mod_jk-1.2.31-httpd-2.2.x.so
+</IfModule>
+
+#
+# 配置 mod_jk
+<IfModule jk_module>
+    # Without workers.properties file you need to specify the ajp13 port
+    # if it differs from 9010 (NW 5.1 and NW 6.0 use 9009)
+    # JkWorkerProperty worker.ajp13.port=9009
+    # where workers.properties is located
+    #指定mod_jk的工作配置文件
+    JkWorkersFile "conf/workers.properties"
+
+    # where to put the mod_jk log
+    JkLogFile "logs/mod_jk.log"
+
+    # Log level to be used by mod_jk
+    JkLogLevel error
+
+    # Root context mounts for Tomcat 把一些请求交给tomcat
+    JkMount /*.jsp ajp13
+    JkMount /servlet/* ajp13
+
+    # For the standard NetWare configuration you might need the
+    # 'JkMountCopy All' directive with mod_jk 1.2.26 and later in order
+    # to restore same behaviour as with mod_jk versions before 1.2.26.
+    # JkMountCopy All
+</IfModule>
+
+
+在和tomcat进行集成的时候，我们静态文件先扔到apache的www/html目录下
+对应动态内容的url，我们项目中最好有一个统一的前缀，比如员工系统是/employee 这样在modl_jk中配置的时候很方便的统一映射
+比如:
+JkMount / ajp13
+JkMount /employee/* ajp13
+
+这样把/委托给tomcat中我们应用的首页，以及把/employee开头的路径全部交给tomcat处理
+
+注意部署在tomcat中的项目上下文需要为/ ，配置如下，在conf/server.xml
+
+<Context path="" docBase="D:\kariqu\employeeSystem\target\exploded\employeeSystem.war" debug="0" reloadable="true"></Context>
+
+猜测apache和tomcat的通信
+
+发现/employee该由tomcat处理，通过ajp 8009端口告诉tomcat ,tomcat拿到这个路径进行动态计算和渲染，完成后发给apache,apache再把结果返回给浏览器

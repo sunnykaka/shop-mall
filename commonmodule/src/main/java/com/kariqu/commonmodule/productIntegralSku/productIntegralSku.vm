@@ -1,0 +1,211 @@
+<div class="clearfix e-wrapper mod-goodsSku kacoin_infot">
+    <div class="goodsSku-main">
+        <div class="photo">
+            <div class="photo-small">
+                <a href="$!_product.imageUrl" rel='gal1' id="jqzoombox">
+                    #*<img src="$!imgResolver.getHalfSizeImgUrl($!_product.imageUrl)" alt="" class="big_pic" width="360" height="360"/>*#
+                    #if($!_product.defaultSkuObject.skuImageList && $!_product.defaultSkuObject.skuImageList.size() > 0)
+                        <img myalt="sku_pic" src="$!imgResolver.getHalfSizeImgUrl($!_product.defaultSkuObject.skuImageList.get(0))" alt="" class="big_pic" width="360" height="360"/>
+                    #else
+                        <img myalt="product_pic" src="$!imgResolver.getHalfSizeImgUrl($!_product.imageUrl)" alt="" class="big_pic" width="360" height="360"/>
+                    #end
+                </a>
+            </div>
+            <div class="photo-thumb" id="photo-thumb">
+                <ul>
+                    #foreach($picture in $!_product.defaultSkuObject.skuImageList)
+                        <li>
+                            <a rel="{gallery: 'gal1', smallimage: '$!imgResolver.getHalfSizeImgUrl($!picture)',largeimage: '$!picture'}" href="javascript:void(0);" #if($velocityCount == 1) class="zoomThumbActive" #end>
+                                <img src="$!imgResolver.getMinSizeImgUrl($!picture)"/>
+                            </a>
+                        </li>
+                    #end
+                </ul>
+            </div>
+            #*<div class="photo-thumb" id="photo-thumb">
+                <ul>
+                    #foreach($picture in $!_product.productPictureList)
+                        <li><a rel="{gallery: 'gal1', smallimage: '$!imgResolver.getHalfSizeImgUrl($!picture.pictureUrl)',largeimage: '$!picture.pictureUrl'}"
+                               href="javascript:void(0);"#if($!picture.mainPic) class="zoomThumbActive"#end><img src="$!imgResolver.getMinSizeImgUrl($!picture.pictureUrl)"/></a></li>
+                    #end
+                </ul>
+            </div>*#
+        </div>
+
+        <div class="basic-info">
+            <input type="hidden" id="cartId" value=""/>
+            <input type="hidden" id="updateItemUrl" value=""/>
+
+            <div class="title">
+                #*<div class="name">$!_product.name $_product.getDefaultSkuObject().getSkuDesc()</div>*#
+                <div class="name">$!{productAddress} $!{_product.brandName} $!{_product.name} <span id="skuDesc">$!skuDesc</span></div>
+                <div class="em">$!{_product.description}</div>
+            </div>
+
+            <div class="score">
+                <div class="star" hint="$!{valuationScore}"></div>
+                #if($valuationNum > 0)
+                    $!{valuationPercent}% 好评
+                    <span class="star-count">(共 $!{valuationNum} 条评论)</span>
+                #else
+                    暂无评价
+                #end
+            </div>
+
+        #if($activityType.equalsIgnoreCase("IntegralConversion"))
+            <!-- 立即兑换 -->
+            <div class="change">
+                <div class="date">
+                    剩余时间：<span class="settime" endTime="$!activityMap.activity.fetchEndDateWithFormat("yyyy-MM-dd HH:mm:ss")"></span>
+                </div>
+                <div class="people">
+                    兑换件数：<span>$!activityMap.purchaseCount</span>件
+                </div>
+                <div class="market">
+                    原价：¥ <span id="marketPrice">$!activityMap.price</span>
+                </div>
+                <div class="gift">
+                    积分兑换：<span id="kacoinGift" data-allkacoin="$!curUser.getCurrency()">$!activityMap.activity.humanIntegralCount()</span>
+                </div>
+            #if($userLogin) #*用户登陆*#
+                <div class="letter">
+                    您的积分总计：<span class="kacoinAlllength">$!curUser.getCurrency()</span>,
+                    #if($!curUser.pointTotal >= $!activityMap.activity.integralCount)
+                        可以使用<span class="kagift">$!activityMap.activity.humanIntegralCount()</span>积分兑换本商品。
+                    #else
+                        不足兑换本商品,<a href="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!activityMap.productId-skuId).toString()">正价购买></a>
+                    #end
+                </div>
+            #else #*用户没有登陆*#
+                <div class="letter">
+                    您的积分总计：<a class="login" href="#">登陆查看></a>
+                </div>
+            #end
+            #if($_product.online && $!_product.hasStock)
+                <div class="amount">
+                    <span class="pull-left dt">兑换数量：</span>
+                    <a href="javascript:void(0);" class="btn-sub"><span>-</span></a>
+                    <input limit="$!{_product.defaultSkuObject.limit}" data-price="$!activityMap.activity.humanIntegralCount()" type="text" size="3" maxlength="3" class="text-number" value="1"/>
+                    <a href="javascript:void(0);" class="btn-add"><span>+</span></a>
+                </div>
+            #end
+
+                <div class="btns">
+                    <a class="btn-toCart cashIt" data-productSkuId="$!activityMap.productId-skuId"
+                       href="$urlBroker.getUrl('CurrencyToOrder').addQueryData('id',$!activityMap.activity.id).addQueryData('activityType','IntegralConversion').toString()"
+                       data-userSign="$userLogin.toString()"
+                       data-goods-url="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!activityMap.productId-skuId).toString()"
+                       data-checkCanJoin="$urlBroker.getUrl('checkUserCanJoin').addQueryData('activityType', 'IntegralConversion').addQueryData('activityId', $!activityMap.activity.id)">
+                        立即兑换
+                    </a>
+                </div>
+
+            </div>
+            <!-- 立即兑换 -->
+        #elseif($activityType.equalsIgnoreCase("SuperConversion"))
+            <!-- 立即换购 -->
+            <div class="change">
+                <div class="date">
+                    剩余时间：<span class="settime" endTime="$!activityMap.activity.fetchEndDateWithFormat("yyyy-MM-dd HH:mm:ss")"></span>
+                </div>
+                <div class="people">
+                    兑换件数：<span>$!activityMap.purchaseCount</span>件
+                </div>
+                <div class="market">
+                    原价：¥ <span id="marketPrice">$!activityMap.price</span>
+                </div>
+                <div class="gift kac_price">
+                    积分兑换：<span id="kacoinGift" data-allkacoin="$!curUser.getCurrency()">$!activityMap.activity.humanIntegralCount()</span><em>积分+</em><span>$!activityMap.activity.fetchMoney4Human()</span><em>元</em>
+                </div>
+            #if($userLogin) #*用户登陆*#
+                <div class="letter">
+                    您的积分总计：<span class="kacoinAlllength">$!curUser.getCurrency()</span>,
+                    #if($!curUser.pointTotal >= $!activityMap.activity.integralCount)
+                        可以使用<span class="kagift">$!activityMap.activity.humanIntegralCount()</span>积分兑换本商品
+                    #else
+                        不足兑换本商品,<a href="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!activityMap.productId-skuId).toString()">正价购买></a>
+                    #end
+                </div>
+            #else #*用户没有登陆*#
+                <div class="letter">
+                    您的积分总计：<a class="login" href="#">登陆查看></a>
+                </div>
+            #end
+            #if($_product.online && $!_product.hasStock)
+                <div class="amount">
+                    <span class="pull-left dt">兑换数量：</span>
+                    <a href="javascript:void(0);" class="btn-sub"><span>-</span></a>
+                    <input limit="$!{_product.defaultSkuObject.limit}" data-price="$!activityMap.activity.humanIntegralCount()" type="text" size="3" maxlength="3" class="text-number" value="1"/>
+                    <a href="javascript:void(0);" class="btn-add"><span>+</span></a>
+                </div>
+            #end
+
+                <div class="btns">
+                    <a class="btn-toCart cashIt" data-productSkuId="$!activityMap.productId-skuId"
+                       href="$urlBroker.getUrl('CurrencyToOrder').addQueryData('id',$!activityMap.activity.id).addQueryData('activityType','SuperConversion').toString()"
+                       data-userSign="$userLogin.toString()"
+                       data-goods-url="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!activityMap.productId-skuId).toString()"
+                       data-checkCanJoin="$urlBroker.getUrl('checkUserCanJoin').addQueryData('activityType', 'SuperConversion').addQueryData('activityId', $!activityMap.activity.id)">
+                        立即兑换
+                    </a>
+                </div>
+
+            </div>
+            <!-- 立即换购 -->
+        #end
+        </div>
+    </div>
+
+    <div class="ensure-payment">
+        <h4>购物保障</h4>
+        <ul class="clearfix ensure-list">
+            <li>
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/26.html" target="_blank">
+                    <i class="icon-1"></i>全场免邮</a>
+            </li>
+            <li class="last">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/29.html" target="_blank">
+                    <i class="icon-2"></i>30天退换货</a>
+            </li>
+            <li>
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/43.html" target="_blank">
+                    <i class="icon-3"></i>终身保养</a>
+            </li>
+            <li class="last">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()/help/42.html" target="_blank">
+                    <i class="icon-4"></i>正品保证</a>
+            </li>
+        </ul>
+
+        <h4>支付方式</h4>
+        <ul class="clearfix payment-list">
+            <li><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/detail_zfb.png" alt="支付宝" width="83" height="28"></li>
+            <li class="last"><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/detail_cft.png" alt="财付通" width="83" height="28"/></li>
+            <li><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/detail_zxzf.png" alt="" width="83" height="28"/></li>
+            <li class="last">&nbsp;</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    var addToCart = "$!urlBroker.getUrl("buyHome").toString()/trade/cart/add";
+    var directBuy = "$!urlBroker.getUrl("buyHome").toString()/trade/order/new/bySku";
+</script>
+
+#* 是否有库存 *#
+#if($!_product.hasStock)
+<script type="text/javascript">
+#* 是否是单 sku *#
+#if($!_product.singleSku)
+var defaultSku = $!_product.defaultSkuJson;
+#else
+var skuMap = $!_product.skuJson;
+#* 是否有选择 sku *#
+#if($_sku)
+var selectSku = $_sku;
+#else
+var defaultSku = $!_product.defaultSkuJson;
+#end
+#end
+</script>
+#end

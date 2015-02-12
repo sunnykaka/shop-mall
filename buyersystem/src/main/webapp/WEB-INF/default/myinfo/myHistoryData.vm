@@ -1,0 +1,28 @@
+#set($num = 0)
+#foreach($key in $!historyMap.keySet())
+    #set($num = $!num + 1)
+    #set($time = $!key.split(","))
+    <div class="h_module" id="history_$!{num}">
+        <div class="r_his_title"><strong>$!time[0]</strong><span>$!time[1]</span></div>
+        <div class="r_his_content clearfix ">
+        #if($!historyMap.get($!key).size() > 0)
+            <ul class="r_his_box">
+                #foreach($!product in $!historyMap.get($!key))
+                    <li class="r_his_li">
+                        <a href="$!product.get('url')" title="$!product.get('product')" class="pic">
+                            <img src="$!imgResolver.getBigSizeImgUrl($!product.get('picture'))" width="223" height="223">
+                        </a>
+                        <div class="del" data-id="$!product.get('id')">删除</div>
+                        <div>
+                            <span class="price"><em>¥</em>$!product.get('price')</span>
+                            <a href="#" class="in_shopping">加入购物车</a>
+                        </div>
+                    </li>
+                #end
+            </ul>
+        #else
+            <div class="his_no">您$!time[0]没有浏览记录哦~</div>
+        #end
+        </div>
+    </div>
+#end

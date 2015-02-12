@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="seo.selector">
+		select id, seoObjectId, title, description, keywords, seoType, createDate, updateDate from seo
+    </sql>
+
+    <select id="querySeoByObjIdAndType" resultClass="com.kariqu.om.domain.Seo">
+        <include refid="seo.selector"/>
+        where seoObjectId = #seoObjectId# and seoType=#seoType# limit 1
+    </select>
+
+    <select id="querySeoById" resultClass="com.kariqu.om.domain.Seo">
+        <include refid="seo.selector"/>
+        where id = #id#
+    </select>
+
+    <delete id="deleteSeoById">
+		delete from seo where id = #id#
+	</delete>
+
+    <insert id="insertSeo">
+        insert into seo(seoObjectId, title, description, keywords, seoType, createDate, updateDate)
+        values (#seoObjectId#, #title#, #description#, #keywords#, #seoType#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateSeo">
+        update seo set title=#title#, description=#description#, keywords=#keywords#, updateDate=now()
+        where id = #id#
+    </update>
+
+</sqlMap>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="customer.selector">
+        select id ,name,defaultLogistics
+        from Customer
+    </sql>
+
+    <select id="queryCustomerByPage" resultClass="com.kariqu.suppliercenter.domain.Supplier">
+        <include refid="customer.selector"/>
+        limit #start#,#limit#
+    </select>
+
+    <select id="selectCountForCustomer" resultClass="int">
+        select count(1) from Customer
+    </select>
+
+    <select id="selectCustomerById" resultClass="com.kariqu.suppliercenter.domain.Supplier">
+        <include refid="customer.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="selectCustomerByName" resultClass="com.kariqu.suppliercenter.domain.Supplier">
+        <include refid="customer.selector"/>
+        where name = #name#
+    </select>
+
+    <select id="queryAllCustomer" resultClass="com.kariqu.suppliercenter.domain.Supplier">
+        <include refid="customer.selector"/>
+    </select>
+
+    <insert id="insertCustomer">
+        insert into Customer
+        (name,defaultLogistics)
+        values
+        (#name#,#defaultLogistics#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateCustomer">
+        update Customer
+        set name=#name#,defaultLogistics=#defaultLogistics# where id=#id#
+    </update>
+
+    <delete id="deleteCustomerById">
+        delete from Customer
+        where id = #id#
+    </delete>
+
+    <insert id="insertSupplierAccount">
+        insert into CustomerAccount(accountName,password,email,customerId,isMainAccount)
+        values
+        (#accountName#,#password#,#email#,#customerId#,#isMainAccount#)
+    </insert>
+
+    <select id="querySupplierAccountByPage" resultClass="com.kariqu.suppliercenter.domain.SupplierAccount">
+        select id,accountName,password,isNormal,email,customerId,isMainAccount from CustomerAccount where customerId=#customerId# limit #start#,#limit#
+    </select>
+
+    <select id="querySupplierAccountBySupplierId" resultClass="com.kariqu.suppliercenter.domain.SupplierAccount">
+        select id,accountName,password,isNormal,email,customerId,isMainAccount from CustomerAccount where customerId=#supplierId#
+        <isNotNull property="accountName">
+            <isNotEmpty prepend="AND" property="accountName">
+                accountName = #accountName#
+            </isNotEmpty>
+        </isNotNull>
+    </select>
+
+    <select id="selectCountForSupplierAccount" resultClass="int">
+        select count(1) from CustomerAccount where customerId=#customerId#
+    </select>
+
+    <select id="querySupplierAccountByName" resultClass="com.kariqu.suppliercenter.domain.SupplierAccount">
+        select id,accountName,password,isNormal,email,customerId,isMainAccount from CustomerAccount where accountName=#accountName# and customerId=#customerId#
+    </select>
+
+    <select id="getSupplierAccountById" resultClass="com.kariqu.suppliercenter.domain.SupplierAccount">
+        select id,accountName,password,isNormal,email,customerId,isMainAccount from CustomerAccount where id=#id#
+    </select>
+
+    <update id="updateSupplierAccount">
+        update CustomerAccount set accountName=#accountName#,password=#password#,email=#email#,isNormal=#isNormal# where id=#id#
+    </update>
+
+    <delete id="deleteSupplierAccountById">
+        delete from CustomerAccount where id=#id#
+    </delete>
+
+    <delete id="deleteSupplierAccountByCustomerId">
+        delete from CustomerAccount where customerId = #customerId#
+    </delete>
+
+
+    <select id="selectCustomerIdByAccountName"
+            resultClass="com.kariqu.suppliercenter.domain.SupplierAccount">
+        select customerId from CustomerAccount where accountName = #accountName#
+    </select>
+
+</sqlMap>

@@ -1,0 +1,54 @@
+
+document.domain="$!urlBroker.getUrl('BuyDomain').toString()";
+EJS = window.EJS || {};
+EJS.HomeUrl = "$!urlBroker.getUrl('BuyHome').toString()";
+EJS.SearchUrl = "$!urlBroker.getUrl('Search').toString()";
+EJS.ProductDetailBase = "$!urlBroker.getUrl('ProductDetailBase').toString()";
+EJS.SearchSuggestUrl = "$!urlBroker.getUrl('SearchSuggest').toString()";
+
+EJS.SkuDetail ="$!urlBroker.getUrl('SkuDetail').toString()";
+EJS.ToPageLogin = "$!urlBroker.getUrl('ToPageLogin').toString()";
+
+EJS.ToWindowLogin = "$!urlBroker.getUrl('ToWindowLogin').toString()";
+EJS.WindowLogin = "$!urlBroker.getUrl('WindowLogin').toString()";
+
+EJS.ToWindowRegister = "$!urlBroker.getUrl('ToWindowRegister').toString()";
+EJS.WindowRegister = "$!urlBroker.getUrl('WindowRegister').toString()";
+EJS.UserRegister = "$!urlBroker.getUrl('UserRegister').toString()";
+EJS.UserRetakePassword = "$!urlBroker.getUrl('UserRetakePassword').toString()";
+EJS.CheckOldPassword = "$!urlBroker.getUrl('CheckOldPassword').toString()";
+
+EJS.CheckLoginStatus = "$!urlBroker.getUrl('CheckLoginStatus').toString()";
+EJS.AcquireLoginUserName = "$!urlBroker.getUrl('AcquireLoginUserName').toString()";
+EJS.ImageCode = "$!urlBroker.getUrl('ImageCode').toString()";
+EJS.ImageCodeHttp = "$!urlBroker.getUrl('ImageCodeHttp').toString()";
+EJS.CheckImageCode = "$!urlBroker.getUrl('CheckImageCode').toString()";
+EJS.JumpPage = "$!urlBroker.getUrl('JumpPage').toString()";
+
+EJS.AddProductToCart = "$!urlBroker.getUrl('AddProductToCart').toString()";
+EJS.AddSkuToCart = "$!urlBroker.getUrl('AddSkuToCart').toString()";
+
+EJS.JsonCart = "$!urlBroker.getUrl('JsonCart').toString()";
+EJS.CartUrl = "$!urlBroker.getUrl('Cart').toString()";
+EJS.DeleteCartItem = "$!urlBroker.getUrl('DeleteCartItem').toString()";
+EJS.ProductCompare = "$!urlBroker.getUrl('ProductCompare').toString()";
+EJS.UpdateCartItem = "$!urlBroker.getUrl('UpdateCartItem').toString()";
+EJS.OrderCancelUrl = "$!urlBroker.getUrl('OrderCancelUrl').toString()";
+EJS.ConfirmReceipt = "$!urlBroker.getUrl('ConfirmReceipt').toString()";
+
+EJS.AddMyFavorites ="$!urlBroker.getUrl('AddMyFavorites').toString()";
+EJS.AddressBaseUrl = "$!urlBroker.getUrl('AddressBaseUrl').toString()";
+
+EJS.MyInfo ="$!urlBroker.getUrl('MyInfo').toString()";
+EJS.LoginOut ="$!urlBroker.getUrl('LoginOut').toString()";
+EJS.MyFavorites ="$!urlBroker.getUrl('MyFavorites').addQueryData('pageNo',1).toString()";
+EJS.CheckUserForRetakePassword ="$!urlBroker.getUrl('CheckUserForRetakePasswordHttps').toString()";
+EJS.QueryUserFavoritesNum = "$!urlBroker.getUrl('QueryUserFavoritesNum').toString()";
+EJS.StaticDomain = "$!urlBroker.getUrl('StaticFileDomain').toString()";
+
+EJS.MyOrders = "$!urlBroker.getUrl('MyOrders').toString()";
+EJS.MyPoint = "$!urlBroker.getUrl('MyPoint').toString()";
+EJS.MyCoupon = "$!urlBroker.getUrl('MyCoupon').toString()";
+EJS.GradeRule = "$!urlBroker.getUrl('GradeRule').toString()";
+
+EJS.BrowsingHistory = "$!urlBroker.getUrl('BrowsingHistory').toString()";

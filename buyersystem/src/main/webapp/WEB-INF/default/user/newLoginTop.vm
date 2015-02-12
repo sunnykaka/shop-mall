@@ -1,0 +1,11 @@
+<!-- 顶部通用栏 -->
+<div class="e-toolbar">
+    <div class="e-wrapper">
+        <div class="pull-right"><a href="javascript:void(0);" class="btn-favorite"><span class="icon-favorite"></span>收藏boobee</a></div>
+        <div class="userinfo pull-right">
+            欢迎您 <span><a href="$!urlBroker.getUrl('ToPageLogin').toString()">[登录]</a>
+            <a href="$!urlBroker.getUrl('UserRegister').toString()" title="点击跳转到注册页面！">[注册]</a></span>
+        </div>
+    </div>
+</div>
+<!-- 顶部通用栏 END -->

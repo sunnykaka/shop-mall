@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/mysql/Value.xml"/>
+	<sqlMap resource="sqlmap/mysql/Property.xml"/>
+	<sqlMap resource="sqlmap/mysql/ProductCategory.xml"/>
+	<sqlMap resource="sqlmap/mysql/CategoryProperty.xml"/>
+	<sqlMap resource="sqlmap/mysql/CategoryPropertyValue.xml"/>
+	<sqlMap resource="sqlmap/mysql/PropertyValueDetail.xml"/>
+
+    <sqlMap resource="sqlmap/mysql/NavigateCategory.xml"/>
+	<sqlMap resource="sqlmap/mysql/NavCategoryPropertyValue.xml"/>
+	<sqlMap resource="sqlmap/mysql/NavCategoryProperty.xml"/>
+
+
+</sqlMapConfig>

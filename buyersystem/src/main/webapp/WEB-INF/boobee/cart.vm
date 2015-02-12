@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>购物车</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/cart/index.css?$!urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+#parse("user/newLoginTop.vm")
+
+<!--  网站位置 Start -->
+<div class="e-header-min e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+
+    <div class="cart-steps">
+        <ul>
+            <li>我的购物车</li>
+            <li>填写核对订单</li>
+            <li class="last">订单提交成功</li>
+        </ul>
+        <div class="step">&nbsp;</div>
+    </div>
+</div>
+
+<!-- 购物车 -->
+<div class="cart-page">
+    <input type="hidden" id="cartId" value="$cart.id"/>
+    <input type="hidden" id="updateItemUrl" value="$!urlBroker.getUrl('UpdateCartItem').toString()"/>
+
+    <div class="e-wrapper">
+
+        <div class="delivery-tips" id="delivery-tips"></div>
+
+        #if($!cartItemGroup && $!cartItemGroup.entrySet().size()>0)
+        <div class="cart-box">
+
+            <h3>我的购物车<a href="javascript:void(0);" data-deleteUrl="$!urlBroker.getUrl('DeleteAllCartItem').addQueryData('cartId', $cart.id).toString()" class="link-deleteAll"><i></i>清空购物车</a></h3>
+
+            <div class="cart-head">
+                <table>
+                    <tr>
+                        <th class="col1-2">商品信息</th>
+                        <th class="col3">单价</th>
+                        <th class="col4">数量</th>
+                        <th class="col5">总价</th>
+                        <th class="col6">操作</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="cart-body">
+                #foreach($!store in $!cartItemGroup.keySet())
+                <div class="list">
+                    <table>
+                        <caption>由商家${store.customerName}从${store.name}发货</caption>
+                        <tbody>
+                        #foreach($!cartItem in $!cartItemGroup.get($store))
+                        <tr class="row">
+                            <td class="col1">
+                                <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!cartItem.productId).addQueryData('skuId', $!cartItem.skuId).toString()">
+                                    <img src="$!imgResolver.getMinSizeImgUrl($!cartItem.imageUrl)" width="80" height="80" alt=""/>
+                                </a>
+                            </td>
+                            <td class="col2">
+                                <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!cartItem.productId).addQueryData('skuId', $!cartItem.skuId).toString()">
+                                    $!cartItem.productName
+                                </a> <br>
+                                $!cartItem.skuPv
+                            </td>
+                            <td class="col3">
+                                #if($!cartItem.hasActive())
+                                    <span class="market-price">¥$!cartItem.originalPrice</span><br>
+                                #end
+                                <span class="price">¥$!cartItem.price</span>
+                            </td>
+                            <td class="col4">
+                                <div class="amount" data-skuId="$!cartItem.skuId">
+                                    <a href="javascript:void(0);" class="btn-sub"><span>-</span></a>
+                                    <input type="text" size="3" maxlength="3" class="text-number" limit="$!cartItem.limit" value="$!cartItem.number"
+                                            data-price="$!cartItem.price"/>
+                                    <a href="javascript:void(0);" class="btn-add"><span>+</span></a>
+                                </div>
+                            </td>
+                            <td class="col5">
+                                ¥$!cartItem.totalPrice
+                            </td>
+                            <td class="col6">
+                                <a href="javascript:void(0);" class="link-follow"
+                                   data-deleteUrl="$!urlBroker.getUrl('DeleteCartItem').addQueryData('skuId', $!cartItem.skuId).addQueryData('cartId', $!cart.id).toString()"
+                                   data-followUrl="$!urlBroker.getUrl('AddMyFavorites').toString()?productId=$!cartItem.productId">转为关注</a><br>
+                                <a href="javascript:void(0);" class="link-delete"
+                                   data-deleteUrl="$!urlBroker.getUrl('DeleteCartItem').addQueryData('skuId', $!cartItem.skuId).addQueryData('cartId', $!cart.id).toString()">删除</a>
+                            </td>
+                        </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+                #end
+            </div>
+
+        </div>
+
+
+        <div class="cart-count">
+            商品数量：<span class="total-number">$!cart.totalNumber</span> <br>
+            商品总价：<span class="price total-price">¥$!cart.totalPrice</span> <br>
+            促销优惠：<span class="price preferential">-¥$!cart.totalDiscountPrice</span>
+        </div>
+
+        <div class="cart-btn">
+            <div class="pull-right">
+                <dl>
+                    <dt>商品总价(全场免运费): </dt>
+                    <dd><span class="total-price">¥$!cart.totalPrice</span></dd>
+                </dl>
+                <a href="$!urlBroker.getUrl('CartToOrder').toString()" class="e-btn btn-orange" id="toOrder"
+                   data-checkUrl="$!urlBroker.getUrl('CheckCart').toString()">去结算</a>
+            </div>
+        </div>
+        #else
+            <div class="cart-box">
+                <h3>我的购物车</h3>
+                <div class="cart-body">
+                    <div class="no-goods">
+                        <strong>购物车内暂时没有商品~</strong><br>
+                        <a href="$!urlBroker.getUrl('BuyHome').toString()">去首页挑选喜欢的商品&gt;&gt;</a>
+                    </div>
+                </div>
+            </div>
+        #end
+    </div>
+
+</div>
+#parse("order/oderFoot.vm")
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/cart/cart.js"></script>
+</body>
+</html>

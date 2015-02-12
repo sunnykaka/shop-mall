@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="Coupon.selector">
+        select id, code, used, publish,userId,orderNo,price,miniApplyOrderPrice,couponType,
+        createDate,updateDate,startDate,expireDate,msgRemind
+        from Coupon
+    </sql>
+
+    <select id="queryCouponByCode"
+            resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where code = #code#
+    </select>
+
+    <select id="queryCouponById"
+            resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="queryMsgRemindCoupon" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        <!-- 有分配给用户, 未使用, 未发送短信提醒 -->
+        where userId != 0 and used = 0 and msgRemind = 0
+        <![CDATA[
+        and expireDate >= STR_TO_DATE(DATE_FORMAT(DATE_SUB(now(), INTERVAL #intervalBegin# day), '%Y%m%d'), '%Y%m%d') /* -5 */
+        and expireDate <= STR_TO_DATE(DATE_FORMAT(DATE_SUB(now(), INTERVAL #intervalEnd# day), '%Y%m%d'), '%Y%m%d') /* -6 */
+        ]]>
+    </select>
+
+    <select id="queryNotUsedCoupon"
+            resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where used = 0 and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+
+        order by createDate desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryNotUsedCouponCount" resultClass="int">
+        select count(1) from Coupon where used = 0 and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+    </select>
+
+    <!-- 查询用户未使用未过期的现金券 -->
+    <select id="queryNotUsedCouponByUserId" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where used = 0 and userId = #userId# and expireDate >= now() and miniApplyOrderPrice != 100
+        order by createDate desc
+        limit #start#, #limit#
+    </select>
+
+    <select id="queryNotUsedCouponCountByUserId" resultClass="int">
+        select count(1) from Coupon
+        where used = 0 and userId = #userId# and expireDate >= now() and miniApplyOrderPrice != 100
+    </select>
+
+    <select id="queryUsedCoupon" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where used = 1 and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+        order by createDate desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryUsedCouponCount" resultClass="int">
+        select count(1) from Coupon where used = 1 and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+    </select>
+
+    <select id="queryExpireCoupon" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        <![CDATA[ WHERE expireDate <= NOW() ]]>
+        and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+        order by createDate desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryExpireCouponCount" resultClass="int">
+        <![CDATA[ select count(1) from Coupon WHERE expireDate <= NOW() ]]>
+        and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        <isGreaterThan prepend="and" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+    </select>
+
+    <select id="queryAllocationCoupon" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        <![CDATA[ WHERE expireDate > NOW() ]]> and userId=0 and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        order by createDate desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryAllocationCouponCount" resultClass="int">
+        select count(1) from Coupon <![CDATA[ WHERE expireDate > NOW() ]]> and userId=0 and miniApplyOrderPrice != 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+    </select>
+
+    <select id="queryAllUMPayCoupon" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where miniApplyOrderPrice = 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+        order by createDate desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryAllUMPayCouponCount" resultClass="int">
+        select count(1) from Coupon where miniApplyOrderPrice = 100
+        <isNotEmpty prepend="and" property="code">
+            code = #code#
+        </isNotEmpty>
+    </select>
+
+
+    <select id="queryCouponByUserId" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where userId = #userId# order by expireDate
+    </select>
+
+    <!--  分页查询现金券 -->
+    <select id="queryCoupon" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where userId = #userId#
+        <isEqual prepend="and" property="couponUsed" compareValue="Used">
+            used = 1
+        </isEqual>
+        <isEqual prepend="and" property="couponUsed" compareValue="Unused">
+            used = 0 and  expireDate > now()
+        </isEqual>
+        <isEqual prepend="and" property="couponUsed" compareValue="Overdue">
+            used = 0 and  now() > expireDate
+        </isEqual>
+        order by expireDate
+        limit #start#,#limit#
+    </select>
+
+    <select id="selectCountCoupon" resultClass="Integer">
+        select count(1) from coupon where userId=#userId#
+        <isEqual prepend="and" property="couponUsed" compareValue="Used">
+            used = 1
+        </isEqual>
+        <isEqual prepend="and" property="couponUsed" compareValue="Unused">
+            used = 0 and  expireDate > now()
+        </isEqual>
+        <isEqual prepend="and" property="couponUsed" compareValue="Overdue">
+            used = 0 and  now() > expireDate
+        </isEqual>
+    </select>
+
+
+    <select id="queryNotUsedAndNotAssignCouponGivingPriceAndNumber" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        where used = 0 and userId = 0 and price=#price# and couponType='Normal' and expireDate > now() and publish = 1
+        limit 0,#number#
+    </select>
+
+    <select id="queryCanUseCouponByTotalPriceAndUserId" resultClass="com.kariqu.tradecenter.domain.Coupon">
+        <include refid="Coupon.selector"/>
+        <!-- 已发布、未使用、未超期, 且是当前用户的现金券 -->
+        where userId = #userId# and expireDate > now() and used = 0 and publish = 1
+        <!-- 若订单总金额大于 0, 则比较现金券最小使用价格 -->
+        <isGreaterThan prepend="AND" property="totalPrice" compareValue="0">
+            <![CDATA[ miniApplyOrderPrice <= #totalPrice# ]]>
+        </isGreaterThan>
+        order by createDate desc
+    </select>
+
+    <update id="makeCouponUsed">
+        update Coupon
+        set used=1,orderNo=#orderNo#,updateDate=now() where code=#code#
+    </update>
+
+    <update id="updateCoupon">
+        update Coupon set used = #used#, orderNo = #orderNo#, price = #price#, msgRemind = #msgRemind#,
+        miniApplyOrderPrice = #miniApplyOrderPrice#, publish = #publish#, userId = #userId#, updateDate = now()
+        where id = #id#
+    </update>
+
+    <delete id="deleteCoupon">
+        delete from Coupon where id = #id#
+    </delete>
+
+    <insert id="insertCoupon">
+        insert into Coupon
+        (code,used,orderNo,price,miniApplyOrderPrice,publish,userId,couponType,createDate,updateDate,startDate,expireDate)
+        values
+        (#code#,#used#,#orderNo#,#price#,#miniApplyOrderPrice#,#publish#,#userId#,#couponType#,now(),now(),#startDate#,#expireDate#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</sqlMap>

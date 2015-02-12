@@ -1,0 +1,29 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        楼层数量(请只填写数字, 默认是 5, 请与下面的设置保持一致): <input type="text" name="floorNumber" value="$!floorNumber"/><br><br>
+
+        楼层名(楼层之间以 ~! 隔开, 每楼之间的类目以 换行 隔开, 可以有空行, 每一行类目:<span style="color:green;">名字,链接</span>, 若不需要链接可以不写):<br>
+        <textarea type="text" name="floorNames" style="width:714px;height: 200px;">$!floorNames</textarea><br><br>
+
+        楼层主推的子类目, 与楼层名一致:<br>
+        <textarea type="text" name="floorMasterPushCategory" style="width:714px;height: 200px;">$!floorMasterPushCategory</textarea><br><br>
+
+        楼层主推的大图(楼层之间以 ~! 隔开, 每楼:<span style="color:green;">图片地址,链接,title</span>):<br>
+        <textarea type="text" name="floorMasterPushImg" style="width:714px;height: 200px;">$!floorMasterPushImg</textarea><br><br>
+
+        楼层主推品牌(楼层之间以 ~! 隔开, 每楼之间的品牌以 换行 隔开, 可以空行, 每一行品牌:<span style="color:green;">品牌名~品牌图地址~链接~文字1,*要标红的文字2*,文字3)</span>:<br>
+        <textarea type="text" name="floorMasterPushBrand" style="width:714px;height: 200px;">$!floorMasterPushBrand</textarea><br><br>
+
+        楼层主推商品(楼层之间以 ~! 隔开):<br>
+        >>    每一楼的商品若以 换行 隔开则每一行是一个设定, 商品:<span style="color:green;">图片地址~链接~名称~推荐理由~价格</span>, 如果该商品需要占用两个位置, 则前后加星号(*)
+        <span style="color: #ff0000;">请不要让三张图占两个位置!!!</span><br>
+        >>    每一楼的商品若以 英文逗号(,) 隔开则只需要写 商品id 即可<br>
+        <textarea type="text" name="floorMasterPushProduct" style="width:714px;height: 200px;">$!floorMasterPushProduct</textarea><br><br>
+
+        <input type="submit"/>
+    </form>
+</div>

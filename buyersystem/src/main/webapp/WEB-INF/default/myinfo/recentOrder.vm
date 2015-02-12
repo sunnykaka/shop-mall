@@ -1,0 +1,11 @@
+### 最近的5条订单信息
+#if($!orderPage.result.size() > 0)
+    #parse("myinfo/orderData.vm")
+#else
+    <div class="hide">
+        时尚品质家居需要您来打造~
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">看看大家添了啥家居用品>>  </a>
+    </div>
+#end
+
+

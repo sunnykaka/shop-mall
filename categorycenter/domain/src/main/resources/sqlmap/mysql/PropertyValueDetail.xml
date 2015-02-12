@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="propertyValueDetail" class="com.kariqu.categorycenter.domain.model.PropertyValueDetail">
+        <result property="id" column="id"/>
+        <result property="propertyId" column="propertyId"/>
+        <result property="valueId" column="valueId"/>
+        <result property="pictureUrl" column="pictureUrl"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <sql id="PropertyValueDetail.selector">
+        select id,propertyId,valueId,pictureUrl,description from PropertyValueDetail
+    </sql>
+
+    <select id="selectAllCategoryPropertyValueDetails"
+            resultMap="propertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where isDelete = 0
+    </select>
+
+    <select id="selectCategoryPropertyValueDetail"
+            resultMap="propertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where id = #id# and isDelete = 0
+    </select>
+
+    <select id="getPropertyValueDetail"
+            resultMap="propertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where propertyId = #propertyId# and valueId =#valueId# and isDelete = 0
+    </select>
+
+    <insert id="insertCategoryPropertyValueDetail">
+        insert into PropertyValueDetail
+        (propertyId,valueId,pictureUrl,description,createTime,updateTime)
+        values
+        (#propertyId#,#valueId#,#pictureUrl#,#description#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateCategoryPropertyValueDetail">
+        update PropertyValueDetail
+        set
+        propertyId=#propertyId#,valueId=#valueId#,pictureUrl=#pictureUrl#,description=#description#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteCategoryPropertyValueDetail">
+        update PropertyValueDetail
+        set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllCategoryPropertyValueDetail">
+        update PropertyValueDetail
+        set isDelete = 1,updateTime=now()
+    </delete>
+
+    <select id="queryAddedPropertyValueDetailFromGivingTime"
+            resultMap="propertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedPropertyValueDetailFromGivingTime"
+            resultMap="propertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedPropertyValueDetailFromGivingTime"
+            resultMap="propertyValueDetail">
+        <include refid="PropertyValueDetail.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+</sqlMap>

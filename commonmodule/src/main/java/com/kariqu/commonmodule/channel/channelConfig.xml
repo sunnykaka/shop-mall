@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="categorySort" dataType="String" formType="text">n</param>
+        <param name="hotNum" dataType="String" formType="text">8</param>
+        <param name="limitNum" dataType="String" formType="text">4</param>
+        <param name="newNum" dataType="String" formType="text">4</param>
+    </params>
+</module>

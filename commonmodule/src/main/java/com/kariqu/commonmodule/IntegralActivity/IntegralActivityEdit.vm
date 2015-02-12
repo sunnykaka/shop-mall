@@ -1,0 +1,20 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+
+        活动图(大图)url地址:<input style="width: 400px" type="text" name="activityImgUrl" value="$!activityImgUrl" />
+        <br/>
+        活动图(小图)url地址:<input style="width: 400px" type="text" name="activitySmallImgUrl" value="$!activitySmallImgUrl" />
+        <br/>
+        活动类型:<select name="activityType">
+            <option value="IntegralConversion" #if("IntegralConversion" == $!activityType) selected="selected" #end >积分兑换</option>
+            <option value="SuperConversion" #if("SuperConversion"==$!activityType) selected="selected" #end>积分优惠购</option>
+        </select>
+        活动id:<input style="width: 160px" type="text" name="recommendActivityId" value="$!recommendActivityId" />
+        <br><br>
+        <input type="submit"/>
+    </form>
+</div>

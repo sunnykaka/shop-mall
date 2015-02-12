@@ -1,0 +1,44 @@
+<div class="order-box invoice">
+    <h3>发票信息</h3>
+
+    <div class="invoice-box" baseurl="$!urlBroker.getUrl('InvoiceCompanyBase').toString()">
+
+        <div class="clearfix">
+            <span name="invoice" val="false" class="form-radio form-radio-checked">不需要发票</span>
+            <span name="invoice" val="true" class="form-radio">需要发票</span>
+        </div>
+
+        <dl class="invoice-title clearfix">
+            <dt>发票抬头：</dt>
+            <dd>
+                <span name="invoiceTitle" val="individual" class="form-radio form-radio-checked">个人</span>
+                <span name="invoiceTitle" val="company" class="form-radio">公司</span>
+            </dd>
+        </dl>
+
+        <div class="company-list">
+            <ul>
+            #foreach($company in $companyList)
+                <li class="clearfix">
+                    <input type="text" data-id="$!company.id" class="form-text" value="$!company.companyName" style="display:none;">
+                    <a class="e-btn btn-default btn-save" style="display:none;" href="javascript:;">确定</a>
+                    <span val="$!company.companyName" class="company-name"><i></i><span>$!company.companyName</span></span>
+                    <a class="e-btn btn-grey btn-xs btn-modify" href="javascript:;">修改</a>
+                    <a class="e-btn btn-grey btn-xs btn-delete" href="javascript:;">删除</a>
+                </li>
+            #end
+            </ul>
+            <div #if($!companyList.size() >= 3) style="display:none;"#end><a class="btn-add" href="javascript:void(0);">[添加单位名称]</a></div>
+            <div class="tips">温馨提示：您填写的所有内容都将被系统自动打印到发票上，所以请千万别填写和发票抬头无关的信息。</div>
+        </div>
+
+        <dl class="invoice-content clearfix">
+            <dt>发票内容：</dt>
+            <dd>
+                <span name="invoiceContent" val="明细" class="form-radio form-radio-checked">明细</span>
+                <span name="invoiceContent" val="家居用品" class="form-radio">家居用品</span>
+            </dd>
+        </dl>
+
+    </div>
+</div>

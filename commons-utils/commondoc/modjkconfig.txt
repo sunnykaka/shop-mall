@@ -1,0 +1,133 @@
+打开jk
+LoadModule jk_module modules/mod_jk.so
+JkWorkersFile "conf/workers.properties"
+JkLogFile "logs/mod_jk.log"
+
+ajp配置文件
+worker.list=buy,boss,crm
+
+worker.buy.port=8009
+worker.buy.host=localhost
+worker.buy.type=ajp13
+worker.buy.lbfactor=1
+
+worker.boss.port=8010
+worker.boss.host=localhost
+worker.boss.type=ajp13
+worker.boss.lbfactor=1
+
+worker.crm.port=8011
+worker.crm.host=localhost
+worker.crm.type=ajp13
+worker.crm.lbfactor=1
+
+虚拟主机配置
+<VirtualHost *:80>
+    ServerAdmin webmaster@www.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName www.yijushang.net
+    ServerAlias www.yijushang.net
+    ErrorLog "logs/www-error.log"
+    CustomLog "logs/www-access.log" common
+    JkMount !/content/* buy
+    JkMount / buy
+    JkMount /* buy
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@login.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName login.yijushang.net
+    ServerAlias login.yijushang.net
+    ErrorLog "logs/www-error.log"
+    CustomLog "logs/www-access.log" common
+    JkMount / buy
+    JkMount /* buy
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@boss.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName boss.yijushang.net
+    ServerAlias boss.yijushang.net
+    ErrorLog "logs/boss-error.log"
+    CustomLog "logs/boss-access.log" common
+    JkMount / boss
+    JkMount /* boss
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@design.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName design.yijushang.net
+    ServerAlias design.yijushang.net
+    ErrorLog "logs/design-error.log"
+    CustomLog "logs/design-access.log" common
+    JkMount / boss
+    JkMount /* boss
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@crm.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName crm.yijushang.net
+    ServerAlias crm.yijushang.net
+    ErrorLog "logs/crm-error.log"
+    CustomLog "logs/crm-access.log" common
+    JkMount / crm
+    JkMount /* crm
+</VirtualHost>
+
+如果采用代理的方式要打开mode_proxy
+
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_scgi_module modules/mod_proxy_scgi.so
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@www.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName www.yijushang.net
+    ServerAlias www.yijushang.net
+    ErrorLog "logs/www-error.log"
+    CustomLog "logs/www-access.log" common
+    ProxyPass /content !
+    ProxyPass / http://localhost:8080/
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@login.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName login.yijushang.net
+    ServerAlias login.yijushang.net
+    ErrorLog "logs/www-error.log"
+    CustomLog "logs/www-access.log" common
+		ProxyPass / http://localhost:8080/
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@boss.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName boss.yijushang.net
+    ServerAlias boss.yijushang.net
+    ErrorLog "logs/boss-error.log"
+    CustomLog "logs/boss-access.log" common
+    ProxyPass / http://localhost:8082/
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@design.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName design.yijushang.net
+    ServerAlias design.yijushang.net
+    ErrorLog "logs/design-error.log"
+    CustomLog "logs/design-access.log" common
+    ProxyPass / http://localhost:8082/
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@crm.yijushang.net
+    DocumentRoot "D:\Apache2.2\htdocs"
+    ServerName crm.yijushang.net
+    ServerAlias crm.yijushang.net
+    ErrorLog "logs/crm-error.log"
+    CustomLog "logs/crm-access.log" common
+    ProxyPass / http://localhost:8083/
+</VirtualHost>
+

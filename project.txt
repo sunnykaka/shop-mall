@@ -1,0 +1,17 @@
+accountcenter
+boss
+buyersystem
+categorycenter
+cmscenter
+commonmodule
+commons-utils
+suppliercenter
+suppliersystem
+designcenter
+productcenter
+searchengine
+securitysystem
+session
+tradecenter
+usercenter
+omcenter

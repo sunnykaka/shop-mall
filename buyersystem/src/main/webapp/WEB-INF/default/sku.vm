@@ -1,0 +1,13 @@
+#foreach($pv in $!_product.skuPickMap.entrySet())
+<dl class="clearfix">
+    <dt>${pv.key.name}：</dt>
+    <dd>
+        <div class="sel">
+            <input type="hidden" class="val" value="0" />
+            #foreach($v in $pv.value)
+                <a class="sku" href="#" title="$!v.description" data="$!_product.mergeSkuPicPV($pv.key.id,$v.id)">#if($v.imgUrl && $v.imgUrl != "")<img src="$v.imgUrl"/>#else<span>$v.valueName</span>#end</a>
+            #end
+        </div>
+    </dd>
+</dl>
+#end

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="messageTask.selector">
+        select id,contact,content,sendWay,sendSuccess,sendCount,createDate from messageTask
+    </sql>
+
+    <select id="getMessageTaskById" resultClass="com.kariqu.usercenter.domain.MessageTask">
+        <include refid="messageTask.selector"/>
+        where id = #id# and isDelete = 0
+    </select>
+
+    <select id="queryNotSendedMessageTask" resultClass="com.kariqu.usercenter.domain.MessageTask">
+        <include refid="messageTask.selector"/>
+        <![CDATA[
+                where  sendSuccess = 0 and isDelete =0 and sendCount <= 5
+           ]]>
+    </select>
+
+    <select id="querySendMessageTaskBySmsPage" resultClass="com.kariqu.usercenter.domain.MessageTask">
+        <include refid="messageTask.selector"/>
+        where sendWay='sms' and isDelete=0 order by createDate desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="querySendMessageTaskBySmsCount" resultClass="Integer">
+        select count(1) from messageTask
+        where sendWay='sms' and isDelete=0
+    </select>
+
+    <update id="updateSendedStateById">
+        update messageTask set sendSuccess=#sendSuccess#,sendCount=#sendCount#,updateDate=now() where id=#id#
+    </update>
+
+
+    <update id="deleteMessageTaskById">
+        update messageTask set isDelete=1,updateDate=now() where id=#id#
+    </update>
+
+    <insert id="insertMessageTask">
+        insert into messageTask
+        (contact,content,sendWay,sendSuccess,sendCount,createDate,updateDate)
+        values
+        (#contact#,#content#,#sendWay#,#sendSuccess#,#sendCount#,now(),now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</sqlMap>

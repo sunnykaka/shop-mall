@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="brand.selector">
+        select id, `name`, story, customerId, `desc`, picture from Brand
+    </sql>
+
+    <select id="selectAllBrands" resultClass="com.kariqu.suppliercenter.domain.Brand">
+        <include refid="brand.selector"/>
+    </select>
+    <!--  -->
+    <select id="queryBrandByPage" resultClass="com.kariqu.suppliercenter.domain.Brand">
+        <include refid="brand.selector"/>
+        where customerId=#customerId# limit #start#,#limit#
+    </select>
+
+    <select id="queryBrandByName" resultClass="com.kariqu.suppliercenter.domain.Brand">
+        <include refid="brand.selector"/>
+        where name=#name#
+    </select>
+
+    <select id="selectCountForBrand" resultClass="int">
+        select count(1) from Brand where customerId=#customerId#
+    </select>
+
+    <select id="selectBrandById" resultClass="com.kariqu.suppliercenter.domain.Brand">
+        <include refid="brand.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="queryBrandByCustomerId" resultClass="com.kariqu.suppliercenter.domain.Brand">
+        <include refid="brand.selector"/>
+        where customerId = #customerId#
+    </select>
+
+    <select id="selectAllBrand" resultClass="com.kariqu.suppliercenter.domain.Brand">
+        <include refid="brand.selector"/>
+        where 1 = 1
+    </select>
+
+    <select id="queryBrandIdByName" resultClass="int">
+        select id from Brand where name = #name#
+    </select>
+
+    <insert id="insertBrand">
+        insert into Brand(id, name, story, customerId, picture, `desc`)
+        values(#id#, #name#, #story#, #customerId#, #picture#, #desc#)
+    </insert>
+
+    <update id="updateBrand">
+        update Brand
+        set name = #name#, story = #story#, picture = #picture#, `desc` = #desc#
+        where id=#id#
+    </update>
+
+    <delete id="deleteBrandById">
+        delete from Brand
+        where id = #id#
+    </delete>
+
+    <delete id="deleteBrandByCustomerId">
+        delete from Brand
+        where customerId = #customerId#
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>问题反馈</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/css/feedback.css?$urlBroker.getVersion()"/>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="feedback_hd">
+        <h1>感谢您在百忙之中给我们提交问题反馈报告</h1>
+    </div>
+    <div class="feedback_bd">
+        #if($msg)
+        <div class="fb_info" id="fbInfo">
+            <p #if($succeed) class="succeed" #else class="error" #end>$msg</p>
+            <span class="fb_info_close">×</span>
+        </div>
+        #end
+
+        <form method="post" action="$urlBroker.getUrl('BuyHome').toString()/feedback/submit" id="feedbackForm" enctype="multipart/form-data">
+             <input type="hidden" name="token" value="$!token">
+            <ul>
+                <li class="type clearfix">
+                    <dl>
+                        <dt>反馈内容关于：</dt>
+                        <dd>
+                            <label><input name="type" type="radio" value="界面视觉" checked> 界面视觉</label>
+                            <label><input name="type" type="radio" value="功能"> 功能</label>
+                            <label><input name="type" type="radio" value="支付" #if($pay)checked="true"#end> 支付</label>
+                            <label><input name="type" type="radio" value="出错"> 出错</label>
+                            <label><input name="type" type="radio" value="其他"> 其他</label>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="content clearfix">
+                    <dl>
+                        <dt><label for="fb_content">反馈内容：</label></dt>
+                        <dd>
+                            <textarea id="fb_content" name="content" rows="10" cols="50" class="txt"></textarea>
+
+                            <div class="tip">限定输入<span>250</span>个中文</div>
+                            <span class="red">*</span>
+                            <span class="clear"></span>
+                            <div class="info" id="fb_content_info"></div>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="file clearfix">
+                    <dl>
+                        <dt>上传截图：</dt>
+                        <dd><input name="uploadFile" type="file"></dd>
+                    </dl>
+                </li>
+                <li class="file clearfix">
+                    <dl>
+                        <dt>联系方式：</dt>
+                        <dd><input id="fb_contact" name="information" type="text" class="text default" value="输入您的邮箱或手机号码" maxlength="100" id=""></dd>
+                    </dl>
+                </li>
+                <li class="btn clearfix">
+                    <button type="submit" class="btn_submit">提交问卷</button>
+                    <button type="button" class="btn_button">关闭页面</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/feedback.js?$urlBroker.getVersion()"></script>
+</body>
+</html>

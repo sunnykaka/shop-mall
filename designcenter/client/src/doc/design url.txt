@@ -1,0 +1,47 @@
+增加模块到头domain:8082/design/page/module/head/add
+参数: prototypeId regionName
+POST提交
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+增加模块到尾domain:8082/design/page/module/foot/add
+参数: prototypeId regionName
+POST提交
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+增加模块到BODYdomain:8082/design/page/module/body/add
+参数: prototypeId pageId regionName
+POST提交
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+在头中删除模块domain:8082/design/page/module/head/delete
+参数: moduleInstanceId regionName
+POST提交
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+在尾中删除模块domain:8082/design/page/module/foot/delete
+参数: moduleInstanceId regionName
+POST提交
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+在BODY中删除模块domain:8082/design/page/module/body/delete
+参数: moduleInstanceId pageId regionName
+POST提交
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+在头中移动模块domain:8082/design/page/module/head/move
+参数: moduleInstanceId regionName direction
+POST提交
+direction的只up和down中的一个
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+在尾中移动模块domain:8082/design/page/module/foot/move
+参数: moduleInstanceId regionName direction
+POST提交
+direction的只up和down中的一个
+返回 {success:true} 或者{success:false,msg:'失败原因'}
+
+在BODY中移动模块domain:8082/design/page/module/body/move
+参数: moduleInstanceId pageId regionName direction
+POST提交
+direction的只up和down中的一个
+返回 {success:true} 或者{success:false,msg:'失败原因'}

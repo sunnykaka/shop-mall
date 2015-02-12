@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <typeAlias alias="CommonModule"
+               type="com.kariqu.designcenter.domain.model.prototype.CommonModule"/>
+
+    <resultMap id="commonModule" class="CommonModule">
+        <result property="id" column="id"/>
+        <result property="caption" column="caption"/>
+        <result property="name" column="name"/>
+        <result property="moduleCssContent" column="moduleCssContent"/>
+        <result property="moduleContent" column="moduleContent"/>
+        <result property="editModuleContent" column="editModuleContent"/>
+        <result property="formContent" column="formContent"/>
+        <result property="editFormContent" column="editFormContent"/>
+        <result property="logicCode" column="logicCode"/>
+        <result property="editLogicCode" column="editLogicCode"/>
+        <result property="moduleJs" column="moduleJs"/>
+        <result property="editModuleJs" column="editModuleJs"/>
+        <result property="moduleConfig" column="moduleConfig"/>
+        <result property="moduleConfigKey" column="moduleConfigKey"/>
+        <result property="language" column="language"/>
+        <result property="version" column="version"/>
+        <result property="config" column="config"/>
+        <result property="moduleGranularity" column="moduleGranularity"/>
+    </resultMap>
+
+    <sql id="CommonModule.selector">
+        select
+        id,caption,name,moduleCssContent,moduleContent,editModuleContent,formContent,
+        editFormContent, logicCode,editLogicCode,moduleJs,editModuleJs, moduleConfig, moduleConfigKey,
+        language, version,config,moduleGranularity
+        from CommonModule
+    </sql>
+
+    <select id="selectAllCommonModules" resultMap="commonModule">
+        <include refid="CommonModule.selector"/>
+        where isDelete = 0
+    </select>
+
+    <select id="selectAllGlobalCommonModules"
+            resultMap="commonModule">
+        <include refid="CommonModule.selector"/>
+        where isDelete = 0 and moduleGranularity = "GLOBAL"
+    </select>
+
+    <select id="queryCommonModuleByNameAndVersion"
+            resultMap="commonModule">
+        <include refid="CommonModule.selector"/>
+        where isDelete = 0 and name = #name#
+    </select>
+
+    <select id="queryCommonModuleByName"
+            resultMap="commonModule">
+        <include refid="CommonModule.selector"/>
+        where isDelete = 0 and name = #name#
+    </select>
+
+
+    <select id="selectCommonModule"
+            resultMap="commonModule">
+        <include refid="CommonModule.selector"/>
+        where isDelete = 0 and id = #id#
+    </select>
+
+    <insert id="insertCommonModule">
+        insert into CommonModule
+        (caption, moduleCssContent,moduleContent,editModuleContent,formContent,editFormContent,logicCode,editLogicCode,
+        name,language,version,moduleConfig,moduleConfigKey,config,moduleJs,editModuleJs,moduleGranularity)
+        values
+        (#caption#, #moduleCssContent#,#moduleContent#,#editModuleContent#,#formContent#,#editFormContent#,#logicCode#,#editLogicCode#,
+        #name#,#language#,#version#,#moduleConfig#,#moduleConfigKey#,#config#,#moduleJs#,#editModuleJs#,#moduleGranularity#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateCommonModule">
+        update CommonModule
+        set
+        caption=#caption#,
+        moduleCssContent=#moduleCssContent#,
+        moduleContent=#moduleContent#,
+        editModuleContent=#editModuleContent#,
+        formContent=#formContent#,
+        editFormContent=#editFormContent#,
+        logicCode=#logicCode#,
+        editLogicCode=#editLogicCode#,
+        name=#name#,
+        language=#language#,
+        version=#version#,
+        moduleConfig=#moduleConfig#,
+        moduleConfigKey=#moduleConfigKey#,
+        config=#config#,
+        moduleJs=#moduleJs#,
+        editModuleJs=#editModuleJs#,
+        moduleGranularity=#moduleGranularity#
+        where
+        id=#id#
+    </update>
+
+    <delete id="deleteCommonModule">
+        delete from
+        CommonModule where id = #id#
+    </delete>
+
+
+</sqlMap>

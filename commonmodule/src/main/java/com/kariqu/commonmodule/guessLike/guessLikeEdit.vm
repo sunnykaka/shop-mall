@@ -1,0 +1,11 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        商品id(英文逗号分隔):<br>
+        <input style="width:460px;" name="guessProductIds" value="$!guessProductIds"/><br><br>
+        <input type="submit"/>
+    </form>
+</div>

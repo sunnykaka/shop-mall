@@ -1,0 +1,53 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        第一个类目的背景图地址, 可以为空: <input style="width: 460px" name="categorybackConf1" value="$!categorybackConf1"><br>
+        第一个类目的九图地址, 英文逗号分隔 <span style="color:green;">图片地址,链接,title</span>, 一行一条配置, 可以有空行, title 可省略:<br>
+        <textarea name="categoryImgConf1" style="width:710px;height:180px;">$!categoryImgConf1</textarea><br>
+        <input type="submit"/>
+
+        <br><br>
+
+        第二个类目的背景图地址, 可以为空: <input style="width: 460px" name="categorybackConf2" value="$!categorybackConf2"><br>
+        第二个类目的九图地址, 英文逗号分隔 <span style="color:green;">图片地址,链接,title</span>, 一行一条配置, 可以有空行, title 可省略:<br>
+        <textarea name="categoryImgConf2" style="width:710px;height:180px;">$!categoryImgConf2</textarea><br>
+        <input type="submit"/>
+
+        <br><br>
+
+        第三个类目的背景图地址, 可以为空: <input style="width: 460px" name="categorybackConf3" value="$!categorybackConf3"><br>
+        第三个类目的九图地址, 英文逗号分隔 <span style="color:green;">图片地址,链接,title</span>, 一行一条配置, 可以有空行, title 可省略:<br>
+        <textarea name="categoryImgConf3" style="width:710px;height:180px;">$!categoryImgConf3</textarea><br>
+        <input type="submit"/>
+
+        <br><br>
+
+        第四个类目的背景图地址, 可以为空: <input style="width: 460px" name="categorybackConf4" value="$!categorybackConf4"><br>
+        第四个类目的九图地址, 英文逗号分隔 <span style="color:green;">图片地址,链接,title</span>, 一行一条配置, 可以有空行, title 可省略:<br>
+        <textarea name="categoryImgConf4" style="width:710px;height:180px;">$!categoryImgConf4</textarea><br>
+        <input type="submit"/>
+
+        <br><br>
+
+        第五个类目的背景图地址, 可以为空: <input style="width: 460px" name="categorybackConf5" value="$!categorybackConf5"><br>
+        第五个类目的九图地址, 英文逗号分隔 <span style="color:green;">图片地址,链接,title</span>, 一行一条配置, 可以有空行, title 可省略:<br>
+        <textarea name="categoryImgConf5" style="width:710px;height:180px;">$!categoryImgConf5</textarea><br>
+        <input type="submit"/>
+
+        <br><br>
+
+        第六个类目的背景图地址, 可以为空: <input style="width: 460px" name="categorybackConf6" value="$!categorybackConf6"><br>
+        第六个类目的九图地址, 英文逗号分隔 <span style="color:green;">图片地址,链接,title</span>, 一行一条配置, 可以有空行, title 可省略:<br>
+        <textarea name="categoryImgConf6" style="width:710px;height:180px;">$!categoryImgConf6</textarea><br>
+        <input type="submit"/>
+
+        <br><br>
+
+        banner 图设置, banner 之间以 ~! 分隔, 每个 banner 有 9 张图, 以行分隔, 每张图的配置是: <span style="color:green;">图片地址,链接,title</span>, 可以有空行, title 可省略:<br>
+        <textarea name="bannerList" style="width:710px;height:180px;">$!bannerList</textarea><br>
+        <input type="submit"/>
+    </form>
+</div>

@@ -1,0 +1,38 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/account.js?$!urlBroker.getVersion()"])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_order" id="ucOrder">
+            <h3 class="tit">修改密码</h3>
+        </div>
+        <div class="acc_change_pwd">
+            <form action="$urlBroker.getUrl('MyAccountChangePsw').toString()" method="POST" id="changePasswordForm">
+                <ul>
+                    <li class="clearfix">
+                        <label for="oldPassword">原易居尚密码：</label>
+                        <input type="password" name="oldPassword" class="text" id="oldPassword"><span id="oldPWD_info" class="error">$!pswError</span>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="clearfix">
+                        <label for="newPassword">新易居尚密码：</label>
+                        <input type="password" name="newPassword" class="text" id="newPassword"><span id="newPWD_info" class="error"></span>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="clearfix">
+                        <label for="password">确认新密码：</label>
+                        <input type="password" name="password" class="text" id="password"><span id="rePWD_info" class="error"></span>
+                        <div class="clear"></div>
+                    </li>
+                </ul>
+                <p class="btn_w">
+                    <button type="submit" class="btn_3">确定</button>
+                    <span id="sub_info" class="error">$!msg</span>
+                </p>
+                <input type="hidden" name="token" value="$!token">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

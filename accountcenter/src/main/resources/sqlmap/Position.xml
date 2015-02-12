@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForPosition" resultClass="int">
+        select count(1) from Position
+    </select>
+
+    <select id="selectAllPositions" resultClass="com.kariqu.accountcenter.domain.Position">
+        select * from Position
+    </select>
+
+    <select id="queryPositionByPage"
+            resultClass="com.kariqu.accountcenter.domain.Position">
+        select * from Position limit #start#,#limit#
+    </select>
+
+    <select id="selectPositionById"
+            resultClass="com.kariqu.accountcenter.domain.Position">
+        select * from Position where id = #id#
+    </select>
+
+    <insert id="insertPosition">
+        insert into Position
+        (positionName,level)
+        values
+        (#positionName#,#level#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updatePosition">
+        update Position
+        set positionName=#positionName#,level=#level# where id=#id#
+    </update>
+
+    <delete id="deletePositionById">
+        delete from Position
+        where id = #id#
+    </delete>
+
+    <select id="queryemployeeLevel" resultClass="String">
+        select level from employee_position,position where employee_position.positionId =position.id and employeeId=#employeeId#
+    </select>
+
+</sqlMap>

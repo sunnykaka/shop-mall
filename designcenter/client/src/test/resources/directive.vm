@@ -1,0 +1,5 @@
+<body>
+#include_template_module("module1",100);
+#include_region("demoRegion",[["moduleName",100],["moduleName2","1.0.0",102]]);
+#include_common_module("module1","1.0.0",100);
+</body>

@@ -1,0 +1,12 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$modulePrototypeId"/>
+        <input type="hidden" name="area" value="$area"/>
+
+        子类目一行最多显示多少个汉字: <input name="categoryWordNumber" value="$!categoryWordNumber"><br><br>
+        类目配置(<span style="color:green;">链接, 名字</span>), 一行一条, 逗号分隔, 可以有空行:<br>
+        <textarea name="categoryConfig">$!categoryConfig</textarea><br>
+        <input type="submit"/>
+    </form>
+</div>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="Answer.selector">
+		select id, questionId, answerDetail, hasWrite, createTime, updateTime
+		from Questionnaire_Answer
+    </sql>
+
+    <select id="selectAnswer" resultClass="com.kariqu.om.domain.Answer">
+        <include refid="Answer.selector"/>
+        where isDelete = 0
+        <isNotEmpty prepend="and" property="answerId">
+            id = #answerId#
+        </isNotEmpty>
+    </select>
+
+    <select id="selectAnswerByQuestionId" resultClass="com.kariqu.om.domain.Answer">
+        <include refid="Answer.selector"/>
+        where isDelete = 0
+        <isNotEmpty prepend="and" property="questionId">
+            questionId = #questionId#
+        </isNotEmpty>
+    </select>
+
+    <!--<delete id="deleteAnswer">
+		delete from Questionnaire_Answer where id = #id#
+	</delete>-->
+
+    <update id="deleteAnswer">
+        update Questionnaire_Answer set isDelete = 1, updateTime = now() where id = #id#
+    </update>
+
+    <insert id="insertAnswer">
+        insert into Questionnaire_Answer(questionId, answerDetail, hasWrite, createTime, updateTime)
+        values (#questionId#, #answerDetail#, #hasWrite#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateAnswerSelective">
+        update Questionnaire_Answer
+        <dynamic prepend="set">
+            <isNotEmpty prepend="," property="questionId">
+                questionId = #questionId#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="answerDetail">
+                answerDetail = #answerDetail#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="hasWrite">
+                hasWrite = #hasWrite#
+            </isNotEmpty>
+            <isNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNull>
+            <isNotNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+</sqlMap>

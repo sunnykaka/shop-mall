@@ -1,0 +1,23 @@
+<!-- 猜你喜欢 -->
+<div class="e-wrapper mod-may-like">
+    <h3>猜你喜欢</h3>
+
+    <div class="box clearfix">
+        <ul>
+            #foreach($product in $!productList)
+            <li#if($!velocityCount / 5 == 0 || ($!velocityCount / 5 == 1 && $!velocityCount % 5 == 0)) class="first-row#if($!velocityCount % 5 == 0) last#end"#elseif($!velocityCount % 5 == 0) class="last"#end>
+                <div class="aside">
+                    <div class="brand"><a target="_blank" href="$!product.url">$!product.brandName</a></div>
+                    <div class="name"><a target="_blank" href="$!product.url">$!product.product</a></div>
+                    <div class="price">¥ $!product.price</div>
+                </div>
+                <a target="_blank" class="animate-bounceInRight pic" href="$!product.url">
+                    <img data-original="$!imgResolver.getMiddleSizeImgUrl($!product.picture)" class="lazy"
+                         src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="120" height="120">
+                </a>
+            </li>
+            #end
+        </ul>
+    </div>
+</div>
+<!-- /猜你喜欢 -->

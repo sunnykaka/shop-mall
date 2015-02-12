@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sessionConfig>
+    <!-- 生命周期为非-1的配置不能是cache,-1表示浏览器关闭后失效
+         0表示删除cookie
+    -->
+    <combineConfig>
+        <combine combineKey="combineKey1">
+            <domain>kariqu.com</domain>
+            <path>/</path>
+            <lifecycle>1800</lifecycle>
+            <httponly>true</httponly>
+            <storeType>cookie</storeType>
+            <entries>
+                <entry name="name1">
+                    <key>key1</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+                <entry name="name2">
+                    <key>key2</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+            </entries>
+        </combine>
+        <combine combineKey="uc1">
+            <domain>kariqu.com</domain>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <httponly>false</httponly>
+            <storeType>cookie</storeType>
+            <entries>
+                <entry name="login">
+                    <key>c11</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+                <entry name="lastVisitTime">
+                    <key>c12</key>
+                    <encrypt>true</encrypt>
+                    <readonly>false</readonly>
+                </entry>
+            </entries>
+        </combine>
+    </combineConfig>
+    <entries>
+        <entry name="sessionId">
+            <key>c</key>
+            <domain>kariqu.com</domain>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cookie</storeType>
+            <httponly>true</httponly>
+            <readonly>true</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="trackId">
+            <key>t</key>
+            <domain>kariqu.com</domain>
+            <path>/</path>
+            <lifecycle>307586400</lifecycle>
+            <storeType>cookie</storeType>
+            <httponly>true</httponly>
+            <readonly>true</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="isLogin">
+            <key>il</key>
+            <domain>kariqu.com</domain>
+            <path>/</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cookie</storeType>
+            <httponly>true</httponly>
+            <readonly>true</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+        <entry name="cart">
+            <key>c</key>
+            <domain>kariqu.com</domain>
+            <path>/cart</path>
+            <lifecycle>-1</lifecycle>
+            <storeType>cookie</storeType>
+            <httponly>true</httponly>
+            <readonly>false</readonly>
+            <encrypt>true</encrypt>
+        </entry>
+    </entries>
+    <globalinfo>
+        <!-- cookie 加密的key -->
+        <key name="blowfish_key">dhDMNcMlHx7DR0Y=</key>
+        <key name="key">value</key>
+        <key name="cacheAddress">localhost:11211</key>
+    </globalinfo>
+</sessionConfig>

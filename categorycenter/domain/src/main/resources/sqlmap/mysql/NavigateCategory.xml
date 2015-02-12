@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.navigate.NavigateCategory">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parent.id" column="parentId"/>
+        <result property="description" column="description"/>
+        <result property="keyWord" column="keyWord"/>
+        <result property="conditions" column="conditions"/>
+        <result property="priority" column="priority"/>
+        <result property="settings" column="settings"/>
+    </resultMap>
+
+    <sql id="NavigateCategory.selector">
+        select id,name,parentId,description,keyWord,priority,conditions,settings from NavigateCategory
+    </sql>
+
+    <select id="selectAllNavigateCategory" resultMap="result">
+        <include refid="NavigateCategory.selector"/> where isDelete = 0
+    </select>
+
+    <select id="queryNavSubCategories" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+        where parentId = #parentId# and isDelete =0
+        order by priority asc
+    </select>
+
+    <select id="queryAllRootCategories" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+        where parentId = -1 and isDelete =0
+    </select>
+
+    <select id="selectNavigateCategory" resultMap="result">
+        <include refid="NavigateCategory.selector"/> where id = #id# and
+        isDelete = 0
+    </select>
+
+    <insert id="insertNavigateCategory">
+        insert into NavigateCategory
+        (name,parentId,description,keyWord,conditions,createTime,updateTime,priority,settings)
+        values
+        (#name#,#parent.id#,#description#,#keyWord#,#conditions#,now(),now(),#priority#,#settings#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <select id="selectAssociationCategoryIds" resultClass="Integer">
+        select cid from CategoryAssociation where navId = #navId#
+    </select>
+
+    <select id="selectAssociationNavCategoryIds" resultClass="Integer">
+        select navId from CategoryAssociation where cid = #cid#
+    </select>
+
+    <select id="selectAllAssociationNavCategoryIds" resultClass="Integer">
+        select navId from CategoryAssociation
+    </select>
+
+
+    <insert id="insertNavigateAssociation">
+        insert into CategoryAssociation
+        (navId,cid)
+        values
+        (#navId#,#cid#)
+    </insert>
+
+    <delete id="deleteNavigateAssociation">
+        delete from CategoryAssociation
+        where navId = #navId#
+    </delete>
+
+    <delete id="deleteAllAssociation">
+        delete from CategoryAssociation
+    </delete>
+
+    <delete id="deleteCategoryAssociation">
+        delete from CategoryAssociation
+        where cid = #cid#
+    </delete>
+
+
+    <update id="updateNavigateCategory">
+        update NavigateCategory
+        set
+        name=#name#,parentId=#parent.id#,description=#description#,keyWord=#keyWord#,conditions=#conditions#,updateTime=now(),priority=#priority#,settings=#settings#
+        where id=#id#
+    </update>
+
+    <update id="updateNavigateCategorySettings">
+        update NavigateCategory set settings=#settings# where id=#id#
+    </update>
+
+    <delete id="deleteNavigateCategory">
+        update NavigateCategory set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllNavigateCategory">
+        update NavigateCategory set isDelete = 1,updateTime=now()
+    </delete>
+
+    <select id="queryAddedNavigateCategoryFromGivingTime"
+            resultMap="result">
+        <include refid="NavigateCategory.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedNavigateCategoryFromGivingTime"
+            resultMap="result">
+        <include refid="NavigateCategory.selector"/> where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedNavigateCategoryFromGivingTime"
+            resultMap="result">
+        <include refid="NavigateCategory.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+    <select id="queryNavigateCategoryByNameAndParentId" resultClass="int">
+        select count(1) from NavigateCategory
+        where isDelete = 0 and name=#name# and parentId=#parentId#
+    </select>
+
+    <select id="queryNavigateCategoryByName" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+        where isDelete = 0 and name = #name#
+    </select>
+
+</sqlMap>

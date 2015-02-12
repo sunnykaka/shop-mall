@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="MealSet.selector">
+        select id,name,price,recommendReason from MealSet
+    </sql>
+
+    <sql id="MealItem.selector">
+        select id,number,skuPrice,productId,mealSetId,skuId from MealItem
+    </sql>
+
+    <select id="queryAllMealSet" resultClass="com.kariqu.productcenter.domain.MealSet">
+        <include refid="MealSet.selector"/>
+        where isDelete=0
+    </select>
+
+    <select id="getMealSetById" resultClass="com.kariqu.productcenter.domain.MealSet">
+        <include refid="MealSet.selector"/>
+        where id =#id# and isDelete=0
+    </select>
+
+    <select id="queryMealItemBySkuIdAndMealId" resultClass="com.kariqu.productcenter.domain.MealItem">
+        <include refid="MealItem.selector"/>
+        where skuId =#skuId# and mealSetId=#mealSetId# and isDelete=0
+    </select>
+
+    <select id="queryMealItemListByMealId" resultClass="com.kariqu.productcenter.domain.MealItem">
+        <include refid="MealItem.selector"/>
+        where mealSetId=#mealSetId# and isDelete=0
+    </select>
+
+    <select id="queryMealItemListByProductId" resultClass="com.kariqu.productcenter.domain.MealItem">
+        <include refid="MealItem.selector"/>
+        where productId=#productId# and isDelete=0
+    </select>
+
+    <insert id="addMealSet">
+        insert into MealSet
+        (name,recommendReason,createDate,updateDate)
+        values
+        (#name#,#recommendReason#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="addMealItem">
+        insert into MealItem
+        (skuId,mealSetId,number,skuPrice,productId,createDate,updateDate)
+        values
+        (#skuId#,#mealSetId#,#number#,#skuPrice#,#productId#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+
+    <update id="updateMealSet">
+        update MealSet
+        set name = #name#, price = #price#
+        <isNotEmpty prepend=" " property="recommendReason">
+            ,recommendReason = #recommendReason#
+        </isNotEmpty>
+        where id = #id#
+    </update>
+
+    <delete id="deleteMealSet">
+        update MealSet set isDelete = 1,updateDate=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteMealItemById">
+        update MealItem set isDelete = 1,updateDate=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteMealItemByMealId">
+        update MealItem set isDelete = 1,updateDate=now()
+        where mealSetId = #mealSetId#
+    </delete>
+
+
+</sqlMap>

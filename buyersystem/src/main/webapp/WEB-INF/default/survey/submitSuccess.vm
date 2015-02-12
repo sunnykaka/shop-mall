@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>$!site_title</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/questionnaire.css?$!urlBroker.getVersion()" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+            #parse("user/loginTop.vm")
+
+            <!-- 调查问卷 -->
+            <div class="questionnaire">
+                <h2>调查问卷</h2>
+                <p class="questionnaire_success">
+                    恭喜您，提交成功，<span id="count_down" class="count_down">5</span>秒后将跳转到首页，如果页面没有跳转，请<a href="$!urlBroker.getUrl('BuyHome').toString()">点击这里</a>手动跳转。
+                </p>
+            </div>
+            <!-- 调查问卷 END -->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/url.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript">
+$(function () {
+    function countdownJump(el, sec, url) {
+        var _timer = null,
+                _counter = sec,
+                _el = $(el);
+
+        _timer = setInterval(function () {
+            _el.text(_counter);
+            if (_counter < 1) {
+                clearInterval(_timer);
+                location.href = url;
+            }
+            _counter -= 1;
+        }, 1000);
+    };
+    countdownJump("#count_down", 4, "$!urlBroker.getUrl('BuyHome').toString()");
+});
+</script>
+</body>
+</html>

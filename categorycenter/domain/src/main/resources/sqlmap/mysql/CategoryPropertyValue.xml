@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.CategoryPropertyValue">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="propertyId" column="propertyId"/>
+        <result property="valueId" column="valueId"/>
+        <result property="priority" column="priority"/>
+    </resultMap>
+
+    <sql id="CategoryPropertyValue.selector">
+        select id,categoryId,propertyId,valueId,priority from CategoryPropertyValue
+    </sql>
+
+    <select id="selectAllCategoryPropertyValues"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where isDelete = 0  order by priority asc
+    </select>
+
+
+    <select id="getCategoryPropertyValues" resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where categoryId=#categoryId# and propertyId=#propertyId# and isDelete = 0  order by priority asc
+    </select>
+
+
+    <select id="queryCategoryPropertyValueByCategoryIdAndPropertyIdAndValueId"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where categoryId=#categoryId# and propertyId=#propertyId# and
+        valueId=#valueId# and isDelete = 0
+    </select>
+
+
+    <select id="getCategoryPropertyValuesByCategoryId"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where categoryId=#categoryId# and isDelete = 0
+    </select>
+
+    <select id="selectCategoryPropertyValue"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where id = #id# and isDelete =0
+    </select>
+
+    <insert id="insertCategoryPropertyValue">
+        insert into CategoryPropertyValue
+        (categoryId,propertyId,valueId,priority,createTime,updateTime)
+        values
+        (#categoryId#,#propertyId#,#valueId#,#priority#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateCategoryPropertyValue">
+        update CategoryPropertyValue
+        set categoryId=#categoryId#,propertyId=#propertyId#,valueId=#valueId#,priority=#priority#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteCategoryPropertyValue">
+        update CategoryPropertyValue
+        set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllCategoryPropertyValue">
+        update CategoryPropertyValue
+        set isDelete = 1,updateTime=now()
+    </delete>
+
+    <delete id="deleteCategoryPropertyValueByCPVId">
+        update CategoryPropertyValue
+        set isDelete = 1,updateTime=now()
+        where categoryId=#categoryId# and propertyId=#propertyId# and valueId=#valueId#
+    </delete>
+
+    <delete id="deleteCategoryPropertyValueByCategoryId">
+        update CategoryPropertyValue
+        set isDelete = 1,updateTime=now()
+        where categoryId=#categoryId#
+    </delete>
+
+    <delete id="deleteCategoryPropertyValueByCPId">
+        update CategoryPropertyValue
+        set isDelete = 1,updateTime=now()
+        where categoryId=#categoryId# and propertyId=#propertyId#
+    </delete>
+
+    <select id="queryAddedCategoryPropertyValueFromGivingTime"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedCategoryPropertyValueFromGivingTime"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where isDelete = 0 and updateTime > #time# and
+        updateTime != createTime
+    </select>
+
+    <select id="queryDeletedCategoryPropertyValueFromGivingTime"
+            resultMap="result">
+        <include refid="CategoryPropertyValue.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+</sqlMap>

@@ -1,0 +1,108 @@
+一、准备前：
+1.下载最新版本的Hudson工程包（war）,官网下载即可 http://hudson.gotdns.com/latest/hudson.war
+2.将下载的war包直接放到tomcat_home/webapps目录下
+启动tomcat，启动完成，访问http://localhost:8080/hudson/,(tomcat端口默认是8080)
+
+二、开始配置Hudson
+1.配置maven：
+点击按钮 add maven,将默认的Install automatically去掉，手动指定MAVEN_HOME目录
+2.配置jdk版本：
+点击按钮 add jdk
+3.配置邮件提醒功能（可选配置）
+
+系统设置-->管理插件
+添加 自动部署插件（Hudson Deploy Plugin）完成以后
+重启tomcat，重启后重新进入web的configure 配置界面，
+在最下面会发现多出1个配置项(Deploy war/ear to a container)
+
+
+三、新建任务
+1.填写任务名称，这里我们是构建一个Maven 2/3 (Legacy)项目，点击OK
+2.进入新建的任务，视情况填写所需
+3.配置代码控制服务器，选择SVN，填写地址
+4.指定项目构建的时间间隔（Build Triggers）
+  比如：0 12,20 * * * 表示在任何年任何月的任何天的12和20点的0分 进行构建（可选配置）
+5.指定POM.XML文件，如果项目中有多个POM文件，指定根目录POM文件，MAVEN会自动加载子项目
+6.配置邮件通知列表（可选配置）
+7.配置自动部署 ，Post-build Actions--> Deploy war/ear to a container
+ 填写打包格式 下边是制定tomcat访问路径
+
+
+
+以上配置完成，点击save，创建完成，可在首页中查看项目列表
+
+点击立即构建 再次构建
+小圆球为蓝色即标识正确
+
+
+------------------------------
+配置集成测试
+开始前准备：
+下载Sonar(声纳)这里用的是3.2版本 随便解压到一个盘符，例如：E：盘
+下载Hudson Sonar的插件Sonar Plugin 可以直接在线安装,装后重启
+
+1.在Mysql中创建sonar库
+mysql> CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;
+mysql> grant all privileges on sonar.* to 'sonar'@'%' identified by 'sonar';
+mysql> flush privileges;
+
+2.打开 E:\sonar-3.2\conf\sonar.properties
+修改如下：
+sonar.jdbc.username:                       sonar
+sonar.jdbc.password:                       sonar
+sonar.jdbc.url:                            jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+sonar.jdbc.driverClassName:                com.mysql.jdbc.Driver
+
+3.修改服务器的maven 插件的settings.Xml ，添加以下配置信息
+    <profile>
+          <id>sonar</id>
+
+          <activation>
+            <activeByDefault>true</activeByDefault>
+          </activation>
+
+          <properties>
+            <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf-8</sonar.jdbc.url>
+			<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
+			<sonar.jdbc.username>sonar</sonar.jdbc.username>
+			<sonar.jdbc.password>sonar</sonar.jdbc.password>
+			<sonar.host.url>http://自己的IP地址:9000</sonar.host.url>
+          </properties>
+    </profile>
+
+4.Sonar添加插件
+http://自己的IP地址:9000/updatecenter
+Chinese Pack	1.1
+Quality Index	1.1.3
+
+5.Hudson集成Sonar
+打开系统设置
+Sonar项
+Name                             sonar-3.2
+
+Server URL                       http://自己的IP地址:9000
+
+Server Public URL                http://自己的IP地址:9000
+
+Database URL                     jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8
+
+Database login                   sonar
+
+Database password                sonar
+
+Database driver                  com.mysql.jdbc.Driver
+
+Additional properties            -Dsonar.sourceEncoding=UTF-8 -Dsonar.dynamicAnalysis=reuseReports（设置编码和使用以前的报表）
+
+然后点击保存
+
+
+开始使用
+随便打开一个以前创建的任务
+点击设置  找到Post-build Actions  Sonar前打勾
+然后保存  立即构建
+完成之后 进入任务页点击 Sonar
+就可以看到所有测试信息了
+
+
+

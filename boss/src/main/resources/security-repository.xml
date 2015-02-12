@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="roleRepository" class="com.kariqu.securitysystem.repository.impl.ibatis.RoleRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="permissionRepository"
+          class="com.kariqu.securitysystem.repository.impl.ibatis.UrlPermissionRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="roleScopeRepository" class="com.kariqu.securitysystem.repository.impl.ibatis.RoleScopeRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+</beans>

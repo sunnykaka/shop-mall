@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <typeAlias alias="ShopPage"
+               type="com.kariqu.designcenter.domain.model.shop.ShopPage"/>
+
+    <resultMap id="shopPage" class="ShopPage">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="shopId" column="shopId"/>
+        <result property="editConfigContent" column="editConfigContent"/>
+        <result property="prodConfigContent" column="prodConfigContent"/>
+        <result property="shopPageType" column="shopPageType"/>
+        <result property="pageStatus" column="pageStatus"/>
+        <result property="pageType" column="pageType"/>
+        <result property="editPageContent" column="editPageContent"/>
+        <result property="prodPageContent" column="prodPageContent"/>
+        <result property="jsContent" column="jsContent"/>
+        <result property="shopTemplateId" column="shopTemplateId"/>
+        <result property="config" column="config"/>
+        <result property="title" column="title"/>
+        <result property="keywords" column="keywords"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+
+    <sql id="ShopPage.selector">
+        select
+        id,name,editConfigContent,prodConfigContent,shopPageType,pageType,pageStatus,
+        editPageContent, prodPageContent,jsContent,shopTemplateId, config, title,
+        keywords, description,shopId
+        from ShopPage
+    </sql>
+
+    <select id="selectAllShopPages" resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+    </select>
+
+    <select id="selectShopPage"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="queryIndexShopPage"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and pageType = 'index'
+    </select>
+
+    <select id="querySearchListShopPage"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and pageType = 'searchList'
+    </select>
+
+    <select id="queryDetailShopPage"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and pageType = 'detail'
+    </select>
+
+    <select id="queryDetailIntegralShopPage" resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and pageType = 'detailIntegral'
+    </select>
+
+    <select id="queryChannelShopPage"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and pageType = 'channel'
+    </select>
+
+    <select id="queryMealSetShopPage"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and pageType = 'meal_detail'
+    </select>
+
+    <select id="queryShopPagesByShopId"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId#
+    </select>
+
+    <select id="queryShopPageWithShopPageType"
+            resultMap="shopPage">
+        <include refid="ShopPage.selector"/>
+        where shopId = #shopId# and shopPageType = #shopPageType#
+    </select>
+
+    <insert id="insertShopPage">
+        insert into ShopPage
+        (name,title,keywords,description,shopId,editConfigContent,prodConfigContent,
+        shopPageType,pageType,pageStatus,editPageContent,prodPageContent,shopTemplateId,config,jsContent)
+        values
+        (#name#,#title#,#keywords#,#description#,#shopId#,#editConfigContent#,#prodConfigContent#,
+        #shopPageType#,#pageType#,#pageStatus#,#editPageContent#,#prodPageContent#,#shopTemplateId#,#config#,#jsContent#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateShopPage">
+        update ShopPage
+        set
+        shopId=#shopId#,
+        title=#title#,
+        keywords=#keywords#,
+        description=#description#,
+        name=#name#,
+        editConfigContent=#editConfigContent#,
+        prodConfigContent=#prodConfigContent#,
+        shopPageType=#shopPageType#,
+        pageType=#pageType#,
+        pageStatus=#pageStatus#,
+        editPageContent=#editPageContent#,
+        prodPageContent=#prodPageContent#,
+        shopTemplateId=#shopTemplateId#,
+        config=#config#,
+        jsContent=#jsContent#
+        where id=#id#
+    </update>
+
+    <delete id="deleteShopPage">
+        delete from ShopPage
+        where id = #id#
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,193 @@
+#set($contentCssUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/css/order.css?$!urlBroker.getVersion()"])
+#set($contentJsUrls= ["<script type='text/javascript'>
+var currentPayBank = '$!payBank';
+EJS.SelectPayBank = '$!urlBroker.getUrl('BuyHome').toString()/order/pay/$!ordersNoList';
+EJS.ToPayStatus = '$!urlBroker.getUrl('MyCoupon').toString()';
+EJS.ToSubmitPayQuestion = '$!urlBroker.getUrl('BuyHome').toString()/feedback/new?pay=yes';
+EJS.ToPay = '$!urlBroker.getUrl('ToPay').toString()';
+</script>",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/pay.js?$!urlBroker.getVersion()"])
+
+#parse("head.vm")
+
+<!-- 网站位置 Start-->
+<div class="common_wrapper">
+    <div class="position_bar">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        <span>&gt;</span>
+        <a href="$!urlBroker.getUrl('Cart').toString()">购物车</a>
+        <span>&gt;</span>
+        <a href="#">订单提交成功</a>
+    </div>
+</div>
+<!-- 网站位置 END -->
+
+<!-- 订单提交成功 -->
+<div class="common_wrapper order_wrapper_1">
+<div class="order_main">
+
+    <div class="order_info">
+        <h3 class="success"><i></i><span>感谢您购买现金券套餐，请尽快完成付款！</span></h3>
+
+        <p>应付金额： <span class="price">¥$!totalPrice</span></p>
+        <table class="table">
+            <tr>
+                <th class="s0">支付金额</th>
+                <th class="s1">现金券说明</th>
+            </tr>
+            <tr class="first">
+                <td class="s0">¥$!totalPrice 元 </td>
+                <td class="s1">$!couponSetDesc</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="order_payment">
+        <div class="info">为了保证及时处理您的订单，请于下单后尽快付款。</div>
+        <dl class="clearfix selected">
+            <dt>支付方式：</dt>
+            <dd>
+                <div class="selected_bank" id="selected_bank">
+                    <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zfb.jpg" alt="支付宝"/>
+                    <a href="#" class="reset">[ 其他付款方式 ]</a>
+                </div>
+                <div class="recommand_bank">
+                    #if($payBank == "Alipay")
+                        推荐淘宝用户使用。
+                    #end
+                    #if($payBank =="Tenpay")
+                        推荐腾讯用户使用
+                    #end
+                    #if($payBank !="Alipay" && $payBank != "Tenpay")
+                        由支付宝提供接口，确保您的资金安全
+                    #end
+                </div>
+            </dd>
+        </dl>
+
+        <div class="payment_box" id="payment_box">
+            <div class="bank_wrapper">
+                <div class="alipay">
+                    <h6>支付宝快捷支付方式<span>推荐淘宝用户使用。</span></h6>
+                    <ul class="clearfix bank_list">
+                        <li payBank="Alipay"><img
+                                src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zfb.jpg
+                                assets/images/payment/bank-zfb.jpg"
+                                alt="支付宝">
+                        </li>
+                    </ul>
+                </div>
+                <div class="tenpay">
+                    <h6>财付通快捷支付方式<span>推荐腾讯用户使用。</span></h6>
+                    <ul class="clearfix bank_list">
+                        <li payBank="Tenpay"><img
+                                src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-cft.jpg"
+                                alt="财付通">
+                        </li>
+                    </ul>
+                </div>
+
+                <h6>登录支付宝支付
+                    <span>由支付宝提供接口，确保您的资金安全</span></h6>
+                <ul class="clearfix bank_list">
+
+                    <li payBank="ICBCB2C"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-gs.jpg"
+                            alt="工商银行">
+                    </li>
+                    <li payBank="CCB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-js.jpg"
+                            alt="建设银行">
+                    </li>
+                    <li payBank="BOCB2C"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zg.jpg"
+                            alt="中国银行">
+                    </li>
+                    <li payBank="CMB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zs.jpg"
+                            alt="招商银行">
+                    </li>
+                    <li payBank="COMM"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-jt.jpg"
+                            alt="交通银行">
+                    </li>
+                    <li payBank="ABC"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-ny.jpg"
+                            alt="农业银行">
+                    </li>
+                    <li payBank="POSTGC"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-yz.jpg"
+                            alt="中国邮政储蓄">
+                    </li>
+                    <li payBank="CITIC"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zx.jpg"
+                            alt="中信银行">
+                    </li>
+                    <li payBank="CIB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-xy.jpg"
+                            alt="兴业银行">
+                    </li>
+                    <li payBank="SPDB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-pf.jpg"
+                            alt="浦发银行">
+                    </li>
+                    <li payBank="CMBC"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-ns.jpg"
+                            alt="民生银行">
+                    </li>
+                    <li payBank="CEBBANK"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-gd.jpg"
+                            alt="光大银行">
+                    </li>
+                    <li payBank="NBBANK"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-nb.jpg"
+                            alt="宁波银行">
+                    </li>
+                    <li payBank="SDB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-szfz.jpg"
+                            alt="深发展银行">
+                    </li>
+                    <li payBank="BJRCB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-bjns.jpg"
+                            alt="北京农商银行">
+                    </li>
+                    <li payBank="SPABANK"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-pa.jpg"
+                            alt="平安银行">
+                    </li>
+                    <li payBank="GDB"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-gf.jpg"
+                            alt="广发银行">
+                    </li>
+                    <li payBank="SHBANK"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-sh.jpg"
+                            alt="上海银行">
+                    </li>
+                    <li payBank="HZCBB2C"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-hz.jpg"
+                            alt="杭州银行">
+                    </li>
+                    <li payBank="BJBANK"><img
+                            src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-bj.jpg"
+                            alt="北京银行">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="btn_w">
+
+                <form action="$!urlBroker.getUrl('ToPayCouponSet').toString()" method="post" id="PayOrder" target="_blank">
+                    <input type="hidden" name="setType" value="$!setType"/>
+                    <input type="hidden" id="payMethod" name="payMethod" value="directPay">
+                    <input type="hidden" id="defaultbank" name="defaultbank">
+                    <button type="submit" id="ToPay" class="btn_pay_now">立即付款</button>
+                </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 订单提交成功 END -->
+
+#parse("foot.vm")

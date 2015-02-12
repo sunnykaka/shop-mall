@@ -1,0 +1,24 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        专题体标题:<br>
+        <input type="text" name="topicBodyTitle" value="$!topicBodyTitle" style="width: 550px;"/><br><br>
+        专题体图片地址:<br>
+        <input type="text" name="topicBodyImg" value="$!topicBodyImg" style="width: 550px;"/><br><br>
+        专题体背景颜色:<br>
+        <input type="text" name="topicBodyColor" value="$!topicBodyColor" style="width: 550px;"/><br><br>
+        专题体主推商品链接:<br>
+        <input type="text" name="topicBodyMainLink" value="$!topicBodyMainLink" style="width: 550px;"/><br><br>
+        专题体主推商品地址:<br>
+        <input type="text" name="topicBodyMainImg" value="$!topicBodyMainImg" style="width: 550px;"/><br><br>
+        专题体商品:<br>
+        <input type="text" name="topicBodyProductId" value="$!topicBodyProductId" style="width: 550px;"/><br><br>
+        专题体商品推荐理由显示的最大文字数量(多了会用 点点 代替):<br>
+        <input type="text" name="topicBodyDescNum" value="$!topicBodyDescNum" style="width: 550px;"/><br><br>
+
+        <input type="submit"/>
+    </form>
+</div>

@@ -1,0 +1,53 @@
+<div class="my_integral">
+#if($!{orderPage.totalPages}>0)
+    #parse("myinfo/orderData.vm")
+    #if($orderPage.getTotalPages() > 1)
+    <table width="100%">
+        <tr>
+            <td align="right" >
+                <div class="pagebars">
+                    <div class="pagebar_inner">
+                        <form method="get" action="$!urlBroker.getUrl('MyOrders')" id="pagebarForm">
+                            <input type=hidden id="state" name="state" value="$!state"/>
+                            #if($!orderPage.hasPre)
+                            <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',$orderPage.prePage).addQueryData('state',$state).toString()" class="page_start">
+                                上一页
+                            </a>
+                            #else
+                                <span class="page_start">上一页</span>
+                            #end
+
+                            #foreach($!pageIndex in $!orderPageBar.linkNums)
+                                #if($!pageIndex == -1)
+                                    <span>...</span>
+                                #elseif($!pageIndex == $!pageNo)
+                                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',$!pageIndex).addQueryData('state',$!state).toString()"
+                                       class="number current"><span>$!pageIndex</span></a>
+                                #else
+                                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',$!pageIndex).addQueryData('state',$!state).toString()"
+                                       class="number"><span>$!pageIndex</span></a>
+                                #end
+
+                            #end
+
+                            #if($orderPage.hasNext)
+                                <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',$!orderPage.nextPage).addQueryData('state',$!state).toString()" class="page_next">
+                                    下一页
+                                </a>
+                            #else
+                                <span class="page_next">下一页</span>
+                            #end
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    #end
+#else
+    <div class="hide">
+        您没有下单记录~
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">看看大家添了啥家居用品&gt;&gt;  </a>
+    </div>
+#end
+</div>

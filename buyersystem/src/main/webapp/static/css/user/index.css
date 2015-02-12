@@ -1,0 +1,18 @@
+@charset "utf-8";
+.red{ color: #ff3300}
+.payment h6,.payment h5{ font-weight: 400;}
+.payment h5{ font-family:"Microsoft Yahei",STHeiti; font-size: 14px; padding:16px 0 28px 24px;}
+.payment h6{ color: #999; }
+.payment h6 .col{ color: #4a4a4a; padding-right:7px;}
+.payment .payment-box-dis{ padding:20px 30px;}
+.payment .payment-box-dis .list li{ cursor: inherit;}
+.pull-right .price{ font-family:"Microsoft Yahei",STHeiti; font-size: 18px;   }
+.pull-right .price i{ float: left; font-style: normal; }
+.pull-right #total-price,.pull-right #total-price2{ font-family:Arial; font-size: 24px; float: left;margin-top:2px;}
+.cart-steps .step{ width:254px; overflow: hidden;}
+.order-success1{ margin:0 auto; width:340px;}
+.order-success1 .btn{ margin:20px 0 0 0;}
+.order-success1 .btn a{ border:1px solid #ddd;background-color: #fff; display: block; width:100px; height: 28px; line-height:28px; text-align: center; float: left; margin-right:10px;}
+.order-success1 .btn a.back-home{ background-color: #748130; color: #fff; border:none;height: 30px; line-height: 30px;}
+.order-success1 .btn a:hover{ background-color: #ddd; text-decoration: none;}
+.order-success1 .btn a.back-home:hover{ background-color: #8e9c46}

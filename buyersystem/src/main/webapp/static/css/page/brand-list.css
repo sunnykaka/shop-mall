@@ -1,0 +1,223 @@
+.brand-street {
+    padding: 40px 0 0;
+}
+
+/* 品牌列表 */
+
+.brand-list {
+    width: 1195px;
+    margin: 0 auto 40px;
+}
+
+.brand-street a {
+    text-decoration: none
+}
+
+.brand-list table tr,
+.brand-list table td {
+    border: 1px solid #ddd;
+    margin: 0;
+    padding: 0;
+}
+
+.brand-list table td a,
+.brand-list table td img {
+    display: block;
+}
+
+.brand-list .item-s1,
+.brand-list .item-s2,
+.brand-list .item-s3 {
+    width: 198px;
+    height: 78px;
+    overflow: hidden;
+    position: relative;
+}
+
+.brand-list .item-s2 {
+    height: 157px;
+}
+
+.brand-list .item-s3 {
+    width: 397px;
+}
+
+.brand-list .info {
+    display: none;
+    position: absolute;
+    width: 130px;
+    height: 60px;
+    padding: 18px 50px 0 18px;
+    background: #748130 url("../../stylesimg/page/brand-icon.png") no-repeat 156px 50%;
+    top: 0;
+    left: 0;
+    font: normal 14px/20px "Microsoft Yahei",STHeiti;
+    color: #fff;
+}
+
+.brand-list a:hover .info {
+    display: block;
+}
+
+.brand-list .item-s1 .info {
+
+}
+
+.brand-list .item-s2 .info {
+    padding-top: 58px;
+    height: 99px;
+}
+
+.brand-list .item-s3 .info {
+    width: 239px;
+    padding-left: 108px;
+    background-position: 260px 50%;
+}
+
+/* 品牌简介及相关商品 */
+
+.brand-content-s1,
+.brand-content-s2,
+.brand-content-s3 {
+    margin-bottom: 10px;
+    border-width: 8px;
+    border-style: solid;
+}
+
+.brand-content-s1 {
+    border-color: #f6b63a;
+}
+
+.brand-content-s1 .brand-title {
+    width: 822px;
+    height: 200px;
+    clear: both;
+    overflow: hidden;
+}
+
+.brand-content-s1 .goods-1 {
+    float: left;
+    width: 410px;
+    height: 240px;
+    border-right: 1px solid #f6b63a;
+    overflow: hidden;
+    position: relative;
+}
+
+.brand-content-s1 .goods-1 .bar {
+    width: 390px;
+}
+
+.brand-street .bar {
+    display: none;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    background: url("../../stylesimg/black-t50.png") repeat 0 0;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.brand-street .bar .name {
+    float: left;
+    width: 300px;
+    overflow: hidden;
+}
+
+.brand-street .bar .price {
+    float: right;
+    width: 80px;
+    text-align: right;
+    overflow: hidden;
+    font-family: Arial;
+}
+
+.brand-street a:hover .bar {
+    display: block;
+}
+
+.brand-content-s1 .goods-2 {
+    width: 362px;
+    height: 440px;
+    overflow: hidden;
+    position: relative;
+}
+
+.brand-content-s1 .goods-2 .bar {
+    width: 342px;
+}
+
+.brand-content-s1 .goods-2 .name {
+    width: 250px;
+}
+
+.brand-content-s2 {
+    border-color: #9cbf3d;
+    background-color: #9cbf3d;
+}
+
+.brand-content-s2 .goods-1 {
+    float: left;
+    width: 362px;
+    height: 440px;
+    overflow: hidden;
+    position: relative;
+}
+
+.brand-content-s2 .goods-1 .bar {
+    width: 342px;
+}
+
+.brand-content-s2 .goods-1 .bar .name{
+    width: 240px;
+}
+
+.brand-content-s2 .goods-2 {
+    float: left;
+    width: 410px;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+    border-left: 1px solid #9cbf3d;
+}
+
+.brand-content-s2 .goods-2 .bar {
+    width: 390px;
+}
+
+.brand-content-s2 .brand-title {
+    width: 822px;
+    height: 200px;
+    overflow: hidden;
+    clear: both;
+}
+
+.brand-content-s3 {
+    border-color: #2bb6c2;
+}
+
+.brand-content-s3 .brand-title {
+    float: left;
+    width: 311px;
+    height: 440px;
+    overflow: hidden;
+}
+
+.brand-content-s3 .goods-1 {
+    float: left;
+    width: 290px;
+    height: 440px;
+    overflow: hidden;
+    border-left: 1px solid #2bb6c2;
+    position: relative;
+}
+
+.brand-content-s3 .goods-1 .bar {
+    width: 270px;
+}
+
+.brand-content-s3 .goods-1 .name {
+    width: 180px;
+}

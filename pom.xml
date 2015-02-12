@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.yezaoshu</groupId>
+    <artifactId>shop-mall</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>yezaoshu</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>usercenter</module>
+        <!--
+        <module>shopcenter</module>
+        -->
+        <module>designcenter</module>
+        <module>commons-utils</module>
+        <module>categorycenter</module>
+        <module>searchengine</module>
+        <module>productcenter</module>
+        <module>boss</module>
+        <module>buyersystem</module>
+        <module>session</module>
+        <module>commonmodule</module>
+        <module>securitysystem</module>
+        <module>accountcenter</module>
+        <module>tradecenter</module>
+        <module>suppliercenter</module>
+        <module>suppliersystem</module>
+        <module>cmscenter</module>
+	<module>omcenter</module>
+    </modules>
+</project>

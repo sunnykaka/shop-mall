@@ -1,0 +1,65 @@
+#set($contentCssUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/css/order.css?$!urlBroker.getVersion()"])
+
+#parse("head.vm")
+<!-- 网站位置 Start-->
+<div class="common_wrapper">
+    <div class="position_bar">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        <span>&gt;</span>
+        <a href="$!urlBroker.getUrl('Cart').toString()">购物车</a>
+        <span>&gt;</span>
+        <a href="#">付款成功</a>
+    </div>
+</div>
+<!-- 网站位置 END -->
+
+<!-- 订单提交成功 -->
+<div class="common_wrapper">
+    <!-- 付款成功 -->
+    <div class="order_payment_status">
+        <div class="payment_success">
+            <div class="success">
+                <div class="title"><i></i><span>支付成功 !</span></div>
+                <div class="info">共计支付金额 &nbsp;&nbsp; <span>¥ ：$total_fee元</span></div>
+            </div>
+
+            <div class="clearfix info1">该订单已经在2012-10-21 12：01：20 支付成功，您本次属于重复支付，请联系客服退款！</div>
+            <div class="list">
+                <table>
+                    <tr>
+                        <th class="s1">订单号</th>
+                        <th class="s2">支付金额</th>
+                        <th class="s3">发货信息</th>
+                        <th class="s4">操作</th>
+                    </tr>
+                    #foreach($order in $orders)
+                        <tr>
+                            <td class="s1">订单 1：<a href="#" class="number">$order.orderNo</a></td>
+                            <td class="s2">¥：$order.totalPrice元</td>
+                            <td class="s3">美亚从华南仓 发货</td>
+                            <td class="s4"><a href="$!urlBroker.getUrl('OrderDetail').addQueryData('orderNo', $order.orderNo).toString()">查看订单详情 &gt;&gt;</a></td>
+                        </tr>
+                    #end
+                </table>
+            </div>
+
+            <div class="btn_w">
+                <a href="$!urlBroker.getUrl('BuyHome').toString()" class="common_btn"><span>继续购物</span></a>
+            </div>
+
+            <div class="service_hotline">
+                <div class="hotline">400-9933 178</div>
+                <div class="time">服务时间：09：00—23：00</div>
+            </div>
+        </div>
+        <div class="shadow ie6png"></div>
+    </div>
+    <!-- 付款成功 END -->
+
+</div>
+<!-- 订单提交成功 END -->
+#parse("foot.vm")
+
+
+
+

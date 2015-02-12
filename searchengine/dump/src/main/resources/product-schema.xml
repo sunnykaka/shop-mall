@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="example" version="1.5">
+    <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+        <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
+
+        <fieldType name="productName" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" dicPath="dic"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" dicPath="dic"/>
+            </analyzer>
+        </fieldType>
+    </types>
+
+    <fields>
+        <field name="id" type="string" indexed="true" stored="true" required="true"/>
+        <field name="skuId" type="string" indexed="true" stored="true" required="true"/>
+        <field name="name" type="productName" indexed="true" stored="true"/>
+        <field name="skuDesc" type="string" indexed="true" stored="true" required="true"/>
+        <field name="leafId" type="tint" indexed="true" stored="true"/>
+        <field name="pidvid" type="tlong" indexed="true" stored="true" multiValued="true"/>
+        <field name="time" type="tlong" indexed="true" stored="true"/>
+        <field name="desc" type="string" indexed="true" stored="true"/>
+        <field name="categoryId" type="tint" indexed="true" stored="true" multiValued="true"/>
+        <field name="price" type="tlong" indexed="true" stored="true"/>
+        <field name="pictureUrl" type="string" indexed="true" stored="true"/>
+        <field name="minorPictureUrl" type="string" indexed="true" stored="true" />
+        <field name="pictureUrlList" type="string" indexed="true" stored="true" multiValued="true"/>
+        <field name="originalName" type="string" indexed="true" stored="true"/>
+        <field name="activityType" type="string" indexed="true" stored="true"/>
+        <field name="activityPrice" type="string" indexed="true" stored="true"/>
+        <field name="sell" type="tint" indexed="true" stored="true"/>
+        <field name="productSell" type="tint" indexed="true" stored="true"/>
+        <field name="valuation" type="tint" indexed="true" stored="true"/>
+        <field name="categoryName" type="productName" indexed="true" stored="true"/>
+        <field name="brandName" type="productName" indexed="true" stored="true"/>
+        <field name="tagType" type="string" indexed="true" stored="true"/>
+        <field name="produceArea" type="string" indexed="true" stored="true"/>
+        <field name="searchContents" type="productName" indexed="true" stored="true" multiValued="true"/>
+    </fields>
+    <uniqueKey>skuId</uniqueKey>
+    <copyField source="categoryName" dest="searchContents"/>
+    <copyField source="name" dest="searchContents" />
+    <copyField source="brandName"   dest="searchContents" />
+</schema>

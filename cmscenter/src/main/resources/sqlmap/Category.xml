@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <insert id="insertCategory">
+        insert into category
+        (name,directory,parent)
+        values
+        (#name#,#directory#,#parent#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <sql id="Category.selector">
+        select id,name,directory,parent,priority from category
+    </sql>
+
+    <update id="updateCategory">
+        update category set name = #name#,directory=#directory#,priority=#priority#,
+        parent = #parent#
+        where id=#id#
+    </update>
+
+    <select id="queryCategoryById" resultClass="com.kariqu.cmscenter.domain.Category">
+        <include refid="Category.selector"/> where id = #id#
+    </select>
+
+    <select id="queryCategoryByName" resultClass="com.kariqu.cmscenter.domain.Category">
+        <include refid="Category.selector"/> where name = #name#
+    </select>
+
+    <select id="querySubCategory" resultClass="com.kariqu.cmscenter.domain.Category">
+        <include refid="Category.selector"/> where parent=#id#  order by priority asc
+    </select>
+
+    <select id="queryAllCategory" resultClass="com.kariqu.cmscenter.domain.Category">
+        <include refid="Category.selector"/>
+    </select>
+
+    <delete id="deleteCategoryById">
+        delete from category where id = #id#
+    </delete>
+</sqlMap>

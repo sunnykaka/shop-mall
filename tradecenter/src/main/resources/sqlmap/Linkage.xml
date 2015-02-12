@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectProvince" resultClass="com.kariqu.tradecenter.domain.Province">
+        select id, name from Province
+    </select>
+
+    <select id="selectProvinceByName" resultClass="com.kariqu.tradecenter.domain.Province">
+        select id, name from Province where name = #name#
+    </select>
+
+    <select id="selectCityByProvinceId" resultClass="com.kariqu.tradecenter.domain.City">
+        select id, name, provinceId from City where provinceId = #provinceCode#
+    </select>
+
+    <select id="selectAreaByCityId" resultClass="com.kariqu.tradecenter.domain.Area">
+        select id, name, cityId, zipCode, areaCode from Area where cityId = #cityCode#
+    </select>
+
+</sqlMap>

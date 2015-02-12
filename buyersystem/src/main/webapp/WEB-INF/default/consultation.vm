@@ -1,0 +1,54 @@
+#if($!consultationPage.totalCount>0)
+### #set($contentJsUrls= [''])
+<ul>
+    #foreach($consultation in $!consultationPage.result)
+    <li#if($velocityCount%2==0) class="even"#end>
+        <dl class="name clearfix">
+            <dt>用户：</dt>
+            <dd>$!consultation.askedUserName &nbsp;&nbsp; $dateTool.format("yyyy年MM月dd日 HH点", $!consultation.askTime)</dd>
+        </dl>
+
+        <dl class="content clearfix">
+            <dt>咨询内容：</dt>
+            <dd>$!consultation.askContent</dd>
+        </dl>
+
+        <dl class="reply_content clearfix">
+            <dt>易居尚回复：</dt>
+            <dd>$!consultation.answerContent <span class="time">$dateTool.format("yyyy年MM月dd日 HH点", $!consultation.answerTime)</span></dd>
+        </dl>
+    </li>
+    #end
+</ul>
+<div class="pagebar">
+    <div class="pagebar_inner">
+        #if($consultationPage.hasPre)
+        <a href="javascript:void(0)" class="page_start" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',$!category).addQueryData('pageNo', $!consultationPage.prePage).toString()">上一页</a>
+        #else
+        <span class="page_start">上一页</span>
+        #end
+
+        #foreach($pageIndex in $!consultationPageBar.linkNums)
+        #if($pageIndex == -1)
+        <a href="javascript:void(0)" class="number"><span>...</span></a>
+        #elseif($pageIndex == $consultationPage.pageNo)
+        <a href="javascript:void(0);" class="number current"><span>$pageIndex</span></a>
+        #else
+        <a href="javascript:void(0)" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',$!category).addQueryData('pageNo',$!pageIndex).toString()" class="number"><span>$pageIndex</span></a>
+        #end
+        #end
+
+        #if($consultationPage.hasNext)
+        <a href="javascript:void(0)" class="page_next" data-url="$urlBroker.getUrl('ProductConsultation').addQueryData('productId',$!productId).addQueryData('category',$!category).addQueryData('pageNo',$!consultationPage.nextPage).toString()">下一页</a>
+        #else
+        <span class="page_next">下一页</span>
+        #end
+    </div>
+</div>
+<script type="text/javascript">
+ProductDes.consultPaging();
+</script>
+#else
+<br/><br/>
+<p style="text-align: center"><span style="color: #808080">还没有相关咨询记录！</span></p>
+#end

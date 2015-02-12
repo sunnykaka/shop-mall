@@ -1,0 +1,148 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_myOrder.js?$!urlBroker.getVersion()",
+"<script type='text/javascript'>stepMargin(5);confirmReceipt();loadOrderlist($!order.id);</script>"])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_return" id="ucReturn">
+            <h3 class="tit">订单详情</h3>
+        </div>
+        <div class="my_warranty my_details">
+            <h5 class="tit">订单状态</h5>
+            <div class="my_warranty_order">
+                订单号：<span>$!order.orderNo</span>状态：<span>$!order.orderState.toDesc()</span>
+            </div>
+            <h5 class="tit">售后跟踪</h5>
+            <div class="my_cash_progress clearfix">
+                #if($progress)
+                    <div>
+                        <ul>
+                            #foreach($!lighten in $!progress.lightenProgress)
+                                <li class="done #if($velocityCount == 1)first#end"><em></em><span>$!lighten.detail</span></li>
+                            #end
+
+                            #foreach($!grey in $!progress.greyProgress)
+                                <li class="#if($velocityCount == 1 && $!progress.lightenProgress.size()==0)first#end"><em></em><span>$!grey</span></li>
+                            #end
+                        </ul>
+                    </div>
+                #end
+            </div>
+
+            <ul class="my_warranty_list" id="warranty_list">
+            </ul>
+            #set($province=$!order.logistics.province.replaceAll(",", ""))
+            <h5 class="tit">订单信息</h5>
+            <div class="my_warranty_reason">
+                <p>收货信息：$!order.logistics.name  $!order.logistics.mobile  $!{province}·$!{order.logistics.location}</p>
+                <p>支付方式：$!order.payType.toDesc()    发票信息：
+                    #set($invoiceInfo = $!order.invoiceInfo)
+                    #if($!invoiceInfo.invoice)
+                        <span #if($!invoiceInfo.invoiceTypeRewrite)class="s"#end>$!invoiceInfo.invoiceType</span>&nbsp;
+                        <span #if($!invoiceInfo.invoiceTitleRewrite)class="s"#end>$invoiceInfo.invoiceTitle.toDesc()</span>&nbsp;
+                        <span #if($!invoiceInfo.companyNameRewrite)class="s"#end>$invoiceInfo.companyName</span>&nbsp;
+                        <span #if($!invoiceInfo.invoiceContentRewrite)class="s"#end>$invoiceInfo.invoiceContent</span>
+                        #if($invoiceInfo.editor)
+                            <p>由客服：$!invoiceInfo.editor 于 $dateTool.format("yyyy-MM-dd HH:mm", $!invoiceInfo.timeRewrite)
+                                修改：
+                                #if($invoiceInfo.invoiceTypeRewrite)
+                                    发票类型：$!invoiceInfo.invoiceTypeRewrite #end
+                                #if($invoiceInfo.invoiceTitleRewrite)$!invoiceInfo.invoiceTitle.toDesc() #end
+                                #if($invoiceInfo.companyNameRewrite)
+                                    发票抬头：$!invoiceInfo.companyNameRewrite #end
+                                #if($invoiceInfo.invoiceContentRewrite)
+                                    发票内容：$!invoiceInfo.invoiceContent #end
+                            </p>
+                        #end
+                    #else 不开发票 #end</p>
+            </div>
+            <h5 class="tit">商品清单</h5>
+            <table border="0" class="my_order_list " width="100%">
+                <thead>
+                <tr>
+                    <th width="#if($!order.orderState.waitValuation() || $!order.orderState.checkInvalidTrade())40% #else 44% #end">订单商品</th>
+                    <th width="#if($!order.orderState.waitValuation() || $!order.orderState.checkInvalidTrade())14% #else 18% #end">单价</th>
+                    <th width="#if($!order.orderState.waitValuation() || $!order.orderState.checkInvalidTrade())14% #else 18% #end">数量</th>
+                    <th width="#if($!order.orderState.waitValuation() || $!order.orderState.checkInvalidTrade())16% #else 20% #end">总价</th>
+                    #if($!order.orderState.waitValuation() || $!order.orderState.checkInvalidTrade())
+                        <th width="16%">操作</th>
+                    #end
+                </tr>
+                </thead>
+                <tbody>
+                #foreach($!item in $!order.orderItemList)
+                <tr class="paid">
+                    <td>
+                        <dl class="order_piclist">
+                            <dt>
+                            <div>
+                                <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $item.productId).addQueryData('skuId',$item.skuId).toString()">
+                                    <img src="$!imgResolver.getMinSizeImgUrl($item.skuMainPicture)">
+                                </a>
+                            </div>
+                            </dt>
+                            <dd>
+                                <p><a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $item.productId).addQueryData('skuId',$item.skuId).toString()">
+                                    $!{item.skuName}
+                                </a>#if(!$item.skuName)商品被删除#end </p>
+                                <span>$!item.skuExplain </span>
+                            </dd>
+                        </dl>
+                    </td>
+                    <td>
+                        ¥$!item.unitPriceByMoney
+                    </td>
+                    <td>
+                        $!item.number
+                    </td>
+                    <td>
+                        ¥$!item.subtotalPrice
+                    </td>
+                    #if($!order.orderState.waitValuation() || $!order.orderState.checkInvalidTrade())
+                    <td>
+                    #if($!order.orderState.waitValuation())
+                        #if($!item.isAppraise())
+                            已评价
+                        #else
+                            <a href="$!urlBroker.getUrl('BuyHome').toString()/my/valuation/toValuation/$!{item.orderId}" class="orin" >立即评价</a>
+                        #end
+                        <a href="$!urlBroker.getUrl('AddSkuToCart').addQueryData('skuId', $!item.skuId).addQueryData('number', 1).toString()" class="gray addbuy">再次购买</a>
+                    #elseif($!order.orderState.checkInvalidTrade())
+                        <a href="$!urlBroker.getUrl('AddSkuToCart').addQueryData('skuId', $!item.skuId).addQueryData('number', 1).toString()" class="red addbuy" >重新购买</a>
+                    #end
+                    </td>
+                    #end
+                </tr>
+                #end
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td align="right" colspan="5" class="detailed_list">
+                        <p>订单总额：¥$!order.calculateOldTotalPriceMoney()</p>
+                        <p>现金券：-¥#if(!$!couponMoney)0.00#else$!couponMoney#end</p>
+                        <p>积分抵现：-¥#if(!$!integralPrice)0.00#else$!integralPrice#end</p>
+                        #if($!order.orderState.waitPay($!order.payType))
+                        <span class="btns">
+                            <a href="$!urlBroker.getUrl('OrderPay').addQueryData('orderNo', $order.orderNo).toString()" class="toolbtn">
+                                立即付款
+                            </a>
+                        </span>
+                        #elseif($!order.orderState.accordComplete())
+                        <span class="btns">
+                            <a class="toolbtn confirmReceipt" data-id="$!order.id">确认收货</a>
+                        </span>
+                        #end
+                        <div #if(!$!order.orderState.waitPay($!order.payType) && !$!order.orderState.accordComplete())
+                                class="price_text"#end>应付总额：<span class="price">¥$!order.totalPrice</span></div>
+                    </td>
+                </tr>
+                </tfoot>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+

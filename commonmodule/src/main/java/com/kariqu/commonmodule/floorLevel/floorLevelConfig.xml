@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+    </config>
+    <params>
+        <param name="floorNumber" dataType="String" formType="text">5</param>
+        <param name="floorNames" dataType="String" formType="text">
+            <![CDATA[
+餐具,http://www.yijushang.com/channel/252
+水具,http://www.yijushang.com/channel/253
+摆件,http://www.yijushang.com/channel/342
+
+~!
+
+锅具,http://www.yijushang.com/channel/248
+刀具,http://www.yijushang.com/channel/249
+厨房配件,http://www.yijushang.com/channel/250
+
+~!
+
+收纳置物,http://www.yijushang.com/channel/263
+清洁,http://www.yijushang.com/channel/264
+个人护理,http://www.yijushang.com/channel/265
+
+~!
+
+酒具,http://www.yijushang.com/channel/256
+茶具,http://www.yijushang.com/channel/255
+咖啡具,http://www.yijushang.com/channel/257
+
+~!
+
+茶叶,http://www.yijushang.com/channel/268
+酒水,http://www.yijushang.com/channel/269
+粮油,http://www.yijushang.com/channel/270
+            ]]>
+        </param>
+        <param name="floorMasterPushCategory" dataType="String" formType="text">
+            <![CDATA[
+儿童餐具,http://www.yijushang.com/products?cid=274
+保温杯,http://www.yijushang.com/products?cid=282
+招财猫,http://www.yijushang.com/products?cid=343
+
+~!
+
+炒锅,http://www.yijushang.com/products?cid=284
+煎锅,http://www.yijushang.com/products?cid=285
+水果刀,http://www.yijushang.com/products?cid=293
+烹饪勺铲,http://www.yijushang.com/products?cid=304
+
+~!
+
+凳子,http://www.yijushang.com/products?cid=335
+垃圾桶,http://www.yijushang.com/products?cid=336
+镜子,http://www.yijushang.com/products?cid=339
+
+~!
+
+冰桶,http://www.yijushang.com/products?cid=316
+茶杯,http://www.yijushang.com/products?cid=322
+茶壶,http://www.yijushang.com/products?cid=323
+咖啡杯,http://www.yijushang.com/products?cid=319
+
+~!
+
+茶叶,http://www.yijushang.com/products?cid=330
+红酒,http://www.yijushang.com/products?cid=331
+茶籽油,http://www.yijushang.com/products?cid=332
+            ]]>
+        </param>
+        <param name="floorMasterPushImg" dataType="String" formType="text">
+            <![CDATA[
+http://imgs.yijushang.com/2/2DF56FF381AC41169083E2C173B56E00.jpg,http://www.yijushang.com/channel/253
+
+~!
+
+http://imgs.yijushang.com/2/16AA98CDDC2E4D5597320F555ED53AA2.jpg,http://www.yijushang.com/channel/248
+
+~!
+
+http://img04.yijushang.com/9E9D7F08FF734C4D8CCD860040A03D20.jpg,http://www.yijushang.com/channel/264
+
+~!
+
+http://imgs.yijushang.com/2/44C5FDFF56C24BB0B3062D54D33346F1.jpg,http://www.yijushang.com/channel/255
+
+~!
+
+http://imgs.yijushang.com/2/68D3EF27DF6845CBB5E7A97ED5AEB03B.jpg,http://www.yijushang.com/channel/270
+            ]]>
+        </param>
+        <param name="floorMasterPushBrand" dataType="String" formType="text">
+            <![CDATA[
+查蒙蒂纳儿童餐具~http://img04.yijushang.com/90ADF05DD59549D0B6F0B10D1A02116D.jpg~http://www.yijushang.com/products?cid=274&pv=4294978211
+药师窑~http://img04.yijushang.com/0895EEC1071B4CB88E3C1656B9E6E2E1.jpg#~http://www.yijushang.com/products?cid=343&pv=4294978511
+THE DOG~http://img04.yijushang.com/4760E785DFEC4BE78B32AF70FDAF070C.jpg~http://www.yijushang.com/products?cid=343&pv=4294978511
+金怡~http://img04.yijushang.com/B247E91A6BBC4F9C8802E50A8C79A44C.jpg~http://www.yijushang.com/products?cid=253&pv=4294978401
+FIORA~http://img04.yijushang.com/EF8D84B8E05C4ED882DB42FC4FF0D8D3.jpg~http://www.yijushang.com/products?cid=346&pv=4294978587
+尚尼~http://img04.yijushang.com/D46D8A9D331B4BD4B8728F5D381E9688.jpg~http://www.yijushang.com/products?cid=272&pv=4294977792
+
+~!
+
+喜尚阳炊具架~http://img04.yijushang.com/078DEF49D9E84E28A71DB00DD6C6F0E9.jpg~http://www.yijushang.com/products?cid=306&pv=4294978323
+Daeden戴德~http://img04.yijushang.com/D4E94FAEFAF44B9A9DB428D409FDBAA8.jpg~http://www.yijushang.com/products?cid=248&pv=4294978052
+BioChef柏欧煮意~http://img04.yijushang.com/6C2C484D6A0041FAA8B2690A0FEACE6F.jpg~http://www.yijushang.com/products?cid=250&pv=4294978346
+GLOBAL~http://img04.yijushang.com/6ACD58E1814746C7AC1F27F8644F77E3.jpg~http://www.yijushang.com/products?cid=249&pv=4294978258
+ROSINA露西娜~http://img04.yijushang.com/8E70261F524949A098D7B5F6DA62B2E6.jpg~http://www.yijushang.com/products?cid=250&pv=4294978051
+尚品厨~http://img04.yijushang.com/D6A861D7122042D98FCB596787632EF2.jpg~http://www.yijushang.com/products?cid=314&pv=4294978484
+
+~!
+
+爱东爱西垃圾桶~http://img04.yijushang.com/A69D55DA5A894B49A02EB02FE5EDA9C2.jpg~http://www.yijushang.com/products?cid=336&pv=4294978190
+谢菲尔德~http://img04.yijushang.com/01A6602415BD46E081236BC434165759.jpg~http://www.yijushang.com/products?cid=337&pv=4294978439
+VIGAR~http://img04.yijushang.com/3DBD6D131D564BE48F3A581C239E7523.jpg~http://www.yijushang.com/products?cid=264&pv=4294977422
+
+~!
+
+齐白石茶具~http://img04.yijushang.com/B43329EAEA654420B0969D9C9F3BDC4A.jpg~http://www.yijushang.com/products?cid=255&pv=4294978291
+喜尚阳~http://img04.yijushang.com/078DEF49D9E84E28A71DB00DD6C6F0E9.jpg~http://www.yijushang.com/products?cid=256&pv=4294978323
+G&W~http://img04.yijushang.com/DCE30118599F4F5592E21E01651AE067.jpg~http://www.yijushang.com/products?cid=257&pv=4294978293
+
+~!
+
+礼德茶叶~http://img04.yijushang.com/CF64AA2440C9447FAFC837929468FAF9.jpg~http://www.yijushang.com/products?cid=268&pv=4294978333
+元朝~http://img04.yijushang.com/7B598F875F15459BB124E4C8E4222580.jpg~http://www.yijushang.com/products?cid=269&pv=4294978230
+25°~http://img04.yijushang.com/98606CC6D687487CAF0C670C42A33DCE.jpg~http://www.yijushang.com/products?cid=270&pv=4294978464
+            ]]>
+        </param>
+        <param name="floorMasterPushProduct" dataType="String" formType="text">
+            <![CDATA[
+*http://imgs.yijushang.com/2/B1951E8663794D90AB5F30D5E11DED88.jpg~http://www.yijushang.com/products?cid=276~高级不锈钢水果盘~18\10优质不锈钢，健康耐用*
+http://img04.yijushang.com/CB28FE51CD4E46E385592B945DD9AC50.jpg~http://www.yijushang.com/product/1510~芒果黑金皇室马克杯~皇家经典~29元
+http://img04.yijushang.com/E761AECB637049529862CC12EB39BEA1.jpg~http://www.yijushang.com/product/1114~樱山招财猫饭碗~萌猫带回家~59元
+http://img04.yijushang.com/892834DD21F54B25ACAE217E855549D3.jpg~http://www.yijushang.com/product/591~戴德嘉美系列八件套~浪漫风情~299元
+http://img04.yijushang.com/5DC65F37D56741BBA871D39488478C4C.jpg~http://www.yijushang.com/products?cid=343~药师窑招财猫~开运 招福~
+
+~!
+
+http://img04.yijushang.com/3F528C0190EB4BDABB3D5611D9EDEF9D.jpg~http://www.yijushang.com/product/516~戴德单柄炒锅~品质保证~398元
+*http://img04.yijushang.com/6A8905576C5A4C51B0006447B2184A44.jpg~http://www.yijushang.com/products?cid=301~304不锈钢安全油壶~安全 卫生 易清洗*
+http://img04.yijushang.com/DB44768434324B4A9A5571D9D5FCE10A.jpg~http://www.yijushang.com/product/1301~威捷朗刀具六件套~美观高档锋利~298元
+http://img04.yijushang.com/19DAD18DAA0A433F8D476FDD80BFCCED.jpg~http://www.yijushang.com/products?cid=302~不锈钢调味罐系列~防潮 防菌
+http://img04.yijushang.com/413DFD25EA0E4AFDB65E21238F7B973D.jpg~http://www.yijushang.com/product/1079~喜尚阳双层碗碟架~一架式收纳~267元
+
+~!
+
+http://img04.yijushang.com/A50DEB01E9B34A5CB8C1E83746DC5891.jpg~http://www.yijushang.com/product/1043~爱东爱西创意圆凳子~简约不简单~69元
+http://img04.yijushang.com/255E19B2A1094E4EADE2135628037314.jpg~http://www.yijushang.com/products?cid=338~创意可爱清洁刷~清洁 装饰
+http://img04.yijushang.com/1C8BE99BA3F549AE831CFF61AB7121D3.jpg~http://www.yijushang.com/product/1040~爱东爱西欧式化妆镜~高清体验~49元
+*http://img04.yijushang.com/E83A1BBD10DD4AA69820D36E193C4AEB.jpg~http://www.yijushang.com/products?cid=334~爱东爱西衣架~灵活组装 方便实用*
+http://img04.yijushang.com/4F745CB6D8FF40A38A3E584A9753BDC0.jpg~http://www.yijushang.com/product/1388~EKO垃圾桶~看在眼里，便是风景~60元
+
+~!
+
+http://img04.yijushang.com/D90AB88DF4934ACAA314B15E8015314F.jpg~http://www.yijushang.com/product/96~尚明个人冲泡杯~不锈钢滤网内胆~68元
+http://img04.yijushang.com/79D5DB29BBA041D2B6B2B28F411661F0.jpg~http://www.yijushang.com/product/631~戴德双层冰酒桶~双层保冷~269元
+http://img04.yijushang.com/86E5BA9E64A44379B81147EAFCC46922.jpg~http://www.yijushang.com/products?cid=327~青石道茶宠~紫砂材质，色泽天然
+http://img04.yijushang.com/F26F255E249D491F9DBB6C2DAB3C32DB.jpg~http://www.yijushang.com/product/619~戴德红酒开瓶器~合金材质~98元
+*http://img04.yijushang.com/BC00F95DC46247B6945FA36BADA81BA8.jpg~http://www.yijushang.com/products?cid=320~18\10不锈钢咖啡壶~风格独特*
+
+~!
+
+940,1115,1381,1382,1383,958
+            ]]>
+        </param>
+    </params>
+</module>

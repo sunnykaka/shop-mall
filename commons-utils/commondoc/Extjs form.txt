@@ -1,0 +1,98 @@
+表单是接受用户输入的地方，当然接受用户数据的还有get请求，要确保这部分数据安全，请不要在后台会让get有副作用
+
+extjs的表单是一个个组件，要确保用户的数据是合法就必须学会验证它，首先我们看看这个组件层次
+
+表单中的各种组件在extjs中都抽象为Field，在Field里定义了公共的属性的行为，接下来就是按照数据类型进行层次扩展
+
+1，文本域扩展到数字再扩展到日期，时间
+
+Field --> TextField -->[TextArea,NumberField,(TriggerField)-]-->[DateField,(ComboBox)-]-->TimeField)
+
+2，bool型，checkbox,radio，选和没选两种状态
+
+Field --> CheckBox --> Radio
+
+3，超文本域没有从TextField继承，而是直接从Field继承
+
+Field --> HtmlEditor
+
+4，隐藏域
+Filed --> Hidden
+
+5，二进制 文件上传域
+Field -->TextField -->FileUploadField 不过这个类在ux包下，不在extjs的核心包中
+在文件上传的时候需要在服务端 response.setContentType("text/html");
+
+用户的输入危险来自TextField和HtmlEditor，HtmlEditor是一个非标准组件，所以要单独进行过滤处理
+extjs在TextField上放置了一些用于验证的字段：
+
+    vtype : null,
+
+    allowBlank : true,
+
+    minLength : 0,
+
+    maxLength : Number.MAX_VALUE,
+
+    minLengthText : 'The minimum length for this field is {0}',
+
+    maxLengthText : 'The maximum length for this field is {0}',
+
+    blankText : 'This field is required',
+
+    regex : null,
+
+    regexText : '',
+可以看出可以指定是否非空，最大长度，最小长度，满足的正则表达式
+
+可以指定单独的vtype，这vtype实际上就是一个函数，这函数要在Ext.form.VTypes中注册，extjs就可以找到了。Vtypes中已经有几个验证函数，他们是
+alpha = /^[a-zA-Z_]+$/,  字母
+alphanum = /^[a-zA-Z0-9_]+$/, 字母和数字
+email = /^(\w+)([\-+.\'][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z]){2,6}$/,
+url = /(((^https?)|(^ftp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
+
+要注册自己的验证函数，代码如下：
+Ext.apply(Ext.form.VTypes, {
+
+    validateFunction : function() {
+
+    },
+
+    validateFunctionText : "" //函数名加上Text就是在验证的时候做出的提示文本
+
+});
+
+例子：验证密码两次输入是否一致
+每个组件都有一个ID,在第二个密码框中设置一个属性，让它指向要进行比较的前一个密码组件的ID，比如前一个密码框ID是one
+                {
+                    fieldLabel:'Password',
+                    allowBlank:false,
+                    maxLength:45,
+                    name:'pass',
+                    id:'one'
+                },
+                {
+                    fieldLabel:'Confirm Password',
+                    name:'pass-cfrm',
+                    vtype:'password',
+                    initialPassField:'one' // id of the initial password field
+                }
+后一个密码框的initialPassField指向前一个，这个名字是任意的，然后制定一个vtype，验证函数password在VTypes中注册
+   Ext.apply(Ext.form.VTypes, {
+
+        password:function (val, field) {
+            //如果是第二个密码框
+            if (field.initialPassField) {
+                var pwd = Ext.getCmp(field.initialPassField);
+                return (val == pwd.getValue());//比较值
+            }
+            return true;
+        },
+
+        passwordText:'Passwords do not match' //提示文本
+    });
+
+Ext.form.Field.prototype.msgTarget，这个属性指示extjs在显示验证错误消息时的方式，默认是鼠标悬停提示，可以改为side等
+
+Combox如果要绑定数据中的值，这在编辑界面很常见，需要new出一个combox，然后setValue进去，通知注意异步ajax加载的问题
+因为combox要等待从服务端返回才能够做出现正确的显示

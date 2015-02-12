@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForUrlPermission" resultClass="int">
+        select count(1) from UrlPermission
+    </select>
+
+    <select id="selectAllUrlPermissions" resultClass="com.kariqu.securitysystem.domain.UrlPermission">
+        select * from UrlPermission
+    </select>
+
+    <select id="queryUrlPermissionByPage"
+            resultClass="com.kariqu.securitysystem.domain.UrlPermission">
+        select * from UrlPermission limit #start#,#limit#
+    </select>
+
+    <select id="selectUrlPermission"
+            resultClass="com.kariqu.securitysystem.domain.UrlPermission">
+        select * from UrlPermission where id = #id#
+    </select>
+
+    <select id="getPermissionByName"
+            resultClass="com.kariqu.securitysystem.domain.UrlPermission">
+        select * from UrlPermission where permissionName = #permissionName#
+    </select>
+
+    <select id="selectUrlPermissionByUrlPermissionName"
+            resultClass="com.kariqu.securitysystem.domain.UrlPermission">
+        select * from UrlPermission where permissionName = #permissionName#
+    </select>
+
+    <insert id="insertUrlPermission">
+        insert into UrlPermission
+        (resource,permissionName,path,category)
+        values
+        (#resource#,#permissionName#,#path#,#category#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateUrlPermission">
+        update UrlPermission
+        set resource=#resource#,permissionName=#permissionName#,path=#path#,category=#category#
+        where id=#id#
+    </update>
+
+    <delete id="deleteUrlPermission">
+        delete from UrlPermission
+        where id = #id#
+    </delete>
+
+</sqlMap>

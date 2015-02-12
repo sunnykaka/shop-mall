@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <resultMap id="BackLogResult" class="com.kariqu.tradecenter.domain.BackGoodsLog" >
+        <result column="id" property="id" />
+        <result column="backGoodsId" property="backGoodsId" />
+        <result column="userName" property="userName" />
+        <result column="operaTime" property="operaTime" />
+        <result column="doWhat" property="doWhat" />
+        <result column="remark" property="remark" />
+        <result column="backState" property="backState" />
+    </resultMap>
+
+    <sql id="backGoodsLog.selector">
+        select id, backGoodsId, userName, operaTime, doWhat, remark, backState
+        from BackGoodsLog
+    </sql>
+
+    <select id="selectBackGoodsLogByBackId" resultMap="BackLogResult">
+        <include refid="backGoodsLog.selector"/>
+        where backGoodsId = #backGoodsId# and isDelete = 0
+        <isNotNull property="backStateList">
+            <iterate prepend="and" property="backStateList" open="(" close=")" conjunction="or">
+                backState = #backStateList[]#
+            </iterate>
+        </isNotNull>
+	</select>
+
+    <select id="selectRecentLogByOrderIds" resultMap="BackLogResult">
+        select * from BackGoodsLog where isDelete = 0 and backGoodsId in (
+          select id from BackGoods
+          where orderId = #orderId# and isDelete = 0
+          and backState in ('Verify','Receive','Success')
+        ) order by operaTime desc limit 1
+    </select>
+
+    <select id="selectBackGoodsLogByState" resultMap="BackLogResult">
+        <include refid="backGoodsLog.selector"/>
+        where backGoodsId = #backGoodsId# and backState = #backState# and isDelete = 0 limit 1
+    </select>
+	
+	<delete id="deleteBackGoodsLogByBackId">
+		delete from BackGoodsLog
+		where backGoodsId = #backGoodsId#
+	</delete>
+	
+	<insert id="insertBackGoodsLog">
+		insert into BackGoodsLog (backGoodsId, userName, operaTime, doWhat, remark, backState)
+		values (#backGoodsId#, #userName#, now(), #doWhat#, #remark#, #backState#)
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+	</insert>
+	
+	<update id="updateBackGoodsLog">
+		update BackGoodsLog
+		set backGoodsId = #backGoodsId#,
+		userName = #userName#,
+		doWhat = #doWhat#,
+		remark = #remark#,
+		backState = #backState#
+		where id = #id#
+	</update>
+
+    <update id="updateBackGoodsLogForDel">
+		update BackGoodsLog set isDelete = 1 where backGoodsId = #backGoodsId#
+	</update>
+	
+	<update id="updateBackGoodsLogSelective">
+		update BackGoodsLog
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="backGoodsId">
+				backGoodsId = #backGoodsId#
+			</isNotNull>
+			<isNotNull prepend="," property="userName">
+				userName = #userName#
+			</isNotNull>
+			<isNotNull prepend="," property="doWhat">
+				doWhat = #doWhat#
+			</isNotNull>
+            <isNotNull prepend="," property="remark">
+                remark = #remark#
+            </isNotNull>
+            <isNotNull prepend="," property="backState">
+                backState = #backState#
+            </isNotNull>
+		</dynamic>
+		where id = #id#
+	</update>
+	
+</sqlMap>

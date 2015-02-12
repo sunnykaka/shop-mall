@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>易居尚商家后台</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/static/css/base.css" type="text/css">
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/static/css/login.css" type="text/css">
+    <script type="text/javascript"
+            src="$urlBroker.getUrl('StaticFileDomain').toString()/static/js/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="$urlBroker.getUrl('StaticFileDomain').toString()/static/js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var the_cookie = 'username';
+            if (jQuery.cookie(the_cookie)) {            //说明cookie存的值不为null
+                jQuery('#userName').val(jQuery.cookie(the_cookie));
+                jQuery('#rememberName').attr("checked", "checked");
+            }
+            var _userName = jQuery("input#userName");
+            var _pwd = jQuery("input#userPwd");
+            var _code = jQuery("input#code");
+            var info = jQuery("#tip_info");
+            var _name = jQuery("input#name");
+
+            function checkForm() {
+                if (_name.val() == "") {
+                    info.text("请输入商家名称！");
+                    _name.focus();
+                    return false;
+                }
+                if (_userName.val() == "") {
+                    info.text("请输入您的账号！");
+                    _userName.focus();
+                    return false;
+                }
+                if (_pwd.val() == "") {
+                    _pwd.focus();
+                    info.text("密码不能为空！");
+                    return false;
+                }
+                if (_code.val() == "") {
+                    _code.focus();
+                    info.text("请输入验证码！");
+                    return false;
+                }
+
+                return true;
+            }
+
+            _name.blur(function () {
+                if (_name.val() == "") {
+                    info.text("请输入商家名称！");
+                } else {
+                    info.text("");
+                }
+            });
+
+            _userName.blur(function () {
+                if (_userName.val() == "") {
+                    info.text("请输入您的账号！");
+                } else {
+                    info.text("");
+                }
+            });
+            _pwd.blur(function () {
+                if (_pwd.val() == "") {
+                    info.text("密码不能为空！");
+                } else {
+                    info.text("");
+                }
+            });
+
+            _code.blur(function () {
+                if (_code.val() == "") {
+                    info.text("验证码不能为空！");
+                } else {
+                    info.text("");
+                }
+            });
+
+            jQuery("#user_submit").submit(function (e) {
+                var isRem=jQuery("#rememberName");
+                if(!!isRem.attr("checked")){
+                    jQuery.cookie(the_cookie,_userName.val(),{ path:'/', expires:30});
+                }else{
+                    jQuery.cookie(the_cookie,'',{ path:'/', expires:30});
+                }
+                if (!checkForm()) {
+                    return false;
+                }
+            });
+        });
+
+        function getImageCode(obj) {
+            if (typeof obj == "object") {
+                obj.src = jQuery("input[name='image_code_url']").val() + '?d=' + Math.random();
+            } else {
+                document.getElementById(obj).src = jQuery("input[name='image_code_url']").val() + '?d=' + Math.random();
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+            <div class="common_wrapper">
+                <div class="login_page">
+                    <input type="hidden" name="image_code_url" value="$urlBroker.getUrl('ImageCode').toString()"/>
+
+                    <form action="$urlBroker.getUrl('Login').toString()" method="post" id="user_submit">
+                        <div id="tip_info" class="tip">
+                            #if($msg)
+                               $msg
+                            #end
+                        </div>
+                        <dl class="clearfix">
+                            <dt>商家名称:</dt>
+                            <dd><input class="text" type="text" maxlength="225" name="name" id="name"></dd>
+                        </dl>
+
+                        <dl class="clearfix">
+                            <dt>账号:</dt>
+                            <dd><input class="text" type="text" maxlength="225" name="accountName" id="userName">
+                            </dd>
+                        </dl>
+
+                        <dl class="clearfix">
+                            <dt>密码:</dt>
+                            <dd><input class="text" type="password" name="password" id="userPwd" maxlength="100">
+                            </dd>
+                        </dl>
+
+                        <dl class="clearfix">
+                            <dt>验证码:</dt>
+                            <dd><input class="text code" type="text" name="imageCode" id="code" maxlength="4">
+
+                                <div class="code_img">
+                                    #set($src=$urlBroker.getUrl('ImageCode').toString()+"?version="+$imageVersion)
+                                    <img src="$src" alt="" id="log_cimg" onclick="getImageCode(this)">
+                                    <span><a href="javascript:void(0);" onclick="getImageCode('log_cimg')">换一张</a></span>
+                                </div>
+                            </dd>
+                        </dl>
+
+                        <div class="btn_w">
+                            <button type="submit" class="submit_btn">登 录</button>
+                            <div class="rem_up">
+                                <input type="checkbox" name="rememberName" id="rememberName">
+                                <label for="rememberName">记住用户名</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<script type="text/javascript">
+    var time_now_server,time_now_client,time_end,time_server_client,timerID;
+
+    //输入距当前时间还有多久 "2054/06/19 19:10:00"
+
+    time_end=new Date();
+    time_end=time_end.getTime() + 24*60*60*1000  + 1000;
+    //开始的时间:如果不填入时间日期默认为当前的日期时间
+    time_now_server=new Date;
+    time_now_server=time_now_server.getTime();
+
+    time_now_client=new Date();
+    time_now_client=time_now_client.getTime();
+
+    time_server_client=time_now_server-time_now_client;
+
+    setTimeout("show_time()",1000);
+
+    //显示时间函数
+    function show_time()
+    {
+        var timer = document.getElementById("timer");
+        if(!timer){
+            return ;
+        }
+        timer.innerHTML =time_server_client;
+
+        var time_now,time_distance,str_time;
+        var int_day,int_hour,int_minute,int_second;
+        var time_now=new Date();
+        time_now=time_now.getTime()+time_server_client;
+        time_distance=time_end-time_now;
+        if(time_distance>0)
+        {
+            int_day=Math.floor(time_distance/86400000)
+            time_distance-=int_day*86400000;
+            int_hour=Math.floor(time_distance/3600000)
+            time_distance-=int_hour*3600000;
+            int_minute=Math.floor(time_distance/60000)
+            time_distance-=int_minute*60000;
+            int_second=Math.floor(time_distance/1000)
+
+            if(int_hour<10){
+                int_hour="0"+int_hour;
+            }
+            if(int_minute<10){
+                int_minute="0"+int_minute;
+            }
+            if(int_second<10){
+                int_second="0"+int_second;
+            }
+
+            str_time=int_hour+"时"+int_minute+"分"+int_second+"秒";
+            timer.innerHTML=str_time;
+            setTimeout("show_time()",1000);
+        }
+        else
+        {
+            timer.innerHTML = '0时0分0秒';
+        }
+    }
+</script>
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_fillin" id="ucOrder">
+            <h3 class="tit">填写退换货</h3>
+        </div>
+
+        <div class="my_success">
+            <div class="succ"><strong>退换货申请已成功提交！</strong>
+                客服正在审核中...</div>
+            <p class="succ_lett">
+                客服预计最多在<span id="timer"></span>内审核完毕，审核结果会以短信形式告知您，请您保持手机畅通。<br>
+                申请成功后，请将商品及附件（含发票、说明书/保修卡等），寄回易居尚退换货服务部。<br>
+                退换货服务部地址：深圳市宝安区大宝路41号德丰胜大楼5F  陈小姐收<br>
+                如有疑问，请联系 <a href="#">在线客服</a>。<br>
+            </p>
+            <div class="succ_btn">
+                <a href="$urlBroker.getUrl('BuyHome').toString()" class="back">返回首页</a>
+                <a href="$urlBroker.getUrl('MyBackGoodsList').toString()" class="look">查看申请记录</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>
+<!-- 内容 END -->

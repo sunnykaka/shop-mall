@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <insert id="insertContent">
+        insert into content
+        (title,content,url,categoryId,templateId)
+        values
+        (#title#,#content#,#url#,#categoryId#,#templateId#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <sql id="Content.selector">
+        select id,title,content,url,categoryId,templateId,priority from content
+    </sql>
+
+
+
+    <update id="updateContent">
+         update content set title =#title# ,content=#content#,url=#url#,categoryId=#categoryId#,templateId=#templateId#,priority=#priority#
+                where id=#id#
+    </update>
+    <delete id="deleteContentById">
+          delete from content where id=#id#
+    </delete>
+    <select id="queryContentById" resultClass="com.kariqu.cmscenter.domain.Content">
+          <include refid="Content.selector"/> where id = #id#
+    </select>
+    <select id="queryContentByCategoryId" resultClass="com.kariqu.cmscenter.domain.Content">
+          <include refid="Content.selector"/> where categoryId=#categoryId# order by priority asc
+    </select>
+    <select id="queryAllContent" resultClass="com.kariqu.cmscenter.domain.Content">
+          <include refid="Content.selector"/>
+    </select>
+    <delete id="deleteContentByCategoryId">
+           delete from content where categoryId = #categoryId#
+    </delete>
+    <select id="queryContentByPageOfCategory" resultClass="com.kariqu.cmscenter.domain.Content">
+          <include refid="Content.selector"/> where categoryId=#categoryId#
+            limit #start#,#limit#
+    </select>
+    <select id="queryContentByPageOfCategoryCount" resultClass="int">
+        select count(1) from content where categoryId=#categoryId#
+    </select>
+</sqlMap>

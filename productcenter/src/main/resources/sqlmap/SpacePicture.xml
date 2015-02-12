@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="spacePicture.selector">
+        select id,spaceId,pictureName,originalName,pictureUrl,pictureLocalUrl
+        from SpacePicture
+    </sql>
+
+    <select id="queryAll" resultClass="com.kariqu.productcenter.domain.SpacePicture">
+        <include refid="spacePicture.selector"/>
+    </select>
+
+    <insert id="createSpacePicture">
+        insert into SpacePicture
+        (spaceId,pictureName,originalName,pictureUrl,pictureLocalUrl)
+        values
+        (#spaceId#,#pictureName#,#originalName#,#pictureUrl#,#pictureLocalUrl#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="createSpaceProperty">
+        insert into SpaceProperty
+        (spaceName)
+        values
+        (#spaceName#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <select id="querySpacePictureById" resultClass="com.kariqu.productcenter.domain.SpacePicture">
+        <include refid="spacePicture.selector"/>
+        where id = #id#
+    </select>
+
+    <update id="updateSpacePicture">
+        update SpacePicture
+        set spaceId=#spaceId#,
+        pictureName =#pictureName#,
+        originalName = #originalName#,
+        pictureUrl =#pictureUrl#,
+        pictureLocalUrl =#pictureLocalUrl#
+        where id=#id#
+    </update>
+    <delete id="deletePictureSpace">
+        delete from SpacePicture where id=#id#
+    </delete>
+    <select id="QueryAllPictureOfSpace" resultClass="com.kariqu.productcenter.domain.SpacePicture">
+        <include refid="spacePicture.selector"/>
+        where spaceId =#spaceId#
+        limit #start#,#limit#
+    </select>
+    <select id="QueryAllPictureOfSpaceCount" resultClass="int">
+        select count(1) from SpacePicture where spaceId =#spaceId#
+    </select>
+
+    <sql id="spaceProperty.selector">
+        select id, spaceName from SpaceProperty
+    </sql>
+
+    <select id="AllSpace" resultClass="com.kariqu.productcenter.domain.SpaceProperty">
+        <include refid="spaceProperty.selector"/>
+    </select>
+
+    <update id="updateSpace">
+        update SpaceProperty
+        set spaceName=#spaceName#
+        where id=#id#
+    </update>
+    <select id="querySpacePropertyByName" resultClass="com.kariqu.productcenter.domain.SpaceProperty">
+        <include refid="spaceProperty.selector"/>
+        where spaceName=#spaceName#
+    </select>
+    <delete id="deleteSpaceByName">
+        delete from SpaceProperty where spaceName =#spaceName#
+    </delete>
+
+    <select id="queryOtherSpace" resultClass="com.kariqu.productcenter.domain.SpaceProperty">
+        <include refid="spaceProperty.selector"/>
+        <![CDATA[ where spaceName <> #spaceName# ]]>
+    </select>
+
+    <delete id="deleteAllSpacePicture">
+        delete from SpacePicture where spaceId =#spaceId#
+    </delete>
+    <select id="queryCountPictureOfSpace" resultClass="int">
+        select count(1) from SpacePicture where spaceId =#spaceId#
+    </select>
+
+    <select id="queryDefaultSpacePropertyId" resultClass="int">
+        select id from SpaceProperty where spaceName= '默认'
+    </select>
+
+</sqlMap>

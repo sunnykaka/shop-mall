@@ -1,0 +1,24 @@
+${shopFoot}
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/shop/js/var?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/common.js?$!urlBroker.getVersion()"></script>
+#if($!leftJs)<script type="text/javascript" src="$!leftJs"></script>#end #* 左侧 js. 针对 <我的账户> 相关页面! *#
+
+#foreach($jsUrl in $!contentJsUrls)
+#if($!jsUrl.startsWith("<script") && $!jsUrl.endsWith("</script>"))
+$!jsUrl.replaceAll("'", '"')
+#else
+<script type="text/javascript" src="$!jsUrl"></script>
+#end
+#end #* 内容 js, 针对单个页面! 若包含有完整的 js 片段则整个显示, 并用 "(双引号) 替换 '(单引号) 避免显示时的引号问题 *#
+
+
+#if($!online)
+<div style="display: none">
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/statistics.js"></script>
+</div>
+#end
+</body>
+</html>

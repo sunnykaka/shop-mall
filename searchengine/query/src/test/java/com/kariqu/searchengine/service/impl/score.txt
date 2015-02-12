@@ -1,0 +1,17 @@
+0.42039964 = (MATCH) sum of:
+  0.21019982 = (MATCH) weight(productName:china in 0), product of:
+    0.70710677 = queryWeight(productName:china), product of:
+      0.5945349 = idf(docFreq=2, maxDocs=2)
+      1.1893445 = queryNorm
+    0.29726744 = (MATCH) fieldWeight(productName:china in 0), product of:
+      1.0 = tf(termFreq(productName:china)=1)
+      0.5945349 = idf(docFreq=2, maxDocs=2)
+      0.5 = fieldNorm(field=productName, doc=0)
+  0.21019982 = (MATCH) weight(productName:lucene in 0), product of:
+    0.70710677 = queryWeight(productName:lucene), product of:
+      0.5945349 = idf(docFreq=2, maxDocs=2)
+      1.1893445 = queryNorm
+    0.29726744 = (MATCH) fieldWeight(productName:lucene in 0), product of:
+      1.0 = tf(termFreq(productName:lucene)=1)
+      0.5945349 = idf(docFreq=2, maxDocs=2)
+      0.5 = fieldNorm(field=productName, doc=0)

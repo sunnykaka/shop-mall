@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>发送邮件</title>
+    <meta charset="utf-8"/>
+    <style type="text/css">
+        html,body,ul,li,dl,dt,dd{margin:0;padding:0;list-style:none;}
+        table{border-collapse:collapse;border-spacing:0;}
+        .mail_form{margin:20px;}
+        .mail_form dl{width:300px;height:40px;padding:5px 0;}
+        .mail_form dt{float:left;width:60px;line-height:32px;}
+        .mail_form dd{float:left;width:240px;}
+        .mail_form .text{width:99%;line-height:32px;font-family:'microsoft yahei',tahoma,simsun;font-size:20px;color:#333;border-width:1px;border-style:solid;border-color:#abadb3 #dbdfe6 #dbdfe6;border-radius:3px;}
+        .mail_form .text:focus{order-color:#8595c6 #c4ceeb #a6b5e1;-webkit-box-shadow:0 0 2px #a6b5e1;-moz-box-shadow:0 0 2px #a6b5e1;box-shadow:0 0 2px #a6b5e1;}
+        .mail_form .highlight{border:1px solid #ff0000;}
+        .data_list{width:100%;}
+        .data_list th,.data_list td{border:1px solid #ccc;padding:5px;}
+        .data_list th{background:#eee;}
+        .btn_wrapper{text-align:right;padding:10px 0;}
+        .data_list .s1{width:20%;}
+        .data_list .s2{}
+        .data_list .s3{width:12%;}
+        .data_list .s4{width:10%;}
+        .data_list .s5{width:14%;}
+        .data_list .s6{width:7%;text-align:center;}
+    </style>
+</head>
+
+<body>
+
+<div class="mail_form">
+    <form action="" method="post" id="mail_form">
+
+        <dl>
+            <dt><label for="name">姓名：</label></dt>
+            <dd><input type="text" name="name" id="name" class="text"></dd>
+        </dl>
+
+        <dl>
+            <dt><label for="email">邮箱：</label></dt>
+            <dd><input type="text" name="email" id="email" class="text"></dd>
+        </dl>
+
+        <table class="data_list" id="data_list">
+            <tr>
+                <th class="s1">店铺名称</th>
+                <th class="s2">商品名称</th>
+                <th class="s3">单价</th>
+                <th class="s4">数量</th>
+                <th class="s5">返还积分</th>
+                <th class="s6"></th>
+            </tr>
+            <tr>
+                <td><input type="text" name="shop" class="text"></td>
+                <td><input type="text" name="product" class="text"></td>
+                <td><input type="text" name="price" class="text"></td>
+                <td><input type="text" name="number" class="text"></td>
+                <td><input type="text" name="point" class="text"></td>
+                <td class="s6"></td>
+            </tr>
+        </table>
+
+        <div class="btn_wrapper">
+            总计：<input type="text" name="total" id="total" class="text" style="width: 120px;"> 积分
+            <button type="submit" id="btn_submit">提交表单</button>
+            <button type="submit" id="btn_preview">预览</button>
+            <button type="button" class="btn" id="btn_add">增加一行</button>
+        </div>
+
+    </form>
+
+</div>
+<script type="text/javascript" src="/static/js/lib/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var template = '<tr>' +
+                '   <td><input type="text" name="shop" class="text"></td>' +
+                '   <td><input type="text" name="product" class="text"></td>' +
+                '   <td><input type="text" name="price" class="text"></td>' +
+                '   <td><input type="text" name="number" class="text"></td>' +
+                '   <td><input type="text" name="point" class="text"></td>' +
+                '   <td class="s6"><button type="button" class="remove">移除</button></td>' +
+                '</tr>';
+
+        var dataList = $("#data_list"),
+                formEl = $("#mail_form"),
+                action = {
+                    send: "/email/send/",
+                    preview: "/email/preview/"
+                };
+
+        // 计算总积分
+        var countPoint = function () {
+            var total = 0;
+            $("input[name=point]").each(function () {
+                var thisVal = $.trim($(this).val());
+                if (/^[0-9]+(\.[0-9]{1,2})?$/.test(thisVal)) {
+                    total += parseFloat(thisVal);
+                }
+            });
+            $("#total").val(total);
+        };
+        countPoint();
+
+        $("#btn_add").click(function () {
+            dataList.append(template);
+        });
+
+        $("#btn_preview").click(function () {
+            formEl.attr({
+                "target": "_blank",
+                "action": action.preview
+            });
+        });
+
+        $("#btn_submit").click(function () {
+            formEl.attr({
+                "target": "_self",
+                "action": action.send
+            });
+        });
+
+        dataList.on("click", ".remove", function () {
+            $(this).parents("tr").remove();
+        });
+
+        dataList.on("blur keyup", "input[name=point]", function () {
+            countPoint();
+        });
+
+        formEl.submit(function (e) {
+
+            var check = true,
+                    mail = $("#email"),
+                    mailVal = $.trim(mail.val());
+
+            formEl.find("input[type=text]").each(function () {
+                var that = $(this);
+                var thatVal = $.trim(that.val());
+                if (thatVal.length < 1) {
+                    that.addClass("highlight");
+                    check = false;
+                } else {
+                    that.hasClass("highlight") && that.removeClass("highlight");
+                }
+            });
+
+            if (!/^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$/.test(mailVal)) {
+                mail.addClass("highlight");
+                check = false;
+            }
+
+            if (!check) {
+                e.preventDefault();
+                return;
+            }
+
+            if(!confirm("你确定要提交吗？")){
+                e.preventDefault();
+                return;
+            }
+
+            var formAction = formEl.attr("action");
+            if (formAction === action.send) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: action.send,
+                    data: formEl.serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data["success"]) {
+                            alert("提交成功");
+                            location.reload();
+                        } else {
+                            alert(data["msg"]);
+                        }
+                    },
+                    error: function () {
+                        alert("程序异常");
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

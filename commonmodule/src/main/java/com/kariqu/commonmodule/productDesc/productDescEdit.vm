@@ -1,0 +1,12 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        推荐品牌显示的商品个数:
+        <input style="width: 160px" name="brandRecommendNum" value="$!brandRecommendNum">
+        <br><br>
+        <input type="submit"/>
+    </form>
+</div>

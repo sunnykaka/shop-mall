@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForTemplateModule" resultClass="int">
+        select count(1) from TemplateModule where templateVersionId = #templateVersionId#
+    </select>
+
+    <select id="selectAllTemplateModules" resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateModule">
+        select * from TemplateModule
+    </select>
+
+
+    <select id="queryTemplateModulesByTemplateVersionId"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateModule">
+        select * from TemplateModule where templateVersionId = #templateVersionId#
+    </select>
+
+    <select id="queryTemplateModulesByTemplateVersionIdAndPage"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateModule">
+        select * from TemplateModule where templateVersionId = #templateVersionId# limit #start#,#limit#
+    </select>
+
+    <select id="queryTemplateModulesByTemplateVersionIdAndName"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateModule">
+        select * from TemplateModule where templateVersionId = #templateVersionId# and name = #name#
+    </select>
+
+    <select id="selectTemplateModule"
+            resultClass="com.kariqu.designcenter.domain.model.prototype.TemplateModule">
+        select * from TemplateModule where id = #id#
+    </select>
+
+    <insert id="insertTemplateModule">
+        insert into TemplateModule
+        (templateVersionId,moduleCssContent,moduleContent,editModuleContent,name,language,version,moduleConfig,moduleConfigKey,config)
+        values
+        (#templateVersionId#,#moduleCssContent#,#moduleContent#,#editModuleContent#,#name#,#language#,#version#,#moduleConfig#,#moduleConfigKey#,#config#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateTemplateModule">
+        update TemplateModule
+        set templateVersionId=#templateVersionId#,
+        moduleCssContent=#moduleCssContent#,
+        moduleContent=#moduleContent#,
+        editModuleContent=#editModuleContent#,
+        name=#name#,
+        language=#language#,
+        version=#version#,
+        moduleConfig=#moduleConfig#,
+        moduleConfigKey=#moduleConfigKey#,
+        config=#config#
+        where id=#id#
+    </update>
+
+    <delete id="deleteTemplateModule">
+        delete from TemplateModule where id = #id#
+    </delete>
+
+    <delete id="deleteTemplateModuleByTemplateVersionId">
+        delete from
+        TemplateModule
+        where templateVersionId = #templateVersionId#
+    </delete>
+
+
+</sqlMap>

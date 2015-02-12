@@ -1,0 +1,105 @@
+
+#if($!orderItems.size() > 0)
+<div class="comment_list"  id="comment_list">
+<ul class="comment_item #if($!state == 1)not_c#end">
+#foreach($item in $!orderItems)
+    <li>
+        <div class="c_left">
+            <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!item.productId).addQueryData('skuId', $!item.skuId).toString()" class="pic">
+                <img src="$!imgResolver.getMinSizeImgUrl($!item.skuMainPicture)" alt="Alternate Text" width="38" height="38" />
+            </a>
+            <div class="c_info">
+                <p><a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $!item.productId).addQueryData('skuId', $!item.skuId).toString()" class="c_name">
+                    $!item.skuName
+                </a></p>
+                <p class="buy_date">
+                    #if($!item.appraise)
+                        评价时间：$!dateTool.format("yyyy-MM-dd", $!{valuationMap.get($!item.id).createDate})
+                    #else
+                        购买时间：$!dateTool.format("yyyy-MM-dd", $!item.createDate)
+                    #end
+                </p>
+            </div>
+        </div>
+        #if($!item.appraise)
+            <div class="star" hint="$!{valuationMap.get($!item.id).point}"></div>
+            <div class="c_text">
+                <p class="digest">$!{valuationMap.get($!item.id).content}</p>
+                #if($!valuationMap.get($!item.id).replyBeforeAppend())
+                    #if($!valuationMap.get($!item.id).replyContent && !$!valuationMap.get($!item.id).replyContent.trim().equals(''))<dl class="clearfix reply">
+                        <span class="time">客服回复：$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!{valuationMap.get($!item.id).replyTime})</span>
+                        <p class="def_font">$!{valuationMap.get($!item.id).replyContent}</p>
+                    #end
+                    #if($!valuationMap.get($!item.id).appendContent && !$!valuationMap.get($!item.id).appendContent.trim().equals(''))<dl class="clearfix add_to">
+                        <span class="time">追加评价：$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!{valuationMap.get($!item.id).appendDate})</span>
+                        <p>$!{valuationMap.get($!item.id).appendContent}</p>
+                    #end
+                #else
+                    #if($!valuationMap.get($!item.id).appendContent && !$!valuationMap.get($!item.id).appendContent.trim().equals(''))<dl class="clearfix add_to">
+                        <span class="time">追加评价：$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!{valuationMap.get($!item.id).appendDate})</span>
+                        <p>$!{valuationMap.get($!item.id).appendContent}</p>
+                    #end
+                    #if($!valuationMap.get($!item.id).replyContent && !$!valuationMap.get($!item.id).replyContent.trim().equals(''))<dl class="clearfix reply">
+                        <span class="time">客服回复：$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!{valuationMap.get($!item.id).replyTime})</span>
+                        <p class="def_font">$!{valuationMap.get($!item.id).replyContent}</p>
+                    #end
+                #end
+
+                #if($!valuationMap.get($!item.id).appendReplyContent && !$!valuationMap.get($!item.id).appendReplyContent.trim().equals(''))<dl class="clearfix reply">
+                    <span class="time">客服追加回复：$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!{valuationMap.get($!item.id).appendReplyDate})</span>
+                    <p class="def_font">$!{valuationMap.get($!item.id).appendReplyContent}</p>
+                #end
+            </div>
+            #if(!$!valuationMap.get($!item.id).appendContent || $!valuationMap.get($!item.id).appendContent.trim().equals(''))
+                <div class="c_right">
+                    <a href="javascript:" class="chase_comment show_textarea">追加评论</a>
+                </div>
+                <div class="clear"></div>
+                <div class="s_com add_to">
+                    <form action="$!urlBroker.getUrl('BuyHome')/my/valuation/addReply" method="post" class="comment_form">
+                        <input type="hidden" name="orderItemId" value="$!item.id">
+                        <input type="hidden" name="productId" value="$!item.productId">
+                        <div class="textarea_box">
+                            <textarea class="txt txt_def" cols="50" rows="5" name="appendContent">写点对商品的评价，也可以使用之后再评论哦~（必填,评价内容10-2000字之间）</textarea>
+                        </div>
+                        <div class="sub">
+                            <button type="submit" class="submit">提交评论</button>
+                            <span class="msg"></span>
+                        </div>
+                    </form>
+                </div>
+            #end
+        #else
+            <div class="c_right">
+                <a href="javascript:" class="c_btn show_textarea">评价</a>
+            </div>
+            <div class="clear"></div>
+            <div class="s_com">
+                <form action="$!urlBroker.getUrl('BuyHome')/my/valuation/add" method="post" class="comment_form">
+                    <input type="hidden" name="orderItemId" value="$!item.id">
+                    <input type="hidden" name="productId" value="$!item.productId">
+
+                    <div class="grade">
+                        <div class="star"><span>评分：</span></div>
+                        <div class="grade_text">
+                            <span class="hint"></span>
+                            <s></s>
+                        </div>
+                    </div>
+                    <div class="textarea_box">
+                        <textarea class="txt txt_def" cols="50" rows="5" name="content">写点对商品的评价，也可以使用之后再评论哦~（必填,评价内容10-2000字之间）</textarea>
+                    </div>
+                    <div class="sub">
+                        <button type="submit" class="submit">提交评论</button>
+                        <span class="msg"></span>
+                    </div>
+                </form>
+            </div>
+        #end
+    </li>
+#end
+</ul>
+</div>
+#else
+    <div class="not_comment">没有相关信息！</div>
+#end

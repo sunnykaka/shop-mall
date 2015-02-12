@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <meta name="description" content=""/>
+    <meta name="Keywords" content=""/>
+</head>
+<body>
+
+<table cellpadding="0" cellspacing="0"
+       style="border:0; margin: 0 auto; width: 600px; border-collapse: collapse; font-family: SimSun; color: #555;">
+    <tr>
+        <td style="font-size: 0;line-height: 0">
+            <a href="http://www.yijushang.com"><img style="border: 0"
+                                                   src="http://img04.yijushang.com/66A352760E404C548C39AB94DBB47E26.png"
+                                                   alt=""></a>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-family:'microsoft yahei',SimSun;font-size: 14px;">
+            <div style="border:1px dashed #ae928c;padding:20px;margin: 12px 0 0">
+                <h4 style="padding: 0 0 10px;margin: 0;font-weight: 700">尊敬的${name}：</h4>
+
+                <p style="text-indent: 2em;line-height: 22px;padding: 0;margin: 0">
+                    您好！您收到这封邮件，是因为您在易居尚（www.yijushang.com）旗下合作网站产生了${totalExpense}元购物交易，我们返还${total}
+                    积分到您的易居尚账号中，同时赠送给您50元现金券。积分在易居尚购物可以直接抵扣现金，现金券全场通用，来易居尚购物享双倍积分，商品更丰富，价格更低！</p>
+
+                <p style="padding: 26px 0 0 2em;margin: 0;font-size: 12px">您的易居尚账号：${email}</p>
+
+                <p style="padding: 4px 0 0 2em;margin: 0;font-size: 12px">密码：#if($password)$password #else 随机 #end</p>
+
+                <p style="padding: 4px 0 26px 2em;margin: 0;font-size: 12px">
+                    <a href="https://login.yijushang.com/user/mallChangePwd?email=${email}"><img
+                            src="http://img04.yijushang.com/CE70ED76DEA44EE7A9875B3C00250094.png"
+                            alt="修改密码" style="border:0;margin-bottom: -8px;"></a>
+                    （为了保护您的账户安全，请马上修改密码哦！）</p>
+
+                <p style="padding: 0 0 5px 2em;margin: 0;font-size: 12px">如按钮无法使用，请复制以下链接到您的浏览器中：<br/>
+                    https://login.yijushang.com/user/mallChangePwd?email=${email}</p>
+            </div>
+            <div style="padding: 12px 0 0">
+                <table cellpadding="0" cellspacing="0"
+                       style="width:100%;border-left:1px solid #c0c0c0;;border-top:1px solid #c0c0c0;border-collapse: collapse;">
+
+                    <tr style="font-weight: 700;">
+                        <th style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; background: #e6e7e8;text-align: center;padding: 8px 0">
+                            店铺名称
+                        </th>
+                        <th style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; background: #e6e7e8;text-align: center;padding: 8px 0">
+                            商品名称
+                        </th>
+                        <th style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; background: #e6e7e8;text-align: center;padding: 8px 0;width: 50px">
+                            单价
+                        </th>
+                        <th style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; background: #e6e7e8;text-align: center;padding: 8px 0;width: 50px">
+                            数量
+                        </th>
+                        <th style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; background: #e6e7e8;text-align: center;padding: 8px 0;width: 120px">
+                            返还易居尚积分
+                        </th>
+                    </tr>
+
+                    #foreach($shopName in $shop)
+                        #set($index = $velocityCount - 1)
+                        <tr>
+                            <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px;font-size: 12px">
+                                $shopName
+                            </td>
+                            <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px;font-size: 12px">
+                                $product.get($index)
+                            </td>
+                            <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px;font-size: 12px">
+                                $price.get($index)
+                            </td>
+                            <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px;font-size: 12px">
+                                $number.get($index)
+                            </td>
+                            <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px;font-size: 12px">
+                                $point.get($index)
+                            </td>
+                        </tr>
+                    #end
+
+                    <tr>
+                        <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px">
+                            总计
+                        </td>
+                        <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px"></td>
+                        <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px"></td>
+                        <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px"></td>
+                        <td style="border-right:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0; text-align: center;padding: 8px">
+                            ${total}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="text-align: center;padding: 12px 0;font-size: 0;line-height: 0">
+                <img src="http://img04.yijushang.com/B2DC340A8DA140079720B1BE8E943080.png"
+                     alt="七天无理由退换货，100%正品保证，终身免费保养，全场免运费，品牌商直接发货">
+            </div>
+            <div
+                    style="background: #e6e7e8;border-top: 1px #e7731f solid;text-align: center;padding: 10px 0;font-size: 12px;line-height: 20px">
+                此为系统邮件，请勿回复！易居尚承诺保护客户隐私，不会向第三方泄露本邮件内容！<br/>
+                同时请您保管好您的邮箱，避免易居尚账户被他人盗用。<br/>
+                易居尚www.yijushang.com 版权所有
+            </div>
+            <div style="padding: 15px 0;text-align: center;font-size: 12px;">
+                如果您以后不想收到此类邮件，请<a href="http://www.yijushang.com/user/unSubscribe?email=${email}"
+                                  style="color: #e7731f; text-decoration: none;">单击这里</a>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

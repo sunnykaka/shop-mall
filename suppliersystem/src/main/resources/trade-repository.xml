@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="cartRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.CartRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="orderRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.OrderRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="logisticsRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.LogisticsRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="paymentRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.PaymentRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="skuTradeResultRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.SkuTradeResultRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+   <bean id="invoiceCompanyRepository"
+           class="com.kariqu.tradecenter.repository.impl.ibatis.InvoiceCompanyRepositoryImpl">
+          <property name="sqlMapClient" ref="sqlMapClient"/>
+   </bean>
+
+    <bean id="addressRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.AddressRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <bean id="linkageRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.LinkageRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="operaLogisticsRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.OperaLogisticsRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="backGoodsRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.BackGoodsRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="backGoodsItemRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.BackGoodsItemRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="backGoodsLogRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.BackGoodsLogRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="tradeRepository"
+          class="com.kariqu.tradecenter.repository.impl.ibatis.TradeRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+</beans>

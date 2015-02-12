@@ -1,0 +1,6 @@
+// 一行一个 css 文件, 相对路径即可.
+
+// 如想加载: http://assets.yijushang.com/css/common.css, 写 css/common.css 即可.
+// 双斜杠开头是注释, 双斜杠开头是注释, 会和空行一样被忽略, 就像你现在看到的这四行一样.
+
+css/user/usercenter.css

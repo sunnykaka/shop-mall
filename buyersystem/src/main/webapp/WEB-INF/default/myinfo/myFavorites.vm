@@ -1,0 +1,125 @@
+#*#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/favorite.js?$!urlBroker.getVersion()"])*#
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_concern.js?$!urlBroker.getVersion()"])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_order" id="ucOrder">
+            <h3 class="tit">我的关注</h3>
+        </div>
+        #if($productCollectPage)
+            <!--我的关注-有 S -->
+            <div class="uc_favorites">
+                <div class="f_setting">
+                    <div class="all_choose">
+                        <label class="label"><input type="checkbox" class="a_checkbox" id="allCheckboxT" />全选</label>
+                    </div>
+                    <a class="delete_btn">删除</a>
+                </div>
+                <input type="hidden" value="$urlBroker.getUrl('CancelMyFavoritesByIds').toString()" id="CancelMyFavoritesByIds"/>
+                <div class="list">
+                    <table class="table" id="favoritesList">
+                        <thead>
+                        <tr>
+                            <th class="col1">选择</th>
+                            <th class="col2">商品</th>
+                            <th class="col3">商品信息</th>
+                            <th class="col4">单价</th>
+                            #*<th class="col5">库存</th>*#
+                            <th class="col6">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            #foreach($productCollect in $!productCollectPage.result)
+                                <tr>
+                                    <td class="col1">
+                                        <input type="checkbox" class="odd_check_box" value="$productCollect.id"/>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="pic">
+                                            <a href="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $!productCollect.productId).toString()" target="_blank">
+                                                <img src="$!imgResolver.getMinSizeImgUrl($!productCollect.productMainPicture)" alt="$!consult.productName" width="78" height="78">
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="col3">
+                                        <div class="wares_msg">
+                                            <p class="wares_name">
+                                                <a href="$urlBroker.getUrl('ProductDetail').addQueryData('productId', $productCollect.productId).toString()" target="_blank">$!productCollect.productName</a></p>
+                                            <p class="wares_f_date">收藏日期：$dateTool.format("yyyy-MM-dd", $!productCollect.collectTime)</p>
+                                        </div>
+                                    </td>
+                                    <td class="col4">
+                                        <div class="price">¥$!productCollect.unitPrice</div>
+                                        #if($productCollectDepreciate.get($productCollect.productId) != 0)
+                                            <div class="depreciate">降价¥${productCollectDepreciate.get($productCollect.productId)}元</div>
+                                        #end
+                                    </td>
+                                    #*<td class="col5">有</td>*#
+                                    <td class="col6">
+                                        #if($productState.get($productCollect.productId))
+                                            <a href="$urlBroker.getUrl('AddProductToCart').addQueryData('productId', $productCollect.productId).toString()" class="addbuy">加入购物车</a>
+                                        #end
+                                        <a href="$urlBroker.getUrl('CancelMyFavorites').addQueryData('id', $productCollect.id).toString()" class="cancelProductCollect">删除</a>
+                                        <span class="clear"></span>
+                                    </td>
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+                <div class="f_setting fl">
+                    <div class="all_choose">
+                        <label class="label"><input type="checkbox" class="a_checkbox" id="allCheckboxB" />全选</label>
+                    </div>
+                    <a class="delete_btn">删除</a>
+                </div>
+                #if($productCollectPage.getTotalPages() > 1)
+
+                <div class="pagebars">
+                    <div class="pagebar_inner">
+                        <form method="get" action="$urlBroker.getUrl('MyFavorites').toString()" id="pagebarForm">
+                            #if($productCollectPage.hasPre)
+                                <a href="$urlBroker.getUrl('MyFavorites').addQueryData('pageNo', $!productCollectPage.prePage).toString()" class="page_start">上一页</a>
+                            #else
+                                <span class="page_start">上一页</span>
+                            #end
+
+                            #foreach($pageIndex in $!consultationPageBar.linkNums)
+                                #if($pageIndex == -1)
+                                    <a href="#" class="number"><span>...</span></a>
+                                #elseif($pageIndex == $productCollectPage.pageNo)
+                                    <a href="javascript:void(0);" class="number current"><span>$pageIndex</span></a>
+                                #else
+                                    <a href="$urlBroker.getUrl('MyFavorites').addQueryData('pageNo',$!pageIndex).toString()" class="number"><span>$pageIndex</span></a>
+                                #end
+
+                            #end
+
+                            #if($productCollectPage.hasNext)
+                                <a class="page_next"  href="$urlBroker.getUrl('MyFavorites').addQueryData('pageNo',$!productCollectPage.nextPage).toString()">下一页</a>
+                            #else
+                                <span class="page_next">下一页</span>
+                            #end
+                            #*<span class="letter">跳转至</span>
+                            <input type="text" class="text_in" name="pageNo" id="PageNumber" val="$!productCollectPage.totalPages" value="$!productCollectPage.pageNo">
+                            <span class="letter">页</span>
+                            <input type="submit" value="确定" class="button_ok">*#
+                        </form>
+                    </div>
+                </div>
+                #end
+            </div>
+            <!--我的关注-有 E -->
+        #else
+            <!--我的关注-无 S -->
+            <div class="uc_favorites">
+                <div class="contern_not">
+                    <strong>看到心仪的宝贝要关注哦~</strong>
+                    #*<br /><br />
+                    <a href="">看看大家都关注什么宝贝>></a>*#
+                </div>
+            </div>
+            <!--我的关注-无 E -->
+        #end
+    </div>
+</div>

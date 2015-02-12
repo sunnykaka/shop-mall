@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="order" class="com.kariqu.tradecenter.domain.Order">
+        <result property="id" column="id"/>
+        <result property="orderNo" column="orderNo"/>
+        <result property="valid" column="valid"/>
+        <result property="createDate" column="createDate"/>
+        <result property="payDate" column="payDate"/>
+        <result property="cancelDate" column="cancelDate"/>
+        <result property="endDate" column="endDate"/>
+        <result property="userId" column="userId"/>
+        <result property="userName" column="userName"/>
+        <result property="accountType" column="accountType"/>
+        <result property="payType" column="payType"/>
+        <result property="payBank" column="payBank"/>
+        <result property="orderState" column="orderState"/>
+        <result property="totalPrice" column="totalPrice"/>
+        <result property="virtualOrderId" column="virtualOrderId"/>
+        <result property="customerId" column="customerId"/>
+        <result property="storageId" column="storageId"/>
+        <result property="invoiceInfo.invoice" column="invoice"/>
+        <result property="invoiceInfo.invoiceType" column="invoiceType"/>
+        <result property="invoiceInfo.invoiceTitle" column="invoiceTitle"/>
+        <result property="invoiceInfo.invoiceContent" column="invoiceContent"/>
+        <result property="invoiceInfo.companyName" column="companyName"/>
+        <result property="deliveryType" column="deliveryType"/>
+
+        <result property="supplierName" column="supplierName"/>
+        <result property="storageName" column="storageName"/>
+        <result property="milliDate" column="milliDate"/>
+        <result property="modifyDate" column="modifyDate"/>
+
+        <result property="coupon.id" column="couponId"/>
+        <result property="priceMessage" column="priceMessage"/>
+        <result property="priceMessageDetail" column="priceMessageDetail"/>
+        <result property="integralPercent" column="integralPercent"/>
+    </resultMap>
+
+    <sql id="order.selector">
+        select id, orderNo, userId, userName, accountType, payType, payBank, totalPrice,
+        invoice, invoiceType, invoiceTitle, invoiceContent, companyName, orderState,
+        createDate, modifyDate, payDate, cancelDate, endDate, milliDate, valid, virtualOrderId,
+        storageId, customerId, supplierName, storageName, deliveryType, couponId, priceMessage, priceMessageDetail, integralPercent
+        <!--
+            order.selector 返回的结果映射成了 Order, 这些属性都不存在于 Order 中, 无谓增加多余的查询
+
+            invoiceTypeRewrite, invoiceTitleRewrite,invoiceContentRewrite, companyNameRewrite, editor, timeRewrite
+         -->
+        from OrderTable
+    </sql>
+
+    <select id="selectOrderCountByState" resultClass="int">
+        select count(1) from OrderTable where orderState = #orderState# and isDelete = 0
+    </select>
+
+    <!-- 查询用户等待付款的订单数量 -->
+    <select id="selectWaitPayOrderCountByUserId" resultClass="int">
+        select count(1) from OrderTable
+        where userId = #userId# and orderState = 'Create' and payType = 'OnLine' and isDelete = 0
+    </select>
+
+    <!-- 查询用户指定状态的订单数量及订单总价 -->
+    <select id="selectOrderCountByUserIdAndState" resultClass="java.util.HashMap">
+        select count(totalPrice) as count, sum(totalPrice) as sum from OrderTable
+        where userId = #userId# and orderState = #orderState# and isDelete = 0
+    </select>
+
+    <select id="selectOrderCountByWaitApproval" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and (
+        (orderState = 'Pay' and payType = 'OnLine') or (orderState = 'Create' and payType != 'OnLine')
+        )
+    </select>
+
+    <select id="selectCashOnDeliveryOrder" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and (orderState = 'Create' and payType != 'OnLine')
+    </select>
+
+    <select id="selectOrder" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and id = #id#
+    </select>
+
+    <select id="selectOrderByOrderNo" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and orderNo = #orderNo#
+    </select>
+
+    <select id="selectOrderByUserIdAndOrderNo" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId=#userId# and orderNo = #orderNo#
+    </select>
+
+    <select id="selectMaxOrderNo" resultClass="long">
+        select orderNo from OrderTable where id = (select max(id) from OrderTable)
+    </select>
+
+    <select id="queryOrderByVirtualOrderId" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and virtualOrderId = #virtualOrderId#
+    </select>
+
+    <select id="queryOrderByVirtualIdExcludeState" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and virtualOrderId = #virtualOrderId#
+        and orderState != #orderState#
+    </select>
+
+    <select id="selectOrderByUserId" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and accountType = #accountType#
+        order by createDate desc
+    </select>
+
+    <select id="selectOrderByCustomerId" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and customerId = #customerId#
+        and orderState= #orderState#
+        order by createDate desc
+    </select>
+
+    <!-- 查询用户一个月内的订单 -->
+    <select id="selectRecentOrderCountByUserId" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+        and createDate >= DATE_SUB(now(), INTERVAL 1 month)
+    </select>
+    <select id="selectRecentOrderByUserId" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and createDate >= DATE_SUB(now(), INTERVAL 1 month)
+        order by createDate desc limit #start#, #limit#
+    </select>
+
+    <select id="selectNotCancelOrderByUserId" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and orderState != 'Cancel' and userId = #userId#
+        order by createDate desc limit #start#,#limit#
+    </select>
+    <select id="selectCountForNotCancelOrderByUserId" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and orderState != 'Cancel' and userId = #userId#
+    </select>
+
+    <select id="selectOrderByUserIdPage_0" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        order by createDate desc limit #start#,#limit#
+    </select>
+    <select id="selectCountForOrderByUserId_0" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+    </select>
+
+    <select id="selectOrderByUserIdPage_1" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and orderState = 'Create'
+        order by createDate desc limit #start#,#limit#
+    </select>
+    <select id="selectCountForOrderByUserId_1" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+        and orderState = 'Create'
+    </select>
+
+    <select id="selectOrderByUserIdPage_2" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Pay', 'Confirm', 'Print', 'Verify', 'Send')
+        order by createDate desc limit #start#,#limit#
+    </select>
+    <select id="selectCountForOrderByUserId_2" resultClass="int">
+        select count(1) from OrderTable where isDelete = 0 and userId = #userId#
+        and orderState in ('Pay', 'Confirm', 'Print', 'Verify', 'Send')
+    </select>
+
+    <select id="selectOrderByUserIdPage_3" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Success', 'Back')
+        order by createDate desc
+        limit #start#,#limit#
+    </select>
+    <select id="selectCountForOrderByUserId_3" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Success', 'Back')
+    </select>
+
+    <select id="selectOrderByUserIdPage_4" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Cancel', 'Close')
+        order by createDate desc limit #start#,#limit#
+    </select>
+    <select id="selectCountForOrderByUserId_4" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Cancel', 'Close')
+    </select>
+
+    <!-- 按用户id查询申请退货的列表 现在认为只有交易成功的订单才能申请退后, 'Send', 'Verify', 'Print', 'Confirm', 'Pay'-->
+    <select id="selectBackGoodsApplyByUserIdPage" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Pay', 'Send', 'Verify', 'Print', 'Confirm', 'Success')
+        and id not in (select orderid from (select a1.orderid, count(1) as count1  from (select id,orderid from backgoods
+        where backstate != 'Cancel')a1
+        left join (select * from backgoodsitem )b1 on a1.id = b1.backgoodsid group by a1.orderid)c
+        left join (select a2.id, count(1) as count2 from (select * from ordertable)a2 left join
+        (select * from orderitem)b2
+        on a2.id = b2.orderid group by a2.id)d on c.orderid = d.id and count1 = count2)
+        order by createDate desc limit #start#,#limit#
+    </select>
+    <select id="selectCountForBackGoodsApplyByUserIdPage" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Pay', 'Send', 'Verify', 'Print', 'Confirm', 'Success')
+        and id not in (select orderid from (select a1.orderid, count(1) as count1  from (select id,orderid from backgoods
+        where backstate != 'Cancel')a1
+        left join (select * from backgoodsitem )b1 on a1.id = b1.backgoodsid group by a1.orderid)c
+        left join (select a2.id, count(1) as count2 from (select * from ordertable)a2 left join
+        (select * from orderitem)b2
+        on a2.id = b2.orderid group by a2.id)d on c.orderid = d.id and count1 = count2)
+    </select>
+
+
+
+    <select id="selectCountForNoProcessOrder" resultClass="int">
+        select count(1) from OrderTable
+        where isDelete = 0 and userId = #userId#
+        and orderState in ('Create', 'Pay', 'Confirm', 'Print', 'Verify', 'Send')
+    </select>
+
+    <select id="queryNotPayOrder" resultClass="long">
+        select id from OrderTable
+        where isDelete = 0 and payType = "OnLine"
+        and orderState = 'Create' and (#current# - milliDate) >= #delayMillisecond#
+    </select>
+
+    <insert id="insertOrder"><!-- 若使用数据库函数生成订单编号, 则此处 #OrderNo# 改为 getOrderNo() -->
+        insert into OrderTable
+        (orderNo,createDate<isEqual compareValue="Pay" prepend="," compareProperty="orderState">payDate</isEqual>,userId, userName, accountType,payType,payBank,valid,
+        totalPrice,orderState,invoice,invoiceType,invoiceTitle,invoiceContent,
+        companyName,milliDate,virtualOrderId,storageId,customerId, supplierName, storageName, deliveryType, couponId, priceMessage, priceMessageDetail, integralPercent)
+        values
+        (#orderNo#,now()<isEqual compareValue="Pay" prepend="," compareProperty="orderState">now()</isEqual>,#userId#, #userName#, #accountType#,#payType#,#payBank#,#valid#,
+        #totalPrice#,#orderState#,#invoiceInfo.invoice#,#invoiceInfo.invoiceType#,#invoiceInfo.invoiceTitle#,#invoiceInfo.invoiceContent#,
+        #invoiceInfo.companyName#,#milliDate#,#virtualOrderId#,#storageId#,#customerId#,#supplierName#,#storageName#,#deliveryType#, #coupon.id#, #priceMessage#, #priceMessageDetail#, #integralPercent#)
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateOrder">
+        update OrderTable
+        set
+        userId=#userId#,accountType=#accountType#,payType=#payType#,payBank=#payBank#,valid=#valid#,totalPrice=#totalPrice#,
+        orderState=#orderState#,invoice=#invoiceInfo.invoice#,invoiceType=#invoiceInfo.invoiceType#,invoiceTitle=#invoiceInfo.invoiceTitle#,
+        invoiceContent=#invoiceInfo.invoiceContent#,companyName=#invoiceInfo.companyName#,
+        supplierName = #storageName#, storageName = #storageName#, deliveryType = #deliveryType#, modifyDate = now()
+        where id = #id#
+        <isNotEmpty prepend="and" property="mustPreviousState">
+            orderState = #mustPreviousState#
+        </isNotEmpty>
+    </update>
+
+    <delete id="deleteOrder">
+        update OrderTable
+        set isDelete = 1
+        where id = #id#
+    </delete>
+
+    <select id="OrderListPage" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 limit #start#,#limit#
+    </select>
+
+    <select id="OrderListByState" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and orderState = #orderState#
+    </select>
+
+    <select id="queryOrderByCanConfirm" resultClass="long">
+        select id from OrderTable
+        where isDelete = 0
+        and orderState = 'Pay'
+        and userName regexp #userNameRegex#
+        <![CDATA[ and createDate <= DATE_SUB(now(), INTERVAL #day# DAY) ]]>
+        limit #limit#
+    </select>
+
+    <select id="OrderListCount" resultClass="int">
+        select count(1) from OrderTable where isDelete = 0
+    </select>
+
+    <select id="searchOrderList" resultMap="order">
+        <include refid="order.selector"/>
+        <isNotEmpty prepend=" inner join " property="skuNameOrAppraise">
+            (
+            select oi.orderId from orderItem oi LEFT JOIN valuation vl on oi.id = vl.orderItemId where 1 = 1
+            <isNotEmpty prepend="AND" property="skuName">
+                oi.skuName like concat('%', #skuName#, '%')
+            </isNotEmpty>
+
+            <!-- 未评价 -->
+            <isEqual prepend="AND" property="appraise" compareValue="no">
+                oi.appraise = 0
+            </isEqual>
+            <!-- 已评价 -->
+            <isEqual prepend="AND" property="appraise" compareValue="yes">
+                oi.appraise = 1
+            </isEqual>
+            <!-- 双方已互评 -->
+            <isEqual prepend="AND" property="appraise" compareValue="mutual">
+                oi.appraise = 1 and vl.operator is not null
+            </isEqual>
+            ) ov on id = ov.orderId
+        </isNotEmpty>
+        <isNotEmpty prepend=" inner join " property="consignee">
+            (select orderId from logistics where name like concat('%', #consignee#, '%')) clo on id = clo.orderId
+        </isNotEmpty>
+        <isNotEmpty prepend=" inner join " property="mobile">
+            (select orderId from logistics where mobile like concat('%', #mobile#, '%')) mlo on id = mlo.orderId
+        </isNotEmpty>
+
+        where isDelete = 0
+        <isGreaterThan prepend="AND" property="orderNo" compareValue="0">
+            orderNo like concat('%', #orderNo#, '%')
+        </isGreaterThan>
+
+        <isNotNull prepend='AND' property='orderState'>
+            orderState in ($orderState$)
+        </isNotNull>
+
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId = #customerId#
+        </isNotEqual>
+
+        <isNotEqual prepend="AND" property="storageId" compareValue="0">
+            storageId = #storageId#
+        </isNotEqual>
+
+        <isNotEmpty prepend="AND" property="orderOwner">
+            userName like concat('%', #orderOwner#, '%')
+        </isNotEmpty>
+
+        <isGreaterThan prepend="AND" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ createDate >= #startDate# ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ createDate <= #endDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="brush">
+            brush = #brush#
+        </isNotEmpty>
+
+        <isEmpty prepend=" " property="sortValue">
+            order by createDate desc
+        </isEmpty>
+        <isNotEmpty prepend=" " property="sortValue">
+            order by $sortValue$
+            <isNotEqual prepend=" " property="sortMode">
+                $sortMode$
+            </isNotEqual>
+        </isNotEmpty>
+
+        <isEmpty prepend=" " property="noLimit">
+            limit #start#,#limit#
+        </isEmpty>
+    </select>
+
+    <select id="searchOrderCount" resultClass="int">
+        select count(1) from OrderTable
+        <isNotEmpty prepend=" inner join " property="skuNameOrAppraise">
+            (
+            select oi.orderId from orderItem oi LEFT JOIN valuation vl on oi.id = vl.orderItemId where 1 = 1
+            <isNotEmpty prepend="AND" property="skuName">
+                oi.skuName like concat('%', #skuName#, '%')
+            </isNotEmpty>
+
+            <!-- 未评价 -->
+            <isEqual prepend="AND" property="appraise" compareValue="no">
+                oi.appraise = 0
+            </isEqual>
+            <!-- 已评价 -->
+            <isEqual prepend="AND" property="appraise" compareValue="yes">
+                oi.appraise = 1
+            </isEqual>
+            <!-- 双方已互评 -->
+            <isEqual prepend="AND" property="appraise" compareValue="mutual">
+                oi.appraise = 1 and vl.operator is not null
+            </isEqual>
+            ) ov on id = ov.orderId
+        </isNotEmpty>
+        <isNotEmpty prepend=" inner join " property="consignee">
+            (select orderId from logistics where name like concat('%', #consignee#, '%')) clo on id = clo.orderId
+        </isNotEmpty>
+        <isNotEmpty prepend=" inner join " property="mobile">
+            (select orderId from logistics where mobile like concat('%', #mobile#, '%')) mlo on id = mlo.orderId
+        </isNotEmpty>
+
+        where isDelete = 0
+        <isGreaterThan prepend="AND" property="orderNo" compareValue="0">
+            orderNo like concat('%', #orderNo#, '%')
+        </isGreaterThan>
+
+        <isNotNull prepend='AND' property='orderState'>
+            orderState in ($orderState$)
+        </isNotNull>
+
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId = #customerId#
+        </isNotEqual>
+
+        <isNotEqual prepend="AND" property="storageId" compareValue="0">
+            storageId = #storageId#
+        </isNotEqual>
+
+        <isNotEmpty prepend="AND" property="orderOwner">
+            userName like concat('%', #orderOwner#, '%')
+        </isNotEmpty>
+
+        <isGreaterThan prepend="AND" property="userId" compareValue="0">
+            userId = #userId#
+        </isGreaterThan>
+
+        <isNotEmpty prepend="AND" property="brush">
+            brush = #brush#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ createDate >= #startDate# ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ createDate <= #endDate# ]]>
+        </isNotEmpty>
+    </select>
+
+    <select id="searchOrderForCustomer" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and customerId!=0
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId=#customerId#
+        </isNotEqual>
+        <!-- 物流公司信息. -->
+        <isNotNull prepend="AND" property="deliveryType">
+            deliveryType = #deliveryType#
+        </isNotNull>
+        <isNotEqual prepend="and" property="storageId" compareValue="0">
+            storageId = #storageId#
+        </isNotEqual>
+
+        <isNotEmpty prepend="and" property="userName">
+            userName = #userName#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="consignee">
+            id in (select orderId from logistics where (nameRewrite is null  and  name =  #consignee#) or (nameRewrite is not null  and  nameRewrite =  #consignee#))
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="expressNo">
+            id in (select orderId from logistics where waybillNumber = #expressNo#)
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="orderNo">
+            orderNo = #orderNo#
+        </isNotEmpty>
+        <isNotNull prepend="and" property="orderState">
+            orderState = #orderState#
+        </isNotNull>
+        <isNull prepend="and" property="orderState">
+            <![CDATA[   (orderState="Success" or orderState="Send") ]]>
+        </isNull>
+        <!--以下单日期为条件进行查询 -->
+        <isEqual property="searchDateType" compareValue="date" prepend="and">
+            <![CDATA[  date(createDate) <= date(#endDate#)   ]]>
+            <isNotEmpty prepend="and" property="startDate">
+                <![CDATA[    date(createDate) >= date(#startDate#)   ]]>
+            </isNotEmpty>
+        </isEqual>
+        <!--以订单完成日期为条件进行查询 -->
+        <isEqual property="searchDateType" compareValue="endDate" prepend="and">
+            <![CDATA[   date(endDate) <= date(#endDate#)      ]]>
+            <isNotEmpty prepend="and" property="startDate">
+                <![CDATA[    date(endDate) >= date(#startDate#)  ]]>
+            </isNotEmpty>
+        </isEqual>
+        <isEmpty prepend=" " property="sortValue">
+            order by payDate desc
+        </isEmpty>
+        <isNotEmpty prepend=" " property="sortValue">
+            order by $sortValue$
+            <isNotEmpty prepend=" " property="sortMode">
+                $sortMode$
+            </isNotEmpty>
+        </isNotEmpty>
+
+        limit #start#,#limit#
+    </select>
+
+    <select id="searchOrderListForCustomer" resultMap="order">
+        <include refid="order.selector"/>
+        where isDelete = 0 and customerId!=0
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId=#customerId#
+        </isNotEqual>
+        <!-- 物流公司信息. -->
+        <isNotNull prepend="AND" property="deliveryType">
+            deliveryType = #deliveryType#
+        </isNotNull>
+        <isNotEqual prepend="and" property="storageId" compareValue="0">
+            storageId = #storageId#
+        </isNotEqual>
+
+        <isNotEmpty prepend="and" property="userName">
+            userName = #userName#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="consignee">
+            id in (select orderId from logistics where  (nameRewrite is null  and  name =  #consignee#) or (nameRewrite is not null  and  nameRewrite =  #consignee#))
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="expressNo">
+            id in (select orderId from logistics where waybillNumber = #expressNo#)
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="orderNo">
+            orderNo = #orderNo#
+        </isNotEmpty>
+        <isNotNull prepend="and" property="orderState">
+            orderState = #orderState#
+        </isNotNull>
+        <isNull prepend="and" property="orderState">
+            <![CDATA[   (orderState="Success" or orderState="Send") ]]>
+        </isNull>
+
+        <!--以下单日期为条件进行查询 -->
+        <isEqual property="searchDateType" compareValue="date" prepend="and">
+            <![CDATA[  date(createDate) <= date(#endDate#)   ]]>
+            <isNotEmpty prepend="and" property="startDate">
+                <![CDATA[    date(createDate) >= date(#startDate#)   ]]>
+            </isNotEmpty>
+        </isEqual>
+        <!--以订单完成日期为条件进行查询 -->
+        <isEqual property="searchDateType" compareValue="endDate" prepend="and">
+            <![CDATA[   date(endDate) <= date(#endDate#)      ]]>
+            <isNotEmpty prepend="and" property="startDate">
+                <![CDATA[    date(endDate) >= date(#startDate#)  ]]>
+            </isNotEmpty>
+        </isEqual>
+
+        <isEmpty prepend=" " property="sortValue">
+            order by payDate desc
+        </isEmpty>
+        <isNotEmpty prepend=" " property="sortValue">
+            order by $sortValue$
+            <isNotEmpty prepend=" " property="sortMode">
+                $sortMode$
+            </isNotEmpty>
+        </isNotEmpty>
+    </select>
+
+
+    <select id="searchOrderForCustomerCount" resultClass="int">
+        select count(1) from OrderTable where isDelete = 0 and customerId!=0
+        <isNotEqual prepend="AND" property="customerId" compareValue="0">
+            customerId=#customerId#
+        </isNotEqual>
+        <!-- 物流公司信息. -->
+        <isNotNull prepend="AND" property="deliveryType">
+            deliveryType = #deliveryType#
+        </isNotNull>
+        <isNotEqual prepend="and" property="storageId" compareValue="0">
+            storageId = #storageId#
+        </isNotEqual>
+
+        <isNotEmpty prepend="and" property="userName">
+            userName = #userName#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="consignee">
+            id in (select orderId from logistics where  (nameRewrite is null  and  name =  #consignee#) or (nameRewrite is not null  and  nameRewrite =  #consignee#))
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="expressNo">
+            id in (select orderId from logistics where waybillNumber = #expressNo#)
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="orderNo">
+            orderNo = #orderNo#
+        </isNotEmpty>
+        <isNotNull prepend="and" property="orderState">
+            orderState = #orderState#
+        </isNotNull>
+        <isNull prepend="and" property="orderState">
+            <![CDATA[   (orderState="Success" or orderState="Send") ]]>
+        </isNull>
+        <!--以下单日期为条件进行查询 -->
+        <isEqual property="searchDateType" compareValue="date" prepend="and">
+            <![CDATA[  date(createDate) <= date(#endDate#)   ]]>
+            <isNotEmpty prepend="and" property="startDate">
+                <![CDATA[    date(createDate) >= date(#startDate#)   ]]>
+            </isNotEmpty>
+        </isEqual>
+        <!--以订单完成日期为条件进行查询 -->
+        <isEqual property="searchDateType" compareValue="endDate" prepend="and">
+            <![CDATA[   date(endDate) <= date(#endDate#)      ]]>
+            <isNotEmpty prepend="and" property="startDate">
+                <![CDATA[    date(endDate) >= date(#startDate#)  ]]>
+            </isNotEmpty>
+        </isEqual>
+    </select>
+
+
+    <update id="updateOrderState">
+        update OrderTable set orderState = #orderState#, modifyDate = now()
+        <isEqual prepend="," property="orderState" compareValue="Pay">
+            payDate = now()
+        </isEqual>
+        <isEqual prepend="," property="orderState" compareValue="Cancel">
+            endDate = now()
+        </isEqual>
+        <isEqual prepend="," property="orderState" compareValue="Close">
+            endDate = now()
+        </isEqual>
+        <isEqual prepend="," property="orderState" compareValue="Success">
+            endDate = now()
+        </isEqual>
+        where id = #orderId# and orderState = #previousState#
+    </update>
+
+    <update id="updateOrderStateOfPayOnDelivery">
+        update OrderTable
+        set orderState = 'Confirm', modifyDate = now()
+        where id = #orderId# and (orderState = 'Create' and payType != 'OnLine')
+    </update>
+
+    <select id="getOrderPrice" resultClass="String">
+        select totalPrice from OrderTable where orderNo = #orderNo#
+    </select>
+
+    <update id="updateOrderPayBank">
+        update OrderTable
+        set modifyDate = now(), payBank = #payBank#
+        where orderNo = #orderNo#
+    </update>
+
+    <update id="updateOrderDeliveryType">
+        update OrderTable
+        set modifyDate = now(), deliveryType = #deliveryType#
+        where id = #orderId#
+    </update>
+
+
+    <update id="updateOrderInvoiceInfoRedundancy">
+        update OrderTable set
+        <isNotEmpty prepend=" " property="invoiceTypeRewrite">
+            invoiceTypeRewrite=#invoiceTypeRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="invoiceTitleRewrite">
+            invoiceTitleRewrite=#invoiceTitleRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="invoiceContentRewrite">
+            invoiceContentRewrite=#invoiceContentRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="companyNameRewrite">
+            companyNameRewrite=#companyNameRewrite#,
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="editor">
+            editor=#editor#,
+        </isNotEmpty>
+        timeRewrite=now()
+        where id = #id#
+    </update>
+
+    <select id="queryOrderInvoiceInfoRedundancy" resultClass="com.kariqu.tradecenter.domain.InvoiceInfo">
+        select invoice,invoiceType,invoiceTitle,companyName,invoiceContent,invoiceTypeRewrite, invoiceTitleRewrite,
+        invoiceContentRewrite, companyNameRewrite, editor,
+        timeRewrite from OrderTable where id = #id#
+    </select>
+
+
+    <!-- 订单留言 -->
+    <insert id="insertOrderMessage">
+        insert into OrderMessage (orderId, orderNo, userType, userId, userName, messageInfo, createDate)
+        values (#orderId#, #orderNo#, #userType#, #userId#, #userName#, #messageInfo#, now())
+    </insert>
+
+    <sql id="OrderMessage.selector">
+        select id, orderId, orderNo, userType, userId, userName, messageInfo, createDate, updateDate
+        from OrderMessage
+    </sql>
+
+    <select id="queryOrderMessage" resultClass="com.kariqu.tradecenter.domain.OrderMessage">
+        <include refid="OrderMessage.selector" />
+        where isDelete = 0 and orderId = #orderId#
+        order by createDate desc
+    </select>
+
+    <select id="queryOrderMessageByUserType" resultClass="com.kariqu.tradecenter.domain.OrderMessage">
+        <include refid="OrderMessage.selector" />
+        where isDelete = 0 and orderId = #orderId# and userType = #userType#
+        order by createDate desc
+        limit 1
+    </select>
+
+    <select id="selectOrderByCouponIdWithOutId" resultClass="java.util.HashMap">
+        select orderNo, orderState from OrderTable
+        where couponId = #couponId# and id != #id# and orderState != 'Cancel' and orderState != 'Close'
+    </select>
+
+    <update id="brushOrder">
+        update OrderTable set brush = 1 where id = #id#
+    </update>
+</sqlMap>

@@ -1,0 +1,19 @@
+#set($contentJsUrls= ["$urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.raty.min.js?$urlBroker.getVersion()",
+"$urlBroker.getUrl('StaticFileDomain').toString()/js/user_comment.js?$urlBroker.getVersion()",
+'<script type="text/javascript">new UserCenter.comment();</script>'])
+
+<div class="n_acc_right">
+    <div class="acc_box_right">
+        <div class="r_top"></div>
+        <div class="r_content">
+            <div class="content_wrapper uc_order" id="ucOrder">
+                <h3 class="tit">商品评价</h3>
+            </div>
+            <div class="product_comment" id="product_comment">
+                #parse("myinfo/valuationData.vm")
+            </div>
+            <!-- 交易完成 END -->
+        </div>
+        <div class="r_bot"></div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>true</isCacheable>
+    </config>
+    <params>
+        <param name="Module_Html_ParamName" label="自定义内容" dataType="Html" formType="text">
+            <![CDATA[
+<div class="e-wrapper mod-special-entry">
+	<h3>
+		<img src="http://img04.yijushang.com/EEA8DC809F3E415293C19FC2BCB2CD27.png" alt="以下优惠活动正在进
+行" />
+	</h3>
+	<ul class="model-pic-4">
+		<li>
+			<a href="http://www.yijushang.com/page/159" title="垃圾桶专场" target="_blank"><img src="http://imgs.yijushang.com/6/C85A9D24DBF742CBA50D773EA4333A47.jpg" width="290" height="145" alt="" /></a>
+		</li>
+		<li>
+			<a href="http://www.yijushang.com/page/165" title="厨具专场" target="_blank"><img src="http://imgs.yijushang.com/6/BB54394B9A7D4B8AAD232E786647768E.jpg" width="290" height="145" alt="" /></a>
+		</li>
+		<li>
+			<a href="http://www.yijushang.com/page/168" title="锅具专场" target="_blank"><img src="http://imgs.yijushang.com/6/795219E973D7497B85A1254996C436BC.jpg" width="290" height="145" alt="" /></a>
+		</li>
+		<li class="last">
+			<a href="http://www.yijushang.com/page/161" title="刀叉勺专场" target="_blank"><img src="http://imgs.yijushang.com/6/F3572C4EB6814961A670DE45D6775D7B.jpg" width="290" height="145" alt="" /></a>
+		</li>
+	</ul>
+	<ul class="model-pic-3">
+		<li>
+			<a href="http://www.yijushang.com/page/167" title="美甲专场" target="_blank"><img src="http://imgs.yijushang.com/6/C2F5F1949E564956A43AD752307745B5.jpg" width="390" height="160" alt="" /></a>
+		</li>
+		<li>
+			<a href="http://www.yijushang.com/page/166" title="咖啡杯专场" target="_blank"><img src="http://imgs.yijushang.com/6/F2184C6DF96C48D3B009C6E9F0BAC711.jpg" width="390" height="160" alt="" /></a>
+		</li>
+		<li class="last">
+			<a href="http://www.yijushang.com/page/163" title="茶具专场" target="_blank"><img src="http://imgs.yijushang.com/6/B654BB6E230E4AFF9034946D5166F0B4.jpg" width="390" height="160" alt="" /></a>
+		</li>
+	</ul>
+	<div class="model-pic-1">
+		<a href="http://www.yijushang.com/page/164" title="镜子专场" target="_blank"><img src="http://imgs.yijushang.com/6/B20F1DF2659A421CA5A08D1C42AC3D67.jpg" width="1200" height="120" alt="" /></a>
+	</div>
+</div>
+            ]]>
+        </param>
+        <param name="Module_Css_ParamName" label="自定义 css" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="Module_Js_ParamName" label="自定义 js" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+    </params>
+</module>

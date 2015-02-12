@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="userRepository"
+          class="com.kariqu.usercenter.repository.UserRepository">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="statisticsEntryRepository"
+          class="com.kariqu.usercenter.repository.StatisticsEntryRepository">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="subscriptionInfoRepository"
+          class="com.kariqu.usercenter.repository.SubscriptionInfoRepository">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="messageTaskRepository" class="com.kariqu.usercenter.repository.MessageTaskRepository">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+
+    </bean>
+
+    <bean id="userPointRepository" class="com.kariqu.usercenter.repository.UserPointRepository">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="signInRepository" class="com.kariqu.usercenter.repository.SignInRepository">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+</beans>

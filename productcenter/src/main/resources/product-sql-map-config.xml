@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <sqlMap resource="sqlmap/Product.xml"/>
+    <sqlMap resource="sqlmap/ProductPicture.xml"/>
+    <sqlMap resource="sqlmap/ProductProperty.xml"/>
+    <sqlMap resource="sqlmap/ProductCollect.xml"/>
+    <sqlMap resource="sqlmap/Html.xml"/>
+    <sqlMap resource="sqlmap/StockKeepingUnit.xml"/>
+    <sqlMap resource="sqlmap/AttentionInfo.xml"/>
+    <sqlMap resource="sqlmap/ProductActivity.xml"/>
+    <sqlMap resource="sqlmap/MealSet.xml"/>
+    <sqlMap resource="sqlmap/BrowsingHistory.xml"/>
+    <sqlMap resource="sqlmap/Program.xml"/>
+    <!--<sqlMap resource="sqlmap/Promotion.xml"/>-->
+    <!--<sqlMap resource="sqlmap/PromotionTopic.xml"/>-->
+
+    <!-- 限时折扣 -->
+    <sqlMap resource="sqlmap/LimitedTimeDiscount.xml"/>
+    <!-- 商品积分兑换表-->
+    <sqlMap resource="sqlmap/ProductIntegralConversion.xml"/>
+    <!--商品超值兑换表 -->
+    <sqlMap resource="sqlmap/ProductSuperConversion.xml"/>
+</sqlMapConfig>

@@ -1,0 +1,32 @@
+为了管理项目中的所有URL，我们统一用一个UrlBroker组件来进行配置
+这样每个开发员都不允许在vm网页中写死url，做到灵活配置
+
+
+配置url.xml放到类路径 ，配置如下
+
+<url name="templateResource">
+        <severUrl>http://www.yixinshang.com</severUrl>
+        <path>template/resources/{resourceId}</path>
+        <tokens>
+            <token name="resourceId"/>
+        </tokens>
+</url>
+
+name唯一标识一个url
+serverUrl必须配置
+
+path是资源路径，如果不配将是一个空字符串
+
+tokens是要替换路径中的一些配置
+
+调用这个组件的时候,程序将serverUrl和path拼接起来，然后进行tokens替换，调用addQueryData将要替换的数据保存在一个map中
+
+程序会遍历你配置的token name然后去找map中的数据进行替换serverUrl + path中的{token name} ，替换一个消耗一个token，最后没用完的
+token将作为query string放到url的后面
+
+在vm里$urlBroker.getUrl('DeleteCartItem').addQueryData('skuId', $item.skuId).toString()就可以渲染出DeleteCartItem的url
+urlBroker需要放入velocity的上下文
+
+注意几个关键点：
+1，addQueryData准备map数据,key就是配置的token name
+2, 程序会从配置的token name列表遍历，然后替换serverurl + path中的{token name}

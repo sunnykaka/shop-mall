@@ -1,0 +1,46 @@
+<!-- 顶部通用栏 -->
+<div class="e-toolbar">
+    <div class="e-wrapper">
+        <div class="links pull-left">
+            <ul>
+                <li class="current"><a href="$!urlBroker.getUrl('BuyHome').toString()">品质·居家用品网购平台</a></li>
+                #foreach($head in $!_PARAM['headConfig'].split("\n"))
+                    #if($!head != '' && $!head.split(",").size() > 1)
+                        <li><a target="_blank" href="$!head.split(",")[0].trim()">$!head.split(",")[1].trim()</a></li>
+                    #end
+                #end
+            </ul>
+        </div>
+        <div class="pull-right">
+            <a href="javascript:void(0);" class="btn-favorite"><span class="icon-favorite"></span>收藏易居尚</a>
+            <span class="delimiter">|</span>
+            <span class="hotline">服务热线：400-9933-178</span>
+        </div>
+        <div class="userinfo pull-right"></div>
+    </div>
+</div>
+
+<div class="e-header e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+    <div class="search">
+        <form id="header_search_form" action="$!urlBroker.getUrl('Search').toString()" method="get">
+            <input id="e-keyword" class="search-text" autocomplete="off" type="text" placeholder="请输入搜索关键字" name="keyword"/>
+            <button type="submit" class="search-btn">搜索</button>
+            <div id="search-keyword-list" class="keyword-list" style="display: none"></div>
+        </form>
+    </div>
+    <div class="myejs-minicart pull-right">
+        <div class="myejs">
+            <a href="$!urlBroker.getUrl("MyAccount").toString()" class="title"><span class="icon icon-myejs"></span>我的易居尚<span class="icon icon-down"></span></a>
+            <div class="myejs-main">
+            </div>
+        </div>
+        <span class="delimiter">&nbsp;</span>
+        <div class="minicart">
+            <a href="$!urlBroker.getUrl('Cart').toString()" class="title"><span class="icon icon-minicart"></span><span class="icon cart-total">0</span>购物车</a>
+            <div class="minicart-main">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 顶部通用栏 END -->

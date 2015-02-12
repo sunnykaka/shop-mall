@@ -1,0 +1,18 @@
+{
+    "data": {
+        "list": [
+            {
+                "order_num": "201309111155",
+                "logistics_num": "111",
+                "order_state": "已发货",
+                "expression": "申通",
+                "receiver": "李小四",
+                "checker": "yijushang",
+                "checker_info": "",
+                "buyer_message": ""
+            }
+        ]
+    },
+    "success": true,
+    "message": "Loaded data"
+}

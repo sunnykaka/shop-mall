@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <typeAlias alias="ShopTemplate"
+               type="com.kariqu.designcenter.domain.model.shop.ShopTemplate"/>
+
+    <resultMap id="shopTemplate" class="ShopTemplate">
+        <result property="id" column="id"/>
+        <result property="shopId" column="shopId"/>
+        <result property="templateVersionId" column="templateVersionId"/>
+        <result property="editHeadConfigContent" column="editHeadConfigContent"/>
+        <result property="editFootConfigContent" column="editFootConfigContent"/>
+        <result property="editHeadContent" column="editHeadContent"/>
+        <result property="editFootContent" column="editFootContent"/>
+        <result property="editGlobalCss" column="editGlobalCss"/>
+        <result property="editGlobalJs" column="editGlobalJs"/>
+        <result property="editStyle" column="editStyle"/>
+        <result property="prodHeadConfigContent" column="prodHeadConfigContent"/>
+        <result property="prodFootConfigContent" column="prodFootConfigContent"/>
+        <result property="prodHeadContent" column="prodHeadContent"/>
+        <result property="prodFootContent" column="prodFootContent"/>
+        <result property="prodGlobalCss" column="prodGlobalCss"/>
+        <result property="prodGlobalJs" column="prodGlobalJs"/>
+        <result property="prodStyle" column="prodStyle"/>
+        <result property="globalModuleInfoConfig" column="globalModuleInfoConfig"/>
+    </resultMap>
+
+
+    <sql id="ShopTemplate.selector">
+        select
+        id,shopId,templateVersionId,editHeadConfigContent,editFootConfigContent,editHeadContent,
+        editFootContent, editGlobalCss,editGlobalJs,editStyle,prodHeadConfigContent, prodFootConfigContent,
+        prodHeadContent,
+        prodFootContent, prodGlobalCss,prodGlobalJs,prodStyle,globalModuleInfoConfig
+        from ShopTemplate
+    </sql>
+
+
+    <select id="selectShopTemplate"
+            resultMap="shopTemplate">
+        <include refid="ShopTemplate.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="getShopTemplateByShopId"
+            resultMap="shopTemplate">
+        <include refid="ShopTemplate.selector"/>
+        where shopId = #shopId#
+    </select>
+
+    <select id="selectAllShopTemplates" resultMap="shopTemplate">
+        <include refid="ShopTemplate.selector"/>
+    </select>
+
+    <insert id="insertShopTemplate">
+        insert into
+        ShopTemplate
+        (shopId,templateVersionId,editHeadConfigContent,editHeadContent,editFootConfigContent,editFootContent,prodHeadConfigContent,prodFootConfigContent,prodHeadContent,prodFootContent,editGlobalCss,editGlobalJs,editStyle,prodGlobalCss,prodGlobalJs,prodStyle,globalModuleInfoConfig)
+        values
+        (#shopId#,#templateVersionId#,#editHeadConfigContent#,#editHeadContent#,#editFootConfigContent#,#editFootContent#,#prodHeadConfigContent#,#prodFootConfigContent#,#prodHeadContent#,#prodFootContent#,#editGlobalCss#,#editGlobalJs#,#editStyle#,#prodGlobalCss#,#prodGlobalJs#,#prodStyle#,#globalModuleInfoConfig#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateShopTemplate">
+        update
+        ShopTemplate
+        set
+        shopId=#shopId#,
+        templateVersionId=#templateVersionId#,
+        editHeadConfigContent=#editHeadConfigContent#,
+        editHeadContent=#editHeadContent#,
+        editFootConfigContent=#editFootConfigContent#,
+        editFootContent=#editFootContent#,
+        editGlobalCss=#editGlobalCss#,
+        editGlobalJs=#editGlobalJs#,
+        editStyle=#editStyle#,
+        prodHeadConfigContent=#prodHeadConfigContent#,
+        prodFootConfigContent=#prodFootConfigContent#,
+        prodHeadContent=#prodHeadContent#,
+        prodFootContent=#prodFootContent#,
+        prodGlobalCss=#prodGlobalCss#,
+        prodGlobalJs=#prodGlobalJs#,
+        prodStyle=#prodStyle#,
+        globalModuleInfoConfig=#globalModuleInfoConfig#
+        where id=#id#
+    </update>
+
+    <delete id="deleteShopTemplate">
+        delete from
+        ShopTemplate
+        where id = #id#
+    </delete>
+
+
+</sqlMap>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+    </config>
+    <params>
+        <param name="hotProduct" dataType="String" lable="图片地址,链接,商品名,文字摘要,价格" formType="text">
+            <![CDATA[
+http://imgs.yijushang.com/2/A4ECC383B8ED4AD0AEBE637816F932D7.jpg,http://www.yijushang.com/product/783,爱东爱西品质时尚垃圾桶,内胆配置 脚踏设计,39
+http://img04.yijushang.com/91B67F8E7EA24727929B02F8ACAC16CC.jpg,http://www.yijushang.com/product/1398,恩腾28cm不粘锅,不粘锅少油烟,147
+http://img04.yijushang.com/C68089670754496FA066B77D91B64F29.jpg,http://www.yijushang.com/product/635,戴德保温杯,超长保温保冷,98
+http://img04.yijushang.com/83CBF1457EC34168AC299297DB474C8B.jpg,http://www.yijushang.com/product/1173,戴德家用手动绞肉机,轻松碎馅,198
+http://img04.yijushang.com/F4C46169B0E448D68A0D1E41185A6B5E.jpg,http://www.yijushang.com/product/948,爱东爱西时尚创意凳子,时尚美观 ,49
+            ]]>
+        </param>
+        <param name="hotProductIds" dataType="String" formType="text">1173,604,460,1168</param>
+    </params>
+</module>

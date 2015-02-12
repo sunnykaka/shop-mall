@@ -1,0 +1,29 @@
+@charset "utf-8";
+html,body{background:#fff;}
+.questionnaire{width:760px;margin:30px auto 10px;line-height:22px;}
+.questionnaire h2{font-size:22px;font-family:"Microsoft Yahei",STHeiti;height:46px;line-height:46px;border-bottom:5px solid #5d2519;}
+.questionnaire .info{padding:12px 0 0;font-size:14px;font-family:"Microsoft Yahei",STHeiti;line-height:22px;}
+.questionnaire .info p{padding:0 0 1em;}
+.questionnaire_success{text-align:left;padding:20px 0;font-size:14px;font-family:"Microsoft Yahei",STHeiti;}
+.questionnaire_success .count_down{color:#DC7317;font-weight:bold;margin:0 2px 0 0;}
+.questionnaire_success a{color:#DC7317;}
+.questionnaire input[type=radio]{vertical-align:middle;}
+.questionnaire label{vertical-align:middle;}
+.questionnaire .box{border-bottom:1px solid #b6b6b6;margin:10px 0 0;padding:5px;}
+.questionnaire .box:hover{background:#fff6f0;}
+.questionnaire .box .error{color:#ed5257;}
+.questionnaire .box dt{font-size:16px;font-family:"Microsoft Yahei",STHeiti;font-weight:bold;}
+.questionnaire .box dt span{color:#e3731f;}
+.questionnaire .box dd{padding:5px 18px;font-size:14px;font-family:"Microsoft Yahei",STHeiti;}
+.questionnaire .box li{padding:3px 0;}
+.questionnaire .box li label{display:inline-block;width:60px;text-align:right;}
+.questionnaire .box .text{width:256px;height:20px;margin-left:5px;border:1px solid #e3e9ef;border-top:1px solid #abadb3;}
+.questionnaire .box .text:focus{border-color:#888 #ddd #ddd #ccc;}
+.questionnaire .box .text2{width:99%;height:110px;border:1px solid #e3e9ef;border-top:1px solid #abadb3;margin:5px 0;}
+.questionnaire .box .text2:focus{border-color:#888 #ddd #ddd #ccc;}
+.questionnaire .box.highlight{border:1px solid #ed5257;background:#fff6f0;}
+.questionnaire .box p{padding:10px 0;}
+.questionnaire .box ul{padding:0 0 10px;}
+.questionnaire .btn_wrapper{text-align:center;padding:10px 0;}
+.questionnaire .btn_wrapper button{width:102px;height:31px;border:0;cursor:pointer;font-family:'Microsoft YaHei',STHeiti,Tahoma,Arial,SimSun;
+	background:#e57b2b url("../stylesimg/questionnaire_submit.png?20130808") no-repeat 0 0;color:#fff;font-weight:bold;}

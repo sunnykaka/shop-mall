@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript" src="/static/js/lib/jquery-1.9.1.js"></script>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        html, body, ul, li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: 'microsoft yahei', tahoma, simsun;
+        }
+
+        .login_page {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+        }
+
+        .login_page .main {
+            background: url("/static/images/login_bg.jpg") no-repeat 0 0;
+            position: absolute;
+            margin: -332px 0 0 -490px;
+            width: 980px;
+            height: 664px;
+        }
+
+        .login_page .main h3 {
+            display: none;
+        }
+
+        .login_page .main ul {
+            padding: 300px 0 0 269px;
+            width: 451px;
+        }
+
+        .login_page .main label {
+            float: left;
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            text-align: right;
+            padding: 0 8px 0 0;
+        }
+
+        .login_page .main li {
+            height: 60px;
+        }
+
+        .login_page .main .text {
+            width: 286px;
+            height: 38px;
+            line-height: 38px;
+            padding: 0 5px;
+            font-family: 'microsoft yahei', tahoma, simsun;
+            font-size: 20px;
+            color: #333;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #abadb3 #dbdfe6 #dbdfe6;
+            border-radius: 3px;
+        }
+
+        .login_page .main .text:focus {
+            border-color: #8595c6 #c4ceeb #c4ceeb;
+            -webkit-box-shadow: 0 0 2px #c4ceeb;
+            -moz-box-shadow: 0 0 2px #c4ceeb;
+            box-shadow: 0 0 2px #c4ceeb;
+        }
+
+        .login_page .main .btn_wrapper {
+            padding: 0 0 0 180px;
+        }
+
+        .login_page .main .btn {
+            width: 90px;
+            height: 40px;
+            background: url("/static/images/login_btn.png") no-repeat 0 0;
+            border: 0;
+            cursor: pointer;
+            line-height: 500px;
+            overflow: hidden;
+        }
+
+        .login_page .main .msg {
+            display: none;
+            position: absolute;
+            width: 240px;
+            padding: 6px;
+            border: 1px solid #e2883b;
+            margin: -150px 0 0 380px;
+            background: #fdf4ed;
+            color: #df8132;
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="login_page">
+    <div class="main">
+        <form action="/account/login" method="post" id="loginForm">
+            <h3>登录</h3>
+            <ul>
+                <li>
+                    <label for="userName">用户名:</label>
+                    <input type="text" name="userName" id="userName" class="text">
+                </li>
+                <li>
+                    <label for="password">密码:</label>
+                    <input type="password" name="password" id="password" class="text">
+                </li>
+                <li class="btn_wrapper">
+                    <button type="submit" class="btn">登录</button>
+                </li>
+            </ul>
+            <div class="msg" id="msg"></div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        function tip(msg) {
+            var msgEl = $("#msg");
+            msgEl.html(msg).stop().fadeIn(600);
+
+            window.setTimeout(function () {
+                msgEl.fadeOut(400, function () {
+                    msgEl.html("");
+                });
+            }, 1200);
+        }
+
+        $("#loginForm").submit(function (e) {
+            e.preventDefault();
+
+            var userNameVal = $("#userName").val(),
+                    passwordVal = $("#password").val();
+
+            if (userNameVal.length < 1) {
+                tip("您还没有输入用户名");
+                return;
+            }
+            if (passwordVal.length < 1) {
+                tip("您还没有输入密码");
+                return;
+            }
+            var url = $(this).attr("action");
+            $.ajax({
+                type: "post",
+                url: url,
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data["success"]) {
+                        location.href = "/";
+                    } else {
+                        tip(data["msg"]);
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

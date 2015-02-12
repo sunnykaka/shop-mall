@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Account">
+
+    <select id="selectCountForAccount" resultClass="int">
+        select count(*) from Account
+    </select>
+
+    <select id="selectEmployeeBossId" resultClass="java.lang.Integer">
+        select bossId from Employee_Boss where employeeId = #employeeId#
+    </select>
+
+    <select id="selectBossEmployeeId" resultClass="java.lang.Integer">
+        select employeeId from Employee_Boss where bossId = #bossId#
+    </select>
+
+    <select id="selectEmployeePositionId" resultClass="java.lang.Integer">
+        select positionId from Employee_Position where employeeId = #employeeId#
+    </select>
+
+    <select id="selectEmployeeDepartmentId" resultClass="java.lang.Integer">
+        select departmentId from Employee_Department where employeeId = #employeeId#
+    </select>
+
+    <select id="isAccountIsHr" resultClass="java.lang.Integer">
+        <!--select employeeId from Employee_Department where departmentId =13 and employeeId=#employeeId#-->
+        select employeeId from Employee_Position where positionId = 5 and employeeId=#employeeId#
+    </select>
+
+    <select id="checkAccountIsHr" resultClass="int">
+        select count(employeeId) from Employee_Department where departmentId = #departmentId#
+    </select>
+
+    <select id="isPositionHasEmployee" resultClass="int">
+        select count(employeeId) from Employee_Position where positionId = #positionId#
+    </select>
+
+
+    <select id="selectAllAccounts" resultClass="com.kariqu.accountcenter.domain.Account">
+        select id,userName from Account where leaveOffice=0 and deleteData=0
+    </select>
+
+    <select id="selectAccountById"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select * from Account where id = #id#
+    </select>
+
+    <select id="queryAccountByPage"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select * from Account limit #start#,#limit#
+    </select>
+
+    <select id="queryAccountCount" parameterClass="com.kariqu.accountcenter.domain.AccountQuery"
+            resultClass="int">
+        select count(distinct a.id) from account a,employee_position p,employee_department d where a.id=p.employeeId and a.id=p.employeeId
+        <isGreaterThan property="departmentId" compareValue="0" prepend="AND">
+            departmentId=#departmentId#
+        </isGreaterThan>
+        <isGreaterThan property="positionId" compareValue="0" prepend="AND">
+            positionId=#positionId#
+        </isGreaterThan>
+        <isNotEmpty property="leaveOffice" prepend="AND">
+            leaveOffice =#leaveOffice#
+        </isNotEmpty>
+        <isNotEmpty property="userName" prepend="AND">
+            userName like '%$userName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="queryAccount" parameterClass="com.kariqu.accountcenter.domain.AccountQuery"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select distinct a.* from account a,employee_position p,employee_department d where a.id=p.employeeId and a.id=d.employeeId and deleteData=0
+        <isGreaterThan property="departmentId" compareValue="0" prepend="AND">
+            departmentId=#departmentId#
+        </isGreaterThan>
+        <isGreaterThan property="positionId" compareValue="0" prepend="AND">
+            positionId=#positionId#
+        </isGreaterThan>
+        <isNotEmpty property="leaveOffice" prepend="AND">
+            leaveOffice =#leaveOffice#
+        </isNotEmpty>
+        <isNotEmpty property="userName" prepend="AND">
+            userName like '%$userName$%'
+        </isNotEmpty>
+            order by id limit #start#,#limit#
+    </select>
+
+    <select id="queryAccountByName"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select * from Account where userName = #userName#
+    </select>
+
+    <select id="selectSameDepartmentEmployee"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select* from account where leaveOffice=0 and deleteData=0 and id in( SELECT employeeId FROM employee_department e where departmentId =(SELECT
+        departmentId FROM employee_department where employeeId=#employeeId#))
+    </select>
+
+    <select id="queryAccountByEmail"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select * from Account where email = #email#
+    </select>
+
+    <select id="queryAccountByEnglishName"
+            resultClass="com.kariqu.accountcenter.domain.Account">
+        select * from Account where englishName = #englishName#
+    </select>
+
+    <select id="checkAccountByLoginPsw"
+            resultClass="java.lang.Integer">
+        select id from Account where password = #password# and id=#id#
+    </select>
+
+
+    <insert id="insertAccount">
+        insert into Account
+        (userName,englishName,email,password,leaveOffice)
+        values
+        (#userName#,#englishName#,#email#,#password#,#leaveOffice#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="insertEmployeeBoss">
+        insert into Employee_Boss
+        (employeeId ,bossId)
+        values
+        (#employeeId# ,#bossId#)
+    </insert>
+
+    <delete id="deleteEmployeeBoss">
+        delete from Employee_Boss
+        where employeeId= #employeeId#
+    </delete>
+
+    <delete id="deleteEmployeePosition">
+        delete from Employee_Position
+        where employeeId= #employeeId#
+    </delete>
+
+    <delete id="deleteEmployeeDepartment">
+        delete from Employee_Department
+        where employeeId= #employeeId#
+    </delete>
+
+
+    <insert id="insertEmployeePosition">
+        insert into Employee_Position
+        (employeeId ,positionId)
+        values
+        (#employeeId# ,#positionId#)
+    </insert>
+
+    <insert id="insertEmployeeDepartment">
+        insert into Employee_Department
+        (employeeId ,departmentId)
+        values
+        (#employeeId# ,#departmentId#)
+    </insert>
+
+    <update id="updateAccount">
+        update Account
+        set userName=#userName# ,englishName=#englishName#,email=#email# ,password=#password#,leaveOffice=#leaveOffice#
+        where id=#id#
+    </update>
+
+    <update id="setAccountLeave">
+        update Account
+        set leaveOffice=1 where id=#id#
+    </update>
+
+    <update id="deleteAccountById">
+        update Account
+        set deleteData=1 where id=#id#
+    </update>
+
+    <delete id="thoroughDeleteAccountById">
+        delete from Account
+        where id = #id#
+    </delete>
+
+    <update id="updateAccountPsw">
+        update Account
+        set password=#password# where id=#id#
+    </update>
+
+
+</sqlMap>

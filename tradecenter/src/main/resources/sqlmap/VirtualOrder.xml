@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForVirtualOrderByUserId" resultClass="int">
+        select count(1) from VirtualOrder vo where userId = #userId# and accountType = #accountType# and isDelete = 0
+        <isEqual prepend="AND" property="orderTime" compareValue="gt">
+            <![CDATA[ createDate >= DATE_SUB(now(),INTERVAL 1 month) ]]>
+        </isEqual>
+        <isEqual prepend="AND" property="orderTime" compareValue="lt">
+            <![CDATA[ createDate < DATE_SUB(now(),INTERVAL 1 month) ]]>
+        </isEqual>
+
+        <isNotEqual prepend="AND" property="orderStatus" compareValue="">
+            virtualState = #virtualState#
+        </isNotEqual>
+    </select>
+
+
+    <select id="selectVirtualOrderByUserIdPage" resultClass="com.kariqu.tradecenter.domain.VirtualOrder">
+        select * from VirtualOrder vo where userId = #userId# and accountType = #accountType# and isDelete = 0
+
+        <!-- 近一个月内的订单 -->
+        <isEqual prepend="AND" property="orderTime" compareValue="gt">
+            <![CDATA[ createDate >= DATE_SUB(now(),INTERVAL 1 month) ]]>
+        </isEqual>
+        <!-- 一个月前的订单 -->
+        <isEqual prepend="AND" property="orderTime" compareValue="lt">
+            <![CDATA[ createDate < DATE_SUB(now(),INTERVAL 1 month) ]]>
+        </isEqual>
+
+        <!-- 订单状态, 根据虚拟订单及实际订单同时进行查询 -->
+        <isNotEqual prepend="AND" property="orderStatus" compareValue="">
+            virtualState = #virtualState#
+        </isNotEqual>
+
+        order by createDate desc limit #start#,#limit#
+    </select>
+
+
+    <select id="queryVirtualOrderById" resultClass="com.kariqu.tradecenter.domain.VirtualOrder">
+        select id, userId, accountType, virtualState, payBank, totalPrice, createDate, cancelDate, modifyDate, endDate, payPrice
+        from VirtualOrder where id = #id# and isDelete = 0
+    </select>
+
+
+    <select id="checkVirtualOrderIfPaySuccessful" resultClass="int">
+        select count(id) from VirtualOrder where virtualState='PayCompleted' and id = #virtualOrderId# and isDelete = 0
+    </select>
+
+
+    <insert id="createVirtualOrder">
+        insert into VirtualOrder
+        (createDate,userId,accountType,virtualState,payBank,totalPrice,payPrice)
+        values
+        (now(),#userId#,#accountType#,#virtualState#,#payBank#,#totalPrice#,#payPrice#)
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+
+    <update id="updateVirtualOrder">
+        update VirtualOrder
+        set userId=#userId#,accountType=#accountType#,virtualState=#virtualState#,
+        payBank=#payBank#,payPrice=#payPrice#,modifyDate = now()
+        where id = #id#
+    </update>
+
+    <update id="updateVirtualOrderPaySuccessful">
+        update VirtualOrder
+        set virtualState='PayCompleted',modifyDate = now()
+        where id = #virtualOrderId# and virtualState='WaitingForPay'
+    </update>
+
+    <update id="triggerVirtualOrderCancel">
+        update VirtualOrder
+        set virtualState='Cancel',modifyDate = now(),payPrice = 0
+        where id = #virtualOrderId# and virtualState='WaitingForPay'
+    </update>
+
+    <delete id="deleteVirtualOrder">
+        update VirtualOrder
+        set isDelete =1 where id = #id#
+    </delete>
+
+</sqlMap>

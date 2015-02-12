@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/SpringContext.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>
+            org.springframework.web.util.IntrospectorCleanupListener
+        </listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>log4jFilter</filter-name>
+        <filter-class>com.kariqu.common.Log4jMDCServletFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>log4jFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>securityFilter</filter-name>
+        <filter-class>com.kariqu.login.BossSecurityFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>securityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>roleCheckFilter</filter-name>
+        <filter-class>com.kariqu.login.RoleCheckFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>roleCheckFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>kariquweb</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/SpringMVC.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>syncDesignCenterServlet</servlet-name>
+        <servlet-class>com.kariqu.designcenter.client.monitor.DesignCenterClientMonitorServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+
+    <servlet>
+        <servlet-name>syncCategoryCenterServlet</servlet-name>
+        <servlet-class>com.kariqu.categorycenter.client.sync.monitor.CategoryClientMonitorServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>syncDesignCenterServlet</servlet-name>
+        <url-pattern>/syncDc</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>syncCategoryCenterServlet</servlet-name>
+        <url-pattern>/syncCc</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>kariquweb</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- 400错误 -->
+    <error-page>
+        <error-code>400</error-code>
+        <location>/error/400.jsp</location>
+    </error-page>
+    <!-- 404 页面不存在错误 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404.jsp</location>
+    </error-page>
+    <!-- 500 服务器内部错误 -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/500.jsp</location>
+    </error-page>
+</web-app>

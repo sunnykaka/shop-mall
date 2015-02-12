@@ -1,0 +1,12 @@
+<html>
+<head>
+    <title>出现错误</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <img src="http://img07.yijushang.com/images/error/global_error.png">
+    <h2>发生系统错误，请稍后再试</h2>
+    #if(!$!online)<p>$!msg </p>#end
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="product-repository.xml"/>
+
+    <import resource="spacePicture-repository.xml"/>
+
+    <bean class="com.kariqu.productcenter.service.impl.AttentionInfoServiceImpl"/>
+    <bean id="productService" class="com.kariqu.productcenter.service.impl.ProductServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.SkuServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.SkuStorageServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.SpacePictureServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.ConsultationServiceImpl"/>
+
+    <bean id="jiayougoService" class="com.kariqu.productcenter.service.impl.JiayougoServiceImpl">
+        <property name="accountId" value="102140"/>
+        <property name="password" value="e16dfd18795940084e5146c258048590"/>
+        <property name="online" value="${online}" />
+    </bean>
+
+    <bean id="uploadImageService" class="com.kariqu.productcenter.service.impl.UploadImageServiceImpl">
+        <property name="savePosition" value="${spacePictureSpacePath}"/>
+        <property name="upLoadOnCdn" value="${spacePictureUploadCdn}"/>
+        <property name="useJMagick" value="false"/>
+        <property name="yunStore" ref="designImgStore"/>
+        <property name="urlBrokerFactory" ref="urlBrokerFactory"/>
+    </bean>
+
+    <!-- 图片空间的存储 -->
+    <bean id="designImgStore" class="com.kariqu.common.file.UpYunStore">
+        <property name="username" value="tiger"/>
+        <property name="password" value="iob%#%&amp;ODWV"/>
+        <property name="fileBucketName" value="assets-file-ejs"/>
+        <property name="pictureBucketName" value="product-des-ejs"/>
+        <property name="pictureDomain" value="${yijushang.static.img.domain}"/>
+        <property name="fileDomain" value="assets.yijushang.com/"/>
+    </bean>
+
+    <!-- 商品图片的存储 -->
+    <bean id="productImgStore" class="com.kariqu.common.file.UpYunStore">
+        <property name="username" value="tiger"/>
+        <property name="password" value="iob%#%&amp;ODWV"/>
+        <property name="fileBucketName" value="assets-file-ejs"/>
+        <property name="pictureBucketName" value="product-pic-ejs"/>
+        <property name="pictureDomain" value="${yijushang.static.img.product.domain}"/>
+        <property name="fileDomain" value="assets.yijushang.com/"/>
+    </bean>
+
+    <bean id="uploadImage" class="com.kariqu.productcenter.service.impl.UploadImageServiceImpl">
+        <property name="savePosition" value="${productPictureUploadPath}"/>
+        <property name="upLoadOnCdn" value="${productPictureUploadCdn}"/>
+        <!--<property name="paramPressImg" value="logo.png"/>-->
+        <property name="useJMagick" value="${useJMagick}"/>
+        <property name="yunStore" ref="productImgStore"/>
+        <property name="urlBrokerFactory" ref="urlBrokerFactory"/>
+        <property name="scales">
+            <list>
+                <value>0.1</value>
+                <value>0.2</value>
+                <value>0.37</value>
+                <value>0.5</value>
+                <!--<value>1.0</value>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productPictureResolver" class="com.kariqu.productcenter.service.ProductPictureResolver"/>
+
+    <bean id="productActivityService" class="com.kariqu.productcenter.service.impl.ProductActivityServiceImpl"/>
+
+    <bean id="limitedTimeDiscountService" class="com.kariqu.productcenter.service.impl.LimitedTimeDiscountServiceImpl"/>
+
+    <bean id="mealSetService" class="com.kariqu.productcenter.service.impl.MealSetServiceImpl"/>
+
+    <bean id="productIntegralConversionService" class="com.kariqu.productcenter.service.impl.ProductIntegralConversionServiceImpl" />
+
+    <bean id="productSuperConversionService" class="com.kariqu.productcenter.service.impl.ProductSuperConversionServiceImpl" />
+
+    <bean id="conversionBaseService" class="com.kariqu.productcenter.service.impl.ProductConversionBaseServiceImpl"/>
+
+    <bean id="promotionService" class="com.kariqu.productcenter.service.impl.PromotionServiceImpl"/>
+
+    <bean id="programService" class="com.kariqu.productcenter.service.impl.ProgramServiceImpl"/>
+
+</beans>

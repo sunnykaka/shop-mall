@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="const.selector">
+		select id, constKey, constValue, constComment, createDate, updateDate
+		from Const
+    </sql>
+
+    <select id="queryAllConst" resultClass="com.kariqu.om.domain.Const">
+        <include refid="const.selector"/>
+    </select>
+
+    <select id="queryConstByKey" resultClass="com.kariqu.om.domain.Const">
+        <include refid="const.selector"/>
+        where constKey = #constKey#
+    </select>
+
+    <insert id="insertConst">
+        insert into const(constKey, constValue, constComment, createDate, updateDate)
+        values(#constKey#, #constValue#, #constComment#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateConst">
+        update Const set constValue = #constValue#, updateDate = now()
+        where constKey = #constKey#
+    </update>
+
+    <delete id="deleteConstByKey">
+		delete from Const where constKey = #constKey#
+	</delete>
+
+</sqlMap>

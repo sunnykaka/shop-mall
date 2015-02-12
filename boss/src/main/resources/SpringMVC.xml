@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 扫描web模块的bean -->
+    <context:component-scan base-package="com.kariqu.common"/>
+    <context:component-scan base-package="com.kariqu.login"/>
+    <context:component-scan base-package="com.kariqu.categorymanager.web">
+        <context:exclude-filter type="assignable"
+                                expression="com.kariqu.categorymanager.web.CategoryDataPushController"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.kariqu.productmanager.web">
+        <context:exclude-filter type="assignable"
+                                expression="com.kariqu.productmanager.web.ProductPictureController"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.kariqu.designsystem.web"/>
+    <context:component-scan base-package="com.kariqu.shopsystem.web">
+        <context:exclude-filter type="assignable"
+                                expression="com.kariqu.shopsystem.web.CommonModuleDataPushController"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.kariqu.securitymanager.web"/>
+    <context:component-scan base-package="com.kariqu.tradesystem.web"/>
+    <context:component-scan base-package="com.kariqu.supplier"/>
+    <context:component-scan base-package="com.kariqu.spacepicture.web"/>
+    <context:component-scan base-package="com.kariqu.omcenter.web"/>
+
+    <context:component-scan base-package="com.kariqu.usercenter.web">
+        <context:exclude-filter type="assignable" expression="com.kariqu.usercenter.web.SmsSendController"/>
+    </context:component-scan>
+
+    <context:component-scan base-package="com.kariqu.cmssystem.web"/>
+    <context:component-scan base-package="com.kariqu.backgoods.web"/>
+
+    <mvc:annotation-driven/>
+
+    <bean class="com.kariqu.productmanager.web.ProductPictureController">
+        <property name="productPictureMaxHeight" value="800" />
+        <property name="productPictureMaxWidth" value="800"/>
+    </bean>
+
+    <bean class="com.kariqu.shopsystem.web.CommonModuleDataPushController">
+        <property name="pushUrl" value="${pushUrl}" />
+    </bean>
+
+    <bean class="com.kariqu.categorymanager.web.CategoryDataPushController">
+        <property name="pushUrl" value="${pushUrl}" />
+    </bean>
+
+    <bean class="com.kariqu.usercenter.web.SmsSendController">
+        <property name="developMode" value="${developMode}"/>
+    </bean>
+
+    <!--定时任务-->
+    <bean class="com.kariqu.scheduletask.web.ScheduleTaskController">
+        <property name="serverIp" value="${server.ip}"/>
+        <property name="scheduleTaskMap">
+            <map>
+                <entry key="resendMsg" value-ref="reSendSmsMessageScheduleTask"/>
+                <entry key="closeOrder" value-ref="closeOrderScheduleTask"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="reSendSmsMessageScheduleTask" class="com.kariqu.scheduletask.task.ReSendSmsMessageScheduleTask"/>
+    <bean id="closeOrderScheduleTask" class="com.kariqu.scheduletask.task.CloseOrderScheduleTask"/>
+
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/extjs4/**" location="/extjs4/"/>
+    <mvc:resources mapping="/extjs/**" location="/extjs/"/>
+    <mvc:resources mapping="/favicon.ico" location="/static/favicon.ico"/>
+
+    <bean id="velocityConfig"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/default/"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="com.kariqu.common.KariquVelocityViewResolver">
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="requestContextAttribute" value="rc"/>
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="urlBrokerBean" ref="urlBrokerFactory"/>
+        <property name="productPictureResolver" ref="productPictureResolver"/>
+    </bean>
+
+    <!-- 配置文件上传解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="388675912"/>
+    </bean>
+
+    <bean class="com.kariqu.common.KariquExceptionResolver">
+        <property name="online" value="${online}"/>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.kariqu.common.BossInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <task:executor id="executor" pool-size="5"/>
+
+    <task:scheduler id="scheduler" pool-size="10"/>
+
+    <task:annotation-driven executor="executor" scheduler="scheduler"/>
+
+</beans>

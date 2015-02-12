@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <typeAlias alias="SubscriptionInfo" type="com.kariqu.usercenter.domain.SubscriptionInfo"/>
+
+    <select id="querySubscriptionInfoAll" resultClass="SubscriptionInfo">
+        select id,userId,email,createDate from SubscriptionInfo where isDelete = 0 order by id asc
+    </select>
+
+    <select id="querySubscriptionInfoById" resultClass="SubscriptionInfo">
+        select id,userId,email,createDate from SubscriptionInfo where id = #id#
+    </select>
+
+
+
+    <insert id="insertSubscriptionInfo">
+        insert into SubscriptionInfo
+        (userId,email,createDate,updateDate)
+        values
+        (#userId#,#email#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+
+    <update id="deleteSubscriptionInfoById">
+        update SubscriptionInfo set isDelete=1 ,set updateDate=now() where id=#id#
+    </update>
+
+
+
+</sqlMap>

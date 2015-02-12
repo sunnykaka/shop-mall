@@ -1,0 +1,1 @@
+$LAB.script(EJS.StaticDomain + '/js/page/specialPageBg.js');

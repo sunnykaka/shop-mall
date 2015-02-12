@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>true</isCacheable>
+    </config>
+    <params>
+        <param name="Module_Html_ParamName" label="自定义内容" dataType="Html" formType="text">
+            <![CDATA[
+                   <div class="common_wrapper" style="height:60px">content</div>
+            ]]>
+        </param>
+        <param name="Module_Css_ParamName" label="自定义 css" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+        <param name="Module_Js_ParamName" label="自定义 js" dataType="String" formType="text">
+            <![CDATA[
+            ]]>
+        </param>
+    </params>
+</module>

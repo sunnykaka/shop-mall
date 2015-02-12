@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="Question.selector">
+        select id, surveyId, questionDetail, mustReply, answerType, createTime, updateTime
+        from Questionnaire_Question
+    </sql>
+
+    <select id="selectQuestion" resultClass="com.kariqu.om.domain.Question">
+        <include refid="Question.selector"/>
+        where isDelete = 0
+        <isNotEqual prepend="and" property="questionId" compareValue="0">
+            id = #questionId#
+        </isNotEqual>
+    </select>
+
+    <select id="selectQuestionBySurveyId" resultClass="com.kariqu.om.domain.Question">
+        <include refid="Question.selector"/>
+        where isDelete = 0 <!-- and surveyId = #surveyId# -->
+        <isNotEqual prepend="and" property="surveyId" compareValue="0">
+            surveyId = #surveyId#
+        </isNotEqual>
+    </select>
+
+    <!--<delete id="deleteQuestion">
+        delete from Questionnaire_Question where id = #id#
+    </delete>-->
+
+    <update id="deleteQuestion">
+        update Questionnaire_Question set isDelete = 1, updateTime = now() where id = #id#
+    </update>
+
+    <insert id="insertQuestion">
+        insert into Questionnaire_Question(surveyId, questionDetail, mustReply, answerType, createTime, updateTime)
+        values (#surveyId#, #questionDetail#, #mustReply#, #answerType#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateQuestionSelective">
+        update Questionnaire_Question
+        <dynamic prepend="set">
+            <isNotEmpty prepend="," property="surveyId">
+                surveyId = #surveyId#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="questionDetail">
+                questionDetail = #questionDetail#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="mustReply">
+                mustReply = #mustReply#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="answerType">
+                answerType = #answerType#
+            </isNotEmpty>
+            <isNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNull>
+            <isNotNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+</sqlMap>

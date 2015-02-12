@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+	<config>
+		<isCacheable>false</isCacheable>
+        <isDelete>false</isDelete>
+        <isEdit>true</isEdit>
+	</config>
+	<params>
+        <param name="activityImgUrl" label="活动图的url(大图)" dataType="String" formType="text">http://img04.yijushang.com/600F0870C0214999B9866C003BFAED02.jpg</param>
+        <param name="activitySmallImgUrl" label="活动图的url(小图)" dataType="String" formType="text">http://img04.yijushang.com/600F0870C0214999B9866C003BFAED02.jpg</param>
+        <param name="activityType" label="活动类型" dataType="String" formType="text">IntegralConversion</param>
+        <param name="recommendActivityId" label="活动id" dataType="String" formType="text">1</param>
+	</params>
+</module>

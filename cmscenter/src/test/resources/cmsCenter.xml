@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+    <bean id="cms-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:cms-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+
+    </bean>
+
+    <bean id="cmsRepository" class="com.kariqu.cmscenter.repository.impl.CmsRepositoryImpl">
+        <property name="sqlMapClient" ref="cms-sqlMapClient"/>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,13 @@
+<html>
+<title>申请邀请码</title>
+
+<body>
+
+<form action="$urlBroker.getUrl('BuyHome').toString()/my/invite/apply">
+    请输入你要申请的邀请码个数:<input type="text" name="count"/>
+    <input type="submit"/>
+</form>
+
+
+</body>
+</html>

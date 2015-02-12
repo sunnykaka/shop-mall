@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="Property.selector">
+        select id,name from Property
+    </sql>
+
+    <select id="selectAllProperty" resultClass="com.kariqu.categorycenter.domain.model.Property">
+        <include refid="Property.selector"/>
+    </select>
+
+    <select id="selectProperty"
+            resultClass="com.kariqu.categorycenter.domain.model.Property">
+        <include refid="Property.selector"/> where id = #id#
+    </select>
+
+    <select id="getPropertyByName" resultClass="com.kariqu.categorycenter.domain.model.Property">
+        <include refid="Property.selector"/> where name = #name#
+    </select>
+
+    <insert id="insertProperty">
+        insert into Property
+        (id,name)
+        values
+        (#id#,#name#)
+    </insert>
+
+    <update id="updateProperty">
+        update Property
+        set name=#name#
+        where id=#id#
+    </update>
+
+    <delete id="deleteProperty">
+        delete from Property
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllProperty">
+        delete from Property
+    </delete>
+
+</sqlMap>

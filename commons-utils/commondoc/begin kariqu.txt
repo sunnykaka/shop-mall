@@ -1,0 +1,101 @@
+1,JAVA_HOME,M2_HOME
+
+2,安装window memcache
+下载http://splinedancer.com/memcached-win32/
+解压出来之后在命令行
+memcached.exe -d install
+memcached.exe -d start
+重启，memcache将会以服务启动 ，端口默认是11211
+
+
+3,maven安装，版本是2:
+
+配置公司仓库镜像，修改M2_HOME/conf/settings.conf
+
+    <servers>
+        <server>
+            <id>nexus-releases</id>
+            <username>admin</username>
+            <password>admin123</password>
+        </server>
+        <server>
+            <id>nexus-snapshots</id>
+            <username>admin</username>
+            <password>admin123</password>
+        </server>
+    </servers>
+
+    <mirrors>
+            <mirror>
+                <id>nexus</id>
+                <name>nexus</name>
+                <url>http://172.16.0.88:8081/nexus/content/groups/public</url>
+                <mirrorOf>*</mirrorOf>
+            </mirror>
+    </mirrors>
+
+
+2，聚合工程pom.xml
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.kariqu</groupId>
+    <artifactId>kariqu</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>kariqu</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>usercenter</module>
+        <module>designcenter</module>
+        <module>commons-utils</module>
+        <module>categorycenter</module>
+        <module>searchengine</module>
+        <module>productcenter</module>
+        <module>crm</module>
+        <module>buyerSystem</module>
+        <module>session</module>
+        <module>sessiondemo</module>
+        <module>commonmodule</module>
+        <module>template</module>
+        <module>securitysystem</module>
+        <module>workflow</module>
+        <module>workflowdemo</module>
+        <module>employeeSystem</module>
+        <module>accountcenter</module>
+    </modules>
+</project>
+放到所有工程的外面
+
+4,check 代码
+执行check脚本
+
+3,打开Intellij IDEA 导入maven工程
+中文windows操作系统，如果maven在控制台发生乱码，可在maven的设置了里设定java 启动编码-Dfile.encoding=GBK
+
+
+5,安装memcache
+
+6,安装Jmagick
+使用ImageMagick + jmagick
+ImageMagick通过exe安装,jmagick是一个jar，放到tomcat的lib下，jmagick中的dll复制一份放到系统的system32下和再复制一份和ImageMagick的安装目录那些dll一起
+
+7,安装mysql
+特殊问题，在windows下数据库表名不区分大小写，在linux下则区分大小写
+不过可以在my.cnf中的mysqld下设置
+lower_case_table_names=1来让它大小写不敏感
+
+8,修改hosts      windows/system32/drivers/etc/hosts
+
+127.0.0.1 yijushang.com
+127.0.0.1 login.yijushang.com
+127.0.0.1 www.yixinshang.com
+
+127.0.0.1 login.yijushang.net
+127.0.0.1 www.yijushang.net
+127.0.0.1 yijushang.net
+127.0.0.1 design.yijushang.net
+
+
+
+

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.ProductCategory">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parent.id" column="parentId"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+
+    <sql id="ProductCategory.selector">
+        select id,name,parentId,description from ProductCategory
+    </sql>
+
+    <select id="selectAllProductCategory" resultMap="result">
+        <include refid="ProductCategory.selector"/> where isDelete = 0
+    </select>
+
+    <select id="querySubCategories"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where parentId = #parentId# and isDelete = 0
+    </select>
+
+    <select id="selectProductCategory"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where id = #id# and isDelete = 0
+    </select>
+
+    <insert id="insertProductCategory">
+        insert into ProductCategory
+        (name,parentId,description,createTime,updateTime)
+        values
+        (#name#,#parent.id#,#description#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateProductCategory">
+        update ProductCategory
+        set name=#name#,parentId=#parent.id#,description=#description#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteProductCategory">
+        update ProductCategory
+        set isDelete = 1,updateTime=now()
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllProductCategory">
+        update ProductCategory
+        set isDelete = 1,updateTime=now()
+    </delete>
+
+    <select id="queryAddedProductCategoryFromGivingTime"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where isDelete = 0 and createTime > #time#
+    </select>
+
+    <select id="queryUpdatedProductCategoryFromGivingTime"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where isDelete = 0 and updateTime > #time# and updateTime != createTime
+    </select>
+
+    <select id="queryDeletedProductCategoryFromGivingTime"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where isDelete = 1 and updateTime > #time#
+    </select>
+
+    <select id="queryProductCategoryByNameAndParentId" resultClass="int">
+        select count(1) from ProductCategory where name=#name# and parentId=#parentId# and isDelete=0
+    </select>
+
+</sqlMap>

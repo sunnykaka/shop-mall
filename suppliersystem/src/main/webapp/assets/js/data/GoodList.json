@@ -1,0 +1,16 @@
+{
+    "data": {
+        "list": [
+            { "itemNo": "TA110201079Z0", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z1", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z2", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z3", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z4", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z5", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z6", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" },
+            { "itemNo": "TA110201079Z7", "productName": "TAYOHYA多样屋PASSION透明企鹅壶", "skuAttribute": "商品属性：容量:3.0L 颜色:红", "barCode": "TA110201079ZZ", "categoryName": "保温水壶", "unitPrice": "¥179.00", "shipmentNum": "1", "stockQuantity": "0", "brandName": "TAYOHYA多样屋" }
+        ]
+    },
+    "success": true,
+    "message": "Loaded data"
+}

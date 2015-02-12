@@ -1,0 +1,111 @@
+<!-- 产品SKU -->
+<div class="common_wrapper product_combination_sku clearfix">
+    <div class="photo">
+        <div class="photo_small" id="photo_small">
+            <div class="jqzoom_box">
+                <a href="$!defaultProduct" rel='gal1' id="jqzoombox">
+                    <img src="$!imgResolver.getHalfSizeImgUrl($!defaultProduct)" alt="" class="big_pic" id=""/></a>
+            </div>
+        </div>
+        <div class="photo_thumb" id="photo_thumb">
+            <ul>
+                #foreach($picture in $!pictureList)
+                <li>
+                    <a href='javascript:void(0);'#if($!velocityCount == 1) class="zoomThumbActive"#end
+                       rel="{gallery: 'gal1', smallimage: '$!imgResolver.getHalfSizeImgUrl($!picture)',largeimage: '$!picture'}">
+                        <img src="$!imgResolver.getMinSizeImgUrl($!picture)"/>
+                    </a>
+                </li>
+                #end
+            </ul>
+        </div>
+    </div>
+
+    <div class="info">
+        <h1 class="name">$!mealView.meal.name</h1>
+
+        <div class="info_0">
+            <dl class="clearfix">
+                <dt>原价：</dt>
+                <dd><span class="price">¥$!{mealView.totalPrice}</span>元</dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>套餐价：</dt>
+                <dd><span class="combination_price">¥<strong>$!{mealView.mealTotalPrice}</span></strong>元</dd>
+            </dl>
+            <div class="economize"><span>立省：¥<strong>$!{mealView.stintPrice}</strong></span></div>
+        </div>
+
+        <div class="info_2">
+            <div class="btn_w">
+                <form id="buyCombinationForm" method="post" action="$!{urlBroker.getUrl('BuyHome')}/order/meal">
+                    <input type="hidden" name="mealId" value="$!mealView.meal.id" />
+                    #foreach($mealItemView in $!mealView.mealItemViewList)
+                    #set($index = $!velocityCount - 1)
+                    <input type="hidden" name="skuId_$!index" value="$!{mealItemView.mealItem.skuId}" />
+                    #end
+                    <input type="hidden" name="skuCount" value="$!mealView.mealItemViewList.size()" />
+                    <button type="button" class="btn_buy" id="directBuyCombination">立即购买</button>
+                    <span class="postage">包邮</span>
+                </form>
+            </div>
+            <div class="btn_w_hide" style="display:none">
+                <a href="javascript:void(0);" class="common_btn"><span>商品已售完</span></a>
+            </div>
+
+            <div class="integral clearfix">
+                <dl>
+                    <dt>积分：</dt>
+                    <dd>送 <span>$!mealView.integral</span>（<a href="$!urlBroker.getUrl('BuyHome').toString()/help/19.html" target="_blank">积分规则</a>）</dd>
+                </dl>
+            </div>
+            <div class="payment clearfix">
+                <dl>
+                    <dt>支付方式：</dt>
+                    <dd>
+                        <p>支付宝, 财富通, 网银</p>
+                    </dd>
+                </dl>
+            </div>
+            #if($!{mealView.meal.recommendReason} && !$!mealView.meal.recommendReason.trim().equals(''))
+            <div class="reason clearfix">
+                <strong>推荐理由：</strong><br>
+                $!{mealView.meal.recommendReason.replaceAll("\n", "<br/>")}
+            </div>
+            #end
+        </div>
+    </div>
+</div>
+<!-- 产品SKU END -->
+
+<!-- 套餐商品列表 -->
+<div class="common_wrapper combination_content">
+    <h3>本优惠套餐商品包括：</h3>
+
+    <ul>
+        #foreach($mealItemView in $!mealView.mealItemViewList)
+        <li#if($velocityCount == $!mealView.mealItemViewList.size()) class="last"#end>
+            <div class="box">
+                <div class="pic">
+                    <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!mealItemView.skuInfo.productAndSkuId).toString()" target="_blank">
+                        <img class="lazy" src="$urlBroker.getUrl('StaticDesignImgDomain').toString()/images/none_222.jpg"
+                             data-original="$!imgResolver.getMiddleSizeImgUrl($!mealItemView.skuInfo.imageUrl)" title="$!mealItemView.skuInfo.name"/></a>
+                </div>
+                <div class="name">
+                    <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!mealItemView.skuInfo.productAndSkuId).toString()"
+                       target="_blank" title="$!mealItemView.skuInfo.name">$!mealItemView.skuInfo.name</a>
+                </div>
+                <div class="price">
+                    <span>¥$!mealItemView.mealPrice</span>
+                    <span class="market_price">¥$!mealItemView.skuInfo.skuPrice</span>
+                </div>
+                <div class="number">数量: $!mealItemView.mealItem.number</div>
+            </div>
+            <div class="shadow"></div>
+            <span class="plus">+</span>
+        </li>
+        #end
+    </ul>
+
+</div>
+<!-- 套餐商品列表 END -->

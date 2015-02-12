@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta property="wb:webmaster" content="82ad4ec836cdb171"/>
+    <meta property="qc:admins" content="20627073406525301676375" />
+    <title>欢迎光临易居尚</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$urlBroker.getVersion()"/>
+    <style type="text/css">
+        html, body {
+            background: #4e4e4e;
+            background-image: none;
+        }
+        #invite_bg {
+            background: url("$urlBroker.getUrl('StaticDesignImgDomain').toString()/stylesimg/invite.jpg") no-repeat top center #4e4e4e;
+            margin: 0 auto;
+            height: 799px;
+            position: relative;
+        }
+
+        #invite_bg .box {
+            width: 1000px;
+            height: 799px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        #info_tip {
+            position: absolute;
+            color: #e2700f;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 20px;
+            width: 200px;
+            height: 20px;
+            left: 580px;
+            top: 406px;
+        }
+
+        .input_text {
+            position: absolute;
+            width: 198px;
+            height: 32px;
+            line-height: 32px;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            color: #fff;
+            font-weight: bold;
+            left: 580px;
+            top: 440px;
+        }
+
+        .input_btn {
+            position: absolute;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            width: 146px;
+            height: 40px;
+            cursor: pointer;
+            left: 793px;
+            top: 435px;
+            background: transparent;
+            line-height: 500px;
+            text-indent: -999em;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<input type="hidden" id="InviteVerifyUrl" value="$urlBroker.getUrl('BuyHome').toString()/invite/verify"/>
+<!--Start页面最小宽度包裹层-->
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+            <div id="invite_bg">
+                <form id="submitForm" type="POST">
+                <div class="box">
+                    <div id="info_tip"></div>
+                    <input id="invite_txt" class="input_text" type="text" name="code" value="请输入邀请码!" val="请输入邀请码!">
+                    <input id="invite_submit" class="input_btn" type="submit" value="提交">
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+#* <script src="http://a.tbcdn.cn/apps/top/x/sdk.js?appkey=21279686"></script> *#
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function submitInvite(){
+            if ($("#invite_txt").val() == $("#invite_txt").attr("val")) {
+                $("#info_tip").text("请输入您的邀请码！");
+                $("#invite_txt").focus();
+            } else {
+                $("#info_tip").text("");
+                $.ajax({
+                    type:"POST",
+                    url:$("#InviteVerifyUrl").val(),
+                    data:$("#submitForm").serialize(),
+                    async:false,
+                    success:function(data){
+                        var res=eval("("+data+")");
+                        if(res["success"]){
+                            location.href=res["data"]["toUrl"];
+                        }else{
+                            $("#info_tip").text("您的邀请码无效！");
+                        }
+                    }
+                });
+            }
+        }
+
+        $("#submitForm").submit(function (e) {
+            e.preventDefault();
+            submitInvite();
+            return false;
+        });
+
+        $("#invite_txt").blur(
+                function (e) {
+                    if ($(this).val() == "") {
+                        $(this).val($(this).attr("val"));
+                    }
+                }).focus(function (e) {
+                    if ($(this).val() == $(this).attr("val")) {
+                        $(this).val("");
+                    }
+        });
+
+        /*$(document).keypress(function (event) {
+            switch (event.keyCode) {
+                case 13:
+                    submitInvite();
+                    break;
+            }
+        });*/
+
+    });
+</script>
+</body>
+</html>

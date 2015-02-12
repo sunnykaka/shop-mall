@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>提交订单</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/cart/index.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/user/index.css?$!urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+#parse("user/newLoginTop.vm")
+<input id="fromCart" submitUrl="$!OrderSubmitUrl" type="hidden" value="$fromCart"/>
+<div class="e-header-min e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+
+    <div class="cart-steps">
+        <ul>
+            <li>填写核对订单</li>
+            <li class="last">订单提交成功</li>
+        </ul>
+        <div class="step step-1">&nbsp;</div>
+    </div>
+
+</div>
+
+<div class="order-page">
+<div class="e-wrapper">
+#parse("address.vm")
+<!-- /收货人信息 -->
+
+#parse("payTypeForCurrency.vm")
+<!-- /支付方式 -->
+
+#parse("invoice.vm")
+<!-- /发票信息 -->
+
+<div class="order-box inventory">
+    <h3>送货清单</h3>
+
+    <div class="cart-head">
+        <table>
+            <tr>
+                <th class="col1-2">商品信息</th>
+                <th class="col3">单价</th>
+                <th class="col4">数量</th>
+                <th class="col5">总价</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="cart-body">
+        #if($productIntegralConversion)
+            <input type="hidden" name="skuTempId" id="skuTempId" value="${productIntegralConversion.skuId}"/>
+            #foreach($entry in $!cartItemGroup.keySet())
+            <div class="list">
+                <table>
+                    <caption>由$!{entry.company}从$!{entry.name}发货</caption>
+                    <tbody>
+                    #foreach($cartItem in $cartItemGroup.get($entry))
+                    <tr class="row">
+                        <td class="col1">
+                            <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $cartItem.productId).addQueryData('skuId', $cartItem.skuId).toString()">
+                                <img src="$imgResolver.getMinSizeImgUrl($!cartItem.imageUrl)" width="60" height="60" alt="$!cartItem.productName"/>
+                            </a>
+                        </td>
+                        <td class="col2">
+                            <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $cartItem.productId).addQueryData('skuId', $cartItem.skuId).toString()">
+                                $!cartItem.productName
+                            </a> <br>
+                            $!cartItem.skuPv
+                        </td>
+                        <td class="col3">
+                            #*#if($!cartItem.hasActive())*#
+                                <span class="market-price">¥$!cartItem.originalPrice</span><br>
+                           #* #end
+                            <span class="price">¥$!cartItem.price</span>*#
+                        </td>
+                        <td class="col4">
+                            $!cartItem.number
+                        </td>
+                        <td class="col5">
+                            ${productIntegralConversion.fetchCurrencyMutiNum($!cartItem.number)}积分
+                        </td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            #end
+        #elseif($productSuperConversion)
+            <input type="hidden" name="skuTempId" id="skuTempId" value="${productSuperConversion.skuId}"/>
+            #foreach($entry in $!cartItemGroup.keySet())
+                <div class="list">
+                    <table>
+                        <caption>由$!{entry.company}从$!{entry.name}发货</caption>
+                        <tbody>
+                            #foreach($cartItem in $cartItemGroup.get($entry))
+                            <tr class="row">
+                                <td class="col1">
+                                    <a href="$!urlBroker.getUrl('SkuDetail').addQueryData('productId', $cartItem.productId).addQueryData('skuId', $cartItem.skuId).toString()">
+                                        <img src="$imgResolver.getMinSizeImgUrl($!cartItem.imageUrl)" width="60" height="60" alt="$!cartItem.productName"/>
+                                    </a>
+                                </td>
+                                <td class="col2">
+                                    <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $cartItem.productId).addQueryData('skuId', $cartItem.skuId).toString()">
+                                        $!cartItem.productName
+                                    </a> <br>
+                                    $!cartItem.skuPv
+                                </td>
+                                <td class="col3">
+                                    #*#if($!cartItem.hasActive())*#
+                                        <span class="market-price">¥$!cartItem.originalPrice</span><br>
+                                   #* #end
+                                    <span class="price">¥$!cartItem.price</span>*#
+                                </td>
+                                <td class="col4">
+                                    $!cartItem.number
+                                </td>
+                                <td class="col5">
+                                    <span class="red">${productSuperConversion.fetchCurrencyMutiNum($!cartItem.number)}积分+ ¥${productSuperConversion.fetchMoneyForPriceMutiNum($!cartItem.number)}</span>
+                                </td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+            #end
+        #end
+    </div>
+    <div class="remark-box">
+        若您对包裹有特殊要求，请在此备注：
+        <textarea name="remark" id="remark" cols="50" rows="2" class="form-text"></textarea>
+    </div>
+
+</div>
+
+<div class="order-box order-total">
+    <h3>订单结算</h3>
+
+    <div class="row clearfix">
+        <span class="pull-left">商品合计</span>
+        #if($productIntegralConversion)
+            <span class="pull-right price">$!totalPayIntegral积分</span>
+        #elseif($productSuperConversion)
+            <span class="pull-right price">$!totalPayIntegral积分+¥$!totalPayPrice</span>
+        #end
+    </div>
+    <div class="row clearfix">
+        <span class="pull-left">运费合计(易居尚平台商品全场包邮)</span>
+        <span class="pull-right">免邮费</span>
+    </div>
+
+    <div class="btns clearfix">
+        <form id="orderSubmit" method="post" action="/">
+            <input type="hidden" name="token" value="$!token">
+            <input type="hidden" name="addressId" id="addressId" value="$!defaultAddress.id">
+            <input type="hidden" name="payBank" id="payBank" value="Alipay">
+            <input type="hidden" name="invoice" id="isInvoice" value="false">
+            <input type="hidden" name="invoiceType" id="invoiceType" value="普通发票">
+            <input type="hidden" name="invoiceTitle" id="invoiceTitle" value="individual">
+            <input type="hidden" name="invoiceContent" id="invoiceContent" value="办公用品">
+            <input type="hidden" name="companyName" id="companyName" value="">
+            <input type="hidden" name="skuId" id="skuId" value="1">
+            <input type="hidden" name="source" id="source">
+            <input type="hidden" name="useCoupon" id="useCoupon" value="false">
+            <input type="hidden" name="code" id="code" value="">
+            <input type="hidden" name="integral" id="integral" value="0">
+            <input type="hidden" name="number" id="number" value="$!buyNumber">
+            <input type="hidden" name="totalPrice" id="totalPrice" value="0.00">
+            <input type="hidden" name="messageInfo" id="messageInfo" value="">
+
+            <div class="pull-right">
+                <dl>
+                    <dt>合计：</dt>
+                    <dd>
+                        #if($productIntegralConversion)
+                            <span class="price total-price">
+                                <span id="total-price">$!totalPayIntegral</span>
+                                积分
+                            </span>
+                        #elseif($productSuperConversion)
+                            <span class="price total-price">
+                                <span id="total-price">$!totalPayIntegral</span>
+                                <i>积分+</i>
+                                <span id="total-price2">¥$!totalPayPrice</span>
+                            </span>
+                        #end
+                    </dd>
+                </dl>
+                <a id="submitLink" class="e-btn btn-orange">提交订单</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+#parse("oderFoot.vm")
+
+<!-- 网站底部脚本 END -->
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/cart/order.js?$!urlBroker.getVersion()"></script>
+
+</body>
+</html>

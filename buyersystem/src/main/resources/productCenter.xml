@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="product-repository.xml"/>
+    <import resource="spacePicture-repository.xml"/>
+
+    <bean class="com.kariqu.productcenter.service.impl.AttentionInfoServiceImpl"/>
+    <bean id="productService" class="com.kariqu.productcenter.service.impl.ProductServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.SkuServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.SkuStorageServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.SpacePictureServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.ConsultationServiceImpl"/>
+
+    <bean id="productPictureResolver" class="com.kariqu.productcenter.service.ProductPictureResolver"/>
+
+    <bean id="productActivityService" class="com.kariqu.productcenter.service.impl.ProductActivityServiceImpl"/>
+
+    <bean id="limitedTimeDiscountService" class="com.kariqu.productcenter.service.impl.LimitedTimeDiscountServiceImpl"/>
+    <bean class="com.kariqu.productcenter.service.impl.MealSetServiceImpl"/>
+
+    <bean id="browsHistoryService" class="com.kariqu.productcenter.service.impl.BrowsingHistoryServiceImpl" />
+    <bean class="com.kariqu.common.ApplicationContextUtils" />
+
+
+    <bean id="productIntegralConversionService" class="com.kariqu.productcenter.service.impl.ProductIntegralConversionServiceImpl" />
+    <bean id="productSuperConversionService" class="com.kariqu.productcenter.service.impl.ProductSuperConversionServiceImpl" />
+    <bean id="conversionBaseService" class="com.kariqu.productcenter.service.impl.ProductConversionBaseServiceImpl"/>
+</beans>

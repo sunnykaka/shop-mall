@@ -1,0 +1,37 @@
+/*关于我们*/
+.about-module { margin: 0 auto; padding: 25px 0 50px; width: 1200px; }
+.about-module .text-green { color: #748131; }
+.about-module .about-title { margin-bottom: 10px; height: 26px; border-bottom: 2px solid #ddd; }
+.about-module .about-title strong { float: left; padding: 0 5px 8px; font-size: 18px; font-weight: normal; color: #4a4a4a; font-family:"Microsoft Yahei",STHeiti; border-bottom: 2px solid #748130; }
+.about-module .about-nav { width: 1198px; height: 46px; line-height: 46px; background: #fafafa; border: 1px solid #ddd; }
+.about-module .about-nav li { float: left; height: 100%; }
+.about-module .about-nav li a { padding: 0 25px; display: block; font-family:"Microsoft Yahei",STHeiti; font-size: 16px; color: #4f5609; -webkit-transition: .1s background linear; -moz-transition: .1s background linear; transition: .1s background linear; }
+.about-module .about-nav li a:hover { text-decoration: none; color: #fff; background: #4f5609; }
+.about-module .about-nav .current a { color: #fff; background: #748130; }
+.about-module .fix { position: fixed; top: 0; z-index: 2; }
+.about-module .about-center { position: relative; margin-top: 25px; height:100%; overflow:hidden; }
+.about-module .about-center p { padding-left: 5px; font-size: 14px; font-family:"Microsoft Yahei",STHeiti; color: #4a4a4a; line-height: 30px;  }
+.about-module .about-center .family p,
+.about-module .about-center .vision p { width: 650px; word-wrap: break-word; line-height: 22px; }
+.about-module .about-center .family .about-title,
+.about-module .about-center .vision .about-title { border: none; }
+.about-module .about-center .family .about-title strong,
+.about-module .about-center .vision .about-title strong { border: none; }
+.about-module .about-center .pic {padding:20px 30px 0 0; float:right; overflow:hidden; }
+/*人才招聘*/
+.about-module .job-intro { margin: 25px 0 48px; height: 100%; overflow: hidden; }
+.about-module .intro-list li { float: left; color: #4a4a4a; font-size: 14px; font-family:"Microsoft Yahei",STHeiti; line-height: 28px; }
+.about-module .intro-list .right-des { padding-left: 130px; }
+.about-module .job-module { margin-bottom: 30px; }
+.about-module .job-table { border: 1px solid #ddd; word-break: break-all; }
+.about-module .job-table thead { height: 42px; line-height: 42px; background: #f0f0f0; font-size: 14px; font-family:"Microsoft Yahei",STHeiti; }
+.about-module .job-table thead td { padding: 0 20px; color: #748130; border-bottom: 1px solid #ddd; }
+.about-module .job-table tbody td { padding: 10px 20px; border-bottom: 1px solid #ddd; }
+.about-module .job-table tbody td p { line-height: 20px; }
+.about-module .job-table tbody .des-title { display: block; padding-bottom: 5px; }
+.about-module .job-table .job-date { float: right; }
+.about-module .job-table .job-name { float: left; }
+
+/*单页模块样式调整*/
+.common_wrapper{ width: 1200px; }
+.mod-safeguard { background-color: #e04b27; margin-top: 20px; }

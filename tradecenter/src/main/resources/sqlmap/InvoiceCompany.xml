@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectInvoiceCompanyByUserId"
+            resultClass="com.kariqu.tradecenter.domain.InvoiceCompany">
+        select id, userId, companyName from InvoiceCompany where userId = #userId#  and isDelete=0
+    </select>
+
+    <update id="updateInvoiceCompany">
+        update InvoiceCompany
+        set companyName=#companyName# ,updateDate=now() where id = #id#
+    </update>
+
+    <update id="deleteInvoiceCompany">
+        update InvoiceCompany set isDelete=1 ,updateDate=now()
+        where id = #id#
+    </update>
+
+    <insert id="insertInvoiceCompany">
+        insert into InvoiceCompany
+        (userId,companyName,createDate,updateDate)
+        values
+        (#userId#,#companyName#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</sqlMap>

@@ -1,0 +1,48 @@
+1，为了本机开发部署，让tomcat的配置文件指向我们的开发目录，位置在server.xml的host节点加入context
+这样每次在IDE中编译打包后应用服务器可立即热加载，同时也可在debug模式中热交换代码
+<Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+
+             <Context path="krq" docBase="D:\kariqu\boss\target\exploded\boss.war" reloadable="true"></Context>
+             <Context path="buy" docBase="D:\kariqu\buyerSystem\target\exploded\buyerSystem.war" reloadable="true"></Context>
+             <Context path="emp" docBase="D:\kariqu\employeeSystem\target\exploded\employeeSystem.war" reloadable="true"></Context>
+
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" resolveHosts="false"/>
+</Host>
+
+2，在maven中配置打包插件
+
+    <properties>
+        <warExplodedDirectory>target/exploded/${artifactId}.war</warExplodedDirectory>
+    </properties>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <webappDirectory>${warExplodedDirectory}</webappDirectory>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                            <includes>
+                                <include>*.xml</include>
+                            </includes>
+                            <targetPath>WEB-INF</targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+3,在tomcat的启动命令中设置debug启动项，catalina.bat文件的rem注释完毕之后写入这个变量
+set CATALINA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+linux环境是
+CATALINA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+
+
+
+
+调节内存windows: set JAVA_OPTS=-XX:PermSize=128M -XX:MaxPermSize=128m -Xms512m -Xmx1024m
+linxu:JAVA_OPTS="-XX:PermSize=128M -XX:MaxPermSize=128m -Xms512m -Xmx1024m"
+
+4,在Intellij IDEA中，是在Run/Debug的configurations中，找到Remote新建一个即可

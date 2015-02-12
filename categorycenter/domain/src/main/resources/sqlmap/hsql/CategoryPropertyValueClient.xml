@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="CategoryPropertyValue.selector">
+        select id,categoryId,propertyId,valueId,priority from CategoryPropertyValue
+    </sql>
+
+    <select id="selectAllCategoryPropertyValues"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryPropertyValue">
+        <include refid="CategoryPropertyValue.selector"/>
+    </select>
+
+
+    <select id="getCategoryPropertyValues" resultClass="com.kariqu.categorycenter.domain.model.CategoryPropertyValue">
+        <include refid="CategoryPropertyValue.selector"/> where categoryId=#categoryId# and propertyId=#propertyId#  order by priority asc
+    </select>
+
+    <select id="getCategoryPropertyValuesByCategoryId"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryPropertyValue">
+        <include refid="CategoryPropertyValue.selector"/> where categoryId=#categoryId#
+    </select>
+
+    <select id="queryCategoryPropertyValueByCategoryIdAndPropertyIdAndValueId"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryPropertyValue">
+        <include refid="CategoryPropertyValue.selector"/> where categoryId=#categoryId# and propertyId=#propertyId# and
+        valueId=#valueId#
+    </select>
+
+    <select id="selectCategoryPropertyValue"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryPropertyValue">
+        <include refid="CategoryPropertyValue.selector"/> where id = #id#
+    </select>
+
+    <insert id="insertCategoryPropertyValue">
+        insert into CategoryPropertyValue
+        (id,categoryId,propertyId,valueId,priority)
+        values
+        (#id#,#categoryId#,#propertyId#,#valueId#,#priority#)
+    </insert>
+
+    <update id="updateCategoryPropertyValue">
+        update CategoryPropertyValue
+        set categoryId=#categoryId#,propertyId=#propertyId#,valueId=#valueId#,priority=#priority#
+        where id=#id#
+    </update>
+
+    <delete id="deleteCategoryPropertyValue">
+        delete from CategoryPropertyValue
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllCategoryPropertyValue">
+        delete from CategoryPropertyValue
+    </delete>
+
+    <delete id="deleteCategoryPropertyValueByCPVId">
+        delete from CategoryPropertyValue
+        where categoryId=#categoryId# and propertyId=#propertyId# and valueId=#valueId#
+    </delete>
+
+    <delete id="deleteCategoryPropertyValueByCategoryId">
+        delete from CategoryPropertyValue
+        where categoryId=#categoryId#
+    </delete>
+
+    <delete id="deleteCategoryPropertyValueByCPId">
+        delete from CategoryPropertyValue
+        where categoryId=#categoryId# and propertyId=#propertyId#
+    </delete>
+
+</sqlMap>

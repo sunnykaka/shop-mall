@@ -1,0 +1,129 @@
+.add {
+    background-image: url(../images/icons/add.gif) !important;
+}
+
+.edit {
+    background-image: url(../images/icons/btn_edit.png) !important;
+}
+
+.remove {
+    background-image: url(../images/icons/delete.gif) !important;
+}
+
+.delete {
+    background-image: url(../images/icons/delete.gif) !important;
+}
+
+.refresh {
+    background-image: url(../images/icons/refresh.gif) !important;
+}
+
+.sync {
+    background-image: url(../images/icons/sync.png) !important;
+}
+
+.config {
+    background-image: url(../images/icons/config.png) !important;
+}
+
+.comments {
+    background-image: url(../images/icons/comments.png) !important;
+}
+
+.new {
+    background-image: url(../images/icons/new.png) !important;
+}
+
+.run {
+    background-image: url(../images/icons/cog.png) !important;
+}
+
+.option {
+    background-image: url(../images/icons/plugin.gif) !important;
+}
+
+
+.save {
+    background-image: url(../images/icons/save.gif) !important;
+}
+
+.accordion {
+    background-image: url(../images/icons/accordian.gif) !important;
+}
+
+.tabs {
+    background-image: url(../images/icons/tabs.gif) !important;
+}
+
+.user {
+    background-image: url(../images/icons/user.gif) !important;
+}
+
+.key {
+    background-image: url(../images/icons/key.png) !important;
+}
+
+.user-add {
+    background-image: url(../images/icons/user_add.gif) !important;
+}
+
+.user-delete {
+    background-image: url(../images/icons/user_delete.gif) !important;
+}
+
+.connect {
+    background-image: url(../images/icons/connect.gif) !important;
+}
+
+.user-girl {
+    background-image: url(../images/icons/user_female.gif) !important;
+}
+
+.user-kid {
+    background-image: url(../images/icons/user_green.gif) !important;
+}
+
+.user-suit {
+    background-image: url(../images/icons/user_suit.gif) !important;
+}
+
+.down {
+    background-image: url(../images/icons/down.png) !important;
+}
+
+.up {
+    background-image: url(../images/icons/up.png) !important;
+}
+
+.refreshTree {
+    background-image: url(../images/icons/refresh2.png) !important;
+}
+
+.upgrade {
+    background-image: url(../images/icons/upgrade.png) !important;
+}
+
+.accept {
+    background-image: url(../images/icons/accept.png) !important;
+}
+
+.bogus {
+    background-image: url(../images/icons/bogus.png) !important;
+}
+
+.logout {
+    background-image: url(../images/icons/logout.gif) !important;
+}
+
+.settings {
+    background-image: url(../images/icons/gears.gif) !important;
+}
+
+.cancel {
+    background-image: url(../images/icons/cancel.png) !important;
+}
+
+.preview {
+    background-image: url(../images/icons/eye.png) !important;
+
+}

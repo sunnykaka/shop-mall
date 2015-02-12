@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <typeAlias alias="LimitedTimeDiscount" type="com.kariqu.productcenter.domain.LimitedTimeDiscount"/>
+
+    <sql id="limitedTimeDiscount.selector">
+        select id, productId, skuDetailsJson, discountType, discount, beginDate, endDate, createDate, updateDate
+        from limitedTimeDiscount
+    </sql>
+
+    <select id="selectCountLimitedTimeDiscount" resultClass="int">
+        select count(1) from limitedTimeDiscount
+        where isDelete = 0
+        <isNotEqual prepend="and" property="productId" compareValue="0">
+        productId = #productId#
+        </isNotEqual>
+    </select>
+
+    <select id="selectLimitedTimeDiscount" resultClass="LimitedTimeDiscount">
+        <include refid="limitedTimeDiscount.selector" />
+        where isDelete = 0
+        <isNotEqual prepend="and" property="productId" compareValue="0">
+            productId = #productId#
+        </isNotEqual>
+        limit #start#, #limit#
+    </select>
+
+    <select id="selectLimitedTimeDiscountById" resultClass="LimitedTimeDiscount">
+        <include refid="limitedTimeDiscount.selector" />
+        where isDelete = 0 and id = #id#
+    </select>
+
+    <select id="selectLimitedTimeDiscountByProductId" resultClass="LimitedTimeDiscount">
+        <include refid="limitedTimeDiscount.selector" />
+        where isDelete = 0 and productId = #productId#
+    </select>
+
+    <select id="selectLimitedTimeDiscountByProductIdAndTime" resultClass="LimitedTimeDiscount">
+        <include refid="limitedTimeDiscount.selector" />
+        where isDelete = 0 and productId = #productId#
+        <isNotEmpty prepend="and" property="dateInterval">
+            <![CDATA[ (#dateInterval# >= beginDate and #dateInterval# <= endDate) ]]>
+        </isNotEmpty>
+        limit 1
+    </select>
+
+    <update id="updateLimitedTimeDiscount">
+        update LimitedTimeDiscount
+        set productId = #productId#,
+        skuDetailsJson = #skuDetailsJson#,
+        discountType = #discountType#,
+        discount = #discount#,
+        beginDate = #beginDate#,
+        endDate = #endDate#,
+        updateDate = now()
+        where id = #id#
+    </update>
+
+    <update id="deleteLimitedTimeDiscount">
+        update LimitedTimeDiscount set isDelete = 1, updateDate=now()
+        where id = #id#
+    </update>
+
+    <insert id="insertLimitedTimeDiscount">
+        insert into LimitedTimeDiscount
+        (productId, skuDetailsJson, discountType, discount, beginDate, endDate, createDate, updateDate)
+        values
+        (#productId#, #skuDetailsJson#, #discountType#, #discount#, #beginDate#, #endDate#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</sqlMap>

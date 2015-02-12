@@ -1,0 +1,85 @@
+#foreach($floor in $!floorList)
+<div class="e-wrapper mod-floor#if($!velocityCount == $!floorList.size()) mod-floor-last#end">
+    <h3>
+        <span class="title">
+            $!{velocityCount}F
+            #foreach($name in $!floor.nameList)
+                #if($name.link != '')<a href="$!name.link" target="_blank">$!name.name</a>#{else}$!{name.name}#end
+                #if($!velocityCount != $!floor.nameList.size())<span>/</span>#end
+            #end
+        </span>
+        <span class="links pull-right">
+            #foreach($category in $!floor.categoryList)
+                #if($category.link != '')<a href="$!category.link" target="_blank">$!category.name</a> #else $!category.name #end
+                #if($!velocityCount != $!floor.categoryList.size()) | #end
+            #end
+        </span>
+    </h3>
+    <div class="clearfix">
+        <div class="floor-layout-left">
+            <div class="pic-model-first">
+                <a href="$!floor.image.link" title="$!floor.image.title" target="_blank">
+                    <img class="lazy" data-original="$!floor.image.img" width="415" height="#if($!floor.brandList.size() > 3)410#{else}466#end"
+                         src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif">
+                </a>
+            </div>
+            <ul class="brands-recommend">
+                #foreach($brand in $!floor.brandList)
+                <li#if($!velocityCount % 3 == 0) class="last"#end>
+                    <a href="$!brand.link" target="_blank">
+                        <img class="lazy" data-original="$!brand.img" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif"
+                             alt="$!{brand.name}" title="$!{brand.name}" width="120" height="47">
+                        <span class="summary">
+                            $!{brand.name}
+                            #foreach($desc in $!brand.descList)
+                                #if($!desc.red) <strong>$!desc.desc</strong> #else $!desc.desc #end
+                            #end
+                        </span>
+                    </a>
+                </li>
+                #end
+            </ul>
+        </div>
+
+        <div class="floor-layout-right">
+            #if($!floor.allProId)
+                <ul class="list2">
+                    #foreach($product in $!floor.productList)
+                    <li>
+                        <div class="item-box">
+                            <div class="pic">
+                                <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.link).toString()" title="$!product.name">
+                                    <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.img)" width="200" height="200"
+                                         src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" />
+                                </a>
+                            </div>
+                            <div class="name">
+                                <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.link).toString()">$!product.name</a>
+                            </div>
+                            <div class="price">¥ $!product.price</div>
+                        </div>
+                    </li>
+                    #end
+                </ul>
+            #else
+                <ul class="list">
+                    #foreach($product in $!floor.productList)
+                    <li#if($!product.doublePoint) class="large"#end>
+                        <a target="_blank" class="animate-bounceInRight" href="$!product.link">
+                            <img class="lazy" data-original="$!product.img" title="$!product.name" alt="$!product.name"
+                                 width="#if($!product.doublePoint)512#{else}260#{end}" height="260"
+                                 src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" />$!product.name</a>
+                        <div class="aside">
+                            <div class="name">
+                                <a target="_blank" href="$!product.link">$!product.name</a>
+                            </div>
+                            <div class="summary">$!product.desc <strong>$!{product.price}</strong></div>
+                        </div>
+                    </li>
+                    #end
+                </ul>
+            #end
+        </div>
+    </div>
+</div>
+#end

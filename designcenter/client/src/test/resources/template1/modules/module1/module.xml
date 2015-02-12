@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+	<file>module.vm</file>
+	<thumbnail>/assets/images/module.png</thumbnail>
+	<params>
+		<param name="module1Param1"  label="" dataType="" formType="text">http://www.zhiwen.com</param>
+		<param name="module1Param2"  label="" dataType="" formType="text">http://www.kariqu.com</param>
+	</params>
+</module>

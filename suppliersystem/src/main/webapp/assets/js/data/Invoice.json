@@ -1,0 +1,14 @@
+{
+    "data": {
+        "obj": [
+            {
+                "invoiceType": "普通发票",
+                "invoiceTitle": "个人",
+                "companyName": "易居尚",
+                "invoiceContent": "明细"
+            }
+        ]
+    },
+    "success": true,
+    "message": "Loaded data"
+}

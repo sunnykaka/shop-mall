@@ -1,0 +1,69 @@
+#set($leftCss="$urlBroker.getUrl('StaticFileDomain').toString()/css/user/usercenter.css?$urlBroker.getVersion()")
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/user/my_history.js?${urlBroker.getVersion()}"])
+
+#parse("head.vm")
+<div class="wrapper">
+<!-- 网站位置 -->
+<div class="common_wrapper userleft_wrapper">
+    <div class="my_position_bar">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()" class="home">首页</a>
+        <span>-</span>
+        <a href="$!urlBroker.getUrl('MyAccount').toString()">我的易居尚</a>
+        <span>-</span>
+        浏览记录
+    </div>
+</div>
+<!-- 网站位置 END -->
+
+<!-- 内容-->
+<div class="common_wrapper account_wrapper clearfix">
+<div class="n_his_left">
+    <div class="line"></div>
+    <div class="n_his_fixed">
+        <div class="n_his_title">
+            <h1>$!{loginUser.userName}</h1>
+            <span>以下是您最近30天浏览的宝贝</span>
+        </div>
+
+        <div class="n_his_nav">
+
+            <ul class="n_his_list" id="history_list">
+                <li class="current"><a href="#history_1"><span></span>今天</a> </li>
+                <li><a href="#history_2"><span></span>昨天</a> </li>
+                <li><a href="#history_3"><span></span>前天</a> </li>
+                <li><a href="#history_4"><span></span>一周内</a> </li>
+                <li><a href="#history_5"><span></span>一月内</a> </li>
+            </ul>
+            <div class="del_allclear #if($!hasHistoryData)del_all#else del_allno#end">
+                <span></span>
+                清除所有记录
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="n_his_right">
+#if($!hasHistoryData)
+    #parse("myinfo/myHistoryData.vm")
+#else
+    <div class="hide">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()"> 逛逛时尚品质居家驿站&gt;&gt;</a>
+        您还没有浏览过任何商品哦~
+    </div>
+#end
+</div>
+
+
+<div class="tips_his">
+    <h1><span class="close">X</span> 提示</h1>
+
+    <p class="tips_letter">您确定清空所有浏览记录吗？</p>
+    <div class="tips_con">
+        <span class="tips_btnOk">确定</span><span class="tips_btnNo">不清空</span>
+    </div>
+</div>
+</div>
+<!-- 内容 END -->
+
+#parse('foot.vm')
+</div>

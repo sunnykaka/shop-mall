@@ -1,0 +1,115 @@
+
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/tips2.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_home.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_myOrder.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/user/my_home.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_perfect.js?$!urlBroker.getVersion()",
+"<script type='text/javascript'>orderInit();perfectInformationValidate();</script>"])
+
+<div class="n_acc_right my_home">
+
+<div class="user_info ">
+    <div class="basic">
+        <div class="user_logo"><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/user/centerLogo.jpg"></div>
+
+        <div class="info clearfix">
+            <div class="username">$!{loginUser.userName}，欢迎您来到易居尚！</div>
+            <div class="fl_l show_t">我的积分：<span class="red">$!currency</span><em class="lin">|</em>
+                <div class="tips">
+                    <span class="ico"></span>
+                    <p>$!{integralCount}积分=1元，付款时可抵用现金</p>
+                </div>
+            </div>
+            <div class="fl_c show_t">我的现金券：<span class="red">$!couponCount </span>张<em class="lin">|</em>
+                <div class="tips">
+                    <span class="ico"></span>
+                    <p>付款时可抵用现金</p>
+                </div>
+            </div>
+            <div class="fl_r show_t"><label>我的等级：</label><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/user/centerIco.jpg" ><span>$!userGradeRuleName</span>
+                <div class="tips">
+                    <span class="ico"></span>
+                    <span class="grade_detail"></span>
+                    <p>再消费满¥$!nextRuleWithMoney，可升级到$!nextGradeRuleName</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="remind clearfix">
+        <form action="http://www.ejshang.com/my/myData" method="POST" id="bindingAccountForm">
+            <input type="hidden" value="7352" name="id">
+            <input type="hidden" name="reg_un_url" value="http://www.yijushang.com/user/checkUserNameForRegister">
+            <input type="hidden" name="reg_mail_url" value="http://www.yijushang.com/user/checkUserEmailForRegister">
+            <div class="fl_r clearfix"><label for="phoneNumber" class="dt">手机：</label><input type="text" value="$!loginUser.phone" class="text" name="phone" id="phoneNumber" readonly >
+                <span id="phoneNumber_error" class="error"></span> <a href="$!urlBroker.getUrl('ChangePhone').toString()">修改</a>
+            </div>
+
+            <div class="fl_l clearfix"><label for="email" class="show_t">邮箱：
+                <div class="tips">
+                    <span class="ico"></span>
+                    <p>添加邮箱可方便找回账户密码！</p>
+                </div>
+            </label>
+                #if($!loginUser.email && $!loginUser.email != "")
+                    <input type="text" value="$!loginUser.email" class="text" id="email" name="email"  readonly><span id="email_error" class="error"></span>
+                #else
+                    <input type="text" value="无" class="text" id="email" name="email"  readonly><span id="email_error" class="error"></span>
+                    <a href="$!urlBroker.getUrl('PutEmail').toString()" id="addEmail">添加</a>
+                #end
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+<!-- 我的订单 -->
+<div class="r_content">
+    <div class="content_wrapper uc_order" id="ucOrder">
+        <div class="home_tit">
+            <a href="$!urlBroker.getUrl('MyOrders').toString()">查看所有订单>></a>
+            <h3 class="tit">我的订单</h3>
+        </div>
+
+        <ul class="tabs">
+            <li class="current"><a href="$!urlBroker.getUrl('MyRecentOrder').toString()"></a></li>
+        </ul>
+
+        <div class="list" id="uc_order_list">
+        </div>
+
+    </div>
+</div>
+
+<!-- 我的关注 -->
+<div class="r_content">
+    <div class="home_tit">
+        <a href="$!urlBroker.getUrl('MyFavorites').addQueryData('pageNo',1)">查看全部>></a>
+        <h3 class="tit">我的关注</h3>
+    </div>
+    <div class="content_wrapper uc_order" id="">
+        #parse("myinfo/favoritesByAccountPage.vm")
+    </div>
+</div>
+
+
+
+
+<!-- 浏览记录 -->
+<div class="r_content">
+    <div class="content_wrapper uc_coupon" id="ucCoupon">
+        <h3 class="tit">浏览记录</h3>
+        <div class="history-box clearfix">
+
+            #parse("myinfo/productHistory.vm")
+        </div>
+    </div>
+</div>
+
+</div>
+

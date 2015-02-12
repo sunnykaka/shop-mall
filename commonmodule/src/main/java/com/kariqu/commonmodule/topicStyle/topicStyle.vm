@@ -1,0 +1,41 @@
+#set($topicCount = $!topicStyleNumber)
+#if($!topicStyleNumber == 2)#set($topicCount = 1)#end
+#if($!topicStyleNumber == 3)#set($topicCount = 4)#end
+#if($!topicStyleNumber == 4)#set($topicCount = 3)#end
+<div class="mod-goodsList-s$!{topicCount}">
+    <div class="e-wrapper">
+        <div class="title special-nav-title" title="$!_PARAM['topicStyleTitle']">
+            <img src="$!_PARAM['topicStyleImg']" width="1200">
+        </div>
+
+        <ul class="list clearfix"#if($!_PARAM['topicStyleColor'] != '') style="background-color: $!_PARAM['topicStyleColor']"#end>
+            #foreach($product in $!productList)
+            <li#if(($!topicStyleNumber != 2) && ($!velocityCount % $!topicStyleNumber == 0)) class="last"#end>
+                <div class="item-box">
+                    <div class="pic">
+                        #set($hotImgUrl = $!imgResolver.getBigSizeImgUrl($!product.ImageUrl))
+                        #set($widthAndHeight = 265)
+                        #set($imgSrc = "$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif")
+                        #if($!topicStyleNumber == 3)
+                            #set($hotImgUrl = $!imgResolver.getHalfSizeImgUrl($!product.ImageUrl))
+                            #set($widthAndHeight = 346)
+                            #set($imgSrc = "$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo400.gif")
+                        #end
+                        <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()" target="_blank">
+                            <img class="lazy" data-original="$!hotImgUrl" src="$!imgSrc" width="$!widthAndHeight" height="$!widthAndHeight" /></a>
+                    </div>
+
+                    <div class="aside">
+                        <div class="price">
+                            ¥ <span>$!{product.defaultSkuObject.sellPrice.split("[.]")[0]}</span>.#if($!product.defaultSkuObject.sellPrice.split("[.]").size() > 1)$!{product.defaultSkuObject.sellPrice.split("[.]")[1]}#{else}00#end
+                        </div>
+                        <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()">$!product.name</a></div>
+                        <div class="em">#if($!product.description.length() > $!topicStyleDescNum)$!{product.description.substring(0, $!topicStyleDescNum)}...
+                        #{else}$!product.description#end</div>
+                    </div>
+                </div>
+            </li>
+            #end
+        </ul>
+    </div>
+</div>

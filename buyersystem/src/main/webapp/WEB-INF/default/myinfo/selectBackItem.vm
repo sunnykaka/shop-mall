@@ -1,0 +1,84 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/user/toBackApply.js?$!urlBroker.getVersion()", "$!urlBroker.getUrl('StaticFileDomain').toString()/js/selectArea.js", '<script type="text/javascript">$(function(){$("#new_address").selectArea();returnsForm();});</script>'])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_fillin" id="ucOrder">
+            <h3 class="tit">填写退货</h3>
+        </div>
+        <div class="my_fillin">
+            <h5 class="tit">退货商品信息</h5>
+            <dl class="my_fillin_wares clearfix">
+                #foreach($orderItem in $orderItemList)
+                    <dt>
+                        <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $orderItem.productId).addQueryData('skuId', $orderItem.skuId).toString()" target="_blank" title="$orderItem.skuName &#10; $orderItem.skuExplain">
+                            <img src="$imgResolver.getMinSizeImgUrl($orderItem.skuMainPicture)" alt="$orderItem.skuExplain" width="80" height="80" />
+                        </a>
+
+                    </dt>
+                    <dd>
+                        <div>订单编号：$!orderNo</div>
+                        <p>
+                            <a href="$urlBroker.getUrl('SkuDetail').addQueryData('productId', $orderItem.productId).addQueryData('skuId', $orderItem.skuId).toString()" target="_blank" title="$orderItem.skuName &#10; $orderItem.skuExplain">
+                                $!{orderItem.skuName}
+                            </a>
+                        </p>
+                        <span class="orange">¥$orderItem.unitPriceByMoney</span>
+                    </dd>
+                #end
+
+            </dl>
+            <h5 class="tit">退货确认信息</h5>
+            <div id="new_address" style="display: block;">
+                <div class="new" style="display: block;">
+                <form  id="submitBackItemForm" action="$!urlBroker.getUrl('SubmitBackGoods')" method="post">
+                <ul class="my_fillin_ok">
+                    #*<li><span><em class="orange">*</em>选择处理方式：</span>
+                        <label><input name="processMode" type="radio" value="BackGood">退货</label>
+                        <label><input name="processMode" type="radio" value="Reimburse">换货</label>
+                        <label><input name="processMode" checked="checked" type="radio" value="repair">保修</label></li>*#
+                    <li><span><em class="orange">*</em>申请原因：</span><label><input id="backReason" name="backReason" value="QualityProblem" type="radio">商品质量问题</label><label><input name="backReason" checked="checked" value="NoQualityProblem" type="radio">非质量问题</label></li>
+                    <li><span><em class="orange">*</em>原因详细描述：</span><textarea id="backDiscription" name="backDiscription"></textarea></li>
+                    <li class="clearfix"><span>上传图片凭证：</span>
+                        <div>
+                            <div class="upload_let">
+                                <p>最多可上传3张图片，每张图片大小不超过1M，支持gif,jpg,png格式文件</p>
+                                <div>
+                                    <input type="file" name="uploadFile" id="uploadFile"/>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                #*<li class="my_fillin_add"><span><em class="orange">*</em>换货返回地址：</span>
+                    <div><label><input name="address" id="radio_input" value="广东省深圳市宝安区" checked="checked" type="radio">广东省深圳市宝安区</label></div>
+                    <div><label><input name="address" id="radio_input1" value="otherAddress" type="radio">填写地址</label></div>
+                    <div class="my_fillin_select">
+                        <select name="province" id="province" class="select">
+                        </select>
+                        <select name="city" id="city" disabled="disabled" class="select">
+                        </select>
+                        <select name="districts" id="districts" disabled="disabled" class="select">
+                        </select>
+                        <input type="text" name="detailAddress" id="reAddress">
+                    </div>
+                </li>
+                <li class="my_fillin_text"><span><em class="orange">*</em>联系手机：</span><input id="reNumber" name="backPhone" type="text"></li>*#
+                    <input type="hidden" value="$!orderNo" name="orderNo" >
+                    <input type="hidden" value="$!orderItemIdsAndReturnsNum" name="orderItemIdsAndReturnsNum" >
+                    <li class="my_fillin_button">
+                        <input type="submit" id="submitBackItemButton"  value="提交申请" class="button btn_6">
+                        <div class="tips" style="display:none">
+                            <span class="ico"></span>
+                            <p>信息必须要填写</p>
+                        </div>
+                    </li>
+                </ul>
+                <span id="msg" style="color: red">$!msg</span>
+            </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>
+<!-- 内容 END -->

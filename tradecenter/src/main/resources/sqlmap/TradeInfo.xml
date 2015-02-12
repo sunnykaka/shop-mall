@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="tradeInfo.selector">
+        select id,tradeNo,notifyId,notifyType,outerTradeNo,outerBuyerId,outerBuyerAccount,
+        outerPlatformType,payMethod,payTotalFee,tradeStatus,tradeGmtCreateTime,
+        tradeGmtModifyTime,gmtCreateTime,gmtModifyTime,bizType,defaultbank
+        from Trade
+    </sql>
+
+    <select id="selectTradeInfo" resultClass="com.kariqu.tradecenter.domain.payment.TradeInfo">
+        <include refid="tradeInfo.selector"/>
+        where id=#id#
+    </select>
+
+    <select id="queryTradeInfo" resultClass="int">
+        select count(id) from Trade where tradeNo=#tradeNo# and outerTradeNo = #outerTradeNo#
+    </select>
+
+    <select id="queryOuterTradeNoByTradeNo" resultClass="String">
+        select outerTradeNo from Trade where tradeNo=#tradeNo#
+    </select>
+
+    <!--
+     修改人：Json.zhu
+     修改时间：2013.12.09
+     查询已经成功交易的，
+     交易方式：全部，订单，优惠券
+     交付方式：全部，支付宝，财付通。。。。
+     开始时间：
+     结束时间:
+     -->
+    <select id="queryTradeByConditions" resultClass="com.kariqu.tradecenter.domain.payment.TradeInfo">
+        <include refid="tradeInfo.selector"/>
+        where tradeStatus in ('TRADE_SUCCESS', 'TRADE_FINISHED')
+        <isNotEmpty prepend="AND" property="bizType">
+            bizType = #bizType#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="payMethod">
+            payMethod = #payMethod#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ gmtCreateTime >= #startDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ gmtCreateTime <= #endDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="tradeNo">
+            tradeNo = #tradeNo#
+        </isNotEmpty>
+        order by gmtCreateTime desc
+        limit #start#, #limit#
+    </select>
+
+    <select id="queryTradeCountByConditions" resultClass="int">
+        select count(1) from Trade
+        where tradeStatus in ('TRADE_SUCCESS', 'TRADE_FINISHED')
+        <isNotEmpty prepend="AND" property="bizType">
+            bizType = #bizType#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="payMethod">
+            payMethod = #payMethod#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ gmtCreateTime >= #startDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ gmtCreateTime <= #endDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="tradeNo">
+            tradeNo = #tradeNo#
+        </isNotEmpty>
+    </select>
+
+    <select id="queryTradeListByConditions" resultClass="com.kariqu.tradecenter.domain.payment.TradeInfo">
+        <include refid="tradeInfo.selector"/>
+        where tradeStatus in ('TRADE_SUCCESS', 'TRADE_FINISHED')
+        <isNotEmpty prepend="AND" property="bizType">
+            bizType = #bizType#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="payMethod">
+            payMethod = #payMethod#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startDate">
+            <![CDATA[ gmtCreateTime >= #startDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="endDate">
+            <![CDATA[ gmtCreateTime <= #endDate# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="tradeNo">
+            tradeNo = #tradeNo#
+        </isNotEmpty>
+    </select>
+
+    <update id="updateTradeInfo">
+        update Trade
+        set notifyId=#notifyId#,notifyType=#notifyType#,tradeNo=#tradeNo#,
+        outerTradeNo=#outerTradeNo#,outerBuyerId=#outerBuyerId#,
+        outerBuyerAccount=#outerBuyerAccount#,outerPlatformType=#outerPlatformType#,
+        payMethod=#payMethod#,payTotalFee=#payTotalFee#,tradeStatus=#tradeStatus#,
+        tradeGmtCreateTime=#tradeGmtCreateTime#,tradeGmtModifyTime=#tradeGmtModifyTime#,
+        gmtCreateTime=#gmtCreateTime#,gmtModifyTime=#gmtModifyTime#
+        where id = #id#
+    </update>
+
+    <insert id="insertTradeInfo">
+        insert into Trade
+        (tradeNo,notifyId,notifyType,outerTradeNo,outerBuyerId,outerBuyerAccount,
+        outerPlatformType,payMethod,payTotalFee,tradeStatus,tradeGmtCreateTime,
+        tradeGmtModifyTime,gmtCreateTime,gmtModifyTime,bizType,defaultbank)
+        values
+        (#tradeNo#,#notifyId#,#notifyType#,#outerTradeNo#,#outerBuyerId#,#outerBuyerAccount#,
+        #outerPlatformType#,#payMethod#,#payTotalFee#,#tradeStatus#,#tradeGmtCreateTime#,
+        #tradeGmtModifyTime#,now(),now(),#bizType#,#defaultbank#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+</sqlMap>

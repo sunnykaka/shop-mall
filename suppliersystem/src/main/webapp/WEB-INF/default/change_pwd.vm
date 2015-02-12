@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>易居尚商家后台</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/static/css/base.css" type="text/css">
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/static/css/main.css" type="text/css">
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/static/js/common.js"></script>
+    <style type="text/css">
+        .wrapper{background-image: none;}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var _o_pwd=$("input#old_pwd");
+            var _pwd1=$("input#new_pwd1");
+            var _pwd2=$("input#new_pwd2");
+
+            var info1=$("#tip_o_pwd");
+            var info2=$("#tip_n_pwd1");
+            var info3=$("#tip_n_pwd2");
+            var info=$("#submit_error");
+
+            function checkForm(){
+                if(_o_pwd.val()==""){
+                    info1.text("请输入原密码！");
+                    _o_pwd.focus();
+                    return false;
+                }else{
+                    info1.text("");
+                }
+                if(_pwd1.val()==""){
+                    _pwd1.focus();
+                    info2.text("新密码不能为空！");
+                    return false;
+                }else{
+                    info2.text("");
+                }
+                if(_pwd2.val()==""){
+                    _pwd2.focus();
+                    info3.text("请再次输入新密码！");
+                    return false;
+                }
+                if(_pwd2.val()!=_pwd1.val()){
+                    _pwd2.focus();
+                    info3.text("两次密码不一致！");
+                    return false;
+                }else{
+                    info3.text("");
+                }
+                return true;
+            }
+
+            $(document).ready(function(){
+                _o_pwd.blur(function(){
+                    if(_o_pwd.val()==""){
+                        info1.text("请输入原密码！");
+                    }else{
+                        info1.text("");
+                    }
+                });
+                _pwd1.blur(function(){
+                    if(_pwd1.val()==""){
+                        info2.text("新密码不能为空！");
+                    }else{
+                        info2.text("");
+                    }
+                });
+
+                _pwd2.blur(function(){
+                    if(_pwd2.val()==""){
+                        info3.text("请再次输入新密码！");
+                    }else{
+                        if(_pwd2.val()!=_pwd1.val()){
+                            info3.text("两次密码不一致！");
+                        }else{
+                            info3.text("");
+                        }
+                    }
+                });
+
+                $("#submit_change").submit(function(e){
+                    e.preventDefault();
+                    if(!checkForm()){
+                        return false;
+                    }else{
+                        var data = {};
+                        $(this).find('input').each(function(){
+                            data[$(this).attr('name')] = $(this).val();
+                        });
+                        $.ajax({
+                           type:'POST',
+                           url: $(this).attr('action'),
+                           data: data,
+                           dataType: 'json',
+                           success: function(data){
+                               if (data.success){
+                                   alert("修改密码成功");
+                                   window.location.href="/index";
+                               }else{
+                                   alert(data.msg);
+                               }
+                           }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/static/js/pages.js"></script>
+</head>
+<body>
+<div class="common_wrapper">
+    <div class="change_pwd_wrapper">
+        <div class="change_pwd_fix">
+            <form action="/account/changePassword" method="post" id="submit_change" >
+                <input name="accountName" type="hidden" #if($accountName) value ="$accountName" #end  />
+                <label for="old_pwd">原密码：</label>
+                <input id="old_pwd" type="password"   name="oldPassword"  class="cpwd_text cpwd_text1">
+
+                <span id="tip_o_pwd" class="cpwd_tip cpwd_tip1"></span>
+                <label for="new_pwd1">新密码：</label><input id="new_pwd1" name="password" type="password" class="cpwd_text cpwd_text2"><span id="tip_n_pwd1" class="cpwd_tip cpwd_tip2"></span>
+                <label for="new_pwd2">再次输入密码：</label><input id="new_pwd2"  name="rePassword" type="password" class="cpwd_text cpwd_text3"><span id="tip_n_pwd2" class="cpwd_tip cpwd_tip3"></span>
+                <input type="submit" class="change_pwd_submit" value=" ">
+                <span id="submit_error" class="cpwd_tip cpwd_tip4"> #if($msg) $msg #end</span>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

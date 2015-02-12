@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>易居尚，提供高品质生活家居用品</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/css/common.css" />
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js"></script>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/common.js"></script>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/modules.js"></script>
+</head>
+<body>
+<div id="main_container">
+    ${pageContent}
+</div>
+</body>
+</html>

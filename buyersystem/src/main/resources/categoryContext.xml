@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="category-repository.xml"/>
+
+    <bean id="productCategoryService" class="com.kariqu.categorycenter.domain.service.impl.ProductCategoryServiceImpl"/>
+    <bean id="categoryAssociationService" class="com.kariqu.categorycenter.domain.service.impl.CategoryAssociationServiceImpl"/>
+    <bean id="categoryPropertyService" class="com.kariqu.categorycenter.domain.service.impl.CategoryPropertyServiceImpl"/>
+    <bean id="navigateCategoryPropertyService" class="com.kariqu.categorycenter.domain.service.impl.NavigateCategoryPropertyServiceImpl"/>
+    <bean id="navigateCategoryService" class="com.kariqu.categorycenter.domain.service.impl.NavigateCategoryServiceImpl"/>
+
+</beans>

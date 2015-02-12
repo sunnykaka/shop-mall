@@ -1,0 +1,109 @@
+ajax请求的使用方法
+Ext.decode将返回的文本编码成json对象
+
+Ext.Ajax.request({
+   url: 'ajax_demo/sample.json',
+   success: function(response, opts) {
+      var obj = Ext.decode(response.responseText);
+      console.dir(obj);
+   },
+   failure: function(response, opts) {
+      console.log('server-side failure with status code ' + response.status);
+   },
+   params: { foo: 'bar' },
+   //params: "param1=foo&param2=bar",
+   method:'',
+   headers: {
+          'my-header': 'foo'
+      }
+});
+
+如果请求没有参数，method又没指定的话会被get提交
+有参数了，默认会用POST提交
+
+回调函数中的参数
+response : Object
+The XMLHttpRequest object containing the response data.
+options : Object
+The parameter to the request call.
+
+
+表单提交的ajax
+myFormPanel.getForm().submit({
+    clientValidation: true,
+    url: 'updateConsignment.php',
+    params: {
+        newStatus: 'delivered'
+    },
+    success: function(form, action) {
+       Ext.Msg.alert('Success', action.result.msg);
+    },
+    failure: function(form, action) {
+        switch (action.failureType) {
+            case Ext.form.Action.CLIENT_INVALID:
+                Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+                break;
+            case Ext.form.Action.CONNECT_FAILURE:
+                Ext.Msg.alert('Failure', 'Ajax communication failed');
+                break;
+            case Ext.form.Action.SERVER_INVALID:
+               Ext.Msg.alert('Failure', action.result.msg);
+       }
+    }
+});
+
+由于ajax不支持流数据，所以在上传文件的时候是不能使用ajax的，所以Ext在处理文件上传的时候使用IFRAME技术来实现
+这样的话对服务端返回的信息有要求，必须为text/html, response.setContentType("text/html");
+文件上传只能回调成功函数，所以处理错误需要自己在返回中设置。
+
+回调函数中的form就是当前提交的这个BasicForm
+action就是Ext.form.Action对象,有失败类型failureType，response,result,type
+type当前只支持提交和加载
+
+
+1,普通ajax
+
+服务端如果告知客户端成功和失败?
+    把成功和失败通过一个字段标识，通过json格式把数据返回到前台页面，然后前台页面再通过回调函数success来接受字段的状态，从而判断字段的状态来判断是否成功或失败 。它始终都不会跳转到failure函数里面去
+
+成功和失败的回调函数的参数中有什么数据？怎么解码到json?
+    success Function 指定当Ajax请求执行成功后执行的回调函数，传递给回调函数两个参数，第一个参数response表示执行Ajax请求的XMLHttpRequet对象，第二个参数表示执行request方法时的options对象。
+    failure 也是一样
+    解析json格式：     var obj = Ext.decode(response.responseText);    当要获取msg消息是 obj.msg
+总结：failure就是程序异常是才会调用的函数，而success只要程序运行正常就都会走这个函数，不需要考虑响应信息里面的状态
+
+
+2,表单不带上传域的ajax提交
+服务端如何告知客户端成功和失败
+      通过设置success字段，如果成功就设为true，失败为false。再以json格式传递到回调函数去，回调函数会通过success的false或者true来查找响应的函数，如果是true那么将会跳转到success函数，false跳转到failure
+成功和失败的回调函数的参数中有什么数据？怎么解码到json?
+     success Function 指定当Ajax请求执行成功后执行的回调函数，传递给回调函数两个参数，第一个参数form表示执行Ajax请求时的表单对象，第二个参数action是用来获取响应信息的一个对象，如果想获取信息只需要访问action对象
+           的result属性就可以了。
+           failure 也是一样
+         解析json格式：  var result = Ext.util.JSON.decode(action.response.responseText);  获取msg消息时： result.msg
+         或者var msg = action.result.msg;
+总结：failure是程序异常是才会调用的函数或者当响应信息里面的状态为false的时候也会调用，而success只有响应信息为状态为true的时候会走这个函数
+
+3，带上传域的表单ajax提交
+服务端如何告知客户端成功和失败
+    通过设置success或者failure字段，如果成功就设为true，失败为false。再以json格式传递到回调函数去，回调函数会通过success的false或者true来查找响应的函数，如果是true那么将会跳转到success函数，false跳转到failure，如果两个函数都设置的话，那么程序会根据设置的优先级来决定跳转的函数
+成功和失败的回调函数的参数中有什么数据？怎么解码到json?
+      success Function 指定当Ajax请求执行成功后执行的回调函数，传递给回调函数两个参数，第一个参数form表示执行Ajax请求时的表单对象，第二个参数action是用来获取响应信息的一个对象，如果想获取信息只需要访问action对象
+      的result属性就可以了。
+      failure 也是一样
+    解析json格式：  var result = Ext.util.JSON.decode(action.response.responseText);  获取msg消息时： result.msg
+    或者var msg = action.result.msg;
+总结：failure就是程序异常是才会调用的函数，而success只要程序运行正常就都会走这个函数，不需要考虑它的响应信息状态
+
+三个方法，在服务器出了异常，比如发生500错误行为是怎样的？
+     服务器出现异常如果不对异常捕获或者处理时都会都会跳转到failure函数
+     注意：
+        Ajax request对象的success事件表示request过程中没有发生错误，和自己的业务逻辑无关，
+        如果访问不了该链接才会到failure事件的，你需要在success事件中再根据自己的逻辑如responseText == true等去判断业务是否正确。
+        （success参数表示响应成功后的回调函数。failure参数表示响应失败后的回调函数。注意，这里的响应失败并不是指数据库操作之类的业务性失败，
+        而是指HTTP返回404或500错误，请不要把HTTP响应错误与业务错误混淆在一起。）
+
+当ajax表单提交时如何判断程序正常通过
+    通过判断回调函数里面的参数action对象
+     action.response.status==200  200状态代表的是程序正常运行时的状态
+     注意：带上传域的表单提交不支持该属性

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <sql id="statisticsEntry.selector">
+        select entryId,userName,entryTime,entryIP,isDelete from statisticsEntry
+        where isDelete = 0 and userName = #userName#
+    </sql>
+
+    <insert id="insertEntry">
+        insert into statisticsEntry(userName, entryIP,entryTime)
+        values(#userName#, #entryIP#,now())
+        <selectKey resultClass="long" keyProperty="entryId">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateStatusEntryWithUser">
+        update statisticsEntry set isDelete = '1' where userName = #userName#
+    </update>
+
+    <delete id="deleteEntryWithUser">
+        delete from statisticsEntry where userName = #userName#
+    </delete>
+
+    <select id="selectEntryCount" resultClass="int">
+        select count(1) from statisticsEntry
+        where isDelete = 0 and userName = #userName#
+    </select>
+
+    <select id="selectUserEntry" resultClass="com.kariqu.usercenter.domain.StatisticsEntry">
+        <include refid="statisticsEntry.selector"/>
+        limit #start#, #limit#
+    </select>
+
+    <select id="selectEntryWithNewCount" resultClass="com.kariqu.usercenter.domain.StatisticsEntry">
+        <include refid="statisticsEntry.selector"/>
+        order by entryTime desc
+        limit #limit#
+    </select>
+
+    <select id="selectActiveEntry" resultClass="com.kariqu.usercenter.domain.UserEntryInfo">
+        select userName, count(1) as count from statisticsEntry
+        where isDelete = 0
+        group by userName
+        order by count(1) desc
+        limit #start#, #limit#
+    </select>
+
+</sqlMap>

@@ -1,0 +1,98 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/commodity.js?$!urlBroker.getVersion()"])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_order" id="ucOrder">
+            <h3 class="tit">商品咨询</h3>
+        </div>
+        <div class="consultative">
+            <div class="table">
+                <div class="thead">
+                    <span class="s0">咨询商品</span>
+                    <span class="s1">咨询时间</span>
+                    <span class="s2">咨询内容</span>
+                    <span class="s3">操作</span>
+                </div>
+                <div class="tbody">
+                    <ul class="problem_list" id="problemList">
+                        #if($!consultationAboutProductPage)
+                            #foreach($consult in $!consultationAboutProductPage.result)
+                                <li>
+                                    <div class="look">
+                                        #if($!consult.productName)
+                                            <div class="s0">
+                                                <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!consult.consultation.productId).toString()" class="pr_name">$!consult.productName</a>
+                                            </div>
+                                        #else
+                                            <div class="s0">
+                                                <a href="$!urlBroker.getUrl('BuyHome').toString()" target="_blank">商品已被删除</a>
+                                            </div>
+                                        #end
+                                        <div class="s1">
+                                            <span class="c_date">$!dateTool.format("yyyy年MM月dd日 HH点", $!consult.consultation.askTime)</span>
+                                        </div>
+                                        <div class="s2"><span class="c_problem">$!consult.consultation.askContent</span></div>
+                                        <div class="s3"><a href="javascript:" class="look_reply">查看回复</a></div>
+                                    </div>
+                                    <div class="reply">
+                                        <s class="top_arrow"></s>
+                                        <strong>易居尚回复：</strong>
+                                            #if($!consult.consultation.hasAnswer ==0)
+                                                <p>（感谢您对易居尚的支持，客服正在处理中，祝您生活愉快！）</p>
+                                            #else
+                                                <p>$!consult.consultation.answerContent</p>
+                                            #end
+                                    </div>
+                                </li>
+                            #end
+                        #else
+                            <li>
+                                <div class="look">
+                                    <span style="color: #808080">您还没有咨询过商品！</span>
+                                </div>
+                            </li>
+                        #end
+                    </ul>
+                </div>
+            </div>
+            #if($consultationAboutProductPage && $consultationAboutProductPage.getTotalPages() > 1)
+                <div class="pagebars">
+                    <div class="pagebar_inner">
+                        <form method="get" action="$urlBroker.getUrl('MyConsult').toString()" id="pagebarForm">
+                            <input type="hidden" name="category" value="$category">
+                            #if($consultationAboutProductPage.hasPre)
+                                <a href="$urlBroker.getUrl('MyConsult').addQueryData('pageNo', $!consultationAboutProductPage.prePage).addQueryData('category',$category).toString()"
+                                   class="page_start">上一页</a>
+                            #else
+                                <span class="page_start">上一页</span>
+                            #end
+
+                            #foreach($pageIndex in $!consultationPageBar.linkNums)
+                                #if($pageIndex == -1)
+                                    <a href="#" class="number"><span>...</span></a>
+                                #elseif($pageIndex == $consultationAboutProductPage.pageNo)
+                                    <a href="javascript:void(0);" class="number current"><span>$pageIndex</span></a>
+                                #else
+                                    <a href="$urlBroker.getUrl('MyConsult').addQueryData('pageNo',$!pageIndex).addQueryData('category',$category).toString()" class="number">
+                                        <span>$pageIndex</span>
+                                    </a>
+                                #end
+
+                            #end
+
+                            #if($consultationAboutProductPage.hasNext)
+                                <a class="page_next" href="$urlBroker.getUrl('MyConsult').addQueryData('pageNo',$!consultationAboutProductPage.nextPage).addQueryData('category',$category).toString()">下一页</a>
+                            #else
+                                <span class="page_next">下一页</span>
+                            #end
+                            #*<span class="letter">跳转至</span>
+                            <input class="text_in" type="text" name="pageNo" id="PageNumber" val="$!consultationAboutProductPage.totalPages" value="$!consultationAboutProductPage.pageNo">
+                            <span class="letter">页</span>
+                            <input type="submit" value="确定" class="button_ok">*#
+                        </form>
+                    </div>
+                </div>
+            #end
+        </div>
+    </div>
+</div>

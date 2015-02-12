@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="CategoryProperty.selector">
+        select id,categoryId,propertyId,propertyType,multiValue,compareable,priority from CategoryProperty
+    </sql>
+
+    <select id="selectAllCategoryProperty" resultClass="com.kariqu.categorycenter.domain.model.CategoryProperty">
+        <include refid="CategoryProperty.selector"/>
+    </select>
+
+    <select id="getCategoryProperties" resultClass="com.kariqu.categorycenter.domain.model.CategoryProperty">
+        <include refid="CategoryProperty.selector"/> where categoryId=#categoryId# and propertyType=#propertyType# order by priority asc
+    </select>
+
+    <select id="selectCategoryProperty"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryProperty">
+        <include refid="CategoryProperty.selector"/> where id = #id#
+    </select>
+
+    <select id="queryCategoryPropertyByCategoryId"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryProperty">
+        <include refid="CategoryProperty.selector"/> where categoryId = #categoryId# order by priority asc
+    </select>
+
+    <select id="queryCategoryPropertyByCategoryIdAndPropertyId"
+            resultClass="com.kariqu.categorycenter.domain.model.CategoryProperty">
+        <include refid="CategoryProperty.selector"/> where categoryId = #categoryId# and propertyId = #propertyId#
+    </select>
+
+    <insert id="insertCategoryProperty">
+        insert into CategoryProperty
+        (id,categoryId,propertyId,propertyType,multiValue,compareable,priority)
+        values
+        (#id#,#categoryId#,#propertyId#,#propertyType#,#multiValue#,#compareable#,#priority#)
+    </insert>
+
+    <update id="updateCategoryProperty">
+        update CategoryProperty
+        set
+        categoryId=#categoryId#,propertyId=#propertyId#,propertyType=#propertyType#,multiValue=#multiValue#,priority=#priority#,compareable=#compareable#
+        where id=#id#
+    </update>
+
+    <delete id="deleteCategoryProperty">
+        delete from CategoryProperty
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllCategoryProperty">
+        delete from CategoryProperty
+    </delete>
+
+    <delete id="deleteCategoryPropertyByCPId">
+        delete from CategoryProperty
+        where categoryId = #categoryId# and propertyId=#propertyId#
+    </delete>
+
+    <delete id="deleteCategoryPropertyByCategoryId">
+        delete from CategoryProperty
+        where categoryId = #categoryId#
+    </delete>
+
+
+</sqlMap>

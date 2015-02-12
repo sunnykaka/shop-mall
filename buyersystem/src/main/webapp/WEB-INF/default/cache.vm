@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>缓存清除</title>
+</head>
+<body>
+<h1><a href="$urlBroker.getUrl('BuyHome').toString()">返回首页</a></h1>
+<center>
+    <a href="$urlBroker.getUrl('ClearAllCache').toString()">清除全部缓存</a> <br/>
+    <br/>
+    <a href="$urlBroker.getUrl('BuyHome').toString()/syncDc?type=all">同步模块</a> <br/>
+    <a href="$urlBroker.getUrl('BuyHome').toString()/syncCc?type=all">同步类目</a> <br/>
+    <br/>
+    <a href="$urlBroker.getUrl('ClearIndexShopPage').toString()">清除首页店铺页面对象</a> <br/>
+    <a href="$urlBroker.getUrl('ClearSearchShopPage').toString()">清除列表店铺页面对象</a> <br/>
+    <a href="$urlBroker.getUrl('ClearDetailShopPage').toString()">清除详情页店铺页面对象</a> <br/>
+    <br/>
+    <a href="$urlBroker.getUrl('ClearHeadFootContent').toString()">清除头尾页面内容</a> <br/>
+    <a href="$urlBroker.getUrl('ClearIndexContent').toString()">清除首页页面内容</a> <br/>
+    <a href="$urlBroker.getUrl('ClearSearchContent').toString()">清除列表页页面内容</a> <br/>
+    <a href="$urlBroker.getUrl('ClearChannelContent').toString()">清除频道页页面内容</a> <br/>
+    <a href="$urlBroker.getUrl('ClearDetailContent').toString()">清除详情页页面内容</a> <br/>
+    <br/>
+    <a href="$urlBroker.getUrl('ClearIndexPageStructure').toString()">清除首页页配置对象</a> <br/>
+    <a href="$urlBroker.getUrl('ClearSearchPageStructure').toString()">清除列表页配置对象</a> <br/>
+    <a href="$urlBroker.getUrl('ClearChannelPageStructure').toString()">清除频道页配置对象</a> <br/>
+    <a href="$urlBroker.getUrl('ClearDetailPageStructure').toString()">清除详情页配置对象</a> <br/>
+</center>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+    <bean id="account-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:account-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="accountRepository" class="com.kariqu.accountcenter.repository.impl.AccountRepositoryImpl">
+        <property name="sqlMapClient" ref="account-sqlMapClient"/>
+    </bean>
+
+    <bean id="departmentRepository"
+          class="com.kariqu.accountcenter.repository.impl.DepartmentRepositoryImpl">
+        <property name="sqlMapClient" ref="account-sqlMapClient"/>
+    </bean>
+
+    <bean id="positionRepository"
+          class="com.kariqu.accountcenter.repository.impl.PositionRepositoryImpl">
+        <property name="sqlMapClient" ref="account-sqlMapClient"/>
+    </bean>
+
+
+</beans>

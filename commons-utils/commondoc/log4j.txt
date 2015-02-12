@@ -1,0 +1,115 @@
+1，日志记录优先级或者级别
+OFF ,FATAL ,ERROR ,WARN ,INFO ,DEBUG ,ALL。
+Log4j建议只使用FATAL ,ERROR ,WARN ,INFO ,DEBUG这五个级别。
+
+2,appender定义日志输入目的地
+org.apache.log4j.RollingFileAppender(滚动文件，自动记录最新日志)
+org.apache.log4j.ConsoleAppender (控制台)
+org.apache.log4j.FileAppender (文件)
+org.apache.log4j.DailyRollingFileAppender (每天产生一个日志文件)
+org.apache.log4j.WriterAppender (将日志信息以流格式发送到任意指定的地方)
+
+3,layout用来格式化日志输出
+
+4,logger定义一个日志输出器
+
+5,root定义一个根日志输出器
+
+实例配置：
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="D:/jdonmvc.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%X{requestURIWithQueryString}] %-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="com.jdon">
+        <level value="DEBUG" />
+        <appender-ref ref="stdout" />
+        <appender-ref ref="PROJECT" />
+    </logger>
+
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="PROJECT"/>
+    </root>
+
+</log4j:configuration>
+
+
+
+
+
+
+
+
+
+
+需要ibatis 打印sql语句 添加如下配置：
+
+<appender name="IBatis" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%-4r [%t] %-5p %c %x - %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG" />
+            <param name="LevelMax" value="DEBUG" />
+        </filter>
+    </appender>
+
+
+    <logger name="com.ibatis" additivity="true">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.Connection" additivity="true">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.Statement" additivity="true">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="true">
+        <level value="DEBUG" />
+        <appender-ref ref="IBatis" />
+    </logger>
+
+    <logger name="java.sql.ResultSet" additivity="true">
+        <level value="DEBUG" />
+        <appender-ref ref="IBatis" />
+    </logger>
+
+
+
+关于log4j的MDC
+ NDC（Nested Diagnostic Context）和MDC（Mapped Diagnostic Context）是log4j种非常有用的两个类，它们用于存储应用程序的上下文信息（context infomation），从而便于在log中使用这些上下文信息。
+ NDC（Nested Diagnostic Context）是 Neil Harrison 在名为《Patterns for Logging Diagnostic Messages》的书中提出的嵌套诊断环境的机制。这种机制的提出，主要为了减少多线程的系统为每个客户单独记录日志的系统开销。在过去，区分两个客户的日志输出的常用方法是单独为每个客户机实例化新类别，但该方法会增加类别数量，并增加日志记录的管理开销。Neil Harrison 提出的方法就是把用户的上下文信息放到嵌套式诊断环境 (NDC) 中。
+ NDC 为每一个线程管理一个堆栈。开发人员可以在代码中合适的位置嵌入简单的 push 和 pop 方法，用来维护堆栈。通常 push 进堆栈的是可以唯一标示客户的上下文信息，如 SessionID 或者客户名称，IP 地址等。因为每个客户请求都会有单独的 NDC 堆栈，因此日志系统在输出的时候会根据每个线程找到对应的堆栈，并在输出日志的时候附加上堆栈内的信息。开发人员就可以很容易的在日志中区分出各个不同客户所产生的日志条目。
+
+NDC的实现是用hashtable来存储每个线程的stack信息，这个stack是每个线程可以设置当前线程的request的相关信息，然后当前线程在处理过程中只要在log4j配置打印出%x的信息，那么当前线程的整个stack信息就会在log4j打印日志的时候也会都打印出来，这样可以很好的跟踪当前request的用户行为功能。
+
+
+MDC的实现是使用threadlocal来保存每个线程的Hashtable的类似map的信息，其他功能类似
+MDC 和 NDC 相似，也可以减少多线程的系统为每个客户单独记录日志的系统开销。它同样是为每个线程建立一个独立的存储空间，开发人员可以根据需要把信息存入其中。不同的是 MDC 使用 Map 的机制来存储信息，信息以 key/value 对的形式存储在 Map 中。
+
+可参考: http://blog.csdn.net/zhongweijian/article/details/7625279
+       http://www.blogjava.net/xcp/archive/2012/11/06/390894.html
+       http://blog.csdn.net/yangshuanbao/article/details/6804144
+

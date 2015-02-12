@@ -1,0 +1,109 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_perfect.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('BuyHome').toString()/static/js/date.js?$!urlBroker.getVersion()",
+"<script type='text/javascript'>
+$(document).ready(function () {
+    new DateSelector('myBirthday', 'myBirthDay_Month', 'myBirthDay_Day'#if($!myData && $!myData.birthday && $!myData.birthday != ''), $!birthday_year, $!birthday_month, $!birthday_day#{else}, 0, 0, 0#end);
+    perfectInformationValidate();
+});
+</script>"])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper uc_order" id="ucOrder">
+            <h3 class="tit">完善个人资料</h3>
+        </div>
+        <div class="acc_change_pwd">
+            <form action="$!urlBroker.getUrl('MyAccountData').toString()" method="POST" id="bindingAccountForm">
+                <input type="hidden" value="#if($myData)${myData.id}#{else}0#end" name="id">
+
+                <input type="hidden" name="reg_un_url" value="$!urlBroker.getUrl('CheckUserNameHttp').toString()">
+                <input type="hidden" name="reg_mail_url" value="$!urlBroker.getUrl('CheckUserEmailHttp').toString()">
+                <ul>
+                    <li>
+                        <label for="userName">用户名：</label>
+                        #if($!changeName)
+                            <input type="text" name="userName" class="text" id="userName" style="width: 236px" value="$!accountUserName"/>
+                            <input type="hidden" id="checkUserName" value="$!accountUserName" />
+                            <span class="warn">*</span>
+                            <span id="userName_error" class="error">$!errorName</span>
+                        #else
+                            <span class="val">$!accountUserName</span>
+                        #end
+                    </li>
+                    <li>
+                        <label for="email"><span class="start_red">*</span>邮箱：</label>
+                        #if($!changeEmail)
+                            <input type="text" name="email" class="text" id="email" style="width: 236px" value="$!accountEmail"/>
+                            <span class="warn">*</span>
+                            <span id="email_error" class="error">$!errorEmail</span>
+                        #else
+                            <span class="val">$!accountEmail</span>
+                        #end
+                    </li>
+                    #if($!setPwd)
+                        <li>
+                            <label for="password">密码：</label>
+                            <input type="password" name="password" class="text" id="password" style="width: 236px"/>
+                            <span class="warn">*</span>
+                            <span id="password_error" class="error">$!errorPassword</span>
+                        </li>
+
+                        <li>
+                            <label for="confirmPass">密码确认：</label>
+                            <input type="password" class="text" id="confirmPass" style="width: 236px"/>
+                            <span class="warn">*</span>
+                            <span id="confirmPass_error" class="error"></span>
+                        </li>
+                    #end
+                    <li>
+                        <label for="name">姓名：</label>
+                        <input type="text" name="name" class="text" id="name" value="$!myData.name"/>
+                        <span id="name_error" class="error"></span>
+                    </li>
+                    <li>
+                        <label for="sex">性别：</label>
+                        <label class="item"><input type="radio" id="sex" name="sex" value="0"#if($!myData.sex==0) checked="true"#end>保密</label>
+                        <label class="item"><input type="radio" name="sex" value="2"#if($!myData.sex==2) checked="true"#end>女士</label>
+                        <label class="item"><input type="radio" name="sex" value="1"#if($!myData.sex==1) checked="true"#end>男士</label>
+                    </li>
+                    <li>
+                        <label for="myBirthday">生日：</label>
+                        <select id="myBirthday" name="birthday_year"></select> 年
+                        <select id="myBirthDay_Month" name="birthday_month"></select> 月
+                        <select id="myBirthDay_Day" name="birthday_day"></select> 日
+                        <span id="birthday_error" class="error"></span>
+                    </li>
+                    <li>
+                        <label for="phoneNumber" class="dt">手机号码：</label>
+                        <input type="text" name="phone" class="text" id="phoneNumber" value="$!phoneNumber">
+                        <span id="phoneNumber_error" class="error">$!errorPhone</span>
+                    </li>
+                    <li>
+                        <label for="hasMarried">是否已婚：</label>
+                        <label class="item">
+                            <input type="radio" name="hasMarried" value="0"#if($!myData.hasMarried==0) checked="true"#end> 保密</label>
+                        <label class="item">
+                            <input type="radio" id="hasMarried" name="hasMarried" value="1"#if($!myData.hasMarried==1) checked="true"#end> 未婚</label>
+                        <label class="item">
+                            <input type="radio" name="hasMarried" value="2"#if($!myData.hasMarried==2) checked="true"#end> 已婚</label>
+                    </li>
+                    <li>
+                        <label for="familyNumber">家庭成员：</label>
+                        <label class="item">
+                            <input type="radio" name="familyNumber" value="0"#if($!myData.familyNumber==0) checked="true"#end>保密</label>
+                        <label class="item">
+                            <input type="radio" id="familyNumber" name="familyNumber" value="1"#if($!myData.familyNumber==1) checked="true" #end>1-2人</label>
+                        <label class="item">
+                            <input type="radio" name="familyNumber" value="2"#if($!myData.familyNumber==2) checked="true"#end>2-4人</label>
+                        <label class="item">
+                            <input type="radio" name="familyNumber" value="3"#if($!myData.familyNumber==3) checked="true"#end>4人以上</label>
+                    </li>
+                </ul>
+                <p class="btn_w">
+                    <button type="submit" class="btn_3">保存</button>
+                    <span id="formInfo" class="error">$!msg</span>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

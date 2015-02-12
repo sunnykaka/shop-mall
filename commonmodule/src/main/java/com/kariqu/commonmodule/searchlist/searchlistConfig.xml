@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+    <config>
+        <isCacheable>false</isCacheable>
+    </config>
+    <params>
+        <param name="showHotProductCount" label="类目商品超过多少个时才显示热销推荐" dataType="String" formType="text">10</param>
+        <param name="pidvidCount" label="关键字搜索时统计 pidvid 的个数" dataType="String" formType="text">100</param>
+        <param name="leafIdCount" label="关键字搜索时统计后台类目的个数" dataType="String" formType="text">100</param>
+        <param name="propertyMaxNumber" label="关键字搜索时筛选属性的个数" dataType="String" formType="text">6</param>
+        <param name="valueMaxNumber" label="关键字搜索时筛选属性值的个数" dataType="String" formType="text">10</param>
+        <param name="propertyArrayName" label="关键字搜索时强制要求出现(若有)的属性" dataType="String" formType="text">类别, 品牌, 规格, 颜色</param>
+        <param name="pageSize" label="列表页每页显示商品的个数" dataType="String" formType="text">12</param>
+        <param name="categoryListSort" label="是否将列表页所在的类目放在最前面(y/n)" dataType="String" formType="text">n</param>
+        <param name="keyPageSize" label="关键字搜索时每页显示商品的个数" dataType="String" formType="text">20</param>
+        <param name="imgCount" label="商品显示的最多图片数量" dataType="String" formType="text">4</param>
+        <!--<param name="highlight" label="关键字搜索时是否高亮关键字" dataType="String" formType="text">n</param>-->
+    </params>
+</module>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.navigate.NavigateCategory">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parent.id" column="parentId"/>
+        <result property="description" column="description"/>
+        <result property="keyWord" column="keyWord"/>
+        <result property="conditions" column="conditions"/>
+        <result property="priority" column="priority"/>
+        <result property="settings" column="settings"/>
+    </resultMap>
+
+    <sql id="NavigateCategory.selector">
+        select id,name,parentId,description,keyWord,priority,conditions,settings from NavigateCategory
+    </sql>
+
+    <select id="selectAllNavigateCategory" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+    </select>
+
+    <select id="queryNavSubCategories" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+        where parentId = #parentId# order by priority asc
+    </select>
+
+    <select id="queryAllRootCategories" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+        where parentId = -1
+    </select>
+
+    <select id="selectNavigateCategory" resultMap="result">
+        <include refid="NavigateCategory.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="queryNavigateCategoryByName" resultMap="result">
+        <include refid="NavigateCategory.selector"/> where name = #name#
+    </select>
+
+    <insert id="insertNavigateCategory">
+        insert into NavigateCategory
+        (id,name,parentId,description,keyWord,conditions,priority,settings)
+        values
+        (#id#,#name#,#parent.id#,#description#,#keyWord#,#conditions#,#priority#,#settings#)
+    </insert>
+
+    <update id="updateNavigateCategory">
+        update NavigateCategory
+        set
+        name=#name#,parentId=#parent.id#,description=#description#,keyWord=#keyWord#,conditions=#conditions#,priority=#priority#,settings=#settings#
+        where id=#id#
+    </update>
+
+    <update id="updateNavigateCategorySettings">
+        update NavigateCategory set settings=#settings# where id=#id#
+    </update>
+
+    <delete id="deleteNavigateCategory">
+        delete from NavigateCategory
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllNavigateCategory">
+        delete from NavigateCategory
+    </delete>
+
+    <select id="selectAssociationCategoryIds" resultClass="Integer">
+        select cid from CategoryAssociation where navId = #navId#
+    </select>
+
+    <select id="selectAssociationNavCategoryIds" resultClass="Integer">
+        select navId from CategoryAssociation where cid = #cid#
+    </select>
+
+
+    <insert id="insertNavigateAssociation">
+        insert into CategoryAssociation
+        (navId,cid)
+        values
+        (#navId#,#cid#)
+    </insert>
+
+    <select id="selectAllAssociationNavCategoryIds" resultClass="Integer">
+        select navId from CategoryAssociation
+    </select>
+
+    <delete id="deleteNavigateAssociation">
+        delete from CategoryAssociation
+        where navId = #navId#
+    </delete>
+
+    <delete id="deleteCategoryAssociation">
+        delete from CategoryAssociation
+        where cid = #cid#
+    </delete>
+
+    <delete id="deleteAllAssociation">
+        delete from CategoryAssociation
+    </delete>
+
+</sqlMap>

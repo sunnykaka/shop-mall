@@ -1,0 +1,57 @@
+@charset "utf-8";
+html,body,h1,h2,h3,h4,h5,h6,p,br,form,input,button,textarea,select,ul,ol,li,dl,dt,dd,pre{margin:0;padding:0;}
+html,body{font:normal normal 14px/1.5em 'Microsoft YaHei',Tahoma,Arial,SimSun;color:#38281a;background:#fff;}
+html{_background-attachment:fixed;}
+a{text-decoration:none;color:#372718;}
+a:hover{text-decoration:underline;color:#e6742e;}
+textarea,select,input,button,label{vertical-align:middle}
+ol,ul,li{list-style-type:none;}
+table{border-collapse:collapse;border-spacing:0;}
+img{border:0;}
+button::-moz-focus-inner{border:none;padding:0;}
+h4{font-size:12px;}
+:focus{outline:none;}
+.clear{border:0;clear:both;display:block;float:none;font-size:0;margin:0;padding:0;overflow:hidden;visibility:hidden;width:0;height:0}
+.clearfix:after{content:".";clear:both;display:block;height:0;overflow:hidden;visibility:hidden;}
+.clearfix{ * zoom:1}
+
+
+.sidebar{width: 180px;position: absolute;top: 0;left: 0;height: 100%;border-right: 1px solid #ddd;padding: 0 10px}
+.sidebar h3{margin:10px 0 6px;font-size:16px;height:22px;line-height:22px}
+.sidebar .add{position:absolute;top:13px;right: 6px;}
+
+.logistics_list li{border-bottom: 1px solid #ddd;padding: 6px 0;line-height:18px;position:relative;}
+.logistics_list li .tools{position: absolute;top:5px;right:0;}
+.logistics_list li .tools a{margin:0 5px 0 0}
+.logistics_list .current{background: #eee;}
+
+.content{padding:10px 0 10px 210px;}
+
+.design_box{display: none}
+.design_box .tools{padding:0 0 10px}
+.design_box .tools label{margin: 0 10px 0 0;line-height: 24px;font-family: SimSun;font-size: 12px;}
+.design_box .tools label input{vertical-align:middle}
+
+.design_box h3,
+.form h3{margin:0 0 6px 0;font-size:16px;height:22px;line-height:22px}
+.form dl{height:24px;padding: 6px 0}
+.form dt{float: left;width: 120px;padding: 0 10px 0 0;line-height:24px}
+.form dd{float: left}
+.form .success{color: #080;margin-left:10px;}
+.form .info{color: #f00;margin-left:10px;}
+.form .btn_w{padding: 10px 0 0 130px}
+
+.modify_logistics_box{display: none}
+
+.select{height:24px;line-height:24px;background: #fff;padding: 2px 6px;vertical-align:middle;
+    border:1px solid #e3e9ef;border-top:1px solid #abadb3;
+    -moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+
+.text{height:22px;line-height:22px;padding:2px 4px;margin-right:10px;border:1px solid #e3e9ef;border-top:1px solid #abadb3;
+    -moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.input-file{float:left;position:relative;width:120px;height:24px;background:#eee;border:1px solid #ccc;text-align: center;
+    cursor:pointer;}
+.file{display: block;position: absolute;top: 0;left:0; width:120px;height:26px;opacity:0;-moz-opacity:0;
+    filter: alpha(opacity=0);}
+.button{background: url("../images/logistics/button_bg.png") repeat-x;padding:0 10px;font-weight:700;margin-right:6px;
+    height:22px;line-height:22px;border:1px solid #126daf;color:#fff;cursor:pointer;border-radius:3px;}

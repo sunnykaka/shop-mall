@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/Template.xml"/>
+	<sqlMap resource="sqlmap/CommonModule.xml"/>
+	<sqlMap resource="sqlmap/TemplatePage.xml"/>
+	<sqlMap resource="sqlmap/ShopTemplate.xml"/>
+	<sqlMap resource="sqlmap/ShopPage.xml"/>
+	<sqlMap resource="sqlmap/TemplateModule.xml"/>
+	<sqlMap resource="sqlmap/TemplateResource.xml"/>
+	<sqlMap resource="sqlmap/TemplateStyle.xml"/>
+	<sqlMap resource="sqlmap/TemplateVersion.xml"/>
+	<sqlMap resource="sqlmap/ModuleInstanceParam.xml"/>
+	<sqlMap resource="sqlmap/PagePrototype.xml"/>
+</sqlMapConfig>

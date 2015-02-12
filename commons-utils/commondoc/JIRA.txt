@@ -1,0 +1,86 @@
+JIRA一个优秀的项目管理软件，是商业软件，所以需要破解
+
+安装过程：
+
+1,官网下载war包，然后解压出来运行里面的build.bat
+2,它会调用ant编译代码生成一个可部属的war包
+3,编译完成之后拷贝dist-generic/atlassian-jira-5.0.2.war到tomcat的webapps
+
+按照直觉现在启动jira就可以使用了，可是不行，需要准备这样几个工作：
+
+1，准备几个包 common logging mysql-connect-java jta-1.1 jonas_timer-1.4.3 jotm-1.4.3
+
+表示jira要用JTA事务,把这些jar放到tomcat的公共lib
+
+2,在mysql数据库中创建一个数据库，比如jira
+
+3,配置JTA和jira.home，这个home放置了jira运行时的很多文件，比如索引，缓存，日志，数据库连接配置等,这个配置可在tomcat的的server.xml中
+<Context path="/jira" docBase="jira">
+    					<Parameter name ="jira.home" value="H:\\jirahome"/>
+    					<Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction" factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
+    					<Manager pathname=""/>
+</Context>
+
+docBase就是在webapps中的那个项目的文件夹
+jira.home请指向你建立的一个文件夹,UserTransaction会在安装的时候被JIRA寻找
+
+4，由于启动过程会大量消耗内存，所以必须把jvm的内存配置调大
+在catalina.bat的最前面 set JAVA_OPTS=-Xms512m -Xmx1024m -XX:PermSize=64M -XX:MaxPermSize=128m -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true
+
+5，访问http://localhost:8080/jira开始进行安装初始化，会让你选择配置数据库，最后安装完成了要输入licene，请到官网进行申请试用
+
+JIRA基于插件的架构，各种功能多是委托给插件，比如汉化插件
+
+
+破解过程5.0.2:
+
+http://netstu.5iunix.net/?p=274
+去网上下载到jira_crack.rar，https://skydrive.live.com/?cid=96DBFEC9C10F1EFA&id=96DBFEC9C10F1EFA%21391&sc=documents
+然后运行里面的jira_keygen.jar
+
+在界面中然后点击path，它会让你选择atlassian-extras-2.2.2.jar的位置，然后会破解这个jar
+界面中的输入serverId,name然后点击.gen是生成licene的key
+
+破解的licene在插件管理那个地方会提示licene验证失败
+
+
+JIRA功能
+1，普通用户
+工作界面有三个tab,分别是Dashboards Projects Issues 分别表示这个人的桌面，参与的项目和，项目问题
+对于Dashboards系统会提供一个默认的Dashboards，用户可以自己创建自己的Dashboards，并可以共享出去给别人用
+
+Projects显示项目，进入这个tab会看到项目的信息，比如项目的leader issue的一个情况，以及这个这个项目上的活动日志，查看这个项目的issue，源代码和代码review以及设置Report和Filter
+在Issues这个tab，可以按照各种条件搜索issue，比如描述，状态等，在这里可以将Issue生成word,xml,报表等
+
+整个工作界面的右上角会有创建Issue和搜索的功能
+
+2,管理员功能
+管理员会在系统安装的时候设定一个，管理员登陆的默认界面和普通用户差不多，但是在Projects这个tab可以管理项目
+项目的管理功能有：
+设置Issue类型，系统会有一些预定义的类型
+设置一个Issue所走的工作流
+为Issue设置显示界面
+为Issue设置显示字段
+
+管理项目人员和权限  项目角色指定具体权限，比如管理项目，创建issue JIRA的权限管理是通过permission schema，修改权限是是改schema,JIRA有一个全局权限
+它适用于所有的Project  项目角色有三个：Administrators,Developers,Users 权限可以指定到项目角色，组，人
+项目角色可以分配到具体人和组上
+
+所以在 JIRA中，人被分组，人和组可以指定到角色，权限可以分配到人，组，角色上 ，系统的全局权限是分配到组上的
+
+系统中所有用的权限数量是确定的，其他如组合，角色等是可以动态添加的
+
+设置项目版本和项目组件，组件就是项目的部分，比如UI,DataBase等，一个项目的不同部分可以指定不同的leader,issue可以分配到不同的项目版本
+设置自动通知，需要设计邮件配置
+还有就是一些和通用的项目配置
+
+管理员要进行管理，就要在右上角点击管理，只要某个用户被分配了某个资源的管理权限，右上角就会出现管理按钮，进入管理界面之后会根据这个用户能够管理什么呈现这些被管理的资源
+
+系统安装时的管理员用户的管理界面有这么几个部分：
+1，项目，这个已经在上面写到了
+2，插件，这是管理这个系统的插件的，比如插件的安装升级和删除
+3，用户，管理用户，组和角色
+4，issues 管理issues预定义的类型，工作流，显示，字段等
+5，系统的一些东西 比如系统的整体设置，系统的整体信息，日志等
+
+

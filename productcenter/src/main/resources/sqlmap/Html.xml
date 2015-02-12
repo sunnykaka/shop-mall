@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="html.selector">
+        select productId,name,content from Html
+    </sql>
+
+    <select id="selectAllHtml" resultClass="com.kariqu.productcenter.domain.Html">
+        <include refid="html.selector"/>
+    </select>
+
+    <select id="queryHtmlByProductId" resultClass="com.kariqu.productcenter.domain.Html">
+        <include refid="html.selector"/>
+        where productId= #productId#
+    </select>
+
+    <insert id="insertHtml">
+        insert into Html
+        (productId,name,content)
+        values
+        (#productId#,#name#,#content#)
+    </insert>
+
+    <update id="updateHtml">
+        update Html
+        set content=#content#
+        where productId=#productId# and name = #name#
+    </update>
+
+    <delete id="deleteHtml">
+        delete from Html
+        where productId = #productId#
+    </delete>
+
+    <delete id="deleteHtmlByProductIdAndName">
+        delete from Html
+        where productId = #productId# and name = #name#
+    </delete>
+
+</sqlMap>

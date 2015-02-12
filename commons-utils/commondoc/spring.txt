@@ -1,0 +1,68 @@
+web容器中启动spring
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/SpringContext.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+在springmvc中，一般会启动两个容器，一个在是存放controller，一个存放业务逻辑bean
+
+
+<context:component-scan base-package="com.kariqu"/>
+扫描类路径中的：@Controller,@Service,@Repository,@Component标注的类，然后纳入容器
+这四个注释位于：org.springframework.stereotype
+
+<context:annotation-config/>
+激活@Resource @Autowired  @PostConstruct, @PreDestroy等注解
+但是它不激活@Transactional or EJB3's@TransactionAttribute annotation ，这种注解需要用<tx:annotation-driven>激活
+
+
+mvc:annotation-driven 会自动注册DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个实例
+用于激活注解风格的spring mvc
+
+如果一个类是要通过xml来配置的，请不要使用@Controller,@Service,@Repository,@Component四个注解
+
+
+spring目前实现的两种代理：Jdk动态代理，cglib字节码代理，spring会自动判断被代理的类，如果没有实现接口就用cglib代理
+
+@Transactional请使用在类上而不是接口上，因为在接口上只能是基于接口的实现才能被代理,@Transactional是可以指定事务管理器，如果不指定spring会使用缺省的事务管理器，找名字是transactionManager的bean
+
+Aop只在方法被外部调用时生效，方法内部调用是没有效果的
+
+事务配置有五种方法：(数据源，事务管理器，代理机制)
+1，每个bean配置代理，将代理暴露给外部使用，使用到TransactionProxyFactoryBean
+2，在1的方法上抽象基配置，就是所有bean共享一个代理基类
+3,配置事务拦截器TransactionInterceptor，然后用BeanNameAutoProxyCreator去发现要拦截的类
+4，使用tx标签配置的拦截器，如下代码，用切入点表达式
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="interceptorPointCuts"
+            expression="execution(* com.bluesky.spring.dao.*.*(..))" />
+        <aop:advisor advice-ref="txAdvice"
+            pointcut-ref="interceptorPointCuts" />
+    </aop:config>
+5，全注解
+<tx:annotation-driven transaction-manager="transactionManager"/>，在类上或者类的方法上标注@Transactional
+
+Spring异常捕获两种实现方法
+1，新建一个类继承spring提供的AbstractHandlerExceptionResolver类 ， 注意在类上面标注@Controller
+    重写 protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {return new ModelAndView(页面地址路径);}方法。
+2，通过spring配置来获取异常，然后跳转相应的页面
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+      <property name="exceptionMappings">
+       <props>
+           <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">页面或者其它路径地址</prop>
+       </props>
+      </property>
+    </bean>
+
+
+@Autowired是按类型注入，如果发现有多个类型，首先按照配置的名字进行注入，如果还不行就报错

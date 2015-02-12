@@ -1,0 +1,59 @@
+<!-- 热销推荐 -->
+<div class="e-wrapper mod-hot-recommend">
+    <h3>热销推荐</h3>
+    <div class="clearfix">
+        <div class="pic-model-1 pull-left">
+            #set($first = $!_PARAM['hotProduct'].split("\n")[0].trim()) #* 第 1 条 *#
+            <div>
+                #if($!first.split(",").size() > 1)
+                    <a target="_blank" href="$!first.split(",")[1].trim()"
+                        #if($!first.split(",").size() > 2) title="$!first.split(",")[2].trim()"#end>
+                        <img class="lazy" width="394" height="394" data-original="$!first.split(",")[0].trim()"
+                             src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" />
+                    </a>
+                #end
+            </div>
+        </div>
+        <div class="pic-model-2 pull-right">
+            <ul class="first-row">
+            #set($count = 0)
+            #foreach($imgConf in $!_PARAM['hotProduct'].split("\n"))
+                #if($!velocityCount > 1 && $!imgConf.trim() != '' && $!count < 4) #* 从第 2 条开始, 只显示 4 条 *#
+                    #set($count = $!count + 1)
+                    <li>
+                        <div class="aside">
+                            <div class="summary">$!imgConf.split(",")[3].trim()</div>
+                            <div class="name"><a target="_blank" href="$!imgConf.split(",")[1].trim()">
+                                $!imgConf.split(",")[2].trim()</a></div>
+                            <div class="price">¥ $!imgConf.split(",")[4].trim()</div>
+                        </div>
+                        <a class="pic animate-bounceInRight" target="_blank"
+                           href="$!imgConf.split(",")[1].trim()" title="$!imgConf.split(",")[2].trim()">
+                            <img class="lazy" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif"
+                                 data-original="$!imgConf.split(",")[0].trim()" width="200" height="280"></a>
+                    </li>
+                #end
+            #end
+            </ul>
+            <ul class="last-row">
+                #foreach($hotProduct in $!hotProductList)
+                <li>
+                    <div class="aside">
+                        <div class="summary">$!{hotProduct.brandName}</div>
+                        <div class="name">
+                            <a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!hotProduct.id).toString()">
+                                $!hotProduct.name</a>
+                        </div>
+                        <div class="price">¥ $!hotProduct.sellPrice</div>
+                    </div>
+                    <a class="pic animate-bounceInRight" target="_blank" title="$!hotProduct.name"
+                        href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!hotProduct.id).toString()">
+                        <img class="lazy" data-original="$!imgResolver.getMiddleSizeImgUrl($!hotProduct.imageUrl)"
+                             src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="113" height="113"></a>
+                </li>
+                #end
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /热销推荐 -->

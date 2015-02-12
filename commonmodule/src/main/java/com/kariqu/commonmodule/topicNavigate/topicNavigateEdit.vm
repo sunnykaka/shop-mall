@@ -1,0 +1,21 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        专题页导航背景风格:<br><br>
+        <div style="width: 530px;height: 180px;overflow-y: auto">
+            #foreach($foo in [1..2])
+            <label>
+                <input type="radio" name="topicNavigateStyle" value="$!velocityCount"#if($!topicNavigateStyle == $!velocityCount) checked#end>
+                <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/special/nav-s$!{velocityCount}.jpg" width="66" height="170" alt="风格$!{velocityCount}"/>
+            </label>&nbsp;&nbsp;&nbsp;
+            #if($!velocityCount % 5 == 0)<br>#end
+            #end
+        </div>
+        <br>
+
+        <input type="submit"/>
+    </form>
+</div>

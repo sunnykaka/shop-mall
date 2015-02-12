@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="result" class="com.kariqu.categorycenter.domain.model.ProductCategory">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parent.id" column="parentId"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <sql id="ProductCategory.selector">
+        select id,name,parentId,description from ProductCategory
+    </sql>
+
+    <select id="selectAllProductCategory" resultMap="result">
+        <include refid="ProductCategory.selector"/>
+    </select>
+
+    <select id="querySubCategories"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where parentId = #parentId#
+    </select>
+
+    <select id="selectProductCategory"
+            resultMap="result">
+        <include refid="ProductCategory.selector"/> where id = #id#
+    </select>
+
+    <insert id="insertProductCategory">
+        insert into ProductCategory
+        (id,name,parentId,description)
+        values
+        (#id#,#name#,#parent.id#,#description#)
+    </insert>
+
+    <update id="updateProductCategory">
+        update ProductCategory
+        set name=#name#,parentId=#parent.id#,description=#description#
+        where id=#id#
+    </update>
+
+    <delete id="deleteProductCategory">
+        delete from ProductCategory
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAllProductCategory">
+        delete from ProductCategory
+    </delete>
+
+    <select id="queryProductCategoryByNameAndParentId" resultClass="int">
+        select count(1) from ProductCategory where name=#name# and parentId=#parentId#
+    </select>
+
+</sqlMap>

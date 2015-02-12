@@ -1,0 +1,4 @@
+<div class="K_Box">
+	<img src="$_PARAM['module3Param1']"/>
+	<img src="$_PARAM['module3Param2']"/>
+</div>

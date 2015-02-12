@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="">
+	<file>module.vm</file>
+	<thumbnail>/assets/images/module.png</thumbnail>
+	<params>
+		<param name="module2Param1" label="" resourceType="image" dataType="" formType="text">/m2param1.jpg</param>
+		<param name="module2Param2" label="" resourceType="image" dataType="" formType="text">/m2param2.jpg</param>
+	</params>
+</module>

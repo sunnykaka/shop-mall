@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap>
+    <sql id="promotionSelector">
+        SELECT id, topicId, productId, productName, productDesc1,productDesc2, tag,
+        status,price,saleNum,saleStatus, promotionPrice, sort, picture, createTime, updateTime
+        FROM promotion
+    </sql>
+
+    <sql id="promotionAmountSelector">
+        SELECT count(1)
+        FROM promotion
+    </sql>
+
+    <insert id="create">
+        INSERT INTO promotion(topicId, productId, productName, productDesc1,productDesc2, tag,
+        status,price,saleNum,saleStatus, promotionPrice, sort, picture, createTime, updateTime)
+        VALUES(#topicId#, #productId#, #productName#, #productDesc1#,#productDesc2#, #tag#,
+        #status#,#price#,#saleNum#,#saleStatus#, #promotionPrice#, #sort#, #picture#, #createTime#, #updateTime#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <delete id="delete">
+        delete from promotion where id = #id#
+    </delete>
+
+    <update id="update">
+        update promotion set topicId = #topicId#,productId = #productId#,productName = #productName#,
+        productDesc1 = #productDesc1#,productDesc2 = #productDesc2#,tag = #tag#,status = #status#,price = #price#,
+        price = #saleNum#,price = #saleStatus#, promotionPrice = #promotionPrice#,sort = #sort#,picture = #picture#,
+        updateTime = now()
+        where id=#id#
+    </update>
+
+    <select id="get"
+            resultClass="com.kariqu.productcenter.domain.Promotion">
+        <include refid="promotionSelector"/>
+        where id = #id# and status = 0
+    </select>
+
+    <select id="queryPromotionsByTopicId" resultClass="com.kariqu.productcenter.domain.Promotion">
+        <include refid="promotionSelector"></include>
+        WHERE status=0 AND topicId=#topicId# limit #start#,#limit#
+    </select>
+
+    <select id="queryPromotionsAmountByTopicId" resultClass="int">
+        <include refid="promotionAmountSelector"></include>
+        WHERE status=0 AND topicId=#topicId#
+    </select>
+
+</sqlMap>

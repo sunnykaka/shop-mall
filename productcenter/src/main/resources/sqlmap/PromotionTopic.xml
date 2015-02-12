@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+    <sql id="promotionTopicSelector">
+        SELECT id, name, description, status, startTime,endTime, createTime,
+        updateTime, slogan, previewImgUrl, secretImgUrl
+        FROM promotiontopic
+    </sql>
+
+    <sql id="promotionTopicAmountSelector">
+        SELECT count(1)
+        FROM promotiontopic
+    </sql>
+
+    <insert id="create">
+        INSERT INTO promotiontopic(name, description, status, startTime,endTime, createTime,
+        updateTime, slogan, previewImgUrl, secretImgUrl)
+        VALUES(#{name}, #{description}, #{status}, #{startTime},#{endTime}, #{createTime},
+        #{updateTime}, #{slogan}, #{previewImgUrl}, #{secretImgUrl})
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <delete id="delete">
+        delete from promotiontopic where id = #id#
+    </delete>
+
+    <update id="update">
+        update promotiontopic set name = #name#,description = #description#,status = #status#,
+        startTime = #startTime#,endTime = #endTime#,updateTime = now(),
+        slogan = #slogan#,previewImgUrl = #previewImgUrl#,secretImgUrl = #secretImgUrl#
+        where id=#id#
+    </update>
+
+    <select id="get"
+            resultClass="com.kariqu.productcenter.domain.PromotionTopic">
+        <include refid="promotionTopicSelector"/>
+        where id = #id# and status = 0
+    </select>
+
+    <select id="queryPromotionTopics"
+            resultClass="com.kariqu.productcenter.domain.PromotionTopic">
+        <include refid="promotionTopicSelector"/>
+        where status = 0
+        <isNotEmpty prepend="AND" property="name">
+            name = #name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="topic">
+            topic=#topic#
+        </isNotEmpty>
+        limit #start#,#limit#
+    </select>
+
+    <select id="queryPromotionTopicsAmount"
+            resultClass="int">
+        <include refid="promotionTopicAmountSelector"/>
+        where status = 0
+        <isNotEmpty prepend="AND" property="name">
+            name = #name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="topic">
+            topic=#topic#
+        </isNotEmpty>
+    </select>
+
+    <select id="queryAllPromotionTopics"
+            resultClass="com.kariqu.productcenter.domain.PromotionTopic">
+        <include refid="promotionTopicSelector"/>
+        where status = 0 limit #start#,#limit#
+    </select>
+
+    <select id="queryAllPromotionTopicsAmount"
+            resultClass="int">
+        <include refid="promotionTopicAmountSelector"/>
+        where status = 0
+    </select>
+
+
+</sqlMap>
+

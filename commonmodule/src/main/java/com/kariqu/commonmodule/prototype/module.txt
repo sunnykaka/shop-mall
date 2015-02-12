@@ -1,0 +1,6 @@
+shopHead
+shopFoot
+category
+hotProduct
+recommendCompany
+hotRecommend

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="security-repository.xml"/>
+
+    <bean id="logisticsServiceTarget" class="com.kariqu.suppliercenter.service.impl.LogisticsPrintInfoServiceImpl"/>
+    <bean id="logisticsPrintInfoService" parent="transactionBase" >
+        <property name="target" ref="logisticsServiceTarget" />
+    </bean>
+
+    <bean id="supplierLogServiceTarget" class="com.kariqu.suppliercenter.service.impl.SupplierLogServiceImpl"/>
+    <bean id="supplierLogService" parent="transactionBase" >
+        <property name="target" ref="supplierLogServiceTarget" />
+    </bean>
+
+    <bean id="supplierRoleServiceTarget" class="com.kariqu.suppliercenter.service.impl.SupplierRoleServiceImpl"/>
+    <bean id="supplierRoleService" parent="transactionBase" >
+        <property name="target" ref="supplierRoleServiceTarget" />
+    </bean>
+
+    <bean id="securityServiceTarget" class="com.kariqu.securitysystem.service.impl.SecurityServiceImpl"/>
+    <bean id="securityService" parent="transactionBase" >
+        <property name="target" ref="securityServiceTarget" />
+    </bean>
+
+    <bean id="passResourceBean" class="com.kariqu.suppliersystem.supplierManager.vo.PassResourceBean">
+        <property name="staticPath">
+            <list>
+                <value>/static</value>
+                <value>/favicon.ico</value>
+            </list>
+        </property>
+        <property name="excludedPath">
+            <list>
+                <value>/supplier/roleLogin</value>
+                <value>/supplier/imageCode</value>
+                <value>/supplier/login</value>
+                <value>/supplier/loginOut</value>
+                <value>/supplier/changePwd</value>
+                <value>/supplier/changePassword</value>
+                <value>/supplier/toLogin</value>
+                <value>/supplier/error</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

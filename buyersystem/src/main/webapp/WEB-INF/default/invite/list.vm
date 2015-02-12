@@ -1,0 +1,21 @@
+<html>
+<title>新验证码列表</title>
+
+<body>
+
+<a href="$urlBroker.getUrl('BuyHome').toString()/my/invite/toNew">申请</a> <br/>
+<a href="$urlBroker.getUrl('BuyHome').toString()/my/invite/used">已使用</a> <br/>
+<a href="$urlBroker.getUrl('BuyHome').toString()/my/invite/list">查看所有</a> <br/>
+
+已使用列表：<br/>
+    #foreach($code in $useList)
+        $code <br/>
+    #end
+
+未使用列表：<br>
+    #foreach($code in $notUseList)
+        $code <br/>
+    #end
+
+</body>
+</html>

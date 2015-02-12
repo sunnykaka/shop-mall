@@ -1,0 +1,10 @@
+#include_region("categoryRegion",[["category","1.0.0",101]])
+#include_region("skuRegion",[["productSku","1.0.0",102]])
+<div class="common_wrapper clearfix">
+    <div class="column_w782 column_left">
+        #include_region("productLeftRegion",[["productDesc","1.0.0",103]])
+    </div>
+    <div class="column_w206 column_right">
+        #include_region("productRightRegion",[["productRecommend","1.0.0",104]])
+    </div>
+</div>

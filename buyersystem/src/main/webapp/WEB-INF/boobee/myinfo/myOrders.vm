@@ -1,0 +1,42 @@
+#set($contentJsUrls= ["$!urlBroker.getUrl('StaticFileDomain').toString()/js/tips2.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/user_myOrder.js?$!urlBroker.getVersion()",
+'<script type="text/javascript">orderInit();</script>'])
+
+<div class="n_acc_right">
+    <div class="r_content">
+        <div class="content_wrapper my_title clearfix" id="ucOrder">
+            <h3 class="tit"><span>我的订单</span></h3>
+            <ul class="tabs">
+                <li #if($!state == 0) class="current" #end>
+                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',1).addQueryData('state',0).toString()">
+                        全部(<span id="allNum">$!{orderCount.get("all")}</span>)
+                    </a>
+                </li>
+                <li #if($!state == 1) class="current" #end>
+                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',1).addQueryData('state',1).toString()">
+                        未付款(<strong id="payNotNum">$!{orderCount.get("notPay")}</strong>)
+                    </a>
+                </li>
+                <li #if($!state == 2) class="current" #end>
+                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',1).addQueryData('state',2).toString()">
+                        已付款($!{orderCount.get("pay")})
+                    </a>
+                </li>
+                <li #if($!state == 3) class="current" #end>
+                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',1).addQueryData('state',3).toString()">
+                        交易完成($!{orderCount.get("tradeSuccess")})
+                    </a>
+                </li>
+                <li #if($!state == 4) class="current" #end>
+                    <a href="$!urlBroker.getUrl('MyOrderList').addQueryData('pageNo',1).addQueryData('state',4).toString()">
+                        无效交易(<span id="voidNum">$!{orderCount.get("invalidTrade")}</span>)
+                    </a>
+                </li>
+            </ul>
+
+            <div class="list" id="uc_order_list">
+            </div>
+        </div>
+        <div class="r_bot"></div>
+    </div>
+</div>

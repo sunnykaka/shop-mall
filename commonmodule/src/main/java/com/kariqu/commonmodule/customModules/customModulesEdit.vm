@@ -1,0 +1,10 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+        自定义内容:<br>
+        <textarea name="htmlContent" style="width:720px; height: 335px; " class="long">$!htmlContent</textarea>
+        <br><br><p style="text-align:center;"><input type="submit"/></p><br>
+    </form>
+</div>

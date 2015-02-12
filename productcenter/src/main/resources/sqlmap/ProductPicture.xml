@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="productPicture.selector">
+        select id,productId,name,originalName,pictureUrl,pictureLocalUrl,mainPic,minorPic,skuId,number
+        from productpicture
+    </sql>
+
+    <select id="selectAllProductPictures" resultClass="com.kariqu.productcenter.domain.ProductPicture">
+        <include refid="productPicture.selector"/>
+    </select>
+
+    <select id="getProductPictureById" resultClass="com.kariqu.productcenter.domain.ProductPicture">
+        <include refid="productPicture.selector"/>
+        where id =#id#
+    </select>
+
+    <select id="queryProductPictureByProductId"
+            resultClass="com.kariqu.productcenter.domain.ProductPicture">
+        <include refid="productPicture.selector"/>
+        where productId = #productId# order by skuId ,number
+    </select>
+
+    <select id="queryProductPictureUrlByProductId" resultClass="String">
+        select pictureUrl from productpicture
+        where productId = #productId#
+        <isGreaterThan property="limit" compareValue="0">limit #limit#</isGreaterThan>
+    </select>
+
+    <select id="getMainProductPicture"
+            resultClass="com.kariqu.productcenter.domain.ProductPicture">
+        <include refid="productPicture.selector"/>
+        where productId = #productId# and mainPic = 1
+    </select>
+
+    <select id="getMinorProductPicture"
+            resultClass="com.kariqu.productcenter.domain.ProductPicture">
+        <include refid="productPicture.selector"/>
+        where productId = #productId# and minorPic = 1
+    </select>
+
+    <select id="queryProductPicturesBySkuId"
+            resultClass="com.kariqu.productcenter.domain.ProductPicture">
+        <include refid="productPicture.selector"/>
+        where skuId like concat('%', #skuId#, '%') order by number
+    </select>
+
+    <update id="updateProductPictureSkuId">
+        update productpicture set skuId = #skuId# where id =#id#
+    </update>
+
+    <update id="updateProductPictureNum">
+        update productpicture set number = #number# where id =#id#
+    </update>
+
+    <insert id="insertProductPicture">
+        insert into productpicture(productId,name,originalName,pictureUrl,pictureLocalUrl,mainPic)
+        values(#productId#,#name#,#originalName#,#pictureUrl#,#pictureLocalUrl#,#mainPic#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <delete id="deleteProductPicture">
+        delete from productpicture
+        where productId = #productId#
+    </delete>
+
+    <delete id="deleteProductPictureById">
+        delete from productpicture
+        where id=#id#
+    </delete>
+
+    <update id="updateAnotherPicToNotMain">
+        update productpicture set mainPic = 0 where productId =#productId# and id != #id#
+    </update>
+
+    <update id="updateAnotherPicToNotMinor">
+        update productpicture set minorPic = 0 where productId =#productId# and id != #id#
+    </update>
+
+    <update id="makeProductPictureAsMain">
+        update productpicture set mainPic = 1 where id = #id#
+    </update>
+
+    <update id="makeProductPictureAsMinor">
+        update productpicture set minorPic = 1 where id = #id#
+    </update>
+
+</sqlMap>

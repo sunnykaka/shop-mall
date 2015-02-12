@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForDepartment" resultClass="int">
+        select count(1) from Department
+    </select>
+
+    <select id="queryDepartmentByPage"
+            resultClass="com.kariqu.accountcenter.domain.Department">
+        select * from Department limit #start#,#limit#
+    </select>
+
+    <select id="selectAllDepartments" resultClass="com.kariqu.accountcenter.domain.Department">
+        select * from Department
+    </select>
+
+    <select id="selectDepartmentById"
+            resultClass="com.kariqu.accountcenter.domain.Department">
+        select * from Department where id = #id#
+    </select>
+
+    <insert id="insertDepartment">
+        insert into Department
+        (name )
+        values
+        (#name#  )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateDepartment">
+        update Department
+        set  name=#name#          where id=#id#
+    </update>
+
+    <delete id="deleteDepartmentById">
+        delete from Department
+        where id = #id#
+    </delete>
+
+</sqlMap>

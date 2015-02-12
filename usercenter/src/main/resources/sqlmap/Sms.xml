@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="smsCharacter.selector">
+        select
+        id,value,name
+        from SmsCharacter
+    </sql>
+
+    <sql id="smsMould.selector">
+        select
+        id,content,description
+        from SmsMould
+    </sql>
+
+    <select id="selectAllSmsMould" resultClass="com.kariqu.usercenter.domain.SmsMould">
+        select * from SmsMould
+    </select>
+
+    <select id="selectSmsMouldById"
+            resultClass="com.kariqu.usercenter.domain.SmsMould">
+        <include refid="smsMould.selector"/>
+        where id = #id#
+    </select>
+
+    <insert id="insertSmsMould">
+        insert into SmsMould
+        (content,description)
+        values
+        (#content#,#description#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateSmsMould">
+        update SmsMould
+        set content=#content#,description=#description#
+        where id=#id#
+    </update>
+
+    <delete id="deleteSmsMould">
+        delete from SmsMould
+        where id = #id#
+    </delete>
+
+
+
+    <select id="selectAllSmsCharacter" resultClass="com.kariqu.usercenter.domain.SmsCharacter">
+        select * from SmsCharacter
+    </select>
+
+    <select id="selectSmsCharacterById"
+            resultClass="com.kariqu.usercenter.domain.SmsCharacter">
+        <include refid="smsCharacter.selector"/>
+        where id = #id#
+    </select>
+
+    <insert id="insertSmsCharacter">
+        insert into SmsCharacter
+        (value,name)
+        values
+        (#value#,#name#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateSmsCharacter">
+        update SmsCharacter
+        set value=#value#,name=#name#
+        where id=#id#
+    </update>
+
+    <delete id="deleteSmsCharacter">
+        delete from SmsCharacter
+        where id = #id#
+    </delete>
+
+
+</sqlMap>

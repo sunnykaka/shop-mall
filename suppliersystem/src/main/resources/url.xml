@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlConfig>
+    <url name="SupplierDomain">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>/</path>
+    </url>
+
+    <url name="StaticFileDomain">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+    </url>
+    <url name="StaticImagePath">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>/static/images/ejs</path>
+    </url>
+
+    <url name="Error">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/error</path>
+    </url>
+
+
+    <url name="Login">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/login</path>
+    </url>
+
+    <url name="LogisticUploadFile">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/uploadFile/{fileName}</path>
+        <tokens>
+            <token name="fileName"/>
+        </tokens>
+    </url>
+
+    <url name="ToLogin">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/toLogin</path>
+    </url>
+
+    <url name="Login">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/login</path>
+    </url>
+
+    <url name="SelectRole">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/roleLogin</path>
+    </url>
+
+    <url name="ImageCode">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>/supplier/imageCode</path>
+    </url>
+
+    <url name="Index">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>index</path>
+    </url>
+    <url name="Jump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/jump</path>
+    </url>
+
+    <url name="ChangePwd">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/changePwd</path>
+    </url>
+
+    <url name="LoginOut">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/loginOut</path>
+    </url>
+
+
+    <url name="ChangePassword">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/changePassword</path>
+    </url>
+
+
+    <url name="QueryOrder">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderList/queryOrder</path>
+    </url>
+    <url name="OrderDetail">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderList/orderDetail</path>
+    </url>
+
+    <url name="UpdateOrderState">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderList/updateOrderStatus</path>
+    </url>
+
+
+    <url name="OrderExportExcel">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/exportExcel</path>
+    </url>
+
+    <url name="PrintJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/printJump</path>
+    </url>
+
+    <url name="QueryLogisticsPrintInfoHtmlByName">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/queryLogisticsPrintInfoHtmlByName/</path>
+    </url>
+
+    <url name="QueryLogisticsPrintInfo">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/queryLogisticsPrintInfo</path>
+    </url>
+
+    <url name="BatchWaybillNumber">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/batchWaybillNumber</path>
+    </url>
+
+    <url name="InvoicePrint">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/Invoice</path>
+    </url>
+
+    <url name="UpdateOrderStateAffirmPrint">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/updateOrderStatusAffirmPrint/</path>
+    </url>
+
+    <url name="UpdateWaybillNumber">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderPrint/updateWaybillNumber</path>
+    </url>
+
+
+    <url name="CreateLogisticsPrintInfo">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/logisticsPrintInfo/</path>
+    </url>
+
+    <url name="QueryLogisticsPrintInfoHtmlById">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/logisticsPrintInfo/queryLogisticsPrintInfoHtmlById/</path>
+    </url>
+
+    <url name="UpdatePrintHtml">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/logisticsPrintInfo/updatePrintHtml</path>
+    </url>
+
+    <url name="DeleteLogisticsPrintInfoById">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/logisticsPrintInfo/delete</path>
+    </url>
+
+    <url name="LogisticDesign">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/logisticsPrintInfo/logisticDesign</path>
+    </url>
+
+
+    <url name="InspectionPage">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderInspection/inspectionPage</path>
+    </url>
+
+    <url name="OrderAndProductDetail">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderInspection/orderAndProductDetail</path>
+    </url>
+
+    <url name="UpdateOrderStatusVerify">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderInspection/updateOrderStatusVerify</path>
+    </url>
+
+
+    <url name="StockKeepingUnitStockQuantity">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/queryStockKeepingUnit</path>
+    </url>
+
+    <url name="ProductReportPage">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/productReportPage</path>
+    </url>
+
+    <url name="OrderDetailsPage">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/orderDetail/OrderDetailsPage</path>
+    </url>
+
+
+    <url name="SupplierLogJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierLog/jump</path>
+    </url>
+
+    <url name="SupplierLogDelete">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierLog/delete/</path>
+    </url>
+
+
+    <url name="AddSupplierAccountPageJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierAccount/addSupplierAccountPageJump</path>
+    </url>
+    <url name="SupplierRoleConfigPageJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierAccount/supplierRoleConfigPageJump</path>
+    </url>
+
+    <url name="SupplierAccountAdd">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierAccount/add</path>
+    </url>
+
+    <url name="SupplierAccountUpdate">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierAccount/update</path>
+    </url>
+
+    <url name="SupplierAccountDelete">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierAccount/batchDelete</path>
+    </url>
+
+    <url name="SupplierAccountList">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/supplierAccount/list</path>
+    </url>
+
+
+    <url name="RoleList">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/role/list</path>
+    </url>
+
+    <url name="AddRolePageJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/role/addRolePageJump</path>
+    </url>
+
+    <url name="UpdateRolePageJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/role/updateRolePageJump</path>
+    </url>
+
+    <url name="RoleAdd">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/role/add</path>
+    </url>
+
+    <url name="RoleUpdate">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/role/update</path>
+    </url>
+
+    <url name="RoleDelete">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/role/delete</path>
+    </url>
+
+
+    <url name="PermissionList">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/permission/list</path>
+    </url>
+
+    <url name="AddPermissionPageJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/permission/addPermissionPageJump</path>
+    </url>
+
+    <url name="UpdatePermissionPageJump">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/permission/updatePermissionPageJump</path>
+    </url>
+
+    <url name="PermissionAdd">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/permission/add</path>
+    </url>
+
+    <url name="PermissionUpdate">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/permission/update</path>
+    </url>
+
+    <url name="PermissionDelete">
+        <severUrl>${yijushang.supplier.domain}</severUrl>
+        <path>supplier/permission/delete</path>
+    </url>
+
+    <!-- 第三方物流查询平台回调的请求地址 -->
+    <url name="LogisticsCallBackUrl">
+        <severUrl>${yijushang.buy.domain}</severUrl>
+        <path>/logistics/back</path>
+    </url>
+
+</urlConfig>

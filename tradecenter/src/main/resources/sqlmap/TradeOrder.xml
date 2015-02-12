@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <insert id="createTradeOrder">
+        insert into tradeOrder
+        (tradeNo,orderNo,createTime)
+        values
+        (#tradeNo#,#orderNo#,now())
+    </insert>
+
+    <select id="queryOrderListByTradeNo" resultClass="long">
+        select orderNo from tradeOrder where tradeNo=#tradeNo# and isDelete = 0
+    </select>
+
+    <select id="queryOrderListByTradeNoAndPayFlag" resultClass="long">
+        select orderNo from tradeOrder where tradeNo=#tradeNo# and isDelete = 0 and payFlag = 1
+    </select>
+
+    <select id="queryTradeNoByOrderNo" resultClass="String">
+        select tradeNo from tradeOrder where orderNo=#orderNo# and payFlag =1 and tradeType= 'BuyProduct' and isDelete = 0
+    </select>
+
+    <update id="updateTradeOrderPaySuccessful">
+        update tradeOrder
+        set payFlag=1,tradeType='BuyProduct',updateTime=now() where tradeNo = #tradeNo#
+    </update>
+
+    <update id="updateTradeOrderPayRecharge">
+        update tradeOrder
+        set tradeType='Recharge',updateTime=now() where tradeNo = #tradeNo# and orderNo=#orderNo#
+    </update>
+
+
+</sqlMap>

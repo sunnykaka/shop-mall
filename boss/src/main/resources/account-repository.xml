@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 连接员工数据库 不激活注解事务，直接配置通过xml配置事务管理-->
+    <bean id="employeeDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url.employee}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="employeeTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="employeeDataSource"/>
+    </bean>
+
+    <!-- 事务配置基类 -->
+    <bean id="transactionBase"
+          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+          lazy-init="true" abstract="true">
+        <!-- 配置事务管理器 -->
+        <property name="transactionManager" ref="employeeTransactionManager"/>
+        <!-- 配置事务属性 -->
+        <property name="transactionAttributes">
+            <props>
+                <prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="create*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="account-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:account-sql-map-config.xml"/>
+        <property name="dataSource" ref="employeeDataSource"/>
+    </bean>
+
+
+    <bean id="accountRepository"
+          class="com.kariqu.accountcenter.repository.impl.AccountRepositoryImpl">
+        <property name="sqlMapClient" ref="account-sqlMapClient"/>
+    </bean>
+
+</beans>

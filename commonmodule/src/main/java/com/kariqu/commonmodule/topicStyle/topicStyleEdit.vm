@@ -1,0 +1,24 @@
+<div class="com_modify_wrapper com_edit">
+    <form id="submitEdit" action="$!urlBroker.getUrl('CommitModule').toString()" method="POST">
+        <input type="hidden" name="moduleInstanceId" value="$!moduleInstanceId"/>
+        <input type="hidden" name="modulePrototypeId" value="$!modulePrototypeId"/>
+        <input type="hidden" name="area" value="$!area"/>
+
+        专题一行显示多少个商品:
+        <select name="topicStyleNumber" style="width: 80px;">
+            #foreach($foo in [2..4])<option value="$!foo"#if($!topicStyleNumber == $!foo) selected#end>$!foo</option>#end
+        </select><br><br>
+        专题名:<br>
+        <input type="text" name="topicStyleTitle" value="$!topicStyleTitle" style="width: 550px;"/><br><br>
+        专题图地址:<br>
+        <input type="text" name="topicStyleImg" value="$!topicStyleImg" style="width: 550px;"/><br><br>
+        专题背景颜色(若不设置则不会显示):<br>
+        <input type="text" name="topicStyleColor" value="$!topicStyleColor" style="width: 550px;"/><br><br>
+        专题显示的商品id(以英文逗号 , 隔开):<br>
+        <input type="text" name="topicStyleProductId" value="$!topicStyleProductId" style="width: 550px;"/><br><br>
+        专题的商品推荐理由显示的最大文字数量(多了用 点点 代替):<br>
+        <input type="text" name="topicStyleDescNum" value="$!topicStyleDescNum" style="width: 550px;"/><br><br>
+
+        <input type="submit"/>
+    </form>
+</div>

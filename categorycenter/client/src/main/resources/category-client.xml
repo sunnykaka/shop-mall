@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <context:annotation-config/>
+
+
+    <import resource="hsqlDataSource.xml"/>
+
+    <import resource="categorycenter-repository-client.xml"/>
+
+
+    <bean class="com.kariqu.categorycenter.client.service.impl.CategoryPropertyQueryServiceImpl"/>
+
+    <bean class="com.kariqu.categorycenter.client.service.impl.HSQLCategoryTreeImpl"/>
+
+
+    <bean class="com.kariqu.categorycenter.domain.service.impl.ProductCategoryServiceImpl"/>
+
+    <bean class="com.kariqu.categorycenter.domain.service.impl.CategoryPropertyServiceImpl"/>
+
+    <bean class="com.kariqu.categorycenter.domain.service.impl.NavigateCategoryServiceImpl"/>
+
+    <bean class="com.kariqu.categorycenter.domain.service.impl.CategoryAssociationServiceImpl"/>
+
+    <bean class="com.kariqu.categorycenter.domain.service.impl.NavigateCategoryPropertyServiceImpl"/>
+
+
+    <!-- 同步服务会同时调用两种组件，一是domain连接mysql的仓库，一种是客户端连接hsql的仓库，本容器中配置了hsql的仓库和服务 -->
+    <bean class="com.kariqu.categorycenter.client.sync.impl.SyncMediatorImpl"/>
+
+
+</beans>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+    <sql id="Result.selector">
+		select id, surveyId, userId, email, address, userName, mobile, suggest, createTime, updateTime
+		from Questionnaire_Result
+    </sql>
+
+    <select id="selectResult" resultClass="com.kariqu.om.domain.Result">
+        <include refid="Result.selector"/>
+        where isDelete = 0
+    </select>
+
+    <select id="selectCountForSurveyId" resultClass="int">
+        select count(1) from Questionnaire_Result
+        where isDelete = 0 and surveyId = #surveyId#
+    </select>
+
+    <!--<delete id="deleteResult">
+		delete from Questionnaire_Result where id = #id#
+	</delete>-->
+
+    <update id="deleteResult">
+        update Questionnaire_Result set isDelete = 1, updateTime = now() where id = #id#
+    </update>
+
+    <insert id="insertResult">
+        insert into Questionnaire_Result(surveyId, userId, email, address, userName, mobile, suggest, createTime, updateTime)
+        values (#surveyId#, #userId#, #email#, #address#, #userName#, #mobile#, #suggest#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateResultSelective">
+        update Questionnaire_Result
+        <dynamic prepend="set">
+            <isNotEmpty prepend="," property="surveyId">
+                surveyId = #surveyId#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="userId">
+                userId = #userId#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="email">
+                email = #email#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="address">
+                address = #address#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="userName">
+                userName = #userName#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="mobile">
+                mobile = #mobile#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="suggest">
+                suggest = #suggest#
+            </isNotEmpty>
+            <isNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNull>
+            <isNotNull prepend="," property="updateTime">
+                updateTime = now()
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+</sqlMap>

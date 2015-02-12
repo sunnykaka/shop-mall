@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="userPoint.selector">
+        select id,userId,point,description,inOutComingType,type,createTime,updateTime
+        from UserPoint
+    </sql>
+
+    <select id="queryUserPoint" resultClass="com.kariqu.usercenter.domain.UserPoint">
+        <include refid="userPoint.selector"/>
+        where isDelete=0 and userId=#userId#
+        <isNotNull prepend="AND" property="type">
+            type=#type#
+        </isNotNull>
+        order by id desc
+        limit #start#,#limit#
+    </select>
+
+    <select id="selectCountUserPoint" resultClass="Integer">
+        select count(1) from userPoint where isDelete = 0 and userId=#userId#
+        <isNotNull prepend="AND" property="type">
+            type=#type#
+        </isNotNull>
+    </select>
+
+    <insert id="insertUserPoint">
+        insert into userPoint
+        (userId,point,description,inOutComingType,type,createTime,updateTime)
+        values
+        (#userId#,#point#,#description#,#inOutComingType#,#type#,now(),now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+
+    <sql id="UserSignIn.selector">
+        select id, userId, signInCount, createDate, updateDate from userSignIn
+    </sql>
+
+    <select id="queryAllCountUserSignIn" resultClass="int">
+        select count(1) from userSignIn limit #start#, #limit#
+    </select>
+    <select id="queryAllUserSignIn" resultClass="com.kariqu.usercenter.domain.UserSignIn">
+        <include refid="UserSignIn.selector"/>
+        limit #start#, #limit#
+    </select>
+
+    <select id="queryUserSignInByUserId" resultClass="com.kariqu.usercenter.domain.UserSignIn">
+        <include refid="UserSignIn.selector"/>
+        where userId = #userId#
+    </select>
+
+    <insert id="insertUserSignIn">
+        insert into userSignIn(userId, signInCount, createDate, updateDate)
+        values(#userId#, 1, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateUserSignIn">
+        update userSignIn set signInCount = #signInCount#, updateDate = now()
+        where userId = #userId# and updateDate = #updateDate#
+    </update>
+
+    <delete id="deleteUserSignIn">
+        delete from signInRule where userId = #userId#
+    </delete>
+
+</sqlMap>

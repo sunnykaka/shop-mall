@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="resultLogisticsInfo" class="com.kariqu.tradecenter.domain.LogisticsInfo">
+        <result property="expressNo" column="expressNo" />
+        <result property="expressValue" column="expressValue" />
+        <result property="status" column="status" />
+    </resultMap>
+
+    <select id="selectLogisticsInfo" resultMap="resultLogisticsInfo">
+        select expressNo, expressValue, status
+        from LogisticsInfo where expressNo = #expressNo#
+    </select>
+
+    <insert id="insertLogisticsInfo">
+        insert into LogisticsInfo(expressNo, expressValue, status)
+        values(#expressNo#, #expressValue#, #status#)
+    </insert>
+
+    <update id="updateLogisticsInfo">
+        update LogisticsInfo set expressValue=#expressValue#, status=#status# where expressNo=#expressNo#
+    </update>
+
+    <delete id="deleteLogisticsInfo">
+        delete from LogisticsInfo where expressNo = #expressNo#
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,168 @@
+svn安装
+http://subversion.apache.org/packages.html#centos
+centos:
+yum install subversion
+yum install mod_dav_svn
+
+1，svnadmin create /opt/repos //创建版本库
+2，将代码导入到版本库中 比如代码在src文件中src/trunk src/tags src/branches
+导入到kariqu中
+svn import src file:///opt/repos/kariqu -m "initial import"
+svn import src file:///opt/source/repos/ -m "initial import"
+导入到根仓库中
+svn import src3 file:///opt/kariqu -m "initial import"
+
+备份仓库:svnadmin dump 仓库名 > svn_dump
+重建仓库： svnadmin load 仓库名 < svn_dump
+
+scp /home/linux/soft/scp.zip root@www.mydomain.com:/home/linux/others/soft 可用来在linux之间拷贝文件
+
+删除版本库中的文件是:svn delete -m "delete" file:///opt/source/repos/Test.java
+3，现在就可以在本机checkout:  svn checkout file:///opt/repos/kariqu myproject
+4，如果要在远程客户端checkout，必须要启动svnserve: svnserve -d，也可以svnserve -d -r repos 会监控3690端口，指定版本库的监听，在checkout时就可以不指定版本库
+	svn checkout svn://127.0.0.1/dir dir是版本库的路径，比如/opt/repos 如果svn checkout svn:127.0.0.1则在svnserve时指定了版本库
+5，如果要用http来check，需要让svn和apache合作，svn为apache写了一个module，需要进行配置
+
+在版本目录下的 conf目录用来配置这个仓库
+authz配置权限 passwd配置用户名和密码 svnserve.conf就是svn的服务配置文件
+
+权限配置可以按组，路径，进行授权
+passwd的配置类似asion=666666
+svnserve.conf
+anon-access 控制非鉴权用户访问版本库的权限。none read write
+auth-access  控制鉴权用户访问版本库的权限。 none read write
+password-db 指定用户名口令文件名。
+authz-db    指定权限配置文件名，通过该文件可以实现以路径为基础的访问控制。
+realm      指定版本库的认证域，即在登录时提示的认证域名称。若两个版本库的 认证域相同，建议使用相同的用户名口令数据文件
+
+passwd文件配置用户和密码
+[users]
+morson = ShowMeTheMoney
+michael = mysecretpassword
+scofield = hellolittilekiller
+lincon = asyouknows111
+rory = 8809117
+linda = IlikeWorldCup2006
+
+authz用来授权,svn是基于路径的授权，基于用户和组来授权
+
+组配置
+[groups]
+g_vip = morson
+g_manager = michael
+g_beijing = scofield
+g_shanghai = lincon
+g_headquarters = rory, linda
+g_docs = linda
+
+授权例子,repository是你仓库的名字 @表示引用组，如果只引用用户的话就不要@ =后面如果为空，则拒绝授权
+权限可以继承，组可以再引用组
+
+    [repository:/]
+    @g_manager = rw
+    * = r
+
+    [repository:/diary/headquarters]
+    @g_manager = rw
+    @g_headquarters = rw
+    @g_vip = r
+    * =
+
+    [repository:/diary/beijing]
+    @g_manager = rw
+    @g_beijing = rw
+    @g_vip = r
+    * =
+
+    [repository:/diary/shanghai]
+    @g_manager = rw
+    @g_shanghai = rw
+    @g_vip = r
+    * =
+
+    [repository:/ref]
+    @g_manager = rw
+    @g_docs = rw
+    * = r
+
+    [repository:/temp]
+    * = rw
+
+svn开发我们约定的目录结构trunk, branches, tags
+trunk是主干,branches是分支，tags是存档,这完全是一种约定,svn本身不知道这种结构,主干到分支用svn copy命令
+
+
+同目录下批量checkout SVN服务器里面的项目
+  条件 必须装有svn客户端，配置它的环境变量   注意 两个文件必须放在同一个文件夹下面，当checkout下来的项目也会存在这个文件夹下
+window环境下
+     两个文件
+      1，aa.txt 用来存放要checkout的项目名称
+        格式为：
+            accountcenter
+            boss
+            bugtracking
+      2，批量checkout SVN里面的文件checks.bat
+        内容为：@echo off
+                @color 0C
+                echo *****************************    其中aa.txt可以任意更改，但要和存放项目名称的文件名保持一致
+                echo.
+                echo 今天是 %date%
+                echo 时间是 %time%
+                echo.
+                echo.
+                echo ***************************** 这些为注解部分 可以任意添加或者删除
+
+                @for /f "delims=" %%i in (aa.txt) do mkdir %%i
+
+                echo 读取aa.txt里面的项目名，新建这些文件夹
+
+                @for /f "delims=" %%i in (aa.txt) do svn checkout svn://172.16.0.88/repos/%%i/trunk/%%i %%i
+                pause
+       3，批量update SVN里面的文件 update.bat
+                     内容为：@echo off
+                             @color 0C
+                             echo *****************************
+                             echo 批量更新
+                             echo 今天是 %date%
+                             echo 时间是 %time%
+                             echo.
+                             echo.
+                             echo *****************************   这些为注解部分 可以任意添加或者删除
+
+                             @for /f "delims=" %%i in (aa.txt) do svn up %%i
+                             pause
+
+                echo 根据项目名称依次向svn服务器里面拿数据  以上主题内容里面属于一行内容的不允许对他们进行换行
+      3，两个文件建好之后，直接点击 checks.bat，运行该文件就可以了
+linux环境下
+      两个文件
+          1，aa.txt 用来存放要checkout的项目名称
+            格式为：
+                accountcenter
+                boss
+                bugtracking
+          2，批量checkout SVN 里面的文件checks.shell
+               内容为：#!/bin/bash
+                       clear
+                       for i in $(<aa.txt)
+                       do
+                       mkdir $i
+                       done
+
+                       for i in $(<aa.txt)
+                       do
+                       svn checkout svn://172.16.0.88/repos/$i/trunk/$i $i
+                       done
+          3，批量update SVN里面的文件 update.shell
+               内容为：#!/bin/bash
+                       clear
+
+                       for i in $(<aa.txt)
+                       do
+                       svn update $i
+                       done
+
+          3，在linux命令里面运行checks.shell 文件  bash checks.shell
+
+
+

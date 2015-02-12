@@ -1,0 +1,179 @@
+<div class="common-position">
+    <div class="e-wrapper">
+        <a href="$!urlBroker.getUrl('BuyHome').toString()">首页</a>
+        <span>-</span>
+        $!channelData.name
+    </div>
+</div>
+
+<div class="e-wrapper mod-channel clearfix">
+    <div class="sidebar pull-left">
+        <div class="category">
+            #foreach($category in $!categoryList)
+                <h3 #if($!category.open) class="open"#end>
+                    <a href="$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId',$!category.id).toString()">$!category.name</a>
+                    <a class="icon" href="#if($!category.open) $!urlBroker.getUrl('Search').addQueryData('cid', $!category.id).toString()#else$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId',$!category.id).toString()#end">全部 &gt;</a>
+                </h3>
+                #*<h3#if($!category.open) class="open"#end><a href="$!urlBroker.getUrl('ChannelPage').addQueryData('categoryId',
+                    $!category.id).toString()">$!category.name<span class="icon">&nbsp;</span></a></h3>*#
+                #if($!category.open)
+                    <ul class="clearfix">
+                        #foreach($children in $!category.children)
+                            #set($downIndex = $!category.children.size() - 1) #set($class = "")
+                            #if($!velocityCount == $!category.children.size() && $!velocityCount % 2 == 0)
+                                #set($class = ' class="last-row even"')
+                            #elseif(($!velocityCount == $!category.children.size() && $!velocityCount % 2 == 1) ||
+                                ($!velocityCount == $!downIndex && $!velocityCount % 2 == 1))
+                                #set($class = ' class="last-row"')
+                            #elseif($!velocityCount % 2 == 0)
+                                #set($class = ' class="even"')
+                            #end
+                            <li$!{class}>
+                                <div class="item-box">
+                                    #set($thirdUrl = $!urlBroker.getUrl('Search').addQueryData('cid', $!children.id).toString())
+                                    <div class="pic"><a href="$!thirdUrl">
+                                        <img src="$!children.settingsObject().logoImg" width="50" height="50" alt="$!children.name"/></a></div>
+                                    <div class="name"><a href="$!thirdUrl">$!children.name</a></div>
+                                </div>
+                            </li>
+                        #end
+                    </ul>
+                #end
+            #end
+        </div>
+
+        #if($!brandData && $!brandData.size() > 0)
+        <div class="brand">
+            <h3>$!{channelData.name}相关品牌</h3>
+            <ul class="list clearfix">
+                #foreach($brand in $!brandData)
+                    #set($imgUrl = $!brand.imageUrl)
+                    #if($!imgUrl == "")#set($imgUrl = "$!urlBroker.getUrl('StaticDesignImgDomain').toString()/images/no_brand_logo.jpg")#end
+                    <li#if($!velocityCount == 1) class="first"#end><a target="_blank" href="$!urlBroker.getUrl('Search').addQueryData('cid',
+                        $!cid).addQueryData('pv', $!brand.pidVid).toString()" title="$!brand.brandName">
+                        <img src="$!imgUrl" alt="$!brand.brandName" width="150" height="60" /></a></li>
+                #end
+            </ul>
+        </div>
+        #end
+    </div>
+
+    <div class="main pull-right">
+        <div class="slide">
+            <ul class="slide_box">
+                #foreach($img in $!channelData.settingsObject().mainImg)
+                    #if($!img != '')
+                        #set($index = $!velocityCount - 1)
+                    <li#if($!velocityCount > 1) style="display: none"#end>
+                        <a target="_blank" href="$!channelData.settingsObject().mainImgLink.get($!index)" target="_blank">
+                            <img class="lazy" data-original="$!img" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="970" height="260"></a>
+                    </li>
+                    #end
+                #end
+            </ul>
+            #if($!channelData.settingsObject().mainImg && $!channelData.settingsObject().mainImg.size() > 1)
+            <div class="slide_list_container">
+                <div class="transparent"></div>
+                <ul class="slide_list">
+                    #foreach($img in $!channelData.settingsObject().mainImg)
+                    <li#if($!velocityCount == 1) class="current"#end>$!velocityCount</li>
+                    #end
+                </ul>
+            </div>
+            <div class="slide_btn_prev"></div>
+            <div class="slide_btn_next"></div>
+            #end
+        </div>
+
+        #if($!hotProductList && $!hotProductList.size() > 0)
+        <div class="goods-list">
+            <h3>$!{channelData.name}热销推荐</h3>
+            <ul class="list clearfix">
+                #foreach($product in $!hotProductList)
+                <li#if($!velocityCount % 4 == 0) class="last"#end>
+                    <div class="item-box">
+                        <div class="pic"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()">
+                            <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                 src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="223" height="223" /></a></div>
+                        <div class="em">$!product.desc</div>
+                        <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                            $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                        <div class="price">
+                            #if($!product.activityType)
+                                ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                <span class="old">¥ $!{product.displayPrice}</span>
+                            #else
+                                ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                            #end
+                        </div>
+                        #if($product.isHotProduct())
+                            <i class="sell_ico sell_hot"></i>
+                        #elseif($product.isLimitProduct())
+                            <i class="sell_ico sell_limit"></i>
+                        #elseif($product.isNewProduct())
+                            <i class="sell_ico sell_new"></i>
+                        #end
+                    </div>
+                </li>
+                #end
+            </ul>
+        </div>
+        #end
+
+        #if($!limitProductList && $!limitProductList.size() > 0)
+        <div class="goods-list">
+            <h3>限时优惠</h3>
+            <ul class="list clearfix">
+                #foreach($product in $!limitProductList)
+                <li#if($!velocityCount % 4 == 0) class="last"#end>
+                    <div class="item-box">
+                        <div class="pic"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()">
+                            <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                 src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="223" height="223" /></a></div>
+                        <div class="em">$!product.desc</div>
+                        <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                            $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                        <div class="price">
+                            #if($!product.activityType)
+                                ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                <span class="old">¥ $!{product.displayPrice}</span>
+                            #else
+                                ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                            #end
+                        </div>
+                    </div>
+                </li>
+                #end
+            </ul>
+        </div>
+        #end
+
+        #if($!newProductList && $!newProductList.size() > 0)
+        <div class="goods-list">
+            <h3>新品推荐</h3>
+            <ul class="list clearfix">
+                #foreach($product in $!newProductList)
+                <li#if($!velocityCount % 4 == 0) class="last"#end>
+                    <div class="item-box">
+                        <div class="pic"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.productIdSkuIdJoinStr).toString()">
+                            <img class="lazy" data-original="$!imgResolver.getBigSizeImgUrl($!product.pictureUrl)"
+                                 src="$!urlBroker.getUrl('StaticFileDomain').toString()/stylesimg/common/logo296.gif" width="223" height="223" /></a></div>
+                        <div class="em">$!product.desc</div>
+                        <div class="name"><a target="_blank" href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId',
+                            $!product.productIdSkuIdJoinStr).toString()">$!product.nameSkuDescJoinStr</a></div>
+                        <div class="price">
+                            #if($!product.activityType)
+                                ¥ <span>$!{product.activityPrice.split("[.]")[0]}</span>.#if($!product.activityPrice.split("[.]").size() > 1)$!{product.activityPrice.split("[.]")[1]}#{else}00#end
+                                <span class="old">¥ $!{product.displayPrice}</span>
+                            #else
+                                ¥ <span>$!{product.displayPrice.split("[.]")[0]}</span>.#if($!product.displayPrice.split("[.]").size() > 1)$!{product.displayPrice.split("[.]")[1]}#{else}00#end
+                            #end
+                        </div>
+                    </div>
+                </li>
+                #end
+            </ul>
+        </div>
+        #end
+    </div>
+</div>

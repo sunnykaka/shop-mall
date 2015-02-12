@@ -1,0 +1,72 @@
+{
+    "data": {
+        "list": [
+            {
+                "id": "1",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "否",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "3",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "4",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "5",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "8",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "否",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "9",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "10",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "11",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            },
+            {
+                "id": "12",
+                "name": "易居尚",
+                "activation": "是",
+                "masterAccount": "是",
+                "email": "hello@kariqu.com"
+            }
+
+        ]
+    },
+    "success": true,
+    "message": "Loaded data"
+}

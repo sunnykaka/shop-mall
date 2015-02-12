@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="trade-repository.xml"/>
+
+    <bean id="packageLogistics" class="com.kariqu.tradecenter.domain.PackageLogistics">
+        <property name="urlBrokerFactory" ref="urlBrokerFactory"/>
+        <!-- 第三方物流查询平台的接口地址 -->
+        <property name="thirdUrl" value="http://www.kuaidi100.com/poll"/>
+        <!-- 与第三方物流查询平台协商好的 key(用来校验身份) -->
+        <property name="key" value="yiJuShang0924"/>
+        <!-- 线上才需要往 kuaidi100 去请求 -->
+        <property name="online" value="${online}"/>
+    </bean>
+    <bean class="com.kariqu.tradecenter.service.impl.BackGoodsWriteServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.BackGoodsQueryServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.CartServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.LogisticsServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.OperateLogisticsServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.OrderQueryServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.OrderWriteServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.TradeServiceImpl"/>
+    <bean class="com.kariqu.tradecenter.service.impl.CouponServiceImpl"/>
+</beans>

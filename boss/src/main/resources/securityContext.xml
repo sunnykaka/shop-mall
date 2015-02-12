@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="security-repository.xml"/>
+
+    <bean id="securityService" class="com.kariqu.securitysystem.service.impl.SecurityServiceImpl"/>
+
+    <bean class="com.kariqu.securitysystem.support.ResourceAuthorization"/>
+
+    <bean id="passResourceBean" class="com.kariqu.login.PassResourceBean">
+        <property name="staticPath">
+            <list>
+                <value>/static</value>
+                <value>/extjs</value>
+                <value>/syncCc</value>
+                <value>/syncDc</value>
+                <value>/js/fnCheck</value>
+                <value>/favicon.ico</value>
+                <value>/schedule</value>
+            </list>
+        </property>
+        <property name="excludedPath">
+            <list>
+                <value>/account/login</value>
+                <value>/account/loginOut</value>
+                <value>/account/toLogin</value>
+                <value>/account/selectRole</value>
+                <value>/alipay/refund/notify</value>
+                <value>/umpay/coupon</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

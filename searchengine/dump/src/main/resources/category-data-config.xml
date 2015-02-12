@@ -1,0 +1,11 @@
+<dataConfig>
+    <dataSource name="productDump" type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+                url="jdbc:mysql://localhost:3306/taobao?useUnicode=true&amp;characterEncoding=UTF-8" user="root"
+                password="root"/>
+    <document>
+        <entity name="category" transformer="com.kariqu.searchengine.KeyWordTransformer"
+                query="select id,name,keyWord from navigatecategory where keyWord is not NULL and keyWord !='' and isDelete = 0">
+        </entity>
+    </document>
+</dataConfig>
+

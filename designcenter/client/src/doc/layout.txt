@@ -1,0 +1,73 @@
+<div class="layoutName">
+   <div class="e_region">
+        #include_region("regionName",[]);
+   </div>
+</div>
+
+<div class="layout-m">
+  <div class="e_region">
+        #include_region("regionName",[]);
+  </div>
+</div>
+
+<div class="layout-ms">
+    <div class="main">
+        <div class="e_region">
+            #include_region("regionName",[]);
+        </div>
+    </div>
+    <div class="sub">
+        <div class="e_region">
+            #include_region("regionName",[]);
+        </div>
+    </div>
+</div>
+
+<div class="layout-sm">
+    <div class="sub">
+        <div class="e_region">
+            #include_region("regionName",[]);
+        </div>
+    </div>
+    <div class="main">
+        <div class="e_region">
+            #include_region("regionName",[]);
+        </div>
+    </div>
+</div>
+
+layoutName   pixel
+layout-m     990px
+layout-ms    150px
+layout-sm    840px
+
+
+<div class="e_module module_name" data-id= data-prototypeId= data-isEdit= data-isRemove= data-url=>
+    //#include_common_module("moduleName","version",domId)
+</div>
+
+
+/editModule.html?moduleId=xxxx&pageId=xxx&prototypeId=xxx
+/removeModule.html?moduleId=xxx&pageId=xxx
+/addModule.html？pageId=""&regionName=""&area=body
+/moveModule.html?moduleId=xxxx&pageId=xxx&directon=up|down
+
+
+<body>
+    <div class="wrapper">
+        <div class="head">
+            <div class="e_region">
+               <div class="e_module">
+               </div>
+               <div class="e_module">
+               </div>
+            </div>
+        </div>
+        <div class="content">
+        </div>
+        <div class="foot">
+        </div>
+    </div>
+</body>
+
+

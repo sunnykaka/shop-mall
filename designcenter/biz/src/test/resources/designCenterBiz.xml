@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+
+
+
+    <bean class="com.kariqu.common.uri.URLBrokerFactory" init-method="init">
+        <property name="urlConfigName" value="url.xml"/>
+    </bean>
+
+
+    <bean id="commonModuleService" class="com.kariqu.designcenter.service.impl.CommonModuleServiceImpl">
+    </bean>
+
+    <bean id="moduleContextExecutor"
+          class="com.kariqu.designcenter.service.ModuleContextExecutor">
+    </bean>
+
+    <!-- 声明式事务管理，启动事务注解 -->
+    <tx:annotation-driven/>
+
+
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:template-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="templateRepository" class="com.kariqu.designcenter.repository.impl.ibatis.TemplateRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="commonModuleRepository" class="com.kariqu.designcenter.repository.impl.ibatis.CommonModuleRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="templatePageRepository" class="com.kariqu.designcenter.repository.impl.ibatis.TemplatePageRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+
+    <bean id="templateModuleRepository"
+          class="com.kariqu.designcenter.repository.impl.ibatis.TemplateModuleRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="templateVersionRepository"
+          class="com.kariqu.designcenter.repository.impl.ibatis.TemplateVersionRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="templateResourceRepository"
+          class="com.kariqu.designcenter.repository.impl.ibatis.TemplateResourceRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="templateStyleRepository"
+          class="com.kariqu.designcenter.repository.impl.ibatis.TemplateStyleRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="shopTemplateRepository" class="com.kariqu.designcenter.repository.impl.ibatis.ShopTemplateRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="shopPageRepository" class="com.kariqu.designcenter.repository.impl.ibatis.ShopPageRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="moduleInstanceParamRepository"
+          class="com.kariqu.designcenter.repository.impl.ibatis.ModuleInstanceParamRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <bean id="pagePrototypeRepository"
+          class="com.kariqu.designcenter.repository.impl.ibatis.PagePrototypeRepositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+
+</beans>

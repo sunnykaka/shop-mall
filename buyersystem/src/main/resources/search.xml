@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="searchEngineQuery" class="com.kariqu.searchengine.service.impl.SolrSearchEngineQueryService"  init-method="reIndexMemorySuggest">
+        <property name="searchUrl" value="${searchUrl}"/>
+        <property name="suggestUrl" value="${suggestUrl}"/>
+        <property name="categoryRespository" ref="categoryRespository" />
+        <property name="brandRespository" ref="brandRespository" />
+    </bean>
+
+    <bean id="searchEngineUpdate" class="com.kariqu.searchengine.impl.SearchEngineUpdateServiceImpl">
+        <property name="searchUrl" value="${searchUrl}"/>
+        <property name="suggestUrl" value="${suggestUrl}"/>
+    </bean>
+
+    <bean id="searchResultParserService" class="com.kariqu.searchengine.service.SearchResultParserService"/>
+
+    <bean id="productLimitTimeDumpPreHandler" class="com.kariqu.buyer.service.ProductLimitTimeDumpPreHandler">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="categoryRespository" class="com.kariqu.searchengine.repository.impl.CategoryRespositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <bean id="brandRespository" class="com.kariqu.searchengine.repository.impl.BrandRespositoryImpl">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+
+    <bean id="reindexMemorySuggest" class="com.kariqu.searchengine.jobs.ReindexMemorySuggestJob">
+
+        <property name="searchEngineQueryService" ref="searchEngineQuery"/>
+    </bean>
+
+</beans>

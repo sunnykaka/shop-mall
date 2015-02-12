@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="myMap" class="java.util.HashMap">
+
+
+
+    </resultMap>
+
+    <select id="queryAllBrand" resultClass="string">
+            select
+                    name
+            from
+                    brand
+    </select>
+
+    <select id="queryAllBrandNameBrandNameMapping" resultClass="string">
+            select
+                CONCAT(pc.name,"^",pb.name)
+            from
+                    product p
+            inner join
+                    brand pb
+            on
+                    p.brandId=pb.id
+            inner join
+                    productcategory pc
+            on
+                    p.categoryId=pc.id
+            where p.isDelete=0
+            GROUP BY pc.name,pb.name
+    </select>
+
+
+</sqlMap>

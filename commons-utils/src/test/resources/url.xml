@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlConfig>
+    <url name="templateResource">
+        <severUrl>http://www.yixinshang.com</severUrl>
+        <path>template/resources/{resourceId}</path>
+        <tokens>
+            <token name="resourceId"/>
+        </tokens>
+    </url>
+    <url name="moduleEdit">
+        <severUrl>http://www.ejuhang.com</severUrl>
+        <path>{moduleInstanceId}</path>
+        <tokens>
+            <token name="moduleInstanceId"/>
+        </tokens>
+    </url>
+    <url name="home">
+        <severUrl>http://login.kariqu.com</severUrl>
+        <path>krq</path>
+        <tokens>
+            <token name="shopId"/>
+        </tokens>
+    </url>
+
+    <url name="test">
+        <severUrl>http://www.taobao.com</severUrl>
+    </url>
+
+</urlConfig>

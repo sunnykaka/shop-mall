@@ -1,0 +1,16 @@
+<html>
+<title>你得到的邀请码列表</title>
+
+<body>
+
+<a href="$urlBroker.getUrl('BuyHome').toString()/my/invite/toNew">申请</a> <br/>
+<a href="$urlBroker.getUrl('BuyHome').toString()/my/invite/used">已使用</a> <br/>
+<a href="$urlBroker.getUrl('BuyHome').toString()/my/invite/list">查看所有</a> <br/>
+
+
+列表：<br>
+    #foreach($code in $codeList)
+        $code <br/>
+    #end
+</body>
+</html>

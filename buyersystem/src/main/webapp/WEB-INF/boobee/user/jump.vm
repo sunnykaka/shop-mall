@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>易居尚跳转页面</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+            position:relative;
+            background-color: #F5F4F0;
+        }
+        .font{
+            color: #38281a;
+            font-size: 14px;
+            text-align: center;
+            line-height: 24px;
+            height: 24px;
+            padding: 15px 0 0;
+            position: absolute;
+            left: 0;
+            top:0;
+            width: 100%;
+        }
+        .gif{
+            margin: 0;
+            padding: 0px;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            height: 340px;
+            top:0;
+            width: 100%;
+            overflow: hidden;
+        }
+        .showInfo{
+            padding: 35px 0 25px;
+            line-height: 32px;
+            font-size: 18px;
+            font-family: "ms yahei";
+            font-weight: bold;
+            color:#535353;
+            text-align:center;
+
+        }
+        .showInfo p{
+            font-weight: normal;
+            line-height: 20px;
+            padding: 10px 0;
+            line-height: 20px;
+            font-size: 14px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="showInfo">
+    <div style="color:#414042;">正在登录，请稍后...</div>
+    <p><a id="jumpTo" href="$!backUrl" style="color:#E6742C">如果系统没有跳转，请点击此处!</a></p>
+</div>
+<input type="hidden" id="backUrl" name="backUrl" value="$!backUrl">
+<input type="hidden" id="actionType" name="actionType" value="$!actionType">
+<script type="text/javascript">
+document.domain="$urlBroker.getUrl('BuyDomain').toString()";
+</script>
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/jump.js"></script>
+
+</body>
+</html>

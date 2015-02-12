@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="StockKeepingUnit.selector">
+        select id, productId,price,marketPrice,skuPropertiesInDb,
+        skuState, createTime, updateTime, barCode,skuCode
+        from StockKeepingUnit
+    </sql>
+
+    <select id="selectAllStockKeepingUnits" resultClass="com.kariqu.productcenter.domain.StockKeepingUnit">
+        <include refid="StockKeepingUnit.selector"/>
+    </select>
+
+    <select id="querySKUByBarCode" resultClass="com.kariqu.productcenter.domain.StockKeepingUnit">
+        <include refid="StockKeepingUnit.selector"/>
+        where barCode=#barCode#
+    </select>
+
+    <select id="queryCountSKUByBarCode" resultClass="int">
+        select count(1) from StockKeepingUnit where barCode=#barCode#
+    </select>
+
+
+    <select id="selectStockKeepingUnit"
+            resultClass="com.kariqu.productcenter.domain.StockKeepingUnit">
+        <include refid="StockKeepingUnit.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="querySKUByProductId"
+            resultClass="com.kariqu.productcenter.domain.StockKeepingUnit">
+        <include refid="StockKeepingUnit.selector"/>
+        where productId = #productId#
+    </select>
+
+    <insert id="insertStockKeepingUnit">
+        insert into StockKeepingUnit
+        (productId,price,marketPrice,skuPropertiesInDb,skuState,createTime,updateTime)
+        values
+        (#productId#,#price#,#marketPrice#,#skuPropertiesInDb#,#skuState#,now(),now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateStockKeepingUnit">
+        update StockKeepingUnit
+        set price=#price#,marketPrice=#marketPrice#,skuState=#skuState#,barCode=#barCode#,updateTime=now()
+        where id=#id#
+    </update>
+
+
+    <update id="updateSkuState">
+        update StockKeepingUnit
+        set skuState=#skuState#
+        where id in (<iterate conjunction="," property="skuIds">#skuIds[]#</iterate>)
+    </update>
+
+    <update id="updateSkuPrice">
+        update StockKeepingUnit
+        set price=#price#,marketPrice=#marketPrice#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <update id="updateSkuBarCode">
+        update StockKeepingUnit
+        set barCode=#barCode#,skuCode=#skuCode#,updateTime=now()
+        where id=#id#
+    </update>
+
+    <delete id="deleteStockKeepingUnit">
+        delete from StockKeepingUnit
+        where id = #id#
+    </delete>
+
+    <delete id="deleteSKUByProductId">
+        delete from StockKeepingUnit
+        where productId = #productId#
+    </delete>
+
+    <update id="minusSkuStock">
+        update SkuStorage
+        set stockQuantity = stockQuantity - #number#
+        where skuId=#skuId# and productStorageId=#productStorageId#
+    </update>
+
+    <update id="addSkuStock">
+        update SkuStorage
+        set stockQuantity = stockQuantity + #number#
+        where skuId=#skuId# and productStorageId=#productStorageId#
+    </update>
+
+    <select id="queryStorageBySkuId"
+            resultClass="com.kariqu.productcenter.domain.SkuStorage">
+        select skuId,productStorageId,stockQuantity,tradeMaxNumber
+        from SkuStorage where skuId = #skuId#
+    </select>
+
+    <insert id="insertSkuStorage">
+        insert into SkuStorage
+        (skuId,productStorageId,stockQuantity,tradeMaxNumber)
+        values
+        (#skuId#,#productStorageId#,#stockQuantity#,#tradeMaxNumber#)
+    </insert>
+
+    <update id="updateSkuStorage">
+        update SkuStorage
+        set stockQuantity =#stockQuantity# ,productStorageId=#productStorageId#
+        where skuId=#skuId# and productStorageId=#productStorageId#
+    </update>
+
+    <delete id="deleteSkuStorage">
+        delete from SkuStorage
+        where skuId=#id#
+    </delete>
+
+
+    <select id="queryStockQuantity" resultClass="int">
+        select stockQuantity from SkuStorage where skuId=#skuId# and productStorageId=#productStorageId#
+    </select>
+
+    <select id="querySkuByProductStorage" resultClass="int">
+        select skuId from SkuStorage where productStorageId = #productStorageId#
+    </select>
+
+    <select id="queryTradeMaxNumber" resultClass="int">
+        select tradeMaxNumber from SkuStorage where skuId=#skuId# and productStorageId=#productStorageId#
+    </select>
+
+    <select id="queryAllStockQuantity" resultClass="int">
+        select sum(stockQuantity) from SkuStorage where skuId in (SELECT id FROM stockkeepingunit where
+        productId=#productId# and skuState ='NORMAL')
+    </select>
+
+    <delete id="deleteStockKeepingUnitByIdList">
+        delete from StockKeepingUnit
+        where id in (<iterate conjunction=",">#[]#</iterate>)
+    </delete>
+    <delete id="deleteSkuStorageByIdList">
+        delete from SkuStorage
+        where skuId in (<iterate conjunction=",">#[]#</iterate>)
+    </delete>
+    <delete id="deleteSkuStorageByProductId">
+        delete from SkuStorage
+        where skuId in (select id from StockKeepingUnit where productId = #productId# )
+    </delete>
+
+
+    <sql id="StockKeepingUnit.selectorQuery">
+        WHERE
+
+        <isNotEmpty property="productCode">
+            skuCode = #productCode# and
+        </isNotEmpty>
+
+        productId in (
+        select id from product where isDelete =0 and customerId = #customerId#
+        <isNotEmpty prepend="AND" property="productName">
+            name like concat('%', #productName#, '%')
+        </isNotEmpty>
+        )
+        <isNotEqual prepend="AND" property="productStorageId" compareValue="0">
+            id in (select skuId from SkuStorage where productStorageId = #productStorageId#)
+        </isNotEqual>
+
+        <isNotEmpty prepend="AND" property="barCode">
+            barCode = #barCode#
+        </isNotEmpty>
+
+        <isNotEmpty property="dateType">
+            <isEqual property="dateType" compareValue="create">
+                <isNotEmpty prepend="and" property="startDate">
+                    <![CDATA[ createTime >= #startDate# ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="and" property="endDate">
+                    <![CDATA[ createTime <= #endDate# ]]>
+                </isNotEmpty>
+            </isEqual>
+
+            <isEqual prepend="AND" property="dateType" compareValue="update">
+                <isNotEmpty prepend="and" property="startDate">
+                    <![CDATA[ updateTime >= #startDate# ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="and" property="endDate">
+                    <![CDATA[ updateTime <= #endDate# ]]>
+                </isNotEmpty>
+            </isEqual>
+        </isNotEmpty>
+    </sql>
+
+    <select id="queryStockKeepingUnitByQuery" resultClass="com.kariqu.productcenter.domain.StockKeepingUnit">
+        <include refid="StockKeepingUnit.selector"/>
+        <include refid="StockKeepingUnit.selectorQuery"/>
+        limit #start#, #limit#
+    </select>
+
+    <select id="queryStockKeepingUnitCountByQuery" resultClass="int">
+        select count(1) from StockKeepingUnit
+        <include refid="StockKeepingUnit.selectorQuery"/>
+    </select>
+
+    <select id="querySKUByStorageId" resultClass="com.kariqu.productcenter.domain.StockKeepingUnit">
+        select id, productId,price,marketPrice,skuPropertiesInDb,
+        skuState, createTime, updateTime, barCode,skuCode from StockKeepingUnit,skustorage
+        where id =skuId and productStorageId =#storageId# limit #start#, #limit#
+    </select>
+
+    <select id="querySKUCountByStorageId" resultClass="int">
+        select count(1) from StockKeepingUnit,skustorage where id =skuId and productStorageId =#storageId#
+    </select>
+
+</sqlMap>

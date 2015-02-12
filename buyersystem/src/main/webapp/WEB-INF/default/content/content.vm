@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>$!site_title</title>
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/css/common.css" />
+    <link rel="stylesheet" href="$urlBroker.getUrl('StaticFileDomain').toString()/css/cms.css" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+
+<!--Start页面最小宽度包裹层-->
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+
+            ${shopHead}
+
+            ${category}
+
+            ${body}
+
+            ${shopFoot}
+
+        </div>
+    </div>
+</div>
+<!--End页面最小宽度包裹层-->
+
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$urlBroker.getUrl('BuyHome').toString()/shop/js/var?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$urlBroker.getUrl('StaticFileDomain').toString()/js/common.js?$!urlBroker.getVersion()"></script>
+
+</body>
+</html>

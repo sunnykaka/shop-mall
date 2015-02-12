@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <sql id="rotary.selector">
+        select id, name, description, tally, rule, detailRule, startDate, expireDate, createDate, updateDate
+        from rotary
+    </sql>
+
+    <select id="selectAllRotary" resultClass="com.kariqu.tradecenter.domain.Rotary">
+        <include refid="rotary.selector"/>
+        where isDelete = 0
+    </select>
+
+    <select id="selectRotaryById" resultClass="com.kariqu.tradecenter.domain.Rotary">
+        <include refid="rotary.selector"/>
+        where isDelete = 0 and id = #rotaryId#
+    </select>
+
+    <insert id="insertRotary">
+        insert into rotary(name, description, tally, rule, detailRule, startDate, expireDate, createDate, updateDate)
+        values(#name#, #description#, #tally#, #rule#, #detailRule#, #startDate#, #expireDate#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateRotary">
+        update rotary
+        set name = #name#, description = #description#, tally = #tally#, rule = #rule#, rule = #rule#,
+        startDate = #startDate#, expireDate = #expireDate#, updateDate = now()
+        where id = #id#
+    </update>
+
+    <delete id="deleteRotary">
+        update rotary set isDelete = 1 where id = #id#
+    </delete>
+
+
+
+    <sql id="meed.selector">
+        select id, rotaryId, meedType, meedValue, imageUrl, description, meedIndex, meedProbability, createDate, updateDate
+        from rotaryMeed
+    </sql>
+
+    <select id="selectAllMeedByRotaryIdOrderByIndex" resultClass="com.kariqu.tradecenter.domain.RotaryMeed">
+        <include refid="meed.selector"/>
+        where rotaryId = #rotaryId# order by meedIndex
+    </select>
+
+    <select id="selectAllMeedByRotaryIdOrderByProbability" resultClass="com.kariqu.tradecenter.domain.RotaryMeed">
+        <include refid="meed.selector"/>
+        where rotaryId = #rotaryId# order by meedProbability
+    </select>
+
+    <select id="selectMeedById" resultClass="com.kariqu.tradecenter.domain.RotaryMeed">
+        <include refid="meed.selector"/>
+        where id = #id#
+    </select>
+
+    <insert id="insertMeed">
+        insert into rotaryMeed(rotaryId, meedType, meedValue, imageUrl, description, meedIndex, meedProbability, createDate, updateDate)
+        values(#rotaryId#, #meedType#, #meedValue#, #imageUrl#, #description#, #meedIndex#, #meedProbability#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateMeed">
+        update rotaryMeed
+        set rotaryId = #rotaryId#, meedType = #meedType#, meedValue = #meedValue#, imageUrl = #imageUrl#,
+        description = #description#, meedIndex = #meedIndex#, meedProbability = #meedProbability#, updateDate = now()
+        where id = #id#
+    </update>
+
+    <delete id="deleteMeed">
+        delete from rotaryMeed where id = #id#
+    </delete>
+
+
+
+    <sql id="lottery.selector">
+        select id, rotaryId, rotaryMeedId, userName, meedType, meedValue, value, really,
+        consigneeName, consigneePhone, consigneeAddress, sendOut, createDate, updateDate
+        from lottery
+    </sql>
+
+    <select id="selectAllLotteryByRotaryIdWithOutNil" resultClass="com.kariqu.tradecenter.domain.Lottery">
+        <include refid="lottery.selector"/>
+        where rotaryId = #rotaryId# and meedType != 'Null' and meedValue != '10'
+        order by id desc limit 12
+    </select>
+
+    <select id="selectLotteryById" resultClass="com.kariqu.tradecenter.domain.Lottery">
+        <include refid="lottery.selector"/>
+        where id = #id#
+    </select>
+
+    <select id="selectLotteryByQuery" resultClass="com.kariqu.tradecenter.domain.Lottery">
+        <include refid="lottery.selector"/>
+        where rotaryId = #rotaryId#
+        <isNotEmpty property="userName" prepend=" and ">userName = #userName#</isNotEmpty>
+        <isNotEmpty property="really" prepend=" and ">really = #really#</isNotEmpty>
+        <isNotEmpty property="needSend" prepend=" and ">
+            <isEqual property="needSend" compareValue="true">(really = 1 and meedType = 'Product')</isEqual>
+            <isEqual property="needSend" compareValue="false">(really = 0 or (really = 1 and meedType != 'Product'))</isEqual>
+        </isNotEmpty>
+        <isNotEmpty property="sendOut" prepend=" and ">(really = 1 and meedType = 'Product' and sendOut = #sendOut#)</isNotEmpty>
+        <isNotEmpty property="start">
+            limit #start# <isNotEmpty property="limit">, #limit#</isNotEmpty>
+        </isNotEmpty>
+    </select>
+
+    <select id="selectCountLotteryByQuery" resultClass="int">
+        select count(1) from lottery where rotaryId = #rotaryId#
+        <isNotEmpty property="userName" prepend=" and ">userName = #userName#</isNotEmpty>
+        <isNotEmpty property="really" prepend=" and ">really = #really#</isNotEmpty>
+        <isNotEmpty property="needSend" prepend=" and ">
+            <isEqual property="needSend" compareValue="true">(really = 1 and meedType = 'Product')</isEqual>
+            <isEqual property="needSend" compareValue="false">(really = 0 or (really = 1 and meedType != 'Product'))</isEqual>
+        </isNotEmpty>
+        <isNotEmpty property="sendOut" prepend=" and ">(really = 1 and meedType = 'Product' and sendOut = #sendOut#)</isNotEmpty>
+    </select>
+
+    <insert id="insertLottery">
+        insert into lottery(rotaryId, rotaryMeedId, userName, meedType, meedValue, value
+        <isNotEmpty property="really" prepend=", ">really</isNotEmpty>
+        <isNotEmpty property="consigneeName" prepend=", ">consigneeName</isNotEmpty>
+        <isNotEmpty property="consigneePhone" prepend=", ">consigneePhone</isNotEmpty>
+        <isNotEmpty property="consigneeAddress" prepend=", ">consigneeAddress</isNotEmpty>
+        <isNotEmpty property="sendOut" prepend=", ">sendOut</isNotEmpty>
+        , createDate, updateDate)
+        values(#rotaryId#, #rotaryMeedId#, #userName#, #meedType#, #meedValue#, #value#
+        <isNotEmpty property="really" prepend=", ">#really#</isNotEmpty>
+        <isNotEmpty property="consigneeName" prepend=", ">#consigneeName#</isNotEmpty>
+        <isNotEmpty property="consigneePhone" prepend=", ">#consigneePhone#</isNotEmpty>
+        <isNotEmpty property="consigneeAddress" prepend=", ">#consigneeAddress#</isNotEmpty>
+        <isNotEmpty property="sendOut" prepend=", ">#sendOut#</isNotEmpty>
+        <isNotEmpty property="createDate" prepend=", ">#createDate#</isNotEmpty>
+        <isEmpty property="createDate" prepend=", ">now()</isEmpty>
+        , now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateLottery">
+        update lottery
+        set updateDate = now()
+        <isNotEmpty property="rotaryId" prepend=", ">rotaryId = #rotaryId#</isNotEmpty>
+        <isNotEmpty property="rotaryMeedId" prepend=", ">rotaryMeedId = #rotaryMeedId#</isNotEmpty>
+        <isNotEmpty property="userName" prepend=", ">userName = #userName#</isNotEmpty>
+        <isNotEmpty property="meedType" prepend=", ">meedType = #meedType#</isNotEmpty>
+        <isNotEmpty property="meedValue" prepend=", ">meedValue = #meedValue#</isNotEmpty>
+        <isNotEmpty property="value" prepend=", ">value = #value#</isNotEmpty>
+        <isNotEmpty property="consigneeName" prepend=", ">consigneeName = #consigneeName#</isNotEmpty>
+        <isNotEmpty property="consigneePhone" prepend=", ">consigneePhone = #consigneePhone#</isNotEmpty>
+        <isNotEmpty property="consigneeAddress" prepend=", ">consigneeAddress = #consigneeAddress#</isNotEmpty>
+        <isNotEmpty property="sendOut" prepend=", ">sendOut = #sendOut#</isNotEmpty>
+        where id = #id#
+    </update>
+
+    <update id="updateLotteryToSendOut">
+        update lottery set sendOut = 1 where id = #id#
+    </update>
+
+    <delete id="deleteLottery">
+        delete from lottery where id = #id#
+    </delete>
+
+</sqlMap>

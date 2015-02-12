@@ -1,0 +1,94 @@
+
+------------------------- 订单 -------------------------
+
+现在         表达意思                 原状态
+
+Create      创建(等待用户付款)         Create, WaitingForPay
+Pay         付款完成(等待客服确认)      PayCompleted, WaitingForConfirm
+Confirm     确认完成(等待商家打单)      ConfirmCompleted
+Print       商家确认打单(等待验货)      AffirmPrint
+Verify      商家已验货(等待发货)       OnDelivery
+Send        商家已发货(等待用户收货)    WaitingToDestination
+Success     交易成功                  Complete
+Back        客户退货中                Backing, BackComplete
+Cancel      取消                     Cancel
+
+SQL 如下:
+(
+    update orderTable set orderState = 'Create' where orderState = 'WaitingForPay';
+    update orderTable set orderState = 'Pay' where orderState = 'PayCompleted' or orderState = 'WaitingForConfirm';
+    update orderTable set orderState = 'Confirm' where orderState = 'ConfirmCompleted';
+    update orderTable set orderState = 'Print' where orderState = 'AffirmPrint';
+    update orderTable set orderState = 'Verify' where orderState = 'OnDelivery';
+    update orderTable set orderState = 'Send' where orderState = 'WaitingToDestination';
+    update orderTable set orderState = 'Success' where orderState = 'Complete';
+    update orderTable set orderState = 'Back' where orderState = 'Backing' or orderState = 'BackComplete';
+
+    update orderItem set orderState = 'Create' where orderState = 'WaitingForPay';
+    update orderItem set orderState = 'Pay' where orderState = 'PayCompleted' or orderState = 'WaitingForConfirm';
+    update orderItem set orderState = 'Confirm' where orderState = 'ConfirmCompleted';
+    update orderItem set orderState = 'Print' where orderState = 'AffirmPrint';
+    update orderItem set orderState = 'Verify' where orderState = 'OnDelivery';
+    update orderItem set orderState = 'Send' where orderState = 'WaitingToDestination';
+    update orderItem set orderState = 'Success' where orderState = 'Complete';
+    update orderItem set orderState = 'Back' where orderState = 'Backing' or orderState = 'BackComplete';
+
+    update orderStateHistory set orderState = 'Create' where orderState = 'WaitingForPay';
+    update orderStateHistory set orderState = 'Pay' where orderState = 'PayCompleted' or orderState = 'WaitingForConfirm';
+    update orderStateHistory set orderState = 'Confirm' where orderState = 'ConfirmCompleted';
+    update orderStateHistory set orderState = 'Print' where orderState = 'AffirmPrint';
+    update orderStateHistory set orderState = 'Verify' where orderState = 'OnDelivery';
+    update orderStateHistory set orderState = 'Send' where orderState = 'WaitingToDestination';
+    update orderStateHistory set orderState = 'Success' where orderState = 'Complete';
+    update orderStateHistory set orderState = 'Back' where orderState = 'Backing' or orderState = 'BackComplete';
+
+    -- 删除所有互斥的数据
+    delete from orderStateHistory where overlay = 1;
+)
+
+
+
+------------------------- 退货单 -------------------------
+
+现在      表达意思     原状态
+
+Create    创建退货单   WaitAudit
+Verify    审核通过     Pass
+Receive   确认收货     原有的确认收货会跳到 [WaitBackPay(等待退款)]
+Success   处理完成     BackPayComplete
+Cancel    取消         Cancel
+已去掉原有的 WaitBackPay(等待退款), BackPaying(退款中), BackPayFail(退款失败) 三个状态
+
+SQL 如下:
+(
+    -- 退货单增加了 backType 是否有发货的标识, 此值在原有的数据基础上不好判定, 所幸现在的退货数据并不多.
+    update backGoods set backState = 'Create' where backState = 'WaitAudit';
+    update backGoods set backState = 'Verify' where backState = 'Pass';
+    update backGoods set backState = 'Success' where backState = 'BackPayComplete';
+
+    -- 退货单项中记录了订单项的状态(目前是不需要了的)
+    update backGoodsItem set orderState = 'Create' where orderState = 'WaitingForPay';
+    update backGoodsItem set orderState = 'Pay' where orderState = 'PayCompleted' or orderState = 'WaitingForConfirm';
+    update backGoodsItem set orderState = 'Confirm' where orderState = 'ConfirmCompleted';
+    update backGoodsItem set orderState = 'Print' where orderState = 'AffirmPrint';
+    update backGoodsItem set orderState = 'Verify' where orderState = 'OnDelivery';
+    update backGoodsItem set orderState = 'Send' where orderState = 'WaitingToDestination';
+    update backGoodsItem set orderState = 'Success' where orderState = 'Complete';
+    update backGoodsItem set orderState = 'Back' where orderState = 'Backing' or orderState = 'BackComplete';
+
+    update backGoodsLog set backState = 'Create' where backState = 'WaitAudit';
+    update backGoodsLog set backState = 'Verify' where backState = 'Pass';
+    update backGoodsLog set backState = 'Success' where backState = 'BackPayComplete';
+
+    -- 暂时先只将所有的 等待退款 退款中 退款失败 的数据置为 已确认收货
+    update backGoods set backState = 'Receive'
+    where backState = 'WaitBackPay' or backState = 'BackPaying' or backState = 'BackPayFail';
+
+    -- 暂时先只将所有的 等待退款 退款中 退款失败 的数据置为 已确认收货
+    update backGoodsLog set backState = 'Receive'
+    where backState = 'WaitBackPay' or backState = 'BackPaying' or backState = 'BackPayFail';
+
+    -- 暂时先将所有的数据置为  已发货
+    update backGoods set backType = 'YetSend';
+)
+

@@ -1,0 +1,62 @@
+<dataConfig>
+    <dataSource name="productDump" type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+                url="jdbc:mysql://localhost:3306/boss?useUnicode=true&amp;characterEncoding=UTF-8" user="root"
+                password="root"/>
+    <document>
+        <entity name="product" transformer="com.kariqu.searchengine.CategoryTreeTransformer"
+                query="select id,categoryId,name,onLineTimeLong,description,brandId,tagType from product where online = 1 and isDelete = 0 order by updateTime desc"
+                deltaImportQuery="select id,categoryId,name,onLineTimeLong,description,brandId,tagType from product where online = 1 and isDelete = 0 and id='${dataimporter.delta.id}'"
+                deltaQuery="select id from product where online = 1 and isDelete = 0 and updateTime > '${dataimporter.last_index_time}'">
+
+            <field column="categoryId" name="categoryId"/>
+
+            <field column="leafId" name="leafId"/>
+
+            <field column="name" name="name"/>
+
+            <field column="tagType" name="tagType"/>
+
+            <field column="onLineTimeLong" name="time"/>
+
+            <field column="description" name="desc"/>
+
+            <field column="skuId" name="skuId"/>
+
+            <field column="skuDesc" name="skuDesc"/>
+
+            <field column="sell" name="sell"/>
+
+            <field column="price" name="price"/>
+
+            <field column="name" name="originalName"/>
+
+            <field column="valuation" name="valuation"/>
+
+            <field column="pictureUrlList" name="pictureUrlList"/>
+
+            <field column="minorPictureUrl" name="minorPictureUrl"/>
+
+            <field column="pictureUrl" name="pictureUrl"/>
+
+            <field column="activityPrice" name="activityPrice"/>
+
+            <field column="pidvid" name="pidvid"/>
+
+            <field column="produceArea" name="produceArea"/>
+
+            <entity name="productSell" query="select sum(number) from SkuTradeResult where productId= '${product.id}'">
+                <field column="sum(number)" name="productSell"/>
+            </entity>
+
+            <entity name="activityType" query="select activityType from ProductActivity where isDelete = 0 and activityType='LimitTime' and productId='${product.id}' and now() &gt;= startDate and now() &lt;= endDate ">
+                <field column="activityType" name="activityType"/>
+            </entity>
+            <entity name="categoryName" query="select REPLACE(name,'子','') name from productcategory where id= '${product.leafId}' and isDelete = 0">
+                <field column="name" name="categoryName"/>
+            </entity>
+            <entity name="brandName" query="select name from brand where id= '${product.brandId}' ">
+                <field column="name" name="brandName"/>
+            </entity>
+        </entity>
+    </document>
+</dataConfig>

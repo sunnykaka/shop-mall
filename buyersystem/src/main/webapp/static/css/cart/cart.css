@@ -1,0 +1,379 @@
+/**
+ * 购物车样式
+ * Created by HuaLei.Du on 2014/6/10.
+ */
+
+ .e-header-min {
+    height: 89px;
+    background: #fff;
+    position: relative;
+    z-index: 989;
+}
+
+.e-header-min .logo {
+    float: left;
+    margin: 0 32px 0 16px;
+    width: 190px;
+    height: 89px;
+    overflow: hidden;
+    background: #fff url("../../stylesimg/cart/logo.png") no-repeat 0 0;
+}
+
+.e-header-min .logo a {
+    display: block;
+    height: 89px;
+    line-height: 500px;
+    font-size: 0;
+}
+
+.cart-steps {
+    float: right;
+}
+
+.cart-steps ul {
+    height: 20px;
+    padding: 20px 0 8px;
+}
+
+.cart-steps li {
+    float: left;
+    width: 96px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 100px;
+    text-align: center;
+}
+
+.cart-steps .strong{
+    color: #748130;
+}
+.cart-steps .last {
+    margin-right: 0;
+}
+
+.cart-steps .step {
+    height: 16px;
+    font-size: 0;
+    line-height: 0;
+    background: url("../../stylesimg/cart/step.png") no-repeat 42px 0;
+}
+
+.cart-steps .step-1{
+    background-position: 42px 0;
+}
+.cart-steps .step-2{
+    background-position: 42px -16px;
+}
+.cart-steps .step-3{
+    background-position: 42px -32px;
+}
+
+.cart-page {
+    padding: 20px 0;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+}
+
+.cart-box {
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.cart-box h3 {
+    background-color: #fafafa;
+    font: normal 14px/40px "Microsoft YaHei",STHeiti;
+    text-indent: 20px;
+    height: 40px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.cart-box .link-deleteAll {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font: normal 12px/20px simsun;
+    cursor: pointer;
+    padding-left: 20px;
+
+}
+
+.cart-box .link-deleteAll i {
+    position: absolute;
+    margin: 2px 0 0 -20px;
+    width: 16px;
+    height: 16px;
+    background: url("../../stylesimg/cart/cart-sprites.png") no-repeat 0 0;
+}
+
+.cart-head {
+    padding: 0 20px;
+}
+
+.cart-head table {
+    width: 100%;
+}
+
+.cart-page .no-goods {
+    padding: 100px 0 120px;
+    text-align: center;
+}
+
+.cart-page .no-goods strong {
+    font: normal 24px/36px "Microsoft YaHei",STHeiti;
+}
+
+.cart-page .no-goods a {
+    font: normal 14px/24px "Microsoft YaHei",STHeiti;
+    color: #748130;
+}
+
+.cart-head th {
+    text-align: center;
+    font-weight: 400;
+    height: 50px;
+    line-height: 50px;
+}
+
+.cart-head .col1-2 {
+    width: 500px;
+}
+
+.cart-head .col3 {
+    width: 128px;
+}
+
+.cart-head .col4 {
+    width: 196px;
+}
+
+.cart-head .col5 {
+    width: 150px;
+}
+
+.cart-head .col6 {
+    padding-left: 50px;
+    text-align: left;
+}
+
+.cart-body {
+    padding: 0 20px;
+}
+
+.cart-body table {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.cart-body .market-price {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.cart-body .amount {
+    line-height: 24px;
+    height: 30px;
+    position: relative;
+    padding-left: 87px;
+}
+
+.cart-body .amount .btn-sub,
+.cart-body .amount .btn-add,
+.cart-body .amount .text-number {
+    width: 14px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #e6e6e6;
+    text-align: center;
+    background-color: #fff;
+}
+
+.cart-body .amount .btn-sub span,
+.cart-body .amount .btn-add span {
+    display: block;
+    width: 14px;
+    height: 22px;
+}
+
+.cart-body .amount .btn-sub,
+.cart-body .amount .btn-add {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+}
+
+.cart-body .amount .btn-sub {
+    left: 72px
+}
+
+.cart-body .amount .btn-add {
+    left: 117px
+}
+
+.cart-body .amount .btn-add:hover,
+.cart-body .amount .btn-sub:hover {
+    width: 28px;
+    height: 33px;
+    top: -6px;
+}
+
+.cart-body .amount .btn-add:hover span,
+.cart-body .amount .btn-sub:hover span {
+    width: 28px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 20px;
+    font-family:"Microsoft Yahei",STHeiti;
+}
+
+.cart-body .amount .btn-sub:hover {
+    left: 62px
+}
+
+.cart-body .amount .btn-add:hover {
+    left: 112px
+}
+
+.cart-body .amount .text-number {
+    float: left;
+    width: 30px;
+    border-width: 1px 0
+}
+
+.cart-body .amount a:hover {
+    text-decoration: none
+}
+
+.cart-body .amount .btn-sub {
+    border-width: 1px;
+}
+
+.cart-body .amount .text-number {
+    width: 30px
+}
+
+.cart-body caption {
+    background-color: #fafafa;
+    height: 30px;
+    line-height: 30px;
+    text-align: left;
+    text-indent: 10px;
+    margin-bottom: 15px;
+}
+
+.cart-body td {
+    padding: 15px 0;
+}
+
+.cart-body .col1 {
+    width: 100px;
+    padding-left: 30px;
+}
+
+.cart-body .col2 {
+    width: 370px;
+    line-height: 20px;
+}
+
+.cart-body .col2 a {
+    color: #748130;
+}
+
+.cart-body .col3 {
+    font-family:"Microsoft Yahei",STHeiti;
+    font-size: 14px;
+    width: 128px;
+    text-align: center;
+}
+
+.cart-body .col4 {
+    width: 196px;
+    text-align: center;
+}
+
+.cart-body .col5 {
+    width: 150px;
+    font-size: 14px;
+    font-family:"Microsoft Yahei",STHeiti;
+    color: #ff3300;
+    text-align: center;
+}
+
+.cart-body .col6 {
+    padding-left: 46px;
+}
+
+.cart-body .link-follow {
+    color: #748130;
+}
+
+.cart-body .link-delete {
+    color: #ff3300;
+}
+
+.cart-page .cart-count {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0 10px 1050px;
+    line-height: 24px;
+}
+
+.cart-page .price {
+    font-family: Arial;
+    color: #ff3300;
+}
+
+.cart-page .cart-btn {
+    height: 40px;
+    padding: 20px 0 30px;
+    text-align: right;
+}
+
+.cart-page .cart-btn dl{
+    float: left;
+    margin-right: 20px;
+}
+.cart-page .cart-btn dt,
+.cart-page .cart-btn dd{
+    float: left;
+    line-height: 40px;
+}
+
+.cart-page .cart-btn .total-price {
+    font-family:"Microsoft Yahei",STHeiti;
+    color: #ff3300;
+    font-size: 24px;
+}
+
+.cart-page .cart-btn .btn-orange {
+    font: normal 18px/20px "Microsoft Yahei",STHeiti;
+    padding: 10px 40px;
+    border-radius: 4px;
+}
+
+.delivery-tips {
+    display: none;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+}
+
+.delivery-tips h4 {
+    border-bottom: 1px solid #ddd;
+    font: normal 14px/34px "Microsoft YaHei",STHeiti;
+    padding-left: 10px;
+}
+
+.delivery-tips h4 span{
+    color: #999;
+}
+
+.delivery-tips p{
+    line-height: 20px;
+    padding: 10px;
+}
+
+.delivery-tips .strong{
+    font-weight: 400;
+    color: #ff3300;
+}

@@ -1,0 +1,66 @@
+#set($contentCssUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css?$!urlBroker.getVersion()"])
+#set($contentJsUrls=["$!urlBroker.getUrl('StaticFileDomain').toString()/js/modules.js?$!urlBroker.getVersion()",
+"$!urlBroker.getUrl('StaticFileDomain').toString()/js/lottery.js?$!urlBroker.getVersion()"])
+#parse("head.vm")
+
+<div class="lottery_page">
+    <div class="common_wrapper clearfix lottery_body">
+
+        <div class="info_wrap">
+            <div class="user_info">
+                <!--您还没有登录，现在去<a href="#">登录</a>-->
+                <ul>
+                    <li>用户名：$!loginUserName</li>
+                    <li>积分：<span id="integral_count">$!pointTotal</span></li>
+                </ul>
+                <a href="$!urlBroker.getUrl('MyPoint').toString()" class="integral_log" target="_blank">积分详情&gt;&gt;</a>
+            </div>
+
+            <div class="lottery_log">
+                <h3>中奖达人榜</h3>
+                <div class="body">
+                    <ul class="clearfix" id="lottery_log_list">
+                        #foreach($lottery in $!lotteryList)
+                        #if($!velocityCount % 4 == 1)<li>#end
+                            <div class="log_item">
+                                <div class="nickname">$!lottery.dimUserName</div>
+                                <div class="prize">抽中了$!lottery.value</div>
+                            </div>
+                        #if($!velocityCount % 4 == 0 || $!velocityCount == $!lotteryList.size())</li>#end
+                        #end
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="lottery_wrap">
+            <div class="lottery_rule">
+                <h4>抽奖规则：</h4>
+                <p>$!rotary.rule</p>
+            </div>
+
+            <div class="lottery_content" id="lottery_content">
+                #foreach($rotaryMeed in $!rotary.rotaryMeedList)
+                <div class="prize_item prize_$!velocityCount">
+                    <img src="$!rotaryMeed.imageUrl" width="118" height="99" title="$!rotaryMeed.description" alt="$!rotaryMeed.description"/>
+                </div>
+                #end
+                <div id="lottery_btn" class="lottery_btn">点击抽奖</div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="lottery_continue">
+            <span>$!rotary.description</span>
+        </div>
+
+        <div class="back_home">
+            <a href="$!urlBroker.getUrl('BuyHome').toString()/page/121">返回主会场</a>
+        </div>
+    </div>
+</div>
+
+<!-- 购物车 END -->
+#parse("foot.vm")
+

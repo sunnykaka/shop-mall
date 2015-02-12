@@ -1,0 +1,49 @@
+#if($!mealView)
+#*<!-- 推荐套餐 -->
+<div class="common_wrapper recommend_combination">
+    <h3>推荐套餐搭配</h3>
+    <div class="list">
+        <ul>
+            #foreach($mealItemView in $!mealView.mealItemViewList)
+                <li#if($velocityCount == $!mealView.mealItemViewList.size()) class="last"#end>
+                    <div class="pic">
+                        <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!mealItemView.skuInfo.productAndSkuId).toString()" target="_blank">
+                            <img class="lazy" src="$urlBroker.getUrl('StaticDesignImgDomain').toString()/images/none_222.jpg"
+                                 data-original="$!imgResolver.getMiddleSizeImgUrl($!mealItemView.skuInfo.imageUrl)" title="$!mealItemView.skuInfo.name"/></a>
+                    </div>
+                    <div class="name">
+                        <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!mealItemView.skuInfo.productAndSkuId).toString()"
+                           target="_blank" title="$!mealItemView.skuInfo.name">$!mealItemView.skuInfo.name</a>
+                    </div>
+                    <div class="price">
+                        <span>¥$!mealItemView.mealPrice</span>
+                        <span class="market_price">¥$!mealItemView.skuInfo.skuPrice</span>
+                    </div>
+                    <div class="number">数量: $!mealItemView.mealItem.number</div>
+                    <span class="plus">+</span>
+                    <input type="hidden" name="skuId_$velocityCount" value="$!{mealItemView.mealItem.skuId}" />
+                </li>
+            #end
+            <input type="hidden" name="skuCount" value="$!mealView.mealItemViewList.size()" />
+        </ul>
+    </div>
+    <div class="amount">
+        <form id="buyCombinationForm" method="post" action="${urlBroker.getUrl('BuyHome')}/order/meal">
+            <div class="price">套餐价格：<strong>¥$!{mealView.mealTotalPrice}</strong>元</div>
+            <div class="market_price">原价： ¥$!{mealView.totalPrice}元</div>
+            <div class="economize"><span>立省 ¥</span>$!{mealView.stintPrice}</div>
+            <a href="${urlBroker.getUrl('BuyHome')}/product/meal/$!mealView.meal.id" class="btn">查看套餐</a>
+
+            <input type="hidden" name="mealId" value="$!mealView.meal.id" />
+            #foreach($mealItemView in $!mealView.mealItemViewList)
+                #set($index = $!velocityCount - 1)
+                <input type="hidden" name="skuId_$!index" value="$!{mealItemView.mealItem.skuId}" />
+            #end
+            <input type="hidden" name="skuCount" value="$!mealView.mealItemViewList.size()" />
+            <button type="button" class="btn" id="directBuyCombination">立即购买</button>
+        </form>
+        <span class="adorn"></span>
+    </div>
+</div>
+<!-- 组合套餐 END -->*#
+#end

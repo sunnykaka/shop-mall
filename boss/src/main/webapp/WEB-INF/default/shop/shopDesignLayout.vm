@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>易居尚，提供高品质生活家居用品</title>
+
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/wish.css"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('BossDomain').toString()/static/kindeditor/themes/default/default.css"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/design.css"/>
+    #foreach($css in $!pageCss)
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/$!css" />
+    #end
+
+    <script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/shop/js/var"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/common.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/modules.js"></script>
+    <script charset="utf-8" src="$!urlBroker.getUrl('BossDomain').toString()/static/kindeditor/kindeditor.js"></script>
+    <script charset="utf-8" src="$!urlBroker.getUrl('BossDomain').toString()/static/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/design.js"></script>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');
+    </script>
+    <![endif]-->
+</head>
+<body>
+
+<input id="pageId" type="hidden" name="pageId" value="$pageId"/>
+
+<!--Start页面最小宽度包裹层-->
+<div class="outer">
+    <div class="inner">
+        <div class="wrapper">
+            <!--Start吊顶-->
+            <div class="com_modify_fixed">
+                <ul class="com_modify_links">
+                    #if($indexPageId)
+                        <li>
+                            <a href="$!urlBroker.getUrl('DesignPage').addQueryData('pageId', $indexPageId).toString()">装修首页</a>
+                        </li>
+                    #end
+                    #if($searchPageId)
+                        <li>
+                            <a href="$!urlBroker.getUrl('DesignPage').addQueryData('pageId', $searchPageId).toString()">装修搜索页</a>
+                        </li>
+                    #end
+                    #if($detailPageId)
+                        <li>
+                            <a href="$!urlBroker.getUrl('DesignPage').addQueryData('pageId', $detailPageId).toString()">装修详情页</a>
+                        </li>
+                    #end
+                    #if($channelPageId)
+                        <li>
+                            <a href="$!urlBroker.getUrl('DesignPage').addQueryData('pageId', $channelPageId).toString()">装修频道页</a>
+                        </li>
+                    #end
+                </ul>
+                <ul class="com_modify_buttons">
+                    #if($shopId)
+                        <li>
+                            <a target="_blank"
+                               href="$!urlBroker.getUrl('PreviewShop').addQueryData('shopId', $shopId).toString()">预览店铺</a>
+                        </li>
+                        <li>
+                            <form action="$!urlBroker.getUrl('ShopPublish').toString()" method="POST">
+                                <input type="hidden" name="shopId" value="$shopId"/>
+                                <input type="submit" value="发布店铺"/>
+                            </form>
+                        </li>
+                        <li>
+                            <a target="_blank"
+                               href="$!urlBroker.getUrl('PreviewPage').addQueryData('pageId', $pageId).toString()">预览页面</a>
+                        </li>
+                        <li>
+                            <form action="$!urlBroker.getUrl('PagePublish').toString()" method="POST">
+                                <input type="hidden" name="pageId" value="$pageId"/>
+                                <input type="submit" value="发布页面"/>
+                            </form>
+                        </li>
+                    #end
+                </ul>
+            </div>
+            <!--End吊顶-->
+
+            $!{pageContent}
+
+        </div>
+    </div>
+</div>
+<!--End页面最小宽度包裹层-->
+</body>
+</html>

@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>订单提交成功</title>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()" />
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/cart/index.css?$!urlBroker.getVersion()" />
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+#parse("user/newLoginTop.vm")
+
+<div class="e-header-min e-wrapper">
+    <h1 class="logo"><a href="$!urlBroker.getUrl('BuyHome').toString()" title="易居尚-品质居家用品网购平台">易居尚<span>yijushang.com</span></a></h1>
+
+    <div class="cart-steps">
+        <ul>
+            <li>我的购物车</li>
+            <li>填写核对订单</li>
+            <li class="last">订单提交成功</li>
+        </ul>
+        <div class="step">&nbsp;</div>
+    </div>
+</div>
+
+<div class="order-pay-page">
+
+    <div class="e-wrapper">
+
+        <div class="order-success">
+            <h3 class="success"><i></i><span>订单提交成功，请您立即付款，我们将及时为您发货！</span></h3>
+            <p class="order-no">订单编号：
+                #foreach($order in $orders)
+                <span>($!velocityCount)</span> $!order.orderNo &nbsp;
+                #end
+            <p class="order-price">订单金额：<span>¥$!totalPriceForYuan</span></p>
+        </div>
+
+        <div class="payment">
+
+            <dl class="clearfix selected">
+                <dt>您已选择支付方式：</dt>
+                <dd id="selected-bank">
+                    <i></i>
+                    <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zfb.jpg" alt="支付宝"/>
+                    <a href="javascript:void(0);" class="reset">更改支付方式</a>
+                </dd>
+            </dl>
+
+            <div class="payment-box">
+                <h4>在线支付 <span>支持支付宝、财付通支付平台，支持多家银行借记卡。</span></h4>
+
+                <div class="clearfix default-payBank">
+                    <ul class="list clearfix">
+                        <li payBank="Alipay" class="current">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zfb.jpg" alt="支付宝">
+                        </li>
+                        <li payBank="Tenpay">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-cft.jpg" alt="财付通">
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="clearfix">
+                    <h4>网上银行 <span>由支付宝提供接口，确保您的资金安全</span></h4>
+                    <ul class="list clearfix">
+                        <li payBank="ICBCB2C">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-gs.jpg" alt="工商银行">
+                        </li>
+                        <li payBank="CCB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-js.jpg" alt="建设银行">
+                        </li>
+                        <li payBank="BOCB2C">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zg.jpg" alt="中国银行">
+                        </li>
+                        <li payBank="CMB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zs.jpg" alt="招商银行">
+                        </li>
+                        <li payBank="COMM">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-jt.jpg" alt="交通银行">
+                        </li>
+                        <li payBank="ABC">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-ny.jpg" alt="农业银行">
+                        </li>
+                        <li payBank="POSTGC">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-yz.jpg" alt="中国邮政储蓄">
+                        </li>
+                        <li payBank="CITIC">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-zx.jpg" alt="中信银行">
+                        </li>
+                        <li payBank="CIB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-xy.jpg" alt="兴业银行">
+                        </li>
+                        <li payBank="SPDB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-pf.jpg" alt="浦发银行">
+                        </li>
+                        <li payBank="CMBC">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-ns.jpg" alt="民生银行">
+                        </li>
+                        <li payBank="CEBBANK">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-gd.jpg" alt="光大银行">
+                        </li>
+                        <li payBank="NBBANK">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-nb.jpg" alt="宁波银行">
+                        </li>
+                        <li payBank="SDB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-szfz.jpg" alt="深发展银行">
+                        </li>
+                        <li payBank="BJRCB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-bjns.jpg" alt="北京农商银行">
+                        </li>
+                        <li payBank="SPABANK">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-pa.jpg" alt="平安银行">
+                        </li>
+                        <li payBank="GDB">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-gf.jpg" alt="广发银行">
+                        </li>
+                        <li payBank="SHBANK">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-sh.jpg" alt="上海银行">
+                        </li>
+                        <li payBank="HZCBB2C">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-hz.jpg" alt="杭州银行">
+                        </li>
+                        <li payBank="BJBANK">
+                            <i></i>
+                            <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/payment/bank-bj.jpg" alt="北京银行">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btns">
+
+                <form action="$!urlBroker.getUrl('ToPay').toString()" method="post" target="_blank" id="PayOrder">
+                    <input type="hidden" name="orderNo" value="$!ordersNoList"/>
+                    <input type="hidden" id="payMethod" name="payMethod" value="#if($!payBank == "Tenpay")Tenpay#elseif($!payBank == "Alipay")directPay#{else}bankPay#{end}">
+                    <input type="hidden" id="defaultbank" name="defaultbank" value="#if($!payBank == "Tenpay" || $!payBank == "Alipay")defaultbank#{else}$!payBank#{end}">
+                    <button type="submit" class="e-btn btn-orange btn-toPay">立即付款</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+#parse("order/oderFoot.vm")
+
+<script type="text/javascript">
+    var currentPayBank = '$!payBank';
+    EJS.SelectPayBank = '$!urlBroker.getUrl('BuyHome').toString()/order/pay/$!ordersNoList';
+    EJS.ToPayStatus = '$!urlBroker.getUrl('BuyHome').toString()/pay/order/status/query?orderNo=$!ordersNoList';
+    EJS.ToSubmitPayQuestion = '$!urlBroker.getUrl('BuyHome').toString()/feedback/new?pay=yes';
+    EJS.ToPay = '$!urlBroker.getUrl('ToPay').toString()';
+</script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/cart/pay.js"></script>
+</body>
+</html>

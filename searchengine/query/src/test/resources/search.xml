@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="mysqlDataSource.xml"/>
+    <bean id="search-sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:search-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="searchEngineQuery" class="com.kariqu.searchengine.service.impl.SolrSearchEngineQueryService" init-method="reIndexMemorySuggest">
+        <property name="searchUrl" value="http://192.168.1.98:8012/solr"/>
+        <property name="suggestUrl" value="http://192.168.1.98:8012/solr/category"/>
+        <property name="categoryRespository" ref="categoryRespository" />
+        <property name="brandRespository" ref="brandRespository" />
+    </bean>
+
+     <bean id="categoryRespository" class="com.kariqu.searchengine.repository.impl.CategoryRespositoryImpl">
+         <property name="sqlMapClient" ref="search-sqlMapClient"/>
+     </bean>
+    <bean id="brandRespository" class="com.kariqu.searchengine.repository.impl.BrandRespositoryImpl">
+        <property name="sqlMapClient" ref="search-sqlMapClient"/>
+     </bean>
+    <bean id="searchResultParserService" class="com.kariqu.searchengine.service.SearchResultParserService"/>
+
+
+
+</beans>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <typeAlias alias="ProductIntegralConversion" type="com.kariqu.productcenter.domain.ProductIntegralConversion"/>
+
+    <sql id="productIntegralConversion.selector">
+        select id, productId, skuId, integralCount, userBuyCount, startDate, endDate, createDate, updateDate, mockSale
+        from ProductIntegralConversion
+    </sql>
+
+    <!--根据skuid查-->
+    <select id="selectAllProductIntegralConversionBySkuId" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector" />
+        where isDelete = 0 and skuId = #skuId#
+    </select>
+
+    <!--按skuid查出商品参加的活动-->
+    <select id="fetchIntegralConversionBySkuIdAndDaytime" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector" />
+        where isDelete = 0 and skuId = #skuId# and productId = #productId#
+        and <![CDATA[ #specificDate# >= startDate and #specificDate# <= endDate ]]>
+    </select>
+
+    <!--查询出所有的 -->
+    <select id="selectAllProductIntegralConversion" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector" />
+        where isDelete = 0;
+    </select>
+
+    <!--根据主键id查询 -->
+    <select id="selectProductIntegralConversionById" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector" />
+        where isDelete = 0 and id = #id#;
+    </select>
+
+    <!--查询某个商品在某个特定时间点的活动-->
+    <select id="getProductIntegralConversionByGivingTime" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector"/>
+        where skuId = #skuId# and isDelete = 0 and <![CDATA[ #specificDate# >= startDate and #specificDate# <= endDate ]]>
+    </select>
+
+    <!--根据商品id统计数量 -->
+    <select id="selectCountProductIntegralConversionByProductId" resultClass="int">
+        select count(1) from ProductIntegralConversion
+        where isDelete = 0
+        <isNotEqual prepend="and" property="productId" compareValue="0">
+            productId = #productId#
+        </isNotEqual>
+    </select>
+
+    <!--根据商品id查询 -->
+    <select id="selectProductIntegralConversionByProductId" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector" />
+        where isDelete = 0
+        <isNotEqual prepend="and" property="productId" compareValue="0">
+            productId = #productId#
+        </isNotEqual>
+        limit #start#, #limit#
+    </select>
+
+    <!--根据商品id及当前时间找出活动信息-->
+    <select id="selectProductIntegralConversionByDate" resultClass="ProductIntegralConversion">
+        <include refid="productIntegralConversion.selector"/>
+        where isDelete = 0
+        <![CDATA[
+        AND ( TIMESTAMP('$curDate$') between startDate AND endDate )
+        ]]>
+    </select>
+
+    <!--增加 -->
+    <insert id="insertProductIntegralConversion">
+        insert into ProductIntegralConversion
+        (productId, skuId, integralCount, userBuyCount, startDate, endDate, createDate, updateDate, mockSale)
+        values
+        (#productId#, #skuId#, #integralCount#, #userBuyCount#, #startDate#, #endDate#, now(),now(), #mockSale#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <!-- 根据主键id删除 -->
+    <delete id="deleteProductIntegralConversionById">
+        update ProductIntegralConversion set isDelete=1
+        where id=#id#
+    </delete>
+
+    <update id="updateProductIntegralConversionById">
+        update ProductIntegralConversion
+        set
+            integralCount=#integralCount#,
+            userBuyCount = #userBuyCount#,
+            startDate = #startDate#,
+            endDate = #endDate#,
+            updateDate = now(),
+            mockSale = #mockSale#
+        where id = #id#
+    </update>
+
+</sqlMap>

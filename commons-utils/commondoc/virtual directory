@@ -1,0 +1,4 @@
+在tomcat的server.xml配置虚拟目录方式：
+指定"opt/image/spacePicture/"目录通过"/spacePicture"在外部访问。配置如下：
+<Context path="/spacePicture" docBase="opt/image/spacePicture/" debug="0" reloadable="true" crossContext="true"/>
+<Context path="/productPicture" docBase="opt/image/picture/productPicture/" debug="0" reloadable="true" crossContext="true"/>

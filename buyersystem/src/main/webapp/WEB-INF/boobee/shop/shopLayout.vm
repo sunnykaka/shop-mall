@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>$!site_title</title>
+    <meta property="wb:webmaster" content="6556ae16d2839a19" />#* 微博 *#
+    <meta property="qc:admins" content="225647367661125301676375" />#* 扣扣 *#
+
+    <meta name="description" content="$!site_description">
+    <meta name="Keywords" content="$!site_keywords">
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/common.css?$!urlBroker.getVersion()"/>
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/css/modules.css?$!urlBroker.getVersion()"/>
+    #foreach($css in $!pageCss)
+    <link rel="stylesheet" href="$!urlBroker.getUrl('StaticFileDomain').toString()/$!{css}?$!urlBroker.getVersion()" />
+    #end
+    <!--[if IE 6]>
+    <script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix('.ie6png');</script>
+    <![endif]-->
+</head>
+<body>
+
+$!{pageContent}
+
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/jquery.min.js"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/shop/js/var?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/LAB.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/common.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/modules.js?$!urlBroker.getVersion()"></script>
+<script type="text/javascript" src="$!urlBroker.getUrl('BuyHome').toString()/page/js/$!pageId?$!urlBroker.getVersion()"></script>
+
+#if($!online)
+<div style="display: none">
+<script type="text/javascript" src="$!urlBroker.getUrl('StaticFileDomain').toString()/js/statistics.js"></script>
+<script language="javascript" src="http://chat32.live800.com/live800/chatClient/monitor.js?jid=9806483311&companyID=240654&configID=50856&codeType=custom"></script>
+</div>
+#end
+</body>
+</html>

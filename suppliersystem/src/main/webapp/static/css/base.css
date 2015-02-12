@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Reset */
+html,body,h1,h2,h3,h4,h5,h6,p,br,form,input,button,textarea,select,ul,ol,li,dl,dt,dd,pre{margin:0;padding:0;}
+html,body{font:normal normal 12px/1.5em Tahoma,Arial,SimSun;color:#38281a;}
+body{background-color:#fcfcfb;}
+a{text-decoration:none;color:#372718;}
+a:hover{text-decoration:underline;color:#e6742e;}
+textarea,select,input,button,label{vertical-align:middle}
+ol,ul,li{list-style-type:none;}
+table{border-collapse:collapse;border-spacing:0;}
+img{border:0;}
+button::-moz-focus-inner{border:none;padding:0;}
+h4{font-size:12px;}
+:focus{outline:none;}
+.clear{border:0;clear:both;display:block;float:none;font-size:0;margin:0;padding:0;overflow:hidden;visibility:hidden;width:0;height:0}
+.clearfix:after{content:".";clear:both;display:block;height:0;overflow:hidden;visibility:hidden;}
+.clearfix{ * zoom:1}
+
+/* 公共重用类 */
+.outer{_margin-left:1000px;_zoom:1;}
+.inner{_position:relative;_float:left;_margin-left:-1000px;}
+.wrapper{min-width:1000px;border:0px solid #000;_zoom:1;}
+.common_wrapper{width:1000px;margin:0 auto;}
+
+/* DatePicker */
+.datepicker { border-collapse: collapse; border: 2px solid #999; position: absolute; z-index: 999;}
+.datepicker tr.controls th { height: 22px; font-size: 11px; }
+.datepicker select { font-size: 11px; }
+.datepicker tr.days th { height: 18px; }
+.datepicker tfoot td { height: 18px; text-align: center; text-transform: capitalize; }
+.datepicker th, .datepicker tfoot td { background: #eee; font: 10px/18px Verdana, Arial, Helvetica, sans-serif; }
+.datepicker th span, .datepicker tfoot td span { font-weight: bold; }
+.datepicker tbody td { width: 24px; height: 24px; border: 1px solid #ccc; font: 11px/22px Arial, Helvetica, sans-serif; text-align: center; background: #fff; }
+.datepicker tbody td.date { cursor: pointer; }
+.datepicker tbody td.date.over { background-color: #efe0be; }
+.datepicker tbody td.date.chosen { font-weight: bold; background-color: #e0c17e; color:#fff;}

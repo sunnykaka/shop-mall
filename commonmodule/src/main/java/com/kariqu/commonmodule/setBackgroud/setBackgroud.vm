@@ -1,0 +1,10 @@
+<div>
+    <p style="color: #ff0000; line-height: 38px; height: 38px; text-align: center;">
+        当前模块是用来设置页面的背景图的, 请保证只在页面上添加一次!
+    </p>
+    <input type="hidden" class="pageBackgroundColor" value="$!_PARAM['pageBackgroundColor']">
+    <input type="hidden" class="pageBackgroundImg" value="$!_PARAM['pageBackgroundImg']">
+    #set($loop = 'y' == $!_PARAM['pageBackgroundLoop'])
+    <input type="hidden" class="pageBackgroundLoop" value="$!loop">
+    <input type="hidden" class="pageBackgroundPadding" value="$!_PARAM['pageBackgroundPadding']">
+</div>

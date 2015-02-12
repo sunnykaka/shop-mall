@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="dataSource.xml"/>
+
+    <import resource="common.xml"/>
+
+    <import resource="categoryContext.xml"/>
+
+    <import resource="userContext.xml"/>
+
+    <import resource="templateContext.xml"/>
+
+    <import resource="productContext.xml"/>
+
+    <import resource="accountContext.xml"/>
+
+    <import resource="securityContext.xml"/>
+
+    <import resource="supplierContext.xml"/>
+
+    <import resource="orderContext.xml"/>
+
+    <import resource="subContainer.xml"/>
+
+    <import resource="cmsContext.xml"/>
+
+    <import resource="omContext.xml"/>
+
+    <import resource="feedbackContext.xml"/>
+
+
+    <bean id="urlBrokerFactory" class="com.kariqu.common.uri.URLBrokerFactory" init-method="init">
+        <property name="urlConfigName" value="/url.xml"/>
+    </bean>
+
+    <bean id="searchEngineQuery" class="com.kariqu.searchengine.service.impl.SolrSearchEngineQueryService">
+        <property name="searchUrl" value="${searchUrl}"/>
+        <property name="suggestUrl" value="${suggestUrl}"/>
+    </bean>
+
+    <bean id="searchEngineUpdate" class="com.kariqu.searchengine.impl.SearchEngineUpdateServiceImpl">
+        <property name="searchUrl" value="${searchUrl}"/>
+        <property name="suggestUrl" value="${suggestUrl}"/>
+    </bean>
+
+    <bean id="searchResultParserService" class="com.kariqu.searchengine.service.SearchResultParserService"/>
+
+
+</beans>

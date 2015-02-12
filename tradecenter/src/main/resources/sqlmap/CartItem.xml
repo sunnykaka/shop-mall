@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+	<select id="selectCartItemBySkuId"
+		resultClass="com.kariqu.tradecenter.domain.CartItem">
+		select cartId, skuId, number from CartItem where skuId = #skuId#
+	</select>
+
+    <select id="selectCartItemByCartId"
+		resultClass="com.kariqu.tradecenter.domain.CartItem">
+        select cartId, skuId, number from CartItem where cartId = #cartId#
+	</select>
+
+	<insert id="insertCartItem">
+		insert into CartItem
+		(cartId,skuId,number)
+		values
+		(#cartId#,#skuId#,#number#)
+	</insert>
+
+	<update id="updateCartItem">
+		update CartItem
+		set number=#number# where cartId = #cartId# and skuId = #skuId#
+	</update>
+
+	<delete id="deleteCartItemByCartId">
+		delete from CartItem
+		where cartId = #cartId#
+	</delete>
+
+    <delete id="deleteCartItemBySkuIdAndCartId">
+		delete from CartItem
+		where skuId = #skuId# and cartId = #cartId#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <select id="selectCountForRole" resultClass="int">
+        select count(1) from Role
+    </select>
+
+
+    <select id="selectAllRoles" resultClass="com.kariqu.securitysystem.domain.Role">
+        select * from Role
+    </select>
+
+    <select id="selectRole"
+            resultClass="com.kariqu.securitysystem.domain.Role">
+        select * from Role where id = #id#
+    </select>
+
+    <select id="queryRoleByPage"
+            resultClass="com.kariqu.securitysystem.domain.Role">
+        select * from Role limit #start#,#limit#
+    </select>
+
+    <select id="getRoleByName"
+            resultClass="com.kariqu.securitysystem.domain.Role">
+        select * from Role where roleName = #roleName#
+    </select>
+
+    <select id="selectRoleByRoleName"
+            resultClass="com.kariqu.securitysystem.domain.Role">
+        select * from Role where roleName = #roleName#
+    </select>
+
+    <insert id="insertRole">
+        insert into Role
+        (roleName,functionSet)
+        values
+        (#roleName#,#functionSet#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="createAccountRole">
+        insert into Account_Role
+        (userId,roleId)
+        values
+        (#userId#,#roleId#)
+    </insert>
+
+    <select id="queryAccountRole" resultClass="Integer">
+        select roleId from Account_Role where userId = #userId#
+    </select>
+
+    <select id="queryRolePermission" resultClass="Integer">
+        select permissionId from Role_Permission where roleId = #roleId#
+    </select>
+
+    <insert id="createRolePermission">
+        insert into Role_Permission
+        (roleId,permissionId)
+        values
+        (#roleId#,#permissionId#)
+    </insert>
+
+    <update id="updateRole">
+        update Role
+        set roleName=#roleName#,functionSet=#functionSet#
+        where id=#id#
+    </update>
+
+    <delete id="deleteRole">
+        delete from Role
+        where id = #id#
+    </delete>
+
+    <delete id="deleteAccountRoleByUserId">
+        delete from Account_Role
+        where userId = #userId#
+    </delete>
+
+    <delete id="deleteAccountRoleByRoleId">
+        delete from Account_Role
+        where roleId = #roleId#
+    </delete>
+
+    <delete id="deleteRolePermissionByRoleId">
+        delete from Role_Permission
+        where roleId = #roleId#
+    </delete>
+
+    <delete id="deleteRolePermissionByPermissionId">
+        delete from Role_Permission
+        where permissionId = #permissionId#
+    </delete>
+
+</sqlMap>

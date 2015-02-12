@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Program">
+
+    <insert id="insertProgram">
+        insert into program
+        (type,imgUrl,title,productId,createTime,updateTime,status)
+        values
+        (#type#,#imgUrl#,#title#,#productId#,now(),now(),1)
+    </insert>
+
+    <update id="updateProgram">
+        update program
+        set productId = #productId#, imgUrl = #imgUrl#, updateTime = now() 
+        where id = #id# and type = #type#
+    </update>
+
+	<select id="selectProgram" resultClass="com.kariqu.productcenter.domain.Program">
+		select id,imgUrl,productId from program where type = #type#
+	</select>
+</sqlMap>

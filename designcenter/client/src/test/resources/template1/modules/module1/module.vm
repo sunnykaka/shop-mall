@@ -1,0 +1,4 @@
+<div class="K_Box">
+	<a href="$_PARAM['module1Param1']">link1</a>
+	<a href="$_PARAM['module1Param2']">link2</a>
+</div>

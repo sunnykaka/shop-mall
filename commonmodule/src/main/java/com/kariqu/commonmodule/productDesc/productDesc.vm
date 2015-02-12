@@ -1,0 +1,405 @@
+<div class="mod-detailContent">
+    <div class="detail-tab-hd-wrap">
+        <div class="detail-tab-hd">
+            <ul>
+                <li class="tab-hd-introduction current"><a href="javascript:void(0);">商品描述</a></li>
+                <li class="tab-hd-parameters"><a href="javascript:void(0);">商品参数/保养</a></li>
+                <li class="tab-hd-comment"><a href="javascript:void(0);">评价#if($!valuationNum > 0)($!valuationNum) #{end}#if($!consultationNum > 0)/ 咨询($consultationNum)#end</a></li>
+                <li class="tab-hd-brand"><a href="javascript:void(0);">品牌故事</a></li>
+                <li class="tab-hd-service last"><a href="javascript:void(0);">售后服务</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 商品介绍 -->
+    <div class="tab-bd goods-introduction">
+        <div class="tab-bd-box">
+            <h4 class="title"><span>商品介绍</span></h4>
+            <div class="rich-content">
+                $!_product.html.replaceAll('<img.*?src="(.*?)".*?>', '<img class="lazy" data-original="$1" src="http://assets.yijushang.com/images/white.gif" />')
+            </div>
+        </div>
+    </div>
+    <!-- /商品介绍 -->
+
+    <!-- 品牌故事 -->
+    <div class="tab-bd goods-brandStory">
+        <div class="tab-bd-box">
+            #if ($!brand.story && $!brand.story != '')
+            <h4 class="title"><span>品牌故事</span></h4>
+            <div class="rich-content">
+                ## TODO 这里还是用的易居尚的图片
+                $!brand.story.replaceAll('<img.*?src="(.*?)".*?>', '<img class="lazy" data-original="$1" src="http://assets.yijushang.com/images/white.gif"/>')
+            </div>
+            #end
+
+            <h4 class="title"><span>品牌相关</span></h4>
+            <div class="clearfix">
+                <div class="brand-pic">
+                    <img src="$!brand.picture" width="200" height="80">
+                </div>
+                <div class="brand-summary">
+                    $!brand.desc
+                </div>
+            </div>
+
+            <ul class="goodsList">
+                #foreach($product in $!recommendProductList)
+                    <li#if($!velocityCount % 5 == 0) class="last"#end>
+                        <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()" target="_blank">
+                            <img class="lazy" data-original="$!imgResolver.getMiddleSizeImgUrl($!product.pictureUrl)"
+                                 src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/white.gif" width="170" height="170" /></a>
+                        <div class="foot">
+                            <a href="$!urlBroker.getUrl('ProductDetail').addQueryData('productId', $!product.id).toString()" target="_blank" class="name">$!product.nameSkuDescJoinStr</a>
+                            <span class="price">¥ #if($!product.activityType)$!{product.activityPrice}#{else}$!{product.displayPrice}#{end}</span>
+                        </div>
+                    </li>
+                #end
+            </ul>
+        </div>
+    </div>
+    <!-- /品牌故事 -->
+
+    <!-- 评论咨询 -->
+    <div class="tab-bd goods-comments" id="goods-comments">
+        <div class="goods-comments-body">
+            <h4 class="comment-title">商品评论</h4>
+            <div class="tab-bd-box">
+                <div id="comments-list" data-src="$!urlBroker.getUrl('ProductValuation').toString()?productId=$!_product.id"></div>
+                <div id="comments-pageBar"></div>
+            </div>
+        </div>
+
+        <div class="goods-consults-body">
+            <div class="tab-bd-box consults-bd-box">
+                <div id="consults-list" class="consults-list" data-src="$!urlBroker.getUrl('ProductConsultation').toString()?productId=$!{_product.id}"></div>
+                <div id="consults-pageBar"></div>
+            </div>
+
+            <div class="consult-form">
+                <div class="tab-bd-box">
+                    <form action="$!urlBroker.getUrl('BuyHome').toString()/my/consultation/add" method="post" id="add-consult-form">
+                        <input type="hidden" name="productId" value="$!{_product.id}"/>
+                        <h4 class="title"><span>发表咨询</span></h4>
+                        <dl class="consult-type">
+                            <dt>咨询类型：</dt>
+                            <dd>
+                                <label><input type="radio" name="consultationCategory" value="product" checked="checked">商品咨询</label>
+                                <label><input type="radio" name="consultationCategory" value="pay">支付问题</label>
+                                <label><input type="radio" name="consultationCategory" value="invoice">发票及保修</label>
+                                <label><input type="radio" name="consultationCategory" value="stock">库存及配送</label>
+                                <label><input type="radio" name="consultationCategory" value="sales">促销及赠品</label>
+                            </dd>
+                        </dl>
+                        <div class="clearfix">
+                            <textarea name="askContent" rows="3" cols="60"
+                                      class="form-txt" placeholder="请输入您要咨询的内容，字数 5-1000 个。"></textarea>
+                        </div>
+                        <div class="consult-form-foot">
+                            <div class="pull-right">
+                                <label for="form-text-code">验证码:</label>
+                                <input id="form-text-code" type="text" class="form-text" name="imageCode">
+                                <img src="$!urlBroker.getUrl('ImageCodeHttp').toString()" width="80" height="24" title="看不清?换一张" class="image-code">
+                                <a href="javascript:void(0);">看不清?换一张</a>
+                                <button type="submit" class="e-btn btn-default btn-xs">发表</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /评论咨询 -->
+
+    <!-- 商品参数 -->
+    <div class="tab-bd goods-parameters">
+        <div class="parameters tab-bd-box">
+            <h4 class="title"><span>商品参数</span></h4>
+            <table class="table">
+                #foreach($pv in $!_product.keyProperty)
+                <tr><th>$!{pv.property}：</th><td>$!{pv.value}</td></tr>
+                #end
+            </table>
+
+            #if($!_product.useInfo != '' && $!_product.maintainInfo != '')
+            <h4 class="title"><span>使用与保养</span></h4>
+            <table class="table">
+                #if($!_product.useInfo != '')
+                <tr>
+                    <th>使用注意：</th>
+                    <td>
+                        #foreach($info in $!_product.useInfo)
+                            $!velocityCount: $!info<br/>
+                        #end
+                    </td>
+                </tr>
+                #end
+                #if($!_product.maintainInfo != '')
+                <tr>
+                    <th>保养注意：</th>
+                    <td>
+                        #foreach($info in $!_product.maintainInfo)
+                            $!velocityCount: $!info<br/>
+                        #end
+                    </td>
+                </tr>
+                #end
+            </table>
+            #end
+        </div>
+    </div>
+    <!-- /商品参数 -->
+
+    <!-- 售后服务 -->
+    <div class="tab-bd goods-service">
+        <div class="tab-bd-box">
+            <h4 class="title"><span>售后服务</span></h4>
+
+            <div class="goods-service-content">
+本政策依据《中华人民共和国消费者权益保护法》、《中华人民共和国产品质量法》及其他相关法规制定。凡是在易居尚商城购买商品的客户，请仔细阅读此政策的详细介绍。如果商品详情页面无特殊退换货规定，则将按以下条款执行。<br>
+
+1、30天无理由退换货: 从您签收商品后的30日内，只要商品及包装保持完好，不影响第二次销售，我们可为您提供退换货服务；<br>
+2、退货无忧:您在网站上提交退换货申请后，经客服确认，您可选择： ①自己选择快递寄回；②由我们为您联系快递上门取件；<br>
+3、凡属商品质量问题引发的退货，所产生退货运费将由易居尚承担，请客户先垫付，易居尚收到退货后3个工作日内报销（不支持运费到付，根据发送地实报，最高报销金额20元）；<br>
+4、非商品质量问题引发的退货，所产生的运费则由客户承担。<br>
+
+<br>
+
+30天无条件退换货资格：<br>
+
+1、金饭碗会员30天无理由退换货（使用过可退），1次/年，易居尚承担运费。<br>
+2、瓷饭碗、铁饭碗、铜饭碗、银饭碗会员15天无理由退换货（使用过可退），1次/年。<br>
+3、普通会员7天无理由退换货（不影响二次销售）。<br>
+
+<br>
+
+退换货注意事项：<br>
+
+1、商品的外包装须保持完好（包括包裹填充物及外包装箱或外包装袋），商品附件、说明书、保修单等配套物品齐全。商品退回须用原包装箱及原包装方法退回；<br>
+2、注明退换货原因，如果商品存在质量问题，请务必注明；<br>
+3、若办理退货，已开据发票的需同时退回发票；<br>
+4、顾客退回商品时请使用正规快递，如使用不可查询的邮寄手段退货，发生商品遗失、破损、误送等情况，本公司不承担责任，敬请谅解；<br>
+5、如全部退货，有赠品的订单请将赠品一起退回。赠品需保持完好，如赠品不能退回，将按照易居尚网站价格在退款中扣除。<br>
+
+<br>
+
+以下情况将不提供退换货服务：<br>
+
+1、非易居尚网站出售的商品；<br>
+2、商品已使用过，不能恢复原样，影响二次销售；<br>
+3、因使用或保养不当，未按照产品说明书或网站上对该商品的使用提示来进行操作的；<br>
+4、人为因素（跌落、碰撞、空烧等）造成的损坏；<br>
+5、退换货之前未与易居尚客服联系，自己将商品寄回的；<br>
+6、退货流程中，不退还积分，只退还购买商品时所支付的实际金额；<br>
+
+<br>
+
+以上规则的最终解释权由易居尚商城所有。有任何疑问请咨询在线客服，或拨打客服电话 400-9933-178，或发送邮件至 ejs@yijushang.cn
+            </div>
+        </div>
+    </div>
+    <!-- /售后服务 -->
+
+    #*<div class="mayLike">
+        <h4>你可能喜欢这些商品</h4>
+        <ul class="clearfix">
+            <li>
+                <div class="pic"><a href="#1"><img width="150" height="150" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/placehold/150.png"
+                                                   alt="1"/></a></div>
+                <div class="name"><a href="#1">item1</a></div>
+                <div class="price">¥ <span>220.00</span></div>
+            </li>
+            <li>
+                <div class="pic"><a href="#2"><img width="150" height="150" src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/placehold/150.png"
+                                                   alt="2"/></a></div>
+                <div class="name"><a href="#2">item2</a></div>
+                <div class="price">¥ <span>220.00</span></div>
+            </li>
+        </ul>
+    </div>*#
+</div>
+
+<script id="comments-rate-tpl" type="text/html">
+<div class="clearfix rate">
+    <div class="col-1">
+        <strong><%=percent.good%>%</strong> 好评
+    </div>
+
+    <div class="col-2">
+        <dl>
+            <dt>好评：</dt>
+            <dd>
+                <div><span style="width: <%=percent.good%>%"></span></div>
+                <span><%=percent.good%>%</span>
+            </dd>
+        </dl>
+        <dl>
+            <dt>一般：</dt>
+            <dd>
+                <div><span style="width: <%=percent.fine%>%"></span></div>
+                <span><%=percent.fine%>%</span>
+            </dd>
+        </dl>
+        <dl>
+            <dt>差评：</dt>
+            <dd>
+                <div><span style="width: <%=percent.bad%>%"></span></div>
+                <span><%=percent.bad%>%</span>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col-3">
+        共 <span class="number"><%=totalCount%></span> 人参与评论
+        <dl>
+            <dt>综合评分：</dt>
+            <dd>
+                <div class="star" hint="<%=score%>"></div>
+                <span><%=score%>分</span>
+            </dd>
+        </dl>
+    </div>
+
+</div>
+<%include('comments-hd-tpl')%>
+<div class="goods-comments-list">
+    <%include('comments-list-tpl')%>
+</div>
+</script>
+
+<script id="comments-hd-tpl" type="text/html">
+<%if (valuationCount){%>
+<ul class="comments-hd">
+    <%for(var i = 0; i < valuationCount.length; i++){%>
+    <li
+    <%if (i === 0){%> class="current"<%}%> data-type="<%=valuationCount[i].name%>"><a href="javascript:void(0);"><%=valuationCount[i].desc%>(<%=valuationCount[i].count%>)</a></li>
+    <%}%>
+</ul>
+<%}%>
+</script>
+
+<script id="comments-list-tpl" type="text/html">
+<%if (result && result.length > 0){%>
+<ul>
+    <%for(var j = 0; j < result.length; j++){%>
+    <li class="clearfix item">
+        <div class="left">
+            <div class="avatar"><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/default-avatar.png" alt=""/></div>
+            <div class="name"><%=result[j].userName%></div>
+            <div class="rank"><%=result[j].grade%></div>
+        </div>
+        <div class="right">
+            <div class="clearfix">
+                <div class="score">
+                    评分： <span class="star" hint="<%=result[j].point%>"></span>
+                </div>
+                <span class="time"><%=result[j].createDate%></span>
+            </div>
+            <div class="comment-content">
+                <%=result[j].content%>
+            </div>
+
+            <%if (result[j].replyContent){%>
+            <div class="clearfix ejs-reply">
+                <dl>
+                    <dt class="avatar">
+                        <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/default-avatar-small.png" alt=""/>
+                    </dt>
+                    <dd><%=result[j].replyContent%></dd>
+                </dl>
+                <span class="time"><%=result[j].replyTime%></span>
+            </div>
+            <%}%>
+
+            <%if (result[j].appendContent){%>
+            <div class="append">
+                <span class="dt">追加：</span><%=result[j].appendContent%>
+                <span class="time"><%=result[j].appendDate%></span>
+            </div>
+            <%}%>
+
+            <%if (result[j].appendReplyContent){%>
+            <div class="clearfix ejs-reply">
+                <dl>
+                    <dt class="avatar">
+                        <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/default-avatar-small.png" alt=""/>
+                    </dt>
+                    <dd><%=result[j].appendReplyContent%></dd>
+                </dl>
+                <span class="time"><%=result[j].appendReplyDate%></span>
+            </div>
+            <%}%>
+
+        </div>
+    </li>
+    <%}%>
+</ul>
+<%}else{%>
+<div class="no-results">没有内容</div>
+<%}%>
+</script>
+
+<script id="consults-hd-tpl" type="text/html">
+<%if (consultCategory){%>
+<ul class="consults-hd">
+    <%for(var i = 0; i < consultCategory.length; i++){%>
+    <li
+    <%if (i === 0){%> class="current first"<%}%> data-type="<%=consultCategory[i].name%>">
+    <a href="javascript:void(0);"><%=consultCategory[i].desc%>(<%=consultCategory[i].count%>)</a>
+    </li>
+    <%}%>
+</ul>
+<%}%>
+<div class="declare">
+    <dl class="clearfix">
+        <dt>声明：</dt>
+        <dd>
+            您可在购买前对产品包装、颜色、运输、库存等方面进行咨询，我们有专人进行回复！因厂家随时会更改一些产品的
+            包装、颜色、产地等参数，所以该回复仅在当时对提问者有效，其他网友仅供参考！
+            <a href="#add-consult-form" class="e-btn btn-default btn-sm">发表咨询</a>
+        </dd>
+    </dl>
+</div>
+<div class="goods-comments-list goods-consults-list">
+    <%include('consults-list-tpl')%>
+</div>
+</script>
+
+<script id="consults-list-tpl" type="text/html">
+<%if (result && result.length > 0){%>
+<ul>
+    <%for(var j = 0; j < result.length; j++){%>
+    <li class="clearfix item">
+        <div class="left">
+            <div class="avatar"><img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/default-avatar-small.png" alt=""/></div>
+            <div class="name"><%=result[j].askUserName%></div>
+            <div class="rank"><%=result[j].grade%></div>
+        </div>
+        <div class="right">
+            <div class="clearfix">
+                <div class="type">[<%=result[j].category%>]</div>
+                <span class="time"><%=result[j].askTime%></span>
+            </div>
+            <div class="comment-content">
+                <%=result[j].askContent%>
+            </div>
+
+            <%if (result[j].answerContent){%>
+            <div class="clearfix ejs-reply">
+                <dl>
+                    <dt class="avatar">
+                        <img src="$!urlBroker.getUrl('StaticFileDomain').toString()/images/default-avatar-small.png" alt=""/>
+                    </dt>
+                    <dd>Boobee回复：<%=result[j].answerContent%></dd>
+                </dl>
+                <span class="time"><%=result[j].answerTime%></span>
+            </div>
+            <%}%>
+        </div>
+    </li>
+    <%}%>
+</ul>
+<%}else{%>
+<div class="no-results">没有内容</div>
+<%}%>
+</script>

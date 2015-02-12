@@ -1,0 +1,39 @@
+#if($!state == 0)
+    <p class="comment_tit">欢迎您发表原创与商品相关，对其他用户有参考价值的商品评价!</p>
+#end
+
+#parse("myinfo/valuationData.vm")
+
+#if(${valuationPage.totalPages} > 1)
+    <div class="pagebars">
+        <div class="pagebar_inner">
+            <form method="get" action="$!urlBroker.getUrl('MyValuationList')" id="pagebarForm">
+                #if($valuationPage.hasPre)
+                    <a href="$!urlBroker.getUrl('MyValuationList').addQueryData('pageNo',$!valuationPage.prePage).addQueryData('state',$!state).toString()" class="page_start">
+                        上一页
+                    </a>
+                #else
+                    <span class="page_start">上一页</span>
+                #end
+                #foreach($!pageIndex in $!valuationPageBar.linkNums)
+                    #if($!pageIndex == -1)
+                        <a href="#" class="number"><span>...</span></a>
+                    #elseif($!pageIndex == $!pageNo)
+                        <a href="$!urlBroker.getUrl('MyValuationList').addQueryData('pageNo',$!pageIndex).addQueryData('state',$!state).toString()"
+                           class="number current"><span>$!pageIndex</span></a>
+                    #else
+                        <a href="$!urlBroker.getUrl('MyValuationList').addQueryData('pageNo',$!pageIndex).addQueryData('state',$!state).toString()"
+                           class="number"><span>$!pageIndex</span></a>
+                    #end
+                #end
+                #if($!valuationPage.hasNext)
+                    <a href="$!urlBroker.getUrl('MyValuationList').addQueryData('pageNo',$!valuationPage.nextPage).addQueryData('state',$!state).toString()" class="page_next">
+                        下一页
+                    </a>
+                #else
+                    <span class="page_next">下一页</span>
+                #end
+            </form>
+        </div>
+    </div>
+#end
