@@ -13,7 +13,7 @@
     <description>此客户端采用胖客户端模式构建,通过客户端jar包的方式提供给调用方</description>
 
     <properties>
-        <spring_version>3.1.0.RELEASE</spring_version>
+        <spring_version>5.2.7.RELEASE</spring_version>
     </properties>
 
 
